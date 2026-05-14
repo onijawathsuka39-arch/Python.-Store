@@ -263,13 +263,13 @@ nav.scrolled {
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 30px;
 }
 
 .product-card {
     transition: var(--transition-smooth);
-    padding: 20px;
+    padding: 15px;
     position: relative;
     overflow: hidden;
 }
@@ -303,14 +303,14 @@ nav.scrolled {
 }
 
 .product-info h3 {
-    font-size: 1.2rem;
-    margin-bottom: 8px;
+    font-size: 1rem;
+    margin-bottom: 5px;
 }
 
 .product-info .price {
     color: var(--accent-gold);
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
 .add-to-cart {
