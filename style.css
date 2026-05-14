@@ -419,6 +419,28 @@ nav.scrolled {
     }
 }
 
+@media (max-width: 600px) {
+    .section {
+        padding: 60px 15px;
+    }
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    .product-card {
+        padding: 10px;
+    }
+    .product-info h3 {
+        font-size: 0.9rem;
+    }
+    .product-info .price {
+        font-size: 1rem;
+    }
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+}
+
 /* Customize Section Mockup */
 .customize-container {
     display: grid;
