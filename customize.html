@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customize | Python</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <nav id="navbar" class="scrolled">
+        <a href="index.html" class="logo">
+            <img src="logo.png" alt="Python Logo">
+            <span>PYTHON</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="customize.html" class="active">Customize</a></li>
+            <li><a href="offers.html">Offers</a></li>
+        </ul>
+        <div class="nav-icons">
+            <a href="login.html"><i data-lucide="user"></i></a>
+            <a href="cart.html" style="position: relative;">
+                <i data-lucide="shopping-cart"></i>
+                <span id="cart-count" style="position: absolute; top: -10px; right: -10px; background: #c8a96e; color: #0A0F1E; font-size: 10px; padding: 2px 5px; border-radius: 50%; font-weight: 800;">0</span>
+            </a>
+            <a href="#" id="mobile-menu-btn"><i data-lucide="menu"></i></a>
+        </div>
+    </nav>
+
+<main class="section" style="padding-top: 150px;">
+    <div class="section-title">
+        <h2><span style="color: #c8a96e;">Customize</span> Your Tee</h2>
+        <p>Make it yours. Choose your style, color, and design.</p>
+    </div>
+
+    <div class="customize-container glass" style="padding: 50px;">
+        <div class="tshirt-preview" style="background: rgba(255,255,255,0.02);">
+            <img id="custom-tshirt-img" src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800" alt="T-Shirt Preview">
+            <div id="custom-text-overlay" style="position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); font-weight: 800; font-size: 2rem; color: #c8a96e; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">YOUR NAME</div>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label>Base Color</label>
+                <div class="color-options">
+                    <div class="color-btn active" style="background: #000;" onclick="changeColor('#000', this)"></div>
+                    <div class="color-btn" style="background: #fff;" onclick="changeColor('#fff', this)"></div>
+                    <div class="color-btn" style="background: #1a2a4a;" onclick="changeColor('#1a2a4a', this)"></div>
+                    <div class="color-btn" style="background: #4a1a1a;" onclick="changeColor('#4a1a1a', this)"></div>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Custom Text</label>
+                <input type="text" id="custom-text-input" placeholder="Enter text here..." class="glass" style="width: 100%; padding: 15px; border-radius: 10px; color: white; border: 1px solid var(--glass-border);" oninput="updateCustomText(this.value)">
+            </div>
+
+            <button class="btn btn-primary" style="width: 100%;" onclick="addToCart('Custom Python Tee', 3500)">Add Custom Tee to Cart</button>
+        </div>
+    </div>
+</main>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 style="color: #c8a96e; font-weight: 800;">PYTHON</h4>
+                <p>Elevate your style with our premium, high-quality t-shirt collections. Designed for those who appreciate excellence.</p>
+                <div class="social-links">
+                    <a href="#"><i data-lucide="instagram"></i></a>
+                    <a href="#"><i data-lucide="facebook"></i></a>
+                    <a href="#"><i data-lucide="twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <p><i data-lucide="phone" style="width: 16px; margin-right: 10px;"></i> Call: 0757218786</p>
+                <p><i data-lucide="message-circle" style="width: 16px; margin-right: 10px;"></i> WhatsApp: 0757218786</p>
+                <p><i data-lucide="mail" style="width: 16px; margin-right: 10px;"></i> roohira@gmail.com</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+        function changeColor(color, btn) {
+            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+        function updateCustomText(val) {
+            document.getElementById('custom-text-overlay').innerText = val || 'YOUR NAME';
+        }
+    </script>
+</body>
+</html>

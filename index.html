@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python | Premium T-Shirt Brand</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <nav id="navbar">
+        <a href="index.html" class="logo">
+            <img src="logo.png" alt="Python Logo">
+            <span>PYTHON</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="customize.html">Customize</a></li>
+            <li><a href="offers.html">Offers</a></li>
+        </ul>
+        <div class="nav-icons">
+            <a href="login.html"><i data-lucide="user"></i></a>
+            <a href="cart.html" style="position: relative;">
+                <i data-lucide="shopping-cart"></i>
+                <span id="cart-count" style="position: absolute; top: -10px; right: -10px; background: #c8a96e; color: #0A0F1E; font-size: 10px; padding: 2px 5px; border-radius: 50%; font-weight: 800;">0</span>
+            </a>
+            <a href="#" id="mobile-menu-btn"><i data-lucide="menu"></i></a>
+        </div>
+    </nav>
+
+<main>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="bg-blobs">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+        </div>
+        
+        <div class="hero-content">
+            <h1>Style That Speaks <span style="color: #c8a96e;">Python</span></h1>
+            <p>Experience the ultimate comfort and premium design. Our T-shirts are crafted for the bold, the creative, and the unique.</p>
+            <div class="hero-btns">
+                <a href="shop.html" class="btn btn-primary">Shop Now</a>
+                <a href="customize.html" class="btn btn-outline">Customize</a>
+            </div>
+            
+            <div style="margin-top: 50px; display: flex; gap: 40px;">
+                <div>
+                    <h3 style="color: #c8a96e; font-size: 1.5rem;">5k+</h3>
+                    <p style="font-size: 0.8rem; opacity: 0.6;">Happy Customers</p>
+                </div>
+                <div>
+                    <h3 style="color: #c8a96e; font-size: 1.5rem;">50+</h3>
+                    <p style="font-size: 0.8rem; opacity: 0.6;">Unique Designs</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Python T-Shirt" id="main-hero-img">
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="section">
+        <div class="section-title">
+            <h2>Featured <span style="color: #c8a96e;">Collection</span></h2>
+            <p>Hand-picked designs for your lifestyle</p>
+        </div>
+
+        <div class="product-grid">
+            <div class="product-card glass">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600" alt="Essential Black">
+                </div>
+                <div class="product-info">
+                    <h3>Python Essential Black</h3>
+                    <p class="price">Rs. 2,450.00</p>
+                </div>
+                <div class="add-to-cart" onclick="addToCart('Essential Black', 2450)">
+                    <i data-lucide="plus"></i>
+                </div>
+            </div>
+
+            <div class="product-card glass">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600" alt="Infinity Edition">
+                </div>
+                <div class="product-info">
+                    <h3>Infinity Edition White</h3>
+                    <p class="price">Rs. 2,850.00</p>
+                </div>
+                <div class="add-to-cart" onclick="addToCart('Infinity Edition', 2850)">
+                    <i data-lucide="plus"></i>
+                </div>
+            </div>
+
+            <div class="product-card glass">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600" alt="Gold Logo Tee">
+                </div>
+                <div class="product-info">
+                    <h3>Gold Signature Tee</h3>
+                    <p class="price">Rs. 3,200.00</p>
+                </div>
+                <div class="add-to-cart" onclick="addToCart('Gold Signature', 3200)">
+                    <i data-lucide="plus"></i>
+                </div>
+            </div>
+
+            <div class="product-card glass">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600" alt="Streetwear Blue">
+                </div>
+                <div class="product-info">
+                    <h3>Arctic Python Blue</h3>
+                    <p class="price">Rs. 2,650.00</p>
+                </div>
+                <div class="add-to-cart" onclick="addToCart('Arctic Blue', 2650)">
+                    <i data-lucide="plus"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 50px;">
+            <a href="shop.html" class="btn btn-outline">View All Products</a>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section" id="contact">
+        <div class="glass" style="padding: 60px; text-align: center; max-width: 900px; margin: 0 auto; border: 1px solid var(--accent-gold);">
+            <h2 style="margin-bottom: 20px;">Get In <span style="color: #c8a96e;">Touch</span></h2>
+            <p style="color: var(--text-muted); margin-bottom: 40px;">Have questions? Reach out to us anytime.</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px;">
+                <a href="tel:0757218786" style="text-decoration: none; color: white;">
+                    <div class="glass" style="padding: 20px; transition: 0.3s;">
+                        <i data-lucide="phone" style="color: #c8a96e; margin-bottom: 15px;"></i>
+                        <h4>Call Us</h4>
+                        <p style="color: #c8a96e;">0757218786</p>
+                    </div>
+                </a>
+                <a href="https://wa.me/94757218786" style="text-decoration: none; color: white;">
+                    <div class="glass" style="padding: 20px; transition: 0.3s;">
+                        <i data-lucide="message-circle" style="color: #c8a96e; margin-bottom: 15px;"></i>
+                        <h4>WhatsApp</h4>
+                        <p style="color: #c8a96e;">0757218786</p>
+                    </div>
+                </a>
+                <a href="mailto:roohira@gmail.com" style="text-decoration: none; color: white;">
+                    <div class="glass" style="padding: 20px; transition: 0.3s;">
+                        <i data-lucide="mail" style="color: #c8a96e; margin-bottom: 15px;"></i>
+                        <h4>Email</h4>
+                        <p style="color: #c8a96e;">roohira@gmail.com</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4 style="color: #c8a96e; font-weight: 800;">PYTHON</h4>
+                <p>Elevate your style with our premium, high-quality t-shirt collections. Designed for those who appreciate excellence.</p>
+                <div class="social-links">
+                    <a href="#"><i data-lucide="instagram"></i></a>
+                    <a href="#"><i data-lucide="facebook"></i></a>
+                    <a href="#"><i data-lucide="twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <a href="shop.html">Shop All</a>
+                <a href="customize.html">Custom Design</a>
+                <a href="offers.html">Special Offers</a>
+                <a href="profile.html">My Account</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <p><i data-lucide="phone" style="width: 16px; margin-right: 10px;"></i> Call: 0757218786</p>
+                <p><i data-lucide="message-circle" style="width: 16px; margin-right: 10px;"></i> WhatsApp: 0757218786</p>
+                <p><i data-lucide="mail" style="width: 16px; margin-right: 10px;"></i> roohira@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Python T-Shirt Brand. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">Powered by Roohira Collection</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
