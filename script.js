@@ -98,28 +98,48 @@ function renderCart() {
 let currentUser = JSON.parse(localStorage.getItem('python_user')) || null;
 
 function login(email, password) {
-    // Mock login
-    const user = { email: email, name: email.split('@')[0] };
-    localStorage.setItem('python_user', JSON.stringify(user));
-    currentUser = user;
-    window.location.href = 'profile.php';
+    // In a real app, you'd check credentials. For local storage, we'll just simulate.
+    const storedUsers = JSON.parse(localStorage.getItem('python_all_users')) || [];
+    const user = storedUsers.find(u => u.email === email);
+    
+    if (user) {
+        localStorage.setItem('python_user', JSON.stringify(user));
+        currentUser = user;
+        window.location.href = 'profile.html';
+    } else {
+        alert('User not found. Please sign up first.');
+    }
 }
 
 function signup(name, email, password) {
-    // Mock signup
-    const user = { name: name, email: email };
+    if (!name || !email || !password) {
+        alert('Please fill all fields');
+        return;
+    }
+    
+    const user = { name: name, email: email, password: password };
+    
+    // Save to all users (simulating a DB)
+    const storedUsers = JSON.parse(localStorage.getItem('python_all_users')) || [];
+    storedUsers.push(user);
+    localStorage.setItem('python_all_users', JSON.stringify(storedUsers));
+    
+    // Set as current user
     localStorage.setItem('python_user', JSON.stringify(user));
     currentUser = user;
-    window.location.href = 'profile.php';
+    
+    showNotification('Account created successfully!');
+    setTimeout(() => {
+        window.location.href = 'profile.html';
+    }, 1000);
 }
 
 function logout() {
     localStorage.removeItem('python_user');
     currentUser = null;
-    window.location.href = 'login.php';
+    window.location.href = 'login.html';
 }
 
-// --- UI Helpers ---
 function showNotification(message) {
     const note = document.createElement('div');
     note.className = 'glass';
@@ -128,7 +148,7 @@ function showNotification(message) {
         bottom: 20px;
         right: 20px;
         padding: 15px 30px;
-        border-left: 4px solid #0A0F1E;
+        border-left: 4px solid var(--accent-gold);
         z-index: 9999;
         animation: slideIn 0.3s ease;
     `;
@@ -142,9 +162,90 @@ function showNotification(message) {
     }, 3000);
 }
 
+// --- Order System ---
+let orders = JSON.parse(localStorage.getItem('python_orders')) || [];
+
+function placeOrder() {
+    if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+    }
+    
+    const newOrder = {
+        id: Date.now(),
+        date: new Date().toLocaleDateString(),
+        items: [...cart],
+        total: cart.reduce((t, i) => t + (i.price * i.quantity), 0),
+        userEmail: currentUser ? currentUser.email : 'Guest'
+    };
+    
+    orders.push(newOrder);
+    localStorage.setItem('python_orders', JSON.stringify(orders));
+    
+    // Clear cart
+    cart = [];
+    saveCart();
+    
+    showNotification('Order placed successfully!');
+    setTimeout(() => {
+        window.location.href = 'profile.html';
+    }, 1500);
+}
+
+function clearOrderHistory() {
+    if (confirm('Are you sure you want to clear your order history?')) {
+        // Only clear orders for the current user
+        orders = orders.filter(o => o.userEmail !== currentUser.email);
+        localStorage.setItem('python_orders', JSON.stringify(orders));
+        loadProfile();
+        showNotification('Order history cleared.');
+    }
+}
+
+function loadProfile() {
+    const nameEl = document.getElementById('profile-name');
+    const emailEl = document.getElementById('profile-email');
+    const initialEl = document.getElementById('profile-initial');
+    const orderCountEl = document.getElementById('order-count');
+    const historyEl = document.getElementById('order-history');
+    
+    if (currentUser) {
+        if (nameEl) nameEl.innerText = currentUser.name;
+        if (emailEl) emailEl.innerText = currentUser.email;
+        if (initialEl) initialEl.innerText = currentUser.name.charAt(0).toUpperCase();
+        
+        // Load user specific orders
+        const userOrders = orders.filter(o => o.userEmail === currentUser.email);
+        if (orderCountEl) orderCountEl.innerText = userOrders.length;
+        
+        if (historyEl) {
+            if (userOrders.length === 0) {
+                historyEl.innerHTML = '<p style="color: var(--text-muted);">No orders found.</p>';
+            } else {
+                historyEl.innerHTML = userOrders.reverse().map(o => `
+                    <div class="glass" style="padding: 20px; margin-bottom: 15px; text-align: left;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <span style="font-weight: 800;">Order #${o.id.toString().slice(-6)}</span>
+                            <span style="color: var(--text-muted);">${o.date}</span>
+                        </div>
+                        <div style="font-size: 0.9rem; margin-bottom: 10px;">
+                            ${o.items.map(i => `${i.name} (x${i.quantity})`).join(', ')}
+                        </div>
+                        <div style="font-weight: 800; color: var(--accent-gold);">Total: Rs. ${o.total.toLocaleString()}.00</div>
+                    </div>
+                `).join('');
+            }
+        }
+    } else {
+        if (window.location.pathname.includes('profile.html')) {
+            window.location.href = 'login.html';
+        }
+    }
+}
+
 // Animation styles
-const style = document.createElement('style');
-style.textContent = `
+const styleSheet = document.createElement('style');
+styleSheet.textContent = `
     @keyframes slideIn {
         from { transform: translateX(100%); opacity: 0; }
         to { transform: translateX(0); opacity: 1; }
@@ -152,7 +253,7 @@ style.textContent = `
     .btn-qty {
         background: rgba(255,255,255,0.05);
         border: 1px solid var(--glass-border);
-        color: white;
+        color: var(--primary-dark);
         width: 30px;
         height: 30px;
         border-radius: 5px;
@@ -161,15 +262,26 @@ style.textContent = `
     }
     .btn-qty:hover {
         background: var(--accent-gold);
-        color: var(--primary-dark);
+        color: white;
     }
 `;
-document.head.appendChild(style);
+document.head.appendChild(styleSheet);
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     updateCartCount();
-    if (window.location.pathname.includes('cart.php')) {
+    if (window.location.pathname.includes('cart.html')) {
         renderCart();
+    }
+    if (window.location.pathname.includes('profile.html')) {
+        loadProfile();
+    }
+    if ((window.location.pathname.includes('login.html') || window.location.pathname.includes('signup.html')) && currentUser) {
+        window.location.href = 'profile.html';
+    }
+    
+    // Initialize icons if lucide is available
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
     }
 });

@@ -136,6 +136,13 @@ nav.scrolled {
 .nav-icons a {
     color: var(--primary-dark);
     transition: var(--transition-smooth);
+    display: flex;
+    align-items: center;
+}
+
+.nav-icons a:hover {
+    color: var(--accent-gold);
+    transform: scale(1.1);
 }
 
 /* Hero Section - Fixed overlap */
