@@ -9,7 +9,7 @@
     --text-muted: rgba(10, 15, 30, 0.6);
     --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     --glass: rgba(255, 255, 255, 0.9);
-    --glass-border: rgba(200, 169, 110, 0.1);
+    --glass-border: rgba(220, 20, 60, 0.1);
     --surface: #FFFFFF;
 }
 
@@ -204,7 +204,7 @@ nav.scrolled {
 }
 
 .btn-primary:hover {
-    background: #b01030;
+    background: #e55a20;
     box-shadow: 0 15px 35px rgba(220, 20, 60, 0.3);
     transform: translateY(-3px);
 }

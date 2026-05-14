@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body>
     <nav id="navbar" class="scrolled">
         <a href="index.html" class="logo">
@@ -23,41 +25,44 @@
             <a href="login.html"><i data-lucide="user"></i></a>
             <a href="cart.html" style="position: relative;">
                 <i data-lucide="shopping-cart"></i>
-                <span id="cart-count" style="position: absolute; top: -10px; right: -10px; background: #c8a96e; color: #0A0F1E; font-size: 10px; padding: 2px 5px; border-radius: 50%; font-weight: 800;">0</span>
+                <span id="cart-count"
+                    style="position: absolute; top: -10px; right: -10px; background: #c8a96e; color: #0A0F1E; font-size: 10px; padding: 2px 5px; border-radius: 50%; font-weight: 800;">0</span>
             </a>
             <a href="#" id="mobile-menu-btn"><i data-lucide="menu"></i></a>
         </div>
     </nav>
 
-<main class="section" style="padding-top: 150px; min-height: 80vh;">
-    <div class="section-title">
-        <h2>Your <span style="color: #c8a96e;">Cart</span></h2>
-    </div>
-
-    <div id="cart-items-container" style="max-width: 800px; margin: 0 auto;">
-        <div id="cart-items">
-            <!-- Items rendered by script.js -->
+    <main class="section" style="padding-top: 150px; min-height: 80vh;">
+        <div class="section-title">
+            <h2>Your <span style="color: #ff0000;">Cart</span></h2>
         </div>
 
-        <div class="cart-summary glass" style="padding: 30px; margin-top: 30px;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-                <span>Subtotal</span>
-                <span id="cart-total" style="font-weight: 800; color: #c8a96e;">Rs. 0.00</span>
+        <div id="cart-items-container" style="max-width: 800px; margin: 0 auto;">
+            <div id="cart-items">
+                <!-- Items rendered by script.js -->
             </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
-                <span>Shipping</span>
-                <span>Free</span>
+
+            <div class="cart-summary glass" style="padding: 30px; margin-top: 30px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                    <span>Subtotal</span>
+                    <span id="cart-total" style="font-weight: 800; color: #c8a96e;">Rs. 0.00</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
+                    <span>Shipping</span>
+                    <span>Free</span>
+                </div>
+                <a href="checkout.html" class="btn btn-primary" style="width: 100%; text-align: center;">Proceed to
+                    Checkout</a>
             </div>
-            <a href="checkout.html" class="btn btn-primary" style="width: 100%; text-align: center;">Proceed to Checkout</a>
         </div>
-    </div>
-</main>
+    </main>
 
     <footer class="footer">
         <div class="footer-grid">
             <div class="footer-col">
                 <h4 style="color: #c8a96e; font-weight: 800;">PYTHON</h4>
-                <p>Elevate your style with our premium, high-quality t-shirt collections. Designed for those who appreciate excellence.</p>
+                <p>Elevate your style with our premium, high-quality t-shirt collections. Designed for those who
+                    appreciate excellence.</p>
                 <div class="social-links">
                     <a href="#"><i data-lucide="instagram"></i></a>
                     <a href="#"><i data-lucide="facebook"></i></a>
@@ -74,7 +79,8 @@
             <div class="footer-col">
                 <h4>Contact Us</h4>
                 <p><i data-lucide="phone" style="width: 16px; margin-right: 10px;"></i> Call: 0757218786</p>
-                <p><i data-lucide="message-circle" style="width: 16px; margin-right: 10px;"></i> WhatsApp: 0757218786</p>
+                <p><i data-lucide="message-circle" style="width: 16px; margin-right: 10px;"></i> WhatsApp: 0757218786
+                </p>
                 <p><i data-lucide="mail" style="width: 16px; margin-right: 10px;"></i> roohira@gmail.com</p>
             </div>
         </div>
@@ -83,4 +89,5 @@
     <script src="script.js"></script>
     <script>lucide.createIcons();</script>
 </body>
+
 </html>

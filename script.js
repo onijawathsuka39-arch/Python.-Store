@@ -74,7 +74,7 @@ function renderCart() {
                     <div style="width: 60px; height: 60px; background: #151b2d; border-radius: 10px;"></div>
                     <div>
                         <h4 style="margin: 0;">${item.name}</h4>
-                        <p style="color: #DC143C; margin: 5px 0 0;">Rs. ${item.price.toLocaleString()}</p>
+                        <p style="color: #0A0F1E; margin: 5px 0 0;">Rs. ${item.price.toLocaleString()}</p>
                     </div>
                 </div>
                 <div style="display: flex; align-items: center; gap: 15px;">
@@ -128,7 +128,7 @@ function showNotification(message) {
         bottom: 20px;
         right: 20px;
         padding: 15px 30px;
-        border-left: 4px solid #DC143C;
+        border-left: 4px solid #0A0F1E;
         z-index: 9999;
         animation: slideIn 0.3s ease;
     `;

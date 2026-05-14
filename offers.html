@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body>
     <nav id="navbar" class="scrolled">
         <a href="index.html" class="logo">
@@ -23,34 +25,37 @@
             <a href="login.html"><i data-lucide="user"></i></a>
             <a href="cart.html" style="position: relative;">
                 <i data-lucide="shopping-cart"></i>
-                <span id="cart-count" style="position: absolute; top: -10px; right: -10px; background: #c8a96e; color: #0A0F1E; font-size: 10px; padding: 2px 5px; border-radius: 50%; font-weight: 800;">0</span>
+                <span id="cart-count"
+                    style="position: absolute; top: -10px; right: -10px; background: #c8a96e; color: #0A0F1E; font-size: 10px; padding: 2px 5px; border-radius: 50%; font-weight: 800;">0</span>
             </a>
             <a href="#" id="mobile-menu-btn"><i data-lucide="menu"></i></a>
         </div>
     </nav>
 
-<main class="section" style="padding-top: 150px;">
-    <div class="section-title">
-        <h2>Special <span style="color: #c8a96e;">Offers</span></h2>
-        <p>Don't miss out on these exclusive deals</p>
-    </div>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;">
-        <div class="glass" style="padding: 40px; border: 1px solid var(--accent-gold);">
-            <span class="hero-tag">Limited Time</span>
-            <h3 style="margin: 20px 0;">Buy 2 Get 1 Free</h3>
-            <p style="color: var(--text-muted); margin-bottom: 25px;">Available on all essential collections.</p>
-            <a href="shop.html" class="btn btn-primary" style="width: 100%; text-align: center;">Claim Offer</a>
+    <main class="section" style="padding-top: 150px;">
+        <div class="section-title">
+            <h2>Special <span style="color: #ff0000;">Offers</span></h2>
+            <p>Don't miss out on these exclusive deals</p>
         </div>
 
-        <div class="glass" style="padding: 40px;">
-            <span class="hero-tag">Student Discount</span>
-            <h3 style="margin: 20px 0;">20% OFF</h3>
-            <p style="color: var(--text-muted); margin-bottom: 25px;">For all students with a valid ID.</p>
-            <a href="shop.html" class="btn btn-outline" style="width: 100%; text-align: center; margin-left: 0;">Get Coupon</a>
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto;">
+            <div class="glass" style="padding: 40px; border: 1px solid var(--accent-gold);">
+                <span class="hero-tag">Limited Time</span>
+                <h3 style="margin: 20px 0;">Buy 2 Get 1 Free</h3>
+                <p style="color: var(--text-muted); margin-bottom: 25px;">Available on all essential collections.</p>
+                <a href="shop.html" class="btn btn-primary" style="width: 100%; text-align: center;">Claim Offer</a>
+            </div>
+
+            <div class="glass" style="padding: 40px;">
+                <span class="hero-tag">Student Discount</span>
+                <h3 style="margin: 20px 0;">20% OFF</h3>
+                <p style="color: var(--text-muted); margin-bottom: 25px;">For all students with a valid ID.</p>
+                <a href="shop.html" class="btn btn-outline" style="width: 100%; text-align: center; margin-left: 0;">Get
+                    Coupon</a>
+            </div>
         </div>
-    </div>
-</main>
+    </main>
 
     <footer class="footer">
         <div class="footer-bottom">
@@ -61,4 +66,5 @@
     <script src="script.js"></script>
     <script>lucide.createIcons();</script>
 </body>
+
 </html>

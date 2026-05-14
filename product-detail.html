@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | Python</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <nav id="navbar" class="scrolled">
+        <a href="index.html" class="logo">
+            <img src="logo.png" alt="Python Logo">
+            <span>PYTHON</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="customize.html">Customize</a></li>
+            <li><a href="offers.html">Offers</a></li>
+        </ul>
+        <div class="nav-icons">
+            <a href="login.html"><i data-lucide="user"></i></a>
+            <a href="cart.html" style="position: relative;">
+                <i data-lucide="shopping-cart"></i>
+                <span id="cart-count" style="position: absolute; top: -10px; right: -10px; background: #0A0F1E; color: white; font-size: 10px; padding: 2px 5px; border-radius: 50%; font-weight: 800;">0</span>
+            </a>
+            <a href="#" id="mobile-menu-btn"><i data-lucide="menu"></i></a>
+        </div>
+    </nav>
+
+<main class="section" style="padding-top: 150px;">
+    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px;">
+        <!-- Product Image Gallery -->
+        <div class="glass" style="padding: 20px;">
+            <img id="detail-img" src="" alt="Product Image" style="width: 100%; border-radius: 15px; background: #f1f5f9;">
+        </div>
+
+        <!-- Product Details -->
+        <div>
+            <h1 id="detail-name" style="font-size: 3rem; margin-bottom: 10px;">Product Name</h1>
+            <p id="detail-price" style="font-size: 2rem; color: #0A0F1E; font-weight: 800; margin-bottom: 20px;">Rs. 0.00</p>
+            
+            <p id="detail-desc" style="color: var(--text-muted); margin-bottom: 30px; line-height: 1.8;">
+                Premium quality T-shirt crafted with precision and care. Designed for comfort and style that lasts.
+            </p>
+
+            <div style="margin-bottom: 30px;">
+                <h4 style="margin-bottom: 15px;">Available Colors</h4>
+                <div class="color-options" id="detail-colors">
+                    <!-- Dynamic colors -->
+                </div>
+            </div>
+
+            <div style="margin-bottom: 30px;">
+                <h4 style="margin-bottom: 15px;">Specification</h4>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">GSM: <span id="detail-gsm" style="color: var(--primary-dark); font-weight: 700;">180 GSM</span></p>
+            </div>
+
+            <div style="margin-bottom: 40px;">
+                <h4 style="margin-bottom: 15px;">Size Chart</h4>
+                <table style="width: 100%; border-collapse: collapse; text-align: left;" class="glass">
+                    <thead>
+                        <tr style="border-bottom: 1px solid #f1f5f9;">
+                            <th style="padding: 10px;">Size</th>
+                            <th style="padding: 10px;">Chest (in)</th>
+                            <th style="padding: 10px;">Length (in)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #f1f5f9;">
+                            <td style="padding: 10px;">S</td>
+                            <td style="padding: 10px;">38</td>
+                            <td style="padding: 10px;">27</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #f1f5f9;">
+                            <td style="padding: 10px;">M</td>
+                            <td style="padding: 10px;">40</td>
+                            <td style="padding: 10px;">28</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #f1f5f9;">
+                            <td style="padding: 10px;">L</td>
+                            <td style="padding: 10px;">42</td>
+                            <td style="padding: 10px;">29</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px;">XL</td>
+                            <td style="padding: 10px;">44</td>
+                            <td style="padding: 10px;">30</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button class="btn btn-primary" style="width: 100%; padding: 20px;" onclick="addCurrentToCart()">Add to Cart</button>
+        </div>
+    </div>
+</main>
+
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Python. Powered by Roohira Collection</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+        
+        const productData = {
+            '1': {name: 'Python Essential Black', price: 2450, gsm: '180 GSM', img: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800', colors: ['#000', '#333']},
+            '2': {name: 'Infinity Edition White', price: 2850, gsm: '210 GSM', img: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800', colors: ['#fff', '#f0f0f0']},
+            '3': {name: 'Gold Signature Tee', price: 3200, gsm: '220 GSM', img: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800', colors: ['#000', '#0A0F1E']},
+            '4': {name: 'Arctic Python Blue', price: 2650, gsm: '190 GSM', img: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800', colors: ['#1a2a4a', '#4a90e2']}
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const pid = urlParams.get('id') || '1';
+        const product = productData[pid];
+
+        if (product) {
+            document.getElementById('detail-name').innerText = product.name;
+            document.getElementById('detail-price').innerText = `Rs. ${product.price.toLocaleString()}.00`;
+            document.getElementById('detail-gsm').innerText = product.gsm;
+            document.getElementById('detail-img').src = product.img;
+            
+            const colorContainer = document.getElementById('detail-colors');
+            product.colors.forEach(c => {
+                colorContainer.innerHTML += `<div class="color-btn" style="background: ${c}; border: 1px solid #ddd;"></div>`;
+            });
+        }
+
+        function addCurrentToCart() {
+            addToCart(product.name, product.price, product.img);
+        }
+    </script>
+</body>
+</html>
