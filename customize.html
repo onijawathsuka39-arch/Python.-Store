@@ -514,6 +514,19 @@
             const stickersTotal = activeStickers.reduce((sum, s) => sum + s.price, 0);
             const total = 1300 + stickersTotal;
             
+            // Capture positions of each sticker
+            const stickerDetails = activeStickers.map(s => {
+                const el = document.getElementById(s.id);
+                return {
+                    url: s.url,
+                    size: s.size,
+                    price: s.price,
+                    top: el.style.top,
+                    left: el.style.left,
+                    width: el.style.width
+                };
+            });
+
             const cartItem = {
                 id: 'custom-' + Date.now(),
                 name: 'Custom Designed Tee',
@@ -521,12 +534,8 @@
                 quantity: 1,
                 color: selectedColor,
                 isCustom: true,
-                customStickers: activeStickers.map(s => ({
-                    url: s.url,
-                    size: s.size,
-                    price: s.price
-                })),
-                image: 'https://i.ibb.co/NnQrQr7y/T-Shirt.png' // Base image
+                customStickers: stickerDetails,
+                image: 'https://i.ibb.co/NnQrQr7y/T-Shirt.png'
             };
             
             cart.push(cartItem);
