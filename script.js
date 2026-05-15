@@ -2,7 +2,14 @@
 const colorNames = {
     '#ffffff': 'White',
     '#000000': 'Black',
+    '#ff0000': 'Red',
     '#DC143C': 'Red',
+    '#0000ff': 'Blue',
+    '#008000': 'Green',
+    '#ffff00': 'Yellow',
+    '#808080': 'Gray',
+    '#00f2ff': 'Light Blue',
+    '#e100ff': 'Pink',
     '#1a2a4a': 'Midnight Blue',
     '#4a90e2': 'Sky Blue',
     '#f0f0f0': 'Off-White',
@@ -365,7 +372,7 @@ function placeOrder() {
                 size: item.size,
                 color: colorNames[item.color] || item.color,
                 image: item.image || (p.images ? p.images[0] : ''),
-                isCustom: item.isCustom || false,
+                isCustom: item.isCustom || (item.id && String(item.id).startsWith('custom-')) || false,
                 customStickers: item.customStickers || []
             };
         }),

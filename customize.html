@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -7,44 +8,310 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        :root { --primary: #DC143C; }
-        .customize-layout { display: grid; grid-template-columns: 1fr 400px; gap: 30px; max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .preview-box { position: relative; background: #fff; border-radius: 24px; padding: 20px; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 40px rgba(0,0,0,0.05); min-height: 500px; border: 1px solid #eee; overflow: hidden; touch-action: none; }
-        .tshirt-base { position: relative; width: 100%; max-width: 450px; background-color: #ffffff; transition: 0.3s; -webkit-mask-image: url('https://i.ibb.co/NnQrQr7y/T-Shirt.png'); mask-image: url('https://i.ibb.co/NnQrQr7y/T-Shirt.png'); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; }
-        .tshirt-img { width: 100%; display: block; pointer-events: none; mix-blend-mode: multiply; }
-        .sticker-wrapper { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); width: 160px; cursor: move; z-index: 10; border: 2px dashed transparent; transform-origin: center center; }
-        .sticker-wrapper.active { border-color: var(--primary); z-index: 100; }
-        .sticker-wrapper.locked { cursor: default !important; border: none !important; }
-        .sticker-wrapper img { width: 100%; display: block; pointer-events: none; }
-        .sticker-size-tag { position: absolute; bottom: -45px; left: 50%; transform: translateX(-50%); background: #000; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800; display: none; white-space: nowrap; }
-        .sticker-wrapper.active .sticker-size-tag { display: block; }
-        .handle { position: absolute; background: var(--primary); color: white; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: none; justify-content: center; align-items: center; z-index: 120; cursor: pointer; width: 35px; height: 35px; }
-        .sticker-wrapper.active:not(.locked) .handle { display: flex; }
-        .sticker-delete { top: -17px; left: -17px; background: #ff0000; }
-        .resize-handle { bottom: -17px; right: -17px; }
-        .rotate-handle { top: -45px; left: 50%; transform: translateX(-50%); background: #000; }
-        .controls-panel { display: flex; flex-direction: column; gap: 15px; }
-        .control-section { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; }
-        .control-section h4 { font-size: 0.85rem; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-        .color-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
-        .color-dot { width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: 0.2s; }
-        .color-dot.active { border-color: #000; transform: scale(1.1); }
-        .selector-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
-        .selector-btn { padding: 10px 5px; border: 1px solid #eee; background: #fff; border-radius: 10px; cursor: pointer; text-align: center; font-size: 0.75rem; font-weight: 800; }
-        .selector-btn.active { background: #000; color: #fff; border-color: #000; }
-        .sticker-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-height: 250px; overflow-y: auto; }
-        .sticker-item { background: #fff; border: 1px solid #eee; padding: 8px; border-radius: 12px; cursor: pointer; }
-        .sticker-item img { width: 100%; height: auto; object-fit: contain; }
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: none; justify-content: center; align-items: center; padding: 20px; }
-        .modal-content { background: white; padding: 20px; border-radius: 20px; max-width: 500px; width: 100%; position: relative; }
-        .close-modal { position: absolute; top: 15px; right: 15px; cursor: pointer; }
-        #btn-finish { width: 100%; height: 50px; background: #000; color: #fff; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; }
-        #btn-cart { display: none; width: 100%; height: 50px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; }
-        .sticker-summary { margin-top: 15px; padding: 10px; background: #f9f9f9; border-radius: 12px; font-size: 0.75rem; }
-        .summary-item { display: flex; justify-content: space-between; margin-bottom: 5px; color: #555; }
-        @media (max-width: 900px) { .customize-layout { grid-template-columns: 1fr; } .preview-box { min-height: 400px; } }
+        :root {
+            --primary: #DC143C;
+        }
+
+        .customize-layout {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .preview-box {
+            position: relative;
+            background: #fff;
+            border-radius: 24px;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            min-height: 600px;
+            border: 1px solid #eee;
+            overflow: hidden;
+            touch-action: none;
+        }
+
+        .tshirt-base {
+            position: relative;
+            width: 100%;
+            max-width: 550px;
+            background-color: #ffffff;
+            transition: 0.3s;
+            -webkit-mask-image: url('https://i.ibb.co/NnQrQr7y/T-Shirt.png');
+            mask-image: url('https://i.ibb.co/NnQrQr7y/T-Shirt.png');
+            -webkit-mask-size: contain;
+            mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            mask-position: center;
+        }
+
+        .tshirt-img {
+            width: 100%;
+            display: block;
+            pointer-events: none;
+            mix-blend-mode: multiply;
+        }
+
+        .sticker-wrapper {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            cursor: move;
+            z-index: 10;
+            border: 2px dashed transparent;
+            transform-origin: center center;
+        }
+
+        .sticker-wrapper.active {
+            border-color: var(--primary);
+            z-index: 100;
+        }
+
+        .sticker-wrapper.locked {
+            cursor: default !important;
+            border: none !important;
+        }
+
+        .sticker-wrapper img {
+            width: 100%;
+            display: block;
+            pointer-events: none;
+        }
+
+        .sticker-size-tag {
+            position: absolute;
+            bottom: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            display: none;
+            white-space: nowrap;
+        }
+
+        .sticker-wrapper.active .sticker-size-tag {
+            display: block;
+        }
+
+        .handle {
+            position: absolute;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 120;
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+        }
+
+        .sticker-wrapper.active:not(.locked) .handle {
+            display: flex;
+        }
+
+        .sticker-delete {
+            top: -17px;
+            left: -17px;
+            background: #ff0000;
+        }
+
+        .resize-handle {
+            bottom: -17px;
+            right: -17px;
+        }
+
+        .rotate-handle {
+            top: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+        }
+
+        .controls-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .control-section {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+            border: 1px solid #f0f0f0;
+        }
+
+        .control-section h4 {
+            font-size: 0.85rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+        }
+
+        .color-dot {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: 0.2s;
+        }
+
+        .color-dot.active {
+            border-color: #000;
+            transform: scale(1.1);
+        }
+
+        .selector-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+        }
+
+        .selector-btn {
+            padding: 10px 5px;
+            border: 1px solid #eee;
+            background: #fff;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 800;
+        }
+
+        .selector-btn.active {
+            background: #000;
+            color: #fff;
+            border-color: #000;
+        }
+
+        .sticker-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .sticker-item {
+            background: #fff;
+            border: 1px solid #eee;
+            padding: 8px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .sticker-item img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+        }
+
+        #btn-finish {
+            width: 100%;
+            height: 50px;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        #btn-cart {
+            display: none;
+            width: 100%;
+            height: 50px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .sticker-summary {
+            margin-top: 15px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        @media (max-width: 900px) {
+            .customize-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-box {
+                min-height: 400px;
+            }
+        }
     </style>
 </head>
+
 <body>
     <nav id="navbar" class="scrolled">
         <a href="index.html" class="logo"><img src="logo.png" alt="Python Logo"><span>PYTHON</span></a>
@@ -56,7 +323,8 @@
                 <div class="tshirt-base" id="canvas">
                     <img src="https://i.ibb.co/NnQrQr7y/T-Shirt.png" class="tshirt-img">
                 </div>
-                <button onclick="toggleModal(true)" style="position: absolute; bottom: 20px; right: 20px; background: #fff; border: 1px solid #ddd; padding: 8px 15px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                <button onclick="toggleModal(true)"
+                    style="position: absolute; bottom: 20px; right: 20px; background: #fff; border: 1px solid #ddd; padding: 8px 15px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; gap: 5px; cursor: pointer;">
                     <i data-lucide="info" style="width: 14px;"></i> SIZE CHART
                 </button>
             </div>
@@ -65,15 +333,24 @@
                 <div class="control-section">
                     <h4><i data-lucide="shirt"></i> 1. T-Shirt Config</h4>
                     <div class="color-grid" style="margin-bottom: 15px;">
-                        <div class="color-dot active" style="background: #ffffff;" data-name="White" onclick="setTshirtColor('#ffffff', 'White', this)"></div>
-                        <div class="color-dot" style="background: #ff0000;" data-name="Red" onclick="setTshirtColor('#ff0000', 'Red', this)"></div>
-                        <div class="color-dot" style="background: #000000;" data-name="Black" onclick="setTshirtColor('#000000', 'Black', this)"></div>
-                        <div class="color-dot" style="background: #0000ff;" data-name="Blue" onclick="setTshirtColor('#0000ff', 'Blue', this)"></div>
-                        <div class="color-dot" style="background: #008000;" data-name="Green" onclick="setTshirtColor('#008000', 'Green', this)"></div>
-                        <div class="color-dot" style="background: #ffff00;" data-name="Yellow" onclick="setTshirtColor('#ffff00', 'Yellow', this)"></div>
-                        <div class="color-dot" style="background: #808080;" data-name="Gray" onclick="setTshirtColor('#808080', 'Gray', this)"></div>
-                        <div class="color-dot" style="background: #00f2ff;" data-name="Light Blue" onclick="setTshirtColor('#00f2ff', 'Light Blue', this)"></div>
-                        <div class="color-dot" style="background: #e100ff;" data-name="Pink" onclick="setTshirtColor('#e100ff', 'Pink', this)"></div>
+                        <div class="color-dot active" style="background: #ffffff;" data-name="White"
+                            onclick="setTshirtColor('#ffffff', 'White', this)"></div>
+                        <div class="color-dot" style="background: #ff0000;" data-name="Red"
+                            onclick="setTshirtColor('#ff0000', 'Red', this)"></div>
+                        <div class="color-dot" style="background: #000000;" data-name="Black"
+                            onclick="setTshirtColor('#000000', 'Black', this)"></div>
+                        <div class="color-dot" style="background: #0000ff;" data-name="Blue"
+                            onclick="setTshirtColor('#0000ff', 'Blue', this)"></div>
+                        <div class="color-dot" style="background: #008000;" data-name="Green"
+                            onclick="setTshirtColor('#008000', 'Green', this)"></div>
+                        <div class="color-dot" style="background: #ffff00;" data-name="Yellow"
+                            onclick="setTshirtColor('#ffff00', 'Yellow', this)"></div>
+                        <div class="color-dot" style="background: #808080;" data-name="Gray"
+                            onclick="setTshirtColor('#808080', 'Gray', this)"></div>
+                        <div class="color-dot" style="background: #00f2ff;" data-name="Light Blue"
+                            onclick="setTshirtColor('#00f2ff', 'Light Blue', this)"></div>
+                        <div class="color-dot" style="background: #e100ff;" data-name="Pink"
+                            onclick="setTshirtColor('#e100ff', 'Pink', this)"></div>
                     </div>
                     <div class="selector-grid">
                         <div class="selector-btn" onclick="setTshirtSize('S', this)">S</div>
@@ -87,39 +364,72 @@
                 <div class="control-section">
                     <h4><i data-lucide="image"></i> 2. Select Stickers</h4>
                     <div class="sticker-grid">
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/gMrCJPnN/A3-1.png')"><img src="https://i.ibb.co/gMrCJPnN/A3-1.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/QFRLTykz/A3-2.png')"><img src="https://i.ibb.co/QFRLTykz/A3-2.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/S7f8ZfJs/A3-3.png')"><img src="https://i.ibb.co/S7f8ZfJs/A3-3.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/tMccn0qh/A3-4.png')"><img src="https://i.ibb.co/tMccn0qh/A3-4.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/B5s9qhyX/A3-5.png')"><img src="https://i.ibb.co/B5s9qhyX/A3-5.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/bj43Hcks/A3-6.png')"><img src="https://i.ibb.co/bj43Hcks/A3-6.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/7B5DZmx/A3-7.png')"><img src="https://i.ibb.co/7B5DZmx/A3-7.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/SXdG9PTc/A3-8.png')"><img src="https://i.ibb.co/SXdG9PTc/A3-8.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/tp3krXPp/A3-9.png')"><img src="https://i.ibb.co/tp3krXPp/A3-9.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/VY90dG3G/A3-10.png')"><img src="https://i.ibb.co/VY90dG3G/A3-10.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/1JQ00QMd/A3-11.png')"><img src="https://i.ibb.co/1JQ00QMd/A3-11.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/XkDb3jmB/Nike.png')"><img src="https://i.ibb.co/XkDb3jmB/Nike.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/gLS0w69Y/Python-BMW.png')"><img src="https://i.ibb.co/gLS0w69Y/Python-BMW.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png')"><img src="https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/84sH5Qvb/Chat-GPT-Image-Apr-29-2026-10-06-33-PM.png')"><img src="https://i.ibb.co/84sH5Qvb/Chat-GPT-Image-Apr-29-2026-10-06-33-PM.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/NdBPMyjn/Chat-GPT-Image-Apr-30-2026-02-22-11-PM.png')"><img src="https://i.ibb.co/NdBPMyjn/Chat-GPT-Image-Apr-30-2026-02-22-11-PM.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/0VKQ1GX2/download-23.png')"><img src="https://i.ibb.co/0VKQ1GX2/download-23.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/pvszmzQC/Whats-App-Image-2026-04-28-at-16-06-29-1.png')"><img src="https://i.ibb.co/pvszmzQC/Whats-App-Image-2026-04-28-at-16-06-29-1.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/XfbrZJLh/Whats-App-Image-2026-04-28-at-16-06-31.png')"><img src="https://i.ibb.co/XfbrZJLh/Whats-App-Image-2026-04-28-at-16-06-31.png"></div>
+                        <!-- S1 - S11 -->
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/gMrCJPnN/A3-1.png')"><img
+                                src="https://i.ibb.co/gMrCJPnN/A3-1.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/QFRLTykz/A3-2.png')"><img
+                                src="https://i.ibb.co/QFRLTykz/A3-2.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/S7f8ZfJs/A3-3.png')"><img
+                                src="https://i.ibb.co/S7f8ZfJs/A3-3.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/tMccn0qh/A3-4.png')"><img
+                                src="https://i.ibb.co/tMccn0qh/A3-4.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/B5s9qhyX/A3-5.png')"><img
+                                src="https://i.ibb.co/B5s9qhyX/A3-5.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/bj43Hcks/A3-6.png')"><img
+                                src="https://i.ibb.co/bj43Hcks/A3-6.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/7B5DZmx/A3-7.png')"><img
+                                src="https://i.ibb.co/7B5DZmx/A3-7.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/SXdG9PTc/A3-8.png')"><img
+                                src="https://i.ibb.co/SXdG9PTc/A3-8.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/tp3krXPp/A3-9.png')"><img
+                                src="https://i.ibb.co/tp3krXPp/A3-9.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/VY90dG3G/A3-10.png')"><img
+                                src="https://i.ibb.co/VY90dG3G/A3-10.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/1JQ00QMd/A3-11.png')"><img
+                                src="https://i.ibb.co/1JQ00QMd/A3-11.png"></div>
+
+                        <!-- Brands & Custom (S12 - S19) -->
+
+
+
+                        <div class="sticker-item"
+                            onclick="addNewSticker('https://i.ibb.co/84sH5Qvb/Chat-GPT-Image-Apr-29-2026-10-06-33-PM.png')">
+                            <img src="https://i.ibb.co/84sH5Qvb/Chat-GPT-Image-Apr-29-2026-10-06-33-PM.png">
+                        </div>
+                        <div class="sticker-item"
+                            onclick="addNewSticker('https://i.ibb.co/NdBPMyjn/Chat-GPT-Image-Apr-30-2026-02-22-11-PM.png')">
+                            <img src="https://i.ibb.co/NdBPMyjn/Chat-GPT-Image-Apr-30-2026-02-22-11-PM.png">
+                        </div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/0VKQ1GX2/download-23.png')">
+                            <img src="https://i.ibb.co/0VKQ1GX2/download-23.png">
+                        </div>
+                        <div class="sticker-item"
+                            onclick="addNewSticker('https://i.ibb.co/pvszmzQC/Whats-App-Image-2026-04-28-at-16-06-29-1.png')">
+                            <img src="https://i.ibb.co/pvszmzQC/Whats-App-Image-2026-04-28-at-16-06-29-1.png">
+                        </div>
+                        <div class="sticker-item"
+                            onclick="addNewSticker('https://i.ibb.co/XfbrZJLh/Whats-App-Image-2026-04-28-at-16-06-31.png')">
+                            <img src="https://i.ibb.co/XfbrZJLh/Whats-App-Image-2026-04-28-at-16-06-31.png">
+                        </div>
                     </div>
                 </div>
 
                 <div class="control-section">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                         <span style="font-weight: 800;">TOTAL ESTIMATE</span>
-                        <span style="font-weight: 900; color: var(--primary); font-size: 1.2rem;">Rs. <span id="grand-total-display">1300</span>.00</span>
+                        <span style="font-weight: 900; color: var(--primary); font-size: 1.2rem;">Rs. <span
+                                id="grand-total-display">1300</span>.00</span>
                     </div>
                     <div id="sticker-summary-box" class="sticker-summary"></div>
                     <div style="margin-top: 20px;">
                         <button id="btn-finish" onclick="finishDesign()">FINISH & SAVE</button>
                         <button id="btn-cart" onclick="addCustomToCart()">ADD TO CART</button>
-                        <button id="btn-edit" class="btn" style="display: none; width: 100%; margin-top: 10px;" onclick="enableEditing()">EDIT DESIGN</button>
-                        <button class="btn" style="width: 100%; margin-top: 10px; background: #eee; color: #333; font-size: 0.75rem;" onclick="resetDesign()">RESET DESIGN</button>
+                        <button id="btn-edit" class="btn" style="display: none; width: 100%; margin-top: 10px;"
+                            onclick="enableEditing()">EDIT DESIGN</button>
+                        <button class="btn"
+                            style="width: 100%; margin-top: 10px; background: #eee; color: #333; font-size: 0.75rem;"
+                            onclick="resetDesign()">RESET DESIGN</button>
                     </div>
                 </div>
             </div>
@@ -130,7 +440,8 @@
         <div class="modal-content">
             <i data-lucide="x" class="close-modal" onclick="toggleModal(false)"></i>
             <h3 style="margin-bottom: 20px;">T-Shirt Size Chart</h3>
-            <img src="https://i.ibb.co/pvGrdQMD/Size-Chart-01.jpg" style="width: 100%; border-radius: 10px;" alt="Size Chart">
+            <img src="https://i.ibb.co/pvGrdQMD/Size-Chart-01.jpg" style="width: 100%; border-radius: 10px;"
+                alt="Size Chart">
         </div>
     </div>
 
@@ -149,8 +460,10 @@
             'https://i.ibb.co/B5s9qhyX/A3-5.png': 'S5', 'https://i.ibb.co/bj43Hcks/A3-6.png': 'S6',
             'https://i.ibb.co/7B5DZmx/A3-7.png': 'S7', 'https://i.ibb.co/SXdG9PTc/A3-8.png': 'S8',
             'https://i.ibb.co/tp3krXPp/A3-9.png': 'S9', 'https://i.ibb.co/VY90dG3G/A3-10.png': 'S10',
-            'https://i.ibb.co/1JQ00QMd/A3-11.png': 'S11', 'https://i.ibb.co/XkDb3jmB/Nike.png': 'S12',
-            'https://i.ibb.co/gLS0w69Y/Python-BMW.png': 'S13', 'https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png': 'S14',
+            'https://i.ibb.co/1JQ00QMd/A3-11.png': 'S11',
+            'https://i.ibb.co/XkDb3jmB/Nike.png': 'S12',
+            'https://i.ibb.co/gLS0w69Y/Python-BMW.png': 'S13',
+            'https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png': 'S14',
             'https://i.ibb.co/84sH5Qvb/Chat-GPT-Image-Apr-29-2026-10-06-33-PM.png': 'S15',
             'https://i.ibb.co/NdBPMyjn/Chat-GPT-Image-Apr-30-2026-02-22-11-PM.png': 'S16',
             'https://i.ibb.co/0VKQ1GX2/download-23.png': 'S17',
@@ -162,7 +475,7 @@
         function setTshirtColor(color, name, btn) {
             if (isLocked) return;
             document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
-            if(btn) btn.classList.add('active');
+            if (btn) btn.classList.add('active');
             selectedColor = color; selectedColorName = name;
             document.querySelector('.tshirt-base').style.backgroundColor = color;
             autoSave();
@@ -170,7 +483,7 @@
         function setTshirtSize(size, btn) {
             if (isLocked) return;
             document.querySelectorAll('.selector-btn').forEach(b => b.classList.remove('active'));
-            if(btn) btn.classList.add('active');
+            if (btn) btn.classList.add('active');
             currentTshirtSize = size;
             autoSave();
         }
@@ -192,15 +505,15 @@
             `;
             document.getElementById('canvas').appendChild(wrapper);
             activeStickers.push({ id, url, price: 250, szName: 'A3' });
-            initInteractions(wrapper); 
-            selectSticker(id); 
-            updateTotal(); 
+            initInteractions(wrapper);
+            selectSticker(id);
+            updateTotal();
             lucide.createIcons();
             autoSave();
         }
         function removeSticker(id) {
             if (isLocked) return;
-            const el = document.getElementById(id); if(el) el.remove();
+            const el = document.getElementById(id); if (el) el.remove();
             activeStickers = activeStickers.filter(s => s.id !== id);
             updateTotal();
             autoSave();
@@ -211,17 +524,18 @@
             summaryBox.innerHTML = '<div class="summary-item"><span>Base T-Shirt</span><span>Rs. 1300</span></div>';
             activeStickers.forEach((s, idx) => {
                 const el = document.getElementById(s.id);
-                if(!el) return;
+                if (!el) return;
                 const w = parseFloat(el.style.width);
-                let sz = 'A3', price = 250;
-                if (w < 90) { sz = 'A5'; price = 100; }
-                else if (w < 130) { sz = 'A4'; price = 150; }
-                else if (w < 220) { sz = 'A3'; price = 250; }
-                else { sz = 'A2'; price = 350; }
+                let sz = 'A6', price = 100;
+                if (w < 50) { sz = 'A6'; price = 100; }
+                else if (w < 80) { sz = 'A5'; price = 150; }
+                else if (w < 120) { sz = 'A4'; price = 250; }
+                else if (w < 170) { sz = 'A3'; price = 350; }
+                else { sz = 'A2'; price = 500; }
                 s.price = price; s.szName = sz; total += price;
                 const tag = el.querySelector('.sticker-size-tag');
-                if(tag) tag.innerText = sz;
-                summaryBox.innerHTML += `<div class="summary-item"><span>Design ${idx+1} (${sz})</span><span>Rs. ${price}</span></div>`;
+                if (tag) tag.innerText = sz;
+                summaryBox.innerHTML += `<div class="summary-item"><span>Design ${idx + 1} (${sz})</span><span>Rs. ${price}</span></div>`;
             });
             document.getElementById('grand-total-display').innerText = total.toLocaleString();
         }
@@ -282,9 +596,9 @@
                 updateTotal();
                 if (e.touches) e.preventDefault();
             };
-            const end = () => { if(isDragging || isResizing || isRotating) autoSave(); isDragging = isResizing = isRotating = false; };
-            el.addEventListener('mousedown', start); el.addEventListener('touchstart', start, {passive: false});
-            window.addEventListener('mousemove', move); window.addEventListener('touchmove', move, {passive: false});
+            const end = () => { if (isDragging || isResizing || isRotating) autoSave(); isDragging = isResizing = isRotating = false; };
+            el.addEventListener('mousedown', start); el.addEventListener('touchstart', start, { passive: false });
+            window.addEventListener('mousemove', move); window.addEventListener('touchmove', move, { passive: false });
             window.addEventListener('mouseup', end); window.addEventListener('touchend', end);
         }
         function autoSave() {
@@ -292,7 +606,7 @@
                 color: selectedColor, colorName: selectedColorName, size: currentTshirtSize,
                 stickers: activeStickers.map(s => {
                     const el = document.getElementById(s.id);
-                    if(!el) return null;
+                    if (!el) return null;
                     return { id: s.id, url: s.url, t: el.style.top, l: el.style.left, w: el.style.width, r: el.dataset.rotation };
                 }).filter(s => s !== null)
             };
@@ -307,7 +621,7 @@
                 data.stickers.forEach(s => addNewSticker(s.url, s));
             } else { setTshirtColor('#ffffff', 'White', null); setTshirtSize('M', null); }
         }
-        function resetDesign() { if(confirm("Reset design?")) { localStorage.removeItem('roohira_custom_design'); location.reload(); } }
+        function resetDesign() { if (confirm("Reset design?")) { localStorage.removeItem('roohira_custom_design'); location.reload(); } }
         function finishDesign() {
             if (activeStickers.length === 0) { alert('Add at least one sticker!'); return; }
             isLocked = true;
@@ -327,23 +641,24 @@
             try {
                 const details = activeStickers.map(s => {
                     const el = document.getElementById(s.id);
-                    if(!el) return null;
+                    if (!el) return null;
                     const w = parseFloat(el.style.width);
-                    let sz = 'A3';
-                    if (w < 90) sz = 'A5';
-                    else if (w < 130) sz = 'A4';
-                    else if (w > 220) sz = 'A2';
+                    let sz = 'A6';
+                    if (w < 50) sz = 'A6';
+                    else if (w < 80) sz = 'A5';
+                    else if (w < 120) sz = 'A4';
+                    else if (w < 170) sz = 'A3';
+                    else sz = 'A2';
                     return { u: stickerMap[s.url] || s.url, sz, t: el.style.top, l: el.style.left, w: el.style.width, r: el.dataset.rotation || 0 };
                 }).filter(d => d !== null);
                 const total = 1300 + activeStickers.reduce((sum, s) => sum + (s.price || 250), 0);
-                if (typeof cart === 'undefined') window.cart = JSON.parse(localStorage.getItem('cart')) || [];
+                if (typeof cart === 'undefined') window.cart = JSON.parse(localStorage.getItem('python_cart')) || [];
                 cart.push({
                     id: 'custom-' + Date.now(), name: 'Custom Tee', price: total, quantity: 1, size: currentTshirtSize, color: selectedColorName,
                     isCustom: true, customStickers: details, image: 'https://i.ibb.co/NnQrQr7y/T-Shirt.png'
                 });
                 if (typeof saveCart === 'function') saveCart();
-                else localStorage.setItem('cart', JSON.stringify(cart));
-                if (typeof updateCartCount === 'function') updateCartCount();
+                else localStorage.setItem('python_cart', JSON.stringify(cart));
                 localStorage.removeItem('roohira_custom_design');
                 window.location.href = 'cart.html';
             } catch (err) { console.error("Cart Error:", err); alert("Something went wrong. Please try again."); }
@@ -351,4 +666,5 @@
         window.onload = () => { loadSavedDesign(); updateCartCount(); lucide.createIcons(); };
     </script>
 </body>
+
 </html>

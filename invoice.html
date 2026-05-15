@@ -100,12 +100,12 @@
             mask-repeat: no-repeat;
             -webkit-mask-position: center;
             mask-position: center;
-            background-color: #fff;
+            background-color: #ffffff;
         }
         .inv-t-img {
             width: 100%;
-            height: 100%;
-            object-fit: contain;
+            display: block;
+            pointer-events: none;
             mix-blend-mode: multiply;
         }
         .inv-sticker {
@@ -305,8 +305,24 @@
                 };
 
                 const colorNames = {
-                    '#ffffff': 'White', '#ff0000': 'Red', '#ffff00': 'Yellow',
-                    '#000000': 'Black', '#0000ff': 'Blue', '#008000': 'Green'
+                    '#ffffff': 'White',
+                    '#000000': 'Black',
+                    '#ff0000': 'Red',
+                    '#DC143C': 'Red',
+                    '#0000ff': 'Blue',
+                    '#008000': 'Green',
+                    '#ffff00': 'Yellow',
+                    '#808080': 'Gray',
+                    '#00f2ff': 'Light Blue',
+                    '#e100ff': 'Pink',
+                    '#1a2a4a': 'Midnight Blue',
+                    '#4a90e2': 'Sky Blue',
+                    '#f0f0f0': 'Off-White',
+                    '#0A0F1E': 'Dark Navy',
+                    '#333333': 'Grey',
+                    '#ff91a4': 'Salmon Pink',
+                    '#800000': 'Maroon',
+                    '#900056': 'Dark Pink'
                 };
 
                 order.items.forEach(item => {
@@ -318,8 +334,9 @@
                     
                     if (item.isCustom && item.customStickers) {
                         hasCustom = true;
-                        const bgColor = (item.color.startsWith('#')) ? item.color : 
-                                       Object.keys(colorNames).find(key => colorNames[key] === item.color) || '#fff';
+                        const colorNameClean = (item.color || "").trim().toLowerCase();
+                        const bgColor = (item.color && item.color.startsWith('#')) ? item.color : 
+                                       Object.keys(colorNames).find(key => colorNames[key].trim().toLowerCase() === colorNameClean) || '#ffffff';
                         
                         previewHtml = `
                             <div class="inv-preview">
