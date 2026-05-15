@@ -10,12 +10,12 @@ const colorNames = {
     '#333333': 'Grey',
     '#ff91a4': 'samon pink',
     '#800000': 'Maroon',
-    '#900056': 'Urban Maroon'
+    '#900056': 'Dark Pink'
 };
 
 const products = [
-    { 
-        id: '1', name: 'Infinity Edition', category: 'Regular Tee (Printed)', 
+    {
+        id: '1', name: 'Infinity Edition', category: 'Regular Tee (Printed)',
         images: [
             'https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png',
             'https://i.ibb.co/NnswC8R5/Chat-GPT-Image-Apr-30-2026-12-01-14-PM.png'
@@ -30,8 +30,8 @@ const products = [
         colors: ['#ffffff'],
         desc: 'The Infinity Edition Regular Tee (Printed) by Python. Crafted with premium 220 GSM fabric for ultimate comfort and durability.'
     },
-    { 
-        id: '2', name: 'Peace Design', category: 'Regular Tee (Printed)', 
+    {
+        id: '2', name: 'Peace Design', category: 'Regular Tee (Printed)',
         images: [
             'https://i.ibb.co/ZzqQ1P97/Python-Peace.png',
             'https://i.ibb.co/QvcG1bRY/Chat-GPT-Image-May-4-2026-03-30-55-PM.png'
@@ -46,8 +46,8 @@ const products = [
         colors: ['#000000'],
         desc: 'Peace Design Regular Tee (Printed) by Python. Featuring a premium 220 GSM build for a sleek and meaningful streetwear look.'
     },
-    { 
-        id: '3', name: 'Nike Design', category: 'Regular Tee (Printed)', 
+    {
+        id: '3', name: 'Nike Design', category: 'Regular Tee (Printed)',
         images: [
             'https://i.ibb.co/XkDb3jmB/Nike.png',
             'https://i.ibb.co/BV3wRfLt/Chat-GPT-Image-Apr-30-2026-04-50-57-PM.png'
@@ -62,8 +62,8 @@ const products = [
         colors: ['#ffffff'],
         desc: 'Nike Design Regular Tee (Printed) by Python. A classic aesthetic combined with high-quality 220 GSM fabric for everyday premium style.'
     },
-    { 
-        id: '4', name: 'Stitch Design for Girls', category: 'Regular Tee (Printed)', 
+    {
+        id: '4', name: 'Stitch Design for Girls', category: 'Regular Tee (Printed)',
         images: [
             'https://i.ibb.co/20MCs0nk/Python-Scrich.png',
             'https://i.ibb.co/C3SgXz87/Python-Srtich-balck.png',
@@ -80,8 +80,8 @@ const products = [
         colors: ['#000000', '#ffffff'],
         desc: 'Stitch Design for Girls Regular Tee (Printed) by Python. Cute and stylish aesthetic combined with high-quality 220 GSM fabric for everyday premium style.'
     },
-    { 
-        id: '5', name: 'BMW Design', category: 'Regular Tee (Printed)', 
+    {
+        id: '5', name: 'BMW Design', category: 'Regular Tee (Printed)',
         images: [
             'https://i.ibb.co/gLS0w69Y/Python-BMW.png',
             'https://i.ibb.co/m5mSZSSB/Chat-GPT-Image-Apr-30-2026-02-48-53-PM.png'
@@ -96,8 +96,8 @@ const products = [
         colors: ['#ffffff'],
         desc: 'BMW Design Regular Tee (Printed) by Python. Iconic automotive styling paired with premium 220 GSM comfort.'
     },
-    { 
-        id: '6', name: 'Space Design', category: 'Regular Tee (Printed)', 
+    {
+        id: '6', name: 'Space Design', category: 'Regular Tee (Printed)',
         images: [
             'https://i.ibb.co/jZ8BbSM2/Python-Space.png',
             'https://i.ibb.co/j9SNvjhp/Chat-GPT-Image-Apr-30-2026-12-19-43-PM.png'
@@ -112,8 +112,8 @@ const products = [
         colors: ['#ffffff'],
         desc: 'Space Design Regular Tee (Printed) by Python. Explore the cosmos in style with this premium 220 GSM graphic tee.'
     },
-    { 
-        id: '7', name: 'Air Jordan Design', category: 'Regular Tee (Printed)', 
+    {
+        id: '7', name: 'Air Jordan Design', category: 'Regular Tee (Printed)',
         images: [
             'https://i.ibb.co/yFQVXd3p/Chat-GPT-Image-Apr-29-2026-10-04-36-PM.png',
             'https://i.ibb.co/fdyjtDZY/Chat-GPT-Image-Apr-30-2026-05-36-29-PM.png'
@@ -128,18 +128,18 @@ const products = [
         colors: ['#000000'],
         desc: 'Air Jordan Design Regular Tee (Printed) by Python. Iconic basketball-inspired aesthetic meets premium 220 GSM comfort.'
     },
-    { 
-        id: '8', name: 'Urban Design', category: 'Oversized Tee', 
+    {
+        id: '8', name: 'Urban Design', category: 'Oversized Tee',
         images: [
             'https://i.ibb.co/G4Nb8tRV/OVERSIZE-190-python.png',
             'https://i.ibb.co/cSvDHTyx/Chat-GPT-Image-Apr-30-2026-05-10-31-PM.png'
         ],
         gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 1600, oldPrice: 1850 },
-            'M': { price: 1600, oldPrice: 1850 },
-            'L': { price: 1600, oldPrice: 1850 },
-            'XL': { price: 1600, oldPrice: 1850 }
+            'S': { price: 1700, oldPrice: 1900 },
+            'M': { price: 1700, oldPrice: 1900 },
+            'L': { price: 1700, oldPrice: 1900 },
+            'XL': { price: 1700, oldPrice: 1900 }
         },
         colors: ['#900056'],
         desc: 'Urban Oversized Tee by Python. A bold, relaxed fit crafted from premium 220 GSM fabric for the ultimate streetwear vibe.'
@@ -344,37 +344,68 @@ function placeOrder() {
     const totalOrdersCount = (orders.length + 1).toString().padStart(3, '0');
     const orderID = `ORD-PS-${dateStr}${totalOrdersCount}`;
 
-    let message = `*Order Confirmation: ${orderID}*\n\n`;
-    message += `*Customer:* ${currentUser ? currentUser.name : 'Guest'}\n`;
-    message += `*Phone:* ${phone}\n`;
-    message += `*Address:* ${address}, ${city}\n\n`;
-    message += `*Items:*\n`;
+    // Prepare data for the E-Invoice
+    const orderData = {
+        id: orderID,
+        name: currentUser ? currentUser.name : 'Guest',
+        phone: phone,
+        address: `${address}, ${city}`,
+        date: now.toLocaleDateString(),
+        time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        items: cart.map(item => {
+            const p = products.find(prod => prod.name === item.name) || {};
+            return {
+                name: item.name,
+                price: item.price,
+                quantity: item.quantity,
+                size: item.size,
+                color: colorNames[item.color] || item.color,
+                image: item.image || (p.images ? p.images[0] : '')
+            };
+        }),
+        delivery: 350
+    };
 
-    let total = 0;
+    // Encode order data for the URL (Safe for Unicode/Sinhala)
+    const jsonStr = JSON.stringify(orderData);
+    const encodedData = btoa(unescape(encodeURIComponent(jsonStr)));
+    const baseUrl = 'https://onijawathsuka39-arch.github.io/Python.-Store/';
+    const invoiceUrl = `${baseUrl}invoice.html?data=${encodeURIComponent(encodedData)}`;
+
+    let message = `🔴 *NEW ORDER CONFIRMATION: ${orderID}*\n\n`;
+    message += `👤 *Customer:* ${orderData.name}\n`;
+    message += `📞 *Phone:* ${phone}\n`;
+    message += `📍 *Address:* ${orderData.address}\n`;
+    message += `📅 *Date:* ${orderData.date} | ${orderData.time}\n\n`;
+    message += `📦 *Items Ordered:*\n`;
+
+    let subtotal = 0;
     cart.forEach((item) => {
-        const p = products.find(prod => prod.name === item.name) || {};
         const colorName = colorNames[item.color] || item.color;
-        message += `• *${item.name}* (${item.size} | ${p.gsm || '-'} | ${colorName})\n`;
-        message += `  Qty: ${item.quantity} x Rs. ${item.price.toLocaleString()}\n\n`;
-        total += item.price * item.quantity;
+        message += `• *${item.name}* (${item.size} | ${colorName})\n`;
+        message += `  Qty: ${item.quantity} x Rs. ${item.price.toLocaleString()}\n`;
+        subtotal += item.price * item.quantity;
     });
 
-    message += `*Total: Rs. ${total.toLocaleString()}*\n\n`;
-
-    if (currentUser) {
-        message += `*Signup Details:*\n`;
-        message += `Name: ${currentUser.name}\n`;
-        message += `Email: ${currentUser.email}\n\n`;
-    }
-
-    message += `Thank you for shopping with us!`;
+    const grandTotal = subtotal + 350;
+    message += `\n💵 *Subtotal:* Rs. ${subtotal.toLocaleString()}.00\n`;
+    message += `🚚 *Delivery Fee:* Rs. 350.00\n`;
+    message += `💰 *Grand Total: Rs. ${grandTotal.toLocaleString()}.00*\n\n`;
+    
+    message += `📄 *View E-Invoice:* ${invoiceUrl}\n\n`;
+    message += `Thank you for shopping with Python Store!`;
 
     const whatsappUrl = `https://wa.me/94757218786?text=${encodeURIComponent(message)}`;
 
-    orders.push({ id: orderID, date: now.toLocaleDateString(), items: [...cart], total, userEmail: currentUser ? currentUser.email : 'Guest' });
+    orders.push({ id: orderID, date: now.toLocaleDateString(), items: [...cart], total: grandTotal, userEmail: currentUser ? currentUser.email : 'Guest' });
     localStorage.setItem('python_orders', JSON.stringify(orders));
     cart = []; saveCart();
+    
+    // Open WhatsApp immediately to avoid popup blockers
     window.open(whatsappUrl, '_blank');
+    
+    showNotification('Order placed successfully! Redirecting...');
+    
     setTimeout(() => { window.location.href = 'profile.html'; }, 2000);
 }
 
