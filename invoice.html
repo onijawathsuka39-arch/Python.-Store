@@ -80,24 +80,30 @@
             position: relative;
             width: 120px;
             height: 140px;
-            background: #f9f9f9;
-            border-radius: 8px;
+            background: transparent; /* No background box */
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow: visible;
             flex-shrink: 0;
         }
-        /* Invoice T-shirt Preview - Matches Customizer Exactly */
+        /* Invoice T-shirt Preview - PNG Style Masked */
         .inv-t-base {
             position: relative;
             width: 100%;
             height: 100%;
-            background-color: #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            /* Apply mask to shape the background color */
+            -webkit-mask-image: url('https://i.ibb.co/NnQrQr7y/T-Shirt.png');
+            mask-image: url('https://i.ibb.co/NnQrQr7y/T-Shirt.png');
+            -webkit-mask-size: contain;
+            mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            mask-position: center;
         }
         .inv-t-img {
             width: 100%;
@@ -308,7 +314,7 @@
 
                 const colorNames = {
                     '#ffffff': 'White',
-                    '#000000': 'Black',
+                    '#1a1a1a': 'Black',
                     '#ff0000': 'Red',
                     '#DC143C': 'Red',
                     '#0000ff': 'Blue',
