@@ -512,9 +512,9 @@ styleSheet.textContent = `
 document.head.appendChild(styleSheet);
 
 function handleOfferNotification() {
-    const offerViewed = localStorage.getItem('python_offer_viewed_14');
+    const offerViewed = localStorage.getItem('python_offer_viewed_v2');
     const isOfferPage = window.location.pathname.includes('offers.html');
-    if (isOfferPage) { localStorage.setItem('python_offer_viewed_14', 'true'); }
+    if (isOfferPage) { localStorage.setItem('python_offer_viewed_v2', 'true'); }
     if (!offerViewed && !isOfferPage) {
         document.querySelectorAll('a[href="offers.html"]').forEach(link => {
             if (!link.querySelector('.offer-dot')) {
