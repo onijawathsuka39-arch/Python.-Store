@@ -364,7 +364,9 @@ function placeOrder() {
                 quantity: item.quantity,
                 size: item.size,
                 color: colorNames[item.color] || item.color,
-                image: item.image || (p.images ? p.images[0] : '')
+                image: item.image || (p.images ? p.images[0] : ''),
+                isCustom: item.isCustom || false,
+                customStickers: item.customStickers || []
             };
         }),
         delivery: deliveryFee

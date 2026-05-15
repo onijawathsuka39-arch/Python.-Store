@@ -212,16 +212,34 @@
                     const line = item.price * item.quantity;
                     sub += line;
 
-                    row.innerHTML = `
-                        <td>
-                            <div class="item-box">
-                                <img src="${item.image}" onerror="this.style.display='none'">
-                                <div>
-                                    <p style="font-weight: 800;">${item.name}</p>
-                                    <p style="font-size: 0.8rem; opacity: 0.6;">Size: ${item.size} | Color: ${item.color}</p>
-                                </div>
+                    let descriptionHtml = `
+                        <div class="item-box">
+                            <img src="${item.image}" onerror="this.style.display='none'">
+                            <div>
+                                <p style="font-weight: 800;">${item.name}</p>
+                                <p style="font-size: 0.8rem; opacity: 0.6;">Size: ${item.size || 'N/A'} | Color: ${item.color}</p>
                             </div>
-                        </td>
+                        </div>
+                    `;
+
+                    if (item.isCustom && item.customStickers) {
+                        descriptionHtml += `<div style="margin-top: 10px; padding-left: 65px; font-size: 0.8rem;">`;
+                        item.customStickers.forEach((s, idx) => {
+                            descriptionHtml += `
+                                <div style="margin-bottom: 5px; display: flex; align-items: center; gap: 10px;">
+                                    <span>Sticker ${idx + 1} (${s.size})</span>
+                                    <a href="${s.url}" download="sticker_${order.id}_${idx+1}.png" 
+                                       style="color: var(--primary); text-decoration: none; font-weight: 800; background: #fff5f5; padding: 2px 8px; border-radius: 4px; border: 1px solid var(--primary);">
+                                       DOWNLOAD IMAGE
+                                    </a>
+                                </div>
+                            `;
+                        });
+                        descriptionHtml += `</div>`;
+                    }
+
+                    row.innerHTML = `
+                        <td>${descriptionHtml}</td>
                         <td style="text-align: center;">${item.quantity}</td>
                         <td style="text-align: right; font-weight: 800;">Rs. ${line.toLocaleString()}.00</td>
                     `;
