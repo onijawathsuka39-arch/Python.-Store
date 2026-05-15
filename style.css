@@ -161,11 +161,7 @@ nav.scrolled {
     padding: 120px 10% 0;
     position: relative;
     overflow: hidden;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://i.ibb.co/QybCZ1m/5e2648217714831-679520b090f23.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    color: #ffffff;
+    background: #FFFFFF;
 }
 
 .hero-content {
@@ -195,16 +191,14 @@ nav.scrolled {
     font-weight: 800;
     line-height: 1.1;
     margin-bottom: 24px;
-    color: #ffffff;
-    text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    color: var(--primary-dark);
 }
 
 .hero p {
     font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--text-muted);
     max-width: 600px;
     margin-bottom: 40px;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
 .hero-btns {
