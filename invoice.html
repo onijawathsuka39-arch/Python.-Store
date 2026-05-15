@@ -411,12 +411,18 @@
                                             <div style="margin-bottom: 10px; display: flex; align-items: center; gap: 12px; background: #f9f9f9; padding: 10px; border-radius: 8px; border: 1px solid #f0f0f0;">
                                                 <img src="${stickerMap[s.u] || s.u}" style="width: 45px; height: 45px; object-fit: contain; background: #fff; border-radius: 4px; border: 1px solid #ddd;">
                                                 <div style="flex: 1;">
-                                                    <p style="margin: 0; font-weight: 800; font-size: 0.85rem;">#${idx+1} ${s.sz} Print</p>
-                                                    <p style="margin: 0; font-size: 0.75rem; color: #666;">Price: Rs. ${s.p || 0}.00</p>
+                                                    <p style="margin: 0; font-weight: 800; font-size: 0.85rem;">#${idx+1} - ${s.sz} Size Print</p>
+                                                    <p style="margin: 0; font-size: 0.75rem; color: #666;">Unit Price: Rs. ${s.p || 0}.00</p>
                                                 </div>
                                                 <a href="${stickerMap[s.u] || s.u}" download class="btn" style="padding: 5px 10px; font-size: 0.6rem; border-radius: 4px;">SAVE</a>
                                             </div>
                                         `).join('')}
+                                        
+                                        <!-- Pricing Reference Note -->
+                                        <div style="margin-top: 15px; padding: 10px; background: #fff; border: 1px dashed #ddd; border-radius: 8px; font-size: 0.7rem; color: #888;">
+                                            <span style="font-weight: 800; display: block; margin-bottom: 3px; color: #444;">PRINT PRICING REFERENCE:</span>
+                                            A2: Rs. 500 | A3: Rs. 350 | A4: Rs. 250 | A5: Rs. 150 | A6: Rs. 100
+                                        </div>
                                     </div>
                                 </div>
                         `;
