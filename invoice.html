@@ -377,24 +377,45 @@
                             <h2 style="margin: 0; font-weight: 900; color: var(--primary);">PRODUCTION SPEC</h2>
                             <p style="font-size: 1.2rem; margin: 15px 0;">Fabric Size: <b style="background: #000; color: #fff; padding: 2px 10px; border-radius: 5px;">${item.size}</b> | Color: <b>${item.color}</b></p>
                             
-                            <div style="text-align: left; background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #ddd;">
-                                <h4 style="margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px;">Production Specifications:</h4>
-                                <div style="margin-bottom: 10px; display: flex; justify-content: space-between;">
-                                    <span>Fabric Size:</span> <b style="font-size: 1.1rem; color: var(--primary);">${item.size}</b>
-                                </div>
-                                <div style="margin-bottom: 15px; display: flex; justify-content: space-between;">
-                                    <span>Fabric Color:</span> <b>${item.color}</b>
-                                </div>
-                                <div style="border-top: 1px dashed #eee; padding-top: 10px;">
-                                    <p style="font-weight: 800; margin-bottom: 10px; font-size: 0.85rem;">Sticker List:</p>
-                                    ${item.customStickers.map((s, idx) => `
-                                        <div style="margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 8px; border-radius: 8px;">
-                                            <span>#${idx+1} Design Size: <b style="font-size: 1rem;">${s.sz}</b></span>
-                                            <a href="${stickerMap[s.u] || s.u}" download class="btn" style="padding: 4px 8px; font-size: 0.6rem;">SAVE FILE</a>
+                                <div style="text-align: left; background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #ddd;">
+                                    <h4 style="margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px;">Production Specifications:</h4>
+                                    
+                                    <!-- Price Breakdown Section -->
+                                    <div style="background: #fafafa; padding: 12px; border-radius: 10px; border: 1px solid #eee; margin-bottom: 20px;">
+                                        <p style="margin: 0 0 8px 0; font-weight: 800; font-size: 0.8rem; color: #666;">COST BREAKDOWN:</p>
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.85rem;">
+                                            <span>Base T-Shirt (190GSM):</span> <b>Rs. 1300.00</b>
                                         </div>
-                                    `).join('')}
+                                        ${item.customStickers.map((s, idx) => `
+                                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.85rem;">
+                                                <span>Sticker #${idx+1} (${s.sz}):</span> <b>Rs. ${s.p || 0}.00</b>
+                                            </div>
+                                        `).join('')}
+                                        <div style="display: flex; justify-content: space-between; border-top: 1px dashed #ccc; padding-top: 5px; margin-top: 5px; font-weight: 900; color: var(--primary);">
+                                            <span>Total Item Price:</span> <span>Rs. ${(item.price || 0).toLocaleString()}.00</span>
+                                        </div>
+                                    </div>
+
+                                    <div style="margin-bottom: 10px; display: flex; justify-content: space-between;">
+                                        <span>Fabric Size:</span> <b style="font-size: 1.1rem; color: var(--primary);">${item.size}</b>
+                                    </div>
+                                    <div style="margin-bottom: 15px; display: flex; justify-content: space-between;">
+                                        <span>Fabric Color:</span> <b>${item.color}</b>
+                                    </div>
+                                    <div style="border-top: 1px solid #eee; padding-top: 15px;">
+                                        <p style="font-weight: 800; margin-bottom: 12px; font-size: 0.85rem;">DESIGN FILES & SIZES:</p>
+                                        ${item.customStickers.map((s, idx) => `
+                                            <div style="margin-bottom: 10px; display: flex; align-items: center; gap: 12px; background: #f9f9f9; padding: 10px; border-radius: 8px; border: 1px solid #f0f0f0;">
+                                                <img src="${stickerMap[s.u] || s.u}" style="width: 45px; height: 45px; object-fit: contain; background: #fff; border-radius: 4px; border: 1px solid #ddd;">
+                                                <div style="flex: 1;">
+                                                    <p style="margin: 0; font-weight: 800; font-size: 0.85rem;">#${idx+1} ${s.sz} Print</p>
+                                                    <p style="margin: 0; font-size: 0.75rem; color: #666;">Price: Rs. ${s.p || 0}.00</p>
+                                                </div>
+                                                <a href="${stickerMap[s.u] || s.u}" download class="btn" style="padding: 5px 10px; font-size: 0.6rem; border-radius: 4px;">SAVE</a>
+                                            </div>
+                                        `).join('')}
+                                    </div>
                                 </div>
-                            </div>
                         `;
                         designGrid.appendChild(card);
                     }
