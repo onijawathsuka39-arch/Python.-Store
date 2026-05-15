@@ -3,37 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customize Your Tee | Python Store</title>
+    <title>Design Studio | Python Store</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root { --primary: #DC143C; }
         .customize-layout { display: grid; grid-template-columns: 1fr 400px; gap: 40px; max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
-        .preview-box { position: relative; background: #f9f9f9; border-radius: 20px; padding: 40px; display: flex; justify-content: center; align-items: center; box-shadow: 0 20px 50px rgba(0,0,0,0.05); min-height: 600px; overflow: hidden; }
+        .preview-box { position: relative; background: #f9f9f9; border-radius: 24px; padding: 40px; display: flex; justify-content: center; align-items: center; box-shadow: 0 20px 50px rgba(0,0,0,0.05); min-height: 600px; overflow: hidden; border: 2px solid #eee; }
         .tshirt-base { 
-            position: relative; width: 100%; max-width: 500px; background-color: #ffffff; transition: 0.3s;
+            position: relative; width: 100%; max-width: 500px; background-color: #ffffff; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             -webkit-mask-image: url('https://i.ibb.co/NnQrQr7y/T-Shirt.png'); mask-image: url('https://i.ibb.co/NnQrQr7y/T-Shirt.png');
             -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;
         }
         .tshirt-img { width: 100%; display: block; pointer-events: none; mix-blend-mode: multiply; }
+        
         .sticker-wrapper { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150px; cursor: move; z-index: 10; border: 1px dashed transparent; }
-        .sticker-wrapper:hover { border-color: var(--primary); }
+        .sticker-wrapper.locked { cursor: default !important; border: none !important; }
+        .sticker-wrapper:not(.locked):hover { border-color: var(--primary); }
         .sticker-wrapper img { width: 100%; display: block; pointer-events: none; }
-        .sticker-delete { position: absolute; top: -10px; left: -10px; background: #ff0000; color: white; width: 22px; height: 22px; border-radius: 50%; display: none; justify-content: center; align-items: center; cursor: pointer; z-index: 20; font-size: 12px; font-weight: bold; }
-        .resize-handle { position: absolute; width: 16px; height: 16px; background: var(--primary); bottom: -8px; right: -8px; border-radius: 50%; cursor: nwse-resize; display: none; z-index: 20; }
-        .sticker-wrapper:hover .sticker-delete, .sticker-wrapper:hover .resize-handle { display: flex; }
+        
+        .sticker-delete { position: absolute; top: -12px; left: -12px; background: #ff0000; color: white; width: 24px; height: 24px; border-radius: 50%; display: none; justify-content: center; align-items: center; cursor: pointer; z-index: 20; font-size: 14px; font-weight: bold; border: 2px solid white; }
+        .resize-handle { position: absolute; width: 16px; height: 16px; background: var(--primary); bottom: -8px; right: -8px; border-radius: 50%; cursor: nwse-resize; display: none; z-index: 20; border: 2px solid white; }
+        .sticker-wrapper:not(.locked):hover .sticker-delete, .sticker-wrapper:not(.locked):hover .resize-handle { display: flex; }
+
         .controls-panel { display: flex; flex-direction: column; gap: 20px; }
-        .control-section { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        .color-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
-        .color-dot { width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; }
-        .color-dot.active { border-color: #000; }
-        .sticker-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-height: 300px; overflow-y: auto; padding: 10px 5px; }
-        .sticker-item { background: #fff; border: 1px solid #eee; padding: 8px; border-radius: 12px; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; }
-        .sticker-item:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .control-section { background: white; padding: 24px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; }
+        .control-section h4 { font-size: 0.9rem; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; color: #333; }
+        
+        .color-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+        .color-dot { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: 0.2s; box-shadow: inset 0 0 5px rgba(0,0,0,0.1); }
+        .color-dot.active { border-color: #000; transform: scale(1.1); }
+        
+        .sticker-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-height: 280px; overflow-y: auto; padding-right: 5px; }
+        .sticker-item { background: #fdfdfd; border: 1px solid #eee; padding: 10px; border-radius: 16px; cursor: pointer; transition: 0.3s; display: flex; justify-content: center; align-items: center; }
+        .sticker-item:hover { border-color: var(--primary); transform: translateY(-3px); background: #fffafa; }
         .sticker-item img { width: 100%; height: auto; object-fit: contain; }
-        .size-btns { display: flex; gap: 8px; }
-        .size-btn { flex: 1; padding: 10px; border: 1px solid #ddd; background: #f9f9f9; border-radius: 10px; cursor: pointer; text-align: center; font-size: 0.8rem; font-weight: 800; }
+
+        .size-btns { display: flex; gap: 10px; }
+        .size-btn { flex: 1; padding: 12px; border: 1px solid #eee; background: #fff; border-radius: 12px; cursor: pointer; text-align: center; font-size: 0.85rem; font-weight: 800; transition: 0.2s; }
         .size-btn.active { background: #000; color: #fff; border-color: #000; }
+
+        .status-badge { display: none; background: #e6fffa; color: #2c7a7b; padding: 15px; border-radius: 12px; font-weight: 800; text-align: center; margin-bottom: 20px; border: 1px solid #b2f5ea; animation: slideIn 0.3s; }
+        @keyframes slideIn { from { transform: translateY(-10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        #btn-finish { width: 100%; height: 55px; background: #000; color: #fff; border: none; border-radius: 16px; font-weight: 900; cursor: pointer; transition: 0.3s; }
+        #btn-finish:hover { background: #333; transform: translateY(-2px); }
+        #btn-cart { display: none; width: 100%; height: 55px; background: var(--primary); color: #fff; border: none; border-radius: 16px; font-weight: 900; cursor: pointer; }
+
+        .disabled-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.05); z-index: 100; display: none; cursor: not-allowed; }
+        
         @media (max-width: 900px) { .customize-layout { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -52,72 +70,74 @@
 
     <main class="section" style="padding-top: 120px;">
         <div class="section-title">
-            <h2>Design <span style="color: #ff0000;">Your Own</span></h2>
-            <p>Pick a color and add multiple stickers!</p>
+            <h2>Design <span style="color: var(--primary);">Studio</span></h2>
+            <p>Create your masterpiece and finalize it before ordering.</p>
         </div>
 
         <div class="customize-layout">
             <div class="preview-box">
+                <div id="design-lock-overlay" class="disabled-overlay"></div>
                 <div class="tshirt-base" id="canvas">
-                    <img id="tshirt-img" src="https://i.ibb.co/NnQrQr7y/T-Shirt.png" class="tshirt-img" alt="T-shirt">
+                    <img id="tshirt-img" src="https://i.ibb.co/NnQrQr7y/T-Shirt.png" class="tshirt-img" alt="Base">
                 </div>
             </div>
 
             <div class="controls-panel">
-                <div class="control-section">
-                    <h4><i data-lucide="palette"></i> T-Shirt Color</h4>
-                    <div class="color-grid">
-                        <div class="color-dot active" style="background: #ffffff;" data-name="White" onclick="setTshirtColor('#ffffff', 'White', this)"></div>
-                        <div class="color-dot" style="background: #ff0000;" data-name="Red" onclick="setTshirtColor('#ff0000', 'Red', this)"></div>
-                        <div class="color-dot" style="background: #ffff00;" data-name="Yellow" onclick="setTshirtColor('#ffff00', 'Yellow', this)"></div>
-                        <div class="color-dot" style="background: #ffc0cb;" data-name="Pink" onclick="setTshirtColor('#ffc0cb', 'Pink', this)"></div>
-                        <div class="color-dot" style="background: #e91e63;" data-name="Dark Pink" onclick="setTshirtColor('#e91e63', 'Dark Pink', this)"></div>
-                        <div class="color-dot" style="background: #000000;" data-name="Black" onclick="setTshirtColor('#000000', 'Black', this)"></div>
-                        <div class="color-dot" style="background: #0000ff;" data-name="Blue" onclick="setTshirtColor('#0000ff', 'Blue', this)"></div>
-                        <div class="color-dot" style="background: #008000;" data-name="Green" onclick="setTshirtColor('#008000', 'Green', this)"></div>
-                        <div class="color-dot" style="background: #ffa500;" data-name="Orange" onclick="setTshirtColor('#ffa500', 'Orange', this)"></div>
-                        <div class="color-dot" style="background: #800080;" data-name="Purple" onclick="setTshirtColor('#800080', 'Purple', this)"></div>
-                        <div class="color-dot" style="background: #808080;" data-name="Gray" onclick="setTshirtColor('#808080', 'Gray', this)"></div>
+                <div id="save-status" class="status-badge">
+                    <i data-lucide="check-circle" style="width: 18px; vertical-align: middle;"></i> Design Finalized & Saved!
+                </div>
+
+                <div id="design-controls">
+                    <div class="control-section">
+                        <h4><i data-lucide="palette"></i> 1. Choose Fabric Color</h4>
+                        <div class="color-grid">
+                            <div class="color-dot active" style="background: #ffffff;" data-name="White" onclick="setTshirtColor('#ffffff', 'White', this)"></div>
+                            <div class="color-dot" style="background: #ff0000;" data-name="Red" onclick="setTshirtColor('#ff0000', 'Red', this)"></div>
+                            <div class="color-dot" style="background: #ffff00;" data-name="Yellow" onclick="setTshirtColor('#ffff00', 'Yellow', this)"></div>
+                            <div class="color-dot" style="background: #ffc0cb;" data-name="Pink" onclick="setTshirtColor('#ffc0cb', 'Pink', this)"></div>
+                            <div class="color-dot" style="background: #e91e63;" data-name="Dark Pink" onclick="setTshirtColor('#e91e63', 'Dark Pink', this)"></div>
+                            <div class="color-dot" style="background: #000000;" data-name="Black" onclick="setTshirtColor('#000000', 'Black', this)"></div>
+                            <div class="color-dot" style="background: #0000ff;" data-name="Blue" onclick="setTshirtColor('#0000ff', 'Blue', this)"></div>
+                            <div class="color-dot" style="background: #008000;" data-name="Green" onclick="setTshirtColor('#008000', 'Green', this)"></div>
+                            <div class="color-dot" style="background: #ffa500;" data-name="Orange" onclick="setTshirtColor('#ffa500', 'Orange', this)"></div>
+                            <div class="color-dot" style="background: #800080;" data-name="Purple" onclick="setTshirtColor('#800080', 'Purple', this)"></div>
+                        </div>
+                    </div>
+
+                    <div class="control-section">
+                        <h4><i data-lucide="maximize"></i> 2. Select Sticker Size</h4>
+                        <div class="size-btns">
+                            <div class="size-btn" onclick="setSize('A5', 150, 100, this)">A5</div>
+                            <div class="size-btn active" onclick="setSize('A4', 250, 160, this)">A4</div>
+                            <div class="size-btn" onclick="setSize('A3', 350, 220, this)">A3</div>
+                        </div>
+                    </div>
+
+                    <div class="control-section">
+                        <h4><i data-lucide="image"></i> 3. Add Stickers</h4>
+                        <div class="sticker-grid">
+                            <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/gMrCJPnN/A3-1.png')"><img src="https://i.ibb.co/gMrCJPnN/A3-1.png"></div>
+                            <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/QFRLTykz/A3-2.png')"><img src="https://i.ibb.co/QFRLTykz/A3-2.png"></div>
+                            <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/S7f8ZfJs/A3-3.png')"><img src="https://i.ibb.co/S7f8ZfJs/A3-3.png"></div>
+                            <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/tMccn0qh/A3-4.png')"><img src="https://i.ibb.co/tMccn0qh/A3-4.png"></div>
+                            <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/B5s9qhyX/A3-5.png')"><img src="https://i.ibb.co/B5s9qhyX/A3-5.png"></div>
+                            <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/bj43Hcks/A3-6.png')"><img src="https://i.ibb.co/bj43Hcks/A3-6.png"></div>
+                            <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/7B5DZmx/A3-7.png')"><img src="https://i.ibb.co/7B5DZmx/A3-7.png"></div>
+                            <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/SXdG9PTc/A3-8.png')"><img src="https://i.ibb.co/SXdG9PTc/A3-8.png"></div>
+                            <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/tp3krXPp/A3-9.png')"><img src="https://i.ibb.co/tp3krXPp/A3-9.png"></div>
+                            <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/VY90dG3G/A3-10.png')"><img src="https://i.ibb.co/VY90dG3G/A3-10.png"></div>
+                            <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/1JQ00QMd/A3-11.png')"><img src="https://i.ibb.co/1JQ00QMd/A3-11.png"></div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="control-section">
-                    <h4><i data-lucide="maximize"></i> Selected Sticker Size</h4>
-                    <div class="size-btns">
-                        <div class="size-btn" onclick="setSize('A5', 150, 100, this)">A5</div>
-                        <div class="size-btn active" onclick="setSize('A4', 250, 160, this)">A4</div>
-                        <div class="size-btn" onclick="setSize('A3', 350, 220, this)">A3</div>
-                    </div>
-                </div>
-
-                <div class="control-section">
-                    <h4><i data-lucide="image"></i> Sticker Library</h4>
-                    <div class="sticker-grid">
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/gMrCJPnN/A3-1.png')"><img src="https://i.ibb.co/gMrCJPnN/A3-1.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/QFRLTykz/A3-2.png')"><img src="https://i.ibb.co/QFRLTykz/A3-2.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/S7f8ZfJs/A3-3.png')"><img src="https://i.ibb.co/S7f8ZfJs/A3-3.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/tMccn0qh/A3-4.png')"><img src="https://i.ibb.co/tMccn0qh/A3-4.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/B5s9qhyX/A3-5.png')"><img src="https://i.ibb.co/B5s9qhyX/A3-5.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/bj43Hcks/A3-6.png')"><img src="https://i.ibb.co/bj43Hcks/A3-6.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/7B5DZmx/A3-7.png')"><img src="https://i.ibb.co/7B5DZmx/A3-7.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/SXdG9PTc/A3-8.png')"><img src="https://i.ibb.co/SXdG9PTc/A3-8.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/tp3krXPp/A3-9.png')"><img src="https://i.ibb.co/tp3krXPp/A3-9.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/VY90dG3G/A3-10.png')"><img src="https://i.ibb.co/VY90dG3G/A3-10.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/1JQ00QMd/A3-11.png')"><img src="https://i.ibb.co/1JQ00QMd/A3-11.png"></div>
-                    </div>
-                    <div style="margin-top: 15px;">
-                        <input type="file" id="upload" hidden onchange="handleUpload(event)">
-                        <button class="btn" style="width: 100%; font-size: 0.8rem;" onclick="document.getElementById('upload').click()"><i data-lucide="upload" style="width: 14px;"></i> Upload Your Design</button>
-                    </div>
-                </div>
-
-                <div class="control-section pricing-card">
-                    <p style="font-weight: 800;">Grand Total: Rs. <span id="grand-total-display">1300</span>.00</p>
-                </div>
-
-                <div style="display: flex; gap: 10px;">
-                    <button class="btn" onclick="resetDesign()">RESET</button>
-                    <button class="btn btn-primary" style="flex: 2;" onclick="addCustomToCart()">ADD TO CART</button>
+                    <p style="font-weight: 900; font-size: 1.1rem; color: var(--primary); margin-bottom: 15px;">
+                        Total Estimate: Rs. <span id="grand-total-display">1300</span>.00
+                    </p>
+                    <button id="btn-finish" onclick="finishDesign()">FINISH DESIGN</button>
+                    <button id="btn-cart" onclick="addCustomToCart()">ADD TO CART</button>
+                    <button id="btn-edit" class="btn" style="display: none; width: 100%; margin-top: 10px;" onclick="enableEditing()">EDIT DESIGN</button>
                 </div>
             </div>
         </div>
@@ -128,6 +148,7 @@
         lucide.createIcons();
         let activeStickers = [];
         let selectedStickerId = null;
+        let isLocked = false;
         let currentSize = 'A4';
         let currentSizePrice = 250;
         let currentSizeWidth = 160;
@@ -144,6 +165,7 @@
         };
 
         function setTshirtColor(color, name, btn) {
+            if (isLocked) return;
             document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
             btn.classList.add('active');
             selectedColor = color; selectedColorName = name;
@@ -152,6 +174,7 @@
         }
 
         function setSize(size, price, width, btn) {
+            if (isLocked) return;
             document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentSize = size; currentSizePrice = price; currentSizeWidth = width;
@@ -159,14 +182,14 @@
                 const s = activeStickers.find(s => s.id === selectedStickerId);
                 if (s) {
                     s.size = size; s.price = price;
-                    const el = document.getElementById(selectedStickerId);
-                    el.style.width = width + 'px';
+                    document.getElementById(selectedStickerId).style.width = width + 'px';
                     updateTotal(); saveDesignState();
                 }
             }
         }
 
         function selectSticker(id) {
+            if (isLocked) return;
             selectedStickerId = id;
             document.querySelectorAll('.sticker-wrapper').forEach(el => el.style.borderColor = 'transparent');
             const activeEl = document.getElementById(id);
@@ -174,6 +197,7 @@
         }
 
         function addNewSticker(url, pos = null) {
+            if (isLocked) return;
             const id = 'sticker-' + Math.random().toString(36).substr(2, 9);
             const wrapper = document.createElement('div');
             wrapper.className = 'sticker-wrapper';
@@ -188,19 +212,11 @@
         }
 
         function removeSticker(id) {
+            if (isLocked) return;
             const el = document.getElementById(id); if(el) el.remove();
             activeStickers = activeStickers.filter(s => s.id !== id);
             if (selectedStickerId === id) selectedStickerId = null;
             updateTotal(); saveDesignState();
-        }
-
-        function handleUpload(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (event) => addNewSticker(event.target.result);
-                reader.readAsDataURL(file);
-            }
         }
 
         function updateTotal() {
@@ -214,6 +230,7 @@
             const canvas = document.getElementById('canvas');
 
             const start = (e) => {
+                if (isLocked) return;
                 const t = e.touches ? e.touches[0] : e;
                 if (e.target === handle) { isResizing = true; startX = t.clientX; startW = el.offsetWidth; }
                 else { isDragging = true; startX = t.clientX - el.offsetLeft; startY = t.clientY - el.offsetTop; }
@@ -221,9 +238,10 @@
             };
 
             const move = (e) => {
+                if (!isDragging && !isResizing) return;
                 const t = e.touches ? e.touches[0] : e;
                 if (isDragging) {
-                    let x = t.clientX - startX; let y = t.clientY - startY;
+                    let x = t.clientX - startX, y = t.clientY - startY;
                     el.style.left = ((x / canvas.offsetWidth) * 100) + '%';
                     el.style.top = ((y / canvas.offsetHeight) * 100) + '%';
                 }
@@ -240,15 +258,38 @@
             window.addEventListener('mouseup', end); window.addEventListener('touchend', end);
         }
 
+        function finishDesign() {
+            if (activeStickers.length === 0) { alert('Please add at least one sticker!'); return; }
+            isLocked = true;
+            document.querySelectorAll('.sticker-wrapper').forEach(el => el.classList.add('locked'));
+            document.getElementById('design-lock-overlay').style.display = 'block';
+            document.getElementById('design-controls').style.opacity = '0.3';
+            document.getElementById('btn-finish').style.display = 'none';
+            document.getElementById('btn-cart').style.display = 'block';
+            document.getElementById('btn-edit').style.display = 'block';
+            document.getElementById('save-status').style.display = 'block';
+            saveDesignState();
+        }
+
+        function enableEditing() {
+            isLocked = false;
+            document.querySelectorAll('.sticker-wrapper').forEach(el => el.classList.remove('locked'));
+            document.getElementById('design-lock-overlay').style.display = 'none';
+            document.getElementById('design-controls').style.opacity = '1';
+            document.getElementById('btn-finish').style.display = 'block';
+            document.getElementById('btn-cart').style.display = 'none';
+            document.getElementById('btn-edit').style.display = 'none';
+            document.getElementById('save-status').style.display = 'none';
+        }
+
         function saveDesignState() {
-            const state = {
+            localStorage.setItem('temp_design', JSON.stringify({
                 c: selectedColor, n: selectedColorName,
                 s: activeStickers.map(s => {
                     const el = document.getElementById(s.id);
                     return { u: s.url, sz: s.size, p: s.price, t: el.style.top, l: el.style.left, w: el.style.width };
                 })
-            };
-            localStorage.setItem('temp_design', JSON.stringify(state));
+            }));
         }
 
         function loadDesignState() {
@@ -260,23 +301,21 @@
             state.s.forEach(s => addNewSticker(s.u, { t: s.t, l: s.l, w: s.w, p: s.p, s: s.sz }));
         }
 
-        function resetDesign() { if(confirm('Reset design?')) { localStorage.removeItem('temp_design'); location.reload(); } }
-
         function addCustomToCart() {
-            if (activeStickers.length === 0) { alert('Add a sticker!'); return; }
             const total = 1300 + activeStickers.reduce((sum, s) => sum + s.price, 0);
             const details = activeStickers.map(s => {
                 const el = document.getElementById(s.id);
                 return { u: stickerMap[s.url] || s.url, sz: s.size, t: el.style.top, l: el.style.left, w: el.style.width };
             });
-            const item = {
-                id: 'custom-' + Date.now(), name: 'Custom Tee', price: total, quantity: 1, color: selectedColorName,
+            cart.push({
+                id: 'custom-' + Date.now(), name: 'Custom Designed Tee', price: total, quantity: 1, color: selectedColorName,
                 isCustom: true, customStickers: details, image: 'https://i.ibb.co/NnQrQr7y/T-Shirt.png'
-            };
-            cart.push(item); saveCart(); updateCartCount();
-            localStorage.removeItem('temp_design');
-            alert('Added to cart!');
+            });
+            saveCart(); updateCartCount(); localStorage.removeItem('temp_design');
+            alert('Added to cart successfully!');
+            window.location.href = 'cart.html';
         }
+
         window.onload = () => { loadDesignState(); updateCartCount(); lucide.createIcons(); };
     </script>
 </body>
