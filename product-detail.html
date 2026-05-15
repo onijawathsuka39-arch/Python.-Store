@@ -239,7 +239,10 @@
                 product.colors.forEach(c => {
                     const btn = document.createElement('div');
                     btn.className = `color-btn ${c === selectedColor ? 'active' : ''}`;
+                    // Use hex directly for background so it shows the color box
                     btn.style.background = c;
+                    // Use colorNames mapping for the tooltip name
+                    btn.title = (typeof colorNames !== 'undefined' && colorNames[c]) ? colorNames[c] : c;
                     btn.onclick = () => selectColor(c, btn);
                     colorContainer.appendChild(btn);
                 });

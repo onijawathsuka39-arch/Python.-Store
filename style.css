@@ -159,10 +159,13 @@ nav.scrolled {
     align-items: center;
     text-align: center;
     padding: 120px 10% 0;
-    /* Clear space for fixed header */
     position: relative;
     overflow: hidden;
-    background: #FFFFFF;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://i.ibb.co/QybCZ1m/5e2648217714831-679520b090f23.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #ffffff;
 }
 
 .hero-content {
@@ -192,14 +195,16 @@ nav.scrolled {
     font-weight: 800;
     line-height: 1.1;
     margin-bottom: 24px;
-    color: var(--primary-dark);
+    color: #ffffff;
+    text-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
 .hero p {
     font-size: 1.1rem;
-    color: var(--text-muted);
-    margin-bottom: 40px;
+    color: rgba(255, 255, 255, 0.9);
     max-width: 600px;
+    margin-bottom: 40px;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
 .hero-btns {
@@ -275,7 +280,7 @@ nav.scrolled {
 
 /* Products Section */
 .section {
-    padding: 100px 5%;
+    padding: 100px 10%;
 }
 
 .section-title {

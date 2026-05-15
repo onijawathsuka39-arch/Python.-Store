@@ -1,12 +1,21 @@
-// Centralized Product Data with Color Mapping
+// Centralized Color Configuration (Hex to Name Mapping)
 const colorNames = {
-    '#fff': 'White', '#000': 'Black', '#DC143C': 'Red', '#1a2a4a': 'Midnight Blue',
-    '#4a90e2': 'Sky Blue', '#f0f0f0': 'Off-White', '#0A0F1E': 'Dark Navy', '#333': 'Grey'
+    '#ffffff': 'White',
+    '#000000': 'Black',
+    '#DC143C': 'Red',
+    '#1a2a4a': 'Midnight Blue',
+    '#4a90e2': 'Sky Blue',
+    '#f0f0f0': 'Off-White',
+    '#0A0F1E': 'Dark Navy',
+    '#333333': 'Grey',
+    '#ff91a4': 'samon pink',
+    '#800000': 'Maroon',
+    '#900056': 'Urban Maroon'
 };
 
 const products = [
-    {
-        id: '1', name: 'Infinity Edition', category: 'Regular Tee (Printed)',
+    { 
+        id: '1', name: 'Infinity Edition', category: 'Regular Tee (Printed)', 
         images: [
             'https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png',
             'https://i.ibb.co/NnswC8R5/Chat-GPT-Image-Apr-30-2026-12-01-14-PM.png'
@@ -18,11 +27,11 @@ const products = [
             'L': { price: 1600, oldPrice: 1850 },
             'XL': { price: 1600, oldPrice: 1850 }
         },
-        colors: ['#fff'],
+        colors: ['#ffffff'],
         desc: 'The Infinity Edition Regular Tee (Printed) by Python. Crafted with premium 220 GSM fabric for ultimate comfort and durability.'
     },
-    {
-        id: '2', name: 'Peace Design', category: 'Regular Tee (Printed)',
+    { 
+        id: '2', name: 'Peace Design', category: 'Regular Tee (Printed)', 
         images: [
             'https://i.ibb.co/ZzqQ1P97/Python-Peace.png',
             'https://i.ibb.co/QvcG1bRY/Chat-GPT-Image-May-4-2026-03-30-55-PM.png'
@@ -34,7 +43,7 @@ const products = [
             'L': { price: 1600, oldPrice: 1850 },
             'XL': { price: 1600, oldPrice: 1850 }
         },
-        colors: ['#000'],
+        colors: ['#000000'],
         desc: 'Peace Design Regular Tee (Printed) by Python. Featuring a premium 220 GSM build for a sleek and meaningful streetwear look.'
     },
     { 
@@ -50,7 +59,7 @@ const products = [
             'L': { price: 1600, oldPrice: 1850 },
             'XL': { price: 1600, oldPrice: 1850 }
         },
-        colors: ['#fff'],
+        colors: ['#ffffff'],
         desc: 'Nike Design Regular Tee (Printed) by Python. A classic aesthetic combined with high-quality 220 GSM fabric for everyday premium style.'
     },
     { 
@@ -68,8 +77,72 @@ const products = [
             'L': { price: 1600, oldPrice: 1850 },
             'XL': { price: 1600, oldPrice: 1850 }
         },
-        colors: ['#fff', '#000'],
+        colors: ['#000000', '#ffffff'],
         desc: 'Stitch Design for Girls Regular Tee (Printed) by Python. Cute and stylish aesthetic combined with high-quality 220 GSM fabric for everyday premium style.'
+    },
+    { 
+        id: '5', name: 'BMW Design', category: 'Regular Tee (Printed)', 
+        images: [
+            'https://i.ibb.co/gLS0w69Y/Python-BMW.png',
+            'https://i.ibb.co/m5mSZSSB/Chat-GPT-Image-Apr-30-2026-02-48-53-PM.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1600, oldPrice: 1850 },
+            'M': { price: 1600, oldPrice: 1850 },
+            'L': { price: 1600, oldPrice: 1850 },
+            'XL': { price: 1600, oldPrice: 1850 }
+        },
+        colors: ['#ffffff'],
+        desc: 'BMW Design Regular Tee (Printed) by Python. Iconic automotive styling paired with premium 220 GSM comfort.'
+    },
+    { 
+        id: '6', name: 'Space Design', category: 'Regular Tee (Printed)', 
+        images: [
+            'https://i.ibb.co/jZ8BbSM2/Python-Space.png',
+            'https://i.ibb.co/j9SNvjhp/Chat-GPT-Image-Apr-30-2026-12-19-43-PM.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1600, oldPrice: 1850 },
+            'M': { price: 1600, oldPrice: 1850 },
+            'L': { price: 1600, oldPrice: 1850 },
+            'XL': { price: 1600, oldPrice: 1850 }
+        },
+        colors: ['#ffffff'],
+        desc: 'Space Design Regular Tee (Printed) by Python. Explore the cosmos in style with this premium 220 GSM graphic tee.'
+    },
+    { 
+        id: '7', name: 'Air Jordan Design', category: 'Regular Tee (Printed)', 
+        images: [
+            'https://i.ibb.co/yFQVXd3p/Chat-GPT-Image-Apr-29-2026-10-04-36-PM.png',
+            'https://i.ibb.co/fdyjtDZY/Chat-GPT-Image-Apr-30-2026-05-36-29-PM.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1600, oldPrice: 1850 },
+            'M': { price: 1600, oldPrice: 1850 },
+            'L': { price: 1600, oldPrice: 1850 },
+            'XL': { price: 1600, oldPrice: 1850 }
+        },
+        colors: ['#000000'],
+        desc: 'Air Jordan Design Regular Tee (Printed) by Python. Iconic basketball-inspired aesthetic meets premium 220 GSM comfort.'
+    },
+    { 
+        id: '8', name: 'Urban Design', category: 'Oversized Tee', 
+        images: [
+            'https://i.ibb.co/G4Nb8tRV/OVERSIZE-190-python.png',
+            'https://i.ibb.co/cSvDHTyx/Chat-GPT-Image-Apr-30-2026-05-10-31-PM.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1600, oldPrice: 1850 },
+            'M': { price: 1600, oldPrice: 1850 },
+            'L': { price: 1600, oldPrice: 1850 },
+            'XL': { price: 1600, oldPrice: 1850 }
+        },
+        colors: ['#900056'],
+        desc: 'Urban Oversized Tee by Python. A bold, relaxed fit crafted from premium 220 GSM fabric for the ultimate streetwear vibe.'
     }
 ];
 
@@ -163,7 +236,7 @@ let hoverIntervals = {};
 function startHoverSlide(productId, sliderElement) {
     const p = products.find(prod => prod.id === productId);
     if (!p || !p.images || p.images.length <= 1) return;
-    
+
     let currentIdx = 0;
     hoverIntervals[productId] = setInterval(() => {
         currentIdx = (currentIdx + 1) % p.images.length;
