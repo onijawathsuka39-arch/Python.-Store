@@ -689,7 +689,7 @@
                 const details = activeStickers.map(s => {
                     const el = document.getElementById(s.id);
                     if (!el) return null;
-                    return { u: stickerMap[s.url] || s.url, sz: s.szName, t: el.style.top, l: el.style.left, w: el.style.width, r: el.dataset.rotation || 0 };
+                    return { u: stickerMap[s.url] || s.url, sz: s.szName, p: s.price, t: el.style.top, l: el.style.left, w: el.style.width, r: el.dataset.rotation || 0 };
                 }).filter(d => d !== null);
                 const total = baseTshirtPrice + activeStickers.reduce((sum, s) => sum + (s.price || 250), 0);
                 if (typeof cart === 'undefined') window.cart = JSON.parse(localStorage.getItem('python_cart')) || [];

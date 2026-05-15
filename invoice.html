@@ -386,13 +386,20 @@
                                         <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.85rem;">
                                             <span>Base (${item.name.replace(' (Custom)', '')}):</span> <b>Rs. ${item.basePrice || 1300}.00 (220GSM)</b>
                                         </div>
-                                        ${item.customStickers.map((s, idx) => `
-                                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.85rem;">
-                                                <span>Sticker #${idx+1} (${s.sz}):</span> <b>Rs. ${s.p || 0}.00</b>
-                                            </div>
-                                        `).join('')}
+                                        ${item.customStickers.map((s, idx) => {
+                                            const prices = { 'A2': 500, 'A3': 350, 'A4': 250, 'A5': 150, 'A6': 100 };
+                                            const p = s.p || prices[s.sz] || 0;
+                                            return `
+                                                <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.85rem;">
+                                                    <span>Sticker #${idx+1} (${s.sz}):</span> <b>Rs. ${p}.00</b>
+                                                </div>
+                                            `;
+                                        }).join('')}
                                         <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.85rem; border-top: 1px solid #eee; padding-top: 5px; margin-top: 5px;">
-                                            <span>Total Designs Price:</span> <b>Rs. ${item.customStickers.reduce((sum, s) => sum + (s.p || 0), 0).toLocaleString()}.00</b>
+                                            <span>Total Designs Price:</span> <b>Rs. ${item.customStickers.reduce((sum, s) => {
+                                                const prices = { 'A2': 500, 'A3': 350, 'A4': 250, 'A5': 150, 'A6': 100 };
+                                                return sum + (s.p || prices[s.sz] || 0);
+                                            }, 0).toLocaleString()}.00</b>
                                         </div>
                                         <div style="display: flex; justify-content: space-between; border-top: 1px dashed #ccc; padding-top: 5px; margin-top: 5px; font-weight: 900; color: var(--primary);">
                                             <span>Total Item Price:</span> <span>Rs. ${(item.price || 0).toLocaleString()}.00</span>
@@ -407,16 +414,20 @@
                                     </div>
                                     <div style="border-top: 1px solid #eee; padding-top: 15px;">
                                         <p style="font-weight: 800; margin-bottom: 12px; font-size: 0.85rem;">DESIGN FILES & SIZES:</p>
-                                        ${item.customStickers.map((s, idx) => `
-                                            <div style="margin-bottom: 10px; display: flex; align-items: center; gap: 12px; background: #f9f9f9; padding: 10px; border-radius: 8px; border: 1px solid #f0f0f0;">
-                                                <img src="${stickerMap[s.u] || s.u}" style="width: 45px; height: 45px; object-fit: contain; background: #fff; border-radius: 4px; border: 1px solid #ddd;">
-                                                <div style="flex: 1;">
-                                                    <p style="margin: 0; font-weight: 800; font-size: 0.85rem;">#${idx+1} - ${s.sz} Size Print</p>
-                                                    <p style="margin: 0; font-size: 0.75rem; color: #666;">Unit Price: Rs. ${s.p || 0}.00</p>
+                                        ${item.customStickers.map((s, idx) => {
+                                            const prices = { 'A2': 500, 'A3': 350, 'A4': 250, 'A5': 150, 'A6': 100 };
+                                            const p = s.p || prices[s.sz] || 0;
+                                            return `
+                                                <div style="margin-bottom: 10px; display: flex; align-items: center; gap: 12px; background: #f9f9f9; padding: 10px; border-radius: 8px; border: 1px solid #f0f0f0;">
+                                                    <img src="${stickerMap[s.u] || s.u}" style="width: 45px; height: 45px; object-fit: contain; background: #fff; border-radius: 4px; border: 1px solid #ddd;">
+                                                    <div style="flex: 1;">
+                                                        <p style="margin: 0; font-weight: 800; font-size: 0.85rem;">#${idx+1} - ${s.sz} Size Print</p>
+                                                        <p style="margin: 0; font-size: 0.75rem; color: #666;">Unit Price: Rs. ${p}.00</p>
+                                                    </div>
+                                                    <a href="${stickerMap[s.u] || s.u}" download class="btn" style="padding: 5px 10px; font-size: 0.6rem; border-radius: 4px;">SAVE</a>
                                                 </div>
-                                                <a href="${stickerMap[s.u] || s.u}" download class="btn" style="padding: 5px 10px; font-size: 0.6rem; border-radius: 4px;">SAVE</a>
-                                            </div>
-                                        `).join('')}
+                                            `;
+                                        }).join('')}
                                         
                                         <!-- Pricing Reference Note -->
                                         <div style="margin-top: 15px; padding: 10px; background: #fff; border: 1px dashed #ddd; border-radius: 8px; font-size: 0.7rem; color: #888;">
