@@ -129,10 +129,15 @@
 <body>
 
     <div class="bill-container">
-        <div class="bill-header">
-            <img src="logo.png" alt="Logo">
-            <h1>PYTHON</h1>
-            <p style="letter-spacing: 3px; opacity: 0.7;">ORDER INVOICE</p>
+        <div id="order-id-top" style="text-align: right; font-size: 0.8rem; font-weight: 800; margin-bottom: 5px; color: #777;">
+            ORDER #<span id="o-id-top"></span>
+        </div>
+        <div class="bill-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 25px;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <img src="logo.png" alt="Logo" style="height: 50px;">
+                <h1 style="font-size: 1.8rem; letter-spacing: 3px; font-weight: 900; margin: 0;">PYTHON</h1>
+            </div>
+            <h2 style="font-size: 1.8rem; font-weight: 900; color: var(--primary); margin: 0;">INVOICE</h2>
         </div>
 
         <div class="bill-info">
@@ -143,7 +148,6 @@
                 <p><strong>Phone:</strong> <span id="c-phone"></span></p>
             </div>
             <div class="order-details">
-                <p><strong>Order ID:</strong> <span id="o-id"></span></p>
                 <p><strong>Date:</strong> <span id="o-date"></span></p>
                 <p><strong>Time:</strong> <span id="o-time"></span></p>
             </div>
@@ -193,7 +197,7 @@
             try {
                 const order = JSON.parse(decodeURIComponent(escape(atob(raw))));
                 
-                document.getElementById('o-id').innerText = order.id;
+                document.getElementById('o-id-top').innerText = order.id;
                 document.getElementById('o-date').innerText = order.date;
                 document.getElementById('o-time').innerText = order.time;
                 document.getElementById('c-name').innerText = order.name;
