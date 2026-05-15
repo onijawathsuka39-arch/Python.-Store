@@ -317,6 +317,30 @@
         <a href="index.html" class="logo"><img src="logo.png" alt="Python Logo"><span>PYTHON</span></a>
     </nav>
 
+    <div id="product-selection-overlay" style="position: fixed; inset: 0; background: rgba(255,255,255,0.98); z-index: 2000; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(15px);">
+        <div style="max-width: 900px; width: 95%; text-align: center;">
+            <h2 style="font-weight: 900; margin-bottom: 30px; font-size: 2.2rem; letter-spacing: -1px; color: #111;">CHOOSE YOUR CANVAS</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+                <!-- Regular Tee Card -->
+                <div class="selection-card" onclick="startCustomizing('Regular Tee', 1300, 'https://i.ibb.co/NnQrQr7y/T-Shirt.png')" 
+                    style="background: #fff; padding: 25px; border-radius: 24px; border: 1px solid #eee; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 10px 40px rgba(0,0,0,0.05); width: 260px; text-align: left; position: relative;">
+                    <div style="background: #f8f8f8; border-radius: 18px; padding: 20px; margin-bottom: 18px; transition: 0.3s;">
+                        <img src="https://i.ibb.co/NnQrQr7y/T-Shirt.png" style="width: 100%; height: 160px; object-fit: contain;">
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h3 style="margin: 0; font-weight: 900; font-size: 1.2rem; color: #000;">Regular Tee</h3>
+                            <p style="opacity: 0.5; font-size: 0.75rem; margin: 4px 0 12px 0; font-weight: 600;">220 GSM PREMIUM</p>
+                        </div>
+                        <div style="background: #000; color: #fff; font-size: 0.65rem; padding: 4px 8px; border-radius: 6px; font-weight: 800;">BASE</div>
+                    </div>
+                    <div style="font-size: 1.4rem; font-weight: 900; color: var(--primary);">Rs. 1300</div>
+                    <div style="margin-top: 15px; height: 45px; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; border-radius: 12px; font-weight: 800; font-size: 0.85rem; letter-spacing: 0.5px;">START DESIGNING</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <main class="section" style="padding-top: 100px;">
         <div class="customize-layout">
             <div class="preview-box">
@@ -439,11 +463,24 @@
     <script src="script.js"></script>
     <script>
         lucide.createIcons();
+        let currentTshirtType = 'Regular Tee';
+        let baseTshirtPrice = 1300;
         let activeStickers = [];
         let isLocked = false;
         let currentTshirtSize = 'M';
         let selectedColor = '#ffffff';
         let selectedColorName = 'White';
+
+        function startCustomizing(type, price, img) {
+            currentTshirtType = type;
+            baseTshirtPrice = price;
+            const overlay = document.getElementById('product-selection-overlay');
+            overlay.style.transition = '0.4s';
+            overlay.style.opacity = '0';
+            overlay.style.pointerEvents = 'none';
+            setTimeout(() => { overlay.style.display = 'none'; }, 400);
+            updateTotal();
+        }
 
         const stickerMap = {
             'https://i.ibb.co/gMrCJPnN/A3-1.png': 'S1', 'https://i.ibb.co/QFRLTykz/A3-2.png': 'S2',
@@ -527,9 +564,9 @@
             autoSave();
         }
         function updateTotal() {
-            let total = 1300;
+            let total = baseTshirtPrice;
             const summaryBox = document.getElementById('sticker-summary-box');
-            summaryBox.innerHTML = '<div class="summary-item"><span>Base T-Shirt</span><span>Rs. 1300</span></div>';
+            summaryBox.innerHTML = `<div class="summary-item"><span>Base (${currentTshirtType})</span><span>Rs. ${baseTshirtPrice}</span></div>`;
             activeStickers.forEach((s, idx) => {
                 const price = s.price || 100;
                 const sz = s.szName || 'A6';
@@ -654,11 +691,11 @@
                     if (!el) return null;
                     return { u: stickerMap[s.url] || s.url, sz: s.szName, t: el.style.top, l: el.style.left, w: el.style.width, r: el.dataset.rotation || 0 };
                 }).filter(d => d !== null);
-                const total = 1300 + activeStickers.reduce((sum, s) => sum + (s.price || 250), 0);
+                const total = baseTshirtPrice + activeStickers.reduce((sum, s) => sum + (s.price || 250), 0);
                 if (typeof cart === 'undefined') window.cart = JSON.parse(localStorage.getItem('python_cart')) || [];
                 cart.push({
-                    id: 'custom-' + Date.now(), name: 'Custom Tee', price: total, quantity: 1, size: currentTshirtSize, color: selectedColorName,
-                    isCustom: true, customStickers: details, image: 'https://i.ibb.co/NnQrQr7y/T-Shirt.png'
+                    id: 'custom-' + Date.now(), name: currentTshirtType + ' (Custom)', price: total, quantity: 1, size: currentTshirtSize, color: selectedColorName,
+                    isCustom: true, customStickers: details, image: 'https://i.ibb.co/NnQrQr7y/T-Shirt.png', basePrice: baseTshirtPrice
                 });
                 if (typeof saveCart === 'function') saveCart();
                 else localStorage.setItem('python_cart', JSON.stringify(cart));

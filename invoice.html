@@ -384,7 +384,7 @@
                                     <div style="background: #fafafa; padding: 12px; border-radius: 10px; border: 1px solid #eee; margin-bottom: 20px;">
                                         <p style="margin: 0 0 8px 0; font-weight: 800; font-size: 0.8rem; color: #666;">COST BREAKDOWN:</p>
                                         <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.85rem;">
-                                            <span>Base T-Shirt (190GSM):</span> <b>Rs. 1300.00</b>
+                                            <span>Base (${item.name.replace(' (Custom)', '')}):</span> <b>Rs. ${item.basePrice || 1300}.00 (220GSM)</b>
                                         </div>
                                         ${item.customStickers.map((s, idx) => `
                                             <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.85rem;">
