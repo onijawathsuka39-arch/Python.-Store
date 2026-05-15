@@ -136,20 +136,52 @@ const products = [
         desc: 'Air Jordan Design Regular Tee (Printed) by Python. Iconic basketball-inspired aesthetic meets premium 220 GSM comfort.'
     },
     {
-        id: '8', name: 'Urban Design', category: 'Oversized Tee',
+        id: '8', name: 'Urban Design Oversized Tee (Printed)', category: 'Oversized Tee (Printed)',
         images: [
             'https://i.ibb.co/G4Nb8tRV/OVERSIZE-190-python.png',
             'https://i.ibb.co/cSvDHTyx/Chat-GPT-Image-Apr-30-2026-05-10-31-PM.png'
         ],
-        gsm: '220 GSM', brand: 'Python',
+        gsm: '190 GSM', brand: 'Python',
         sizes: {
             'S': { price: 1700, oldPrice: 1900 },
             'M': { price: 1700, oldPrice: 1900 },
             'L': { price: 1700, oldPrice: 1900 },
             'XL': { price: 1700, oldPrice: 1900 }
         },
-        colors: ['#900056'],
-        desc: 'Urban Oversized Tee by Python. A bold, relaxed fit crafted from premium 220 GSM fabric for the ultimate streetwear vibe.'
+        colors: ['#c803a4ff'],
+        desc: 'Urban Oversized Tee (Printed) by Python. A bold, relaxed fit in a refreshing light blue hue, crafted from premium 190 GSM fabric for the ultimate streetwear vibe.'
+    },
+    {
+        id: '9', name: 'Nike Design Oversized Tee (Printed) ', category: 'Oversized Tee (Printed)',
+        images: [
+            'https://i.ibb.co/7d7g8Hmd/190gsm-python-nike-yellow.png',
+            'https://i.ibb.co/Y7hJ3Mjy/Chat-GPT-Image-Apr-30-2026-04-53-45-PM.png'
+        ],
+        gsm: '190 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1700, oldPrice: 1900 },
+            'M': { price: 1700, oldPrice: 1900 },
+            'L': { price: 1700, oldPrice: 1900 },
+            'XL': { price: 1700, oldPrice: 1900 }
+        },
+        colors: ['#ffff00'],
+        desc: 'Nike Design Oversized Tee (Printed) by Python. A high-energy, vibrant yellow design featuring iconic streetwear aesthetics and premium 190 GSM comfort.'
+    },
+    {
+        id: '10', name: 'Infinity Edition Oversized Tee (Printed)', category: 'Oversized Tee (Printed)',
+        images: [
+            'https://i.ibb.co/yFmFFkG0/Python-Infinity-B.png',
+            'https://i.ibb.co/Y7dvR0vH/Chat-GPT-Image-Apr-30-2026-12-07-41-PM.png'
+        ],
+        gsm: '190 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1700, oldPrice: 1900 },
+            'M': { price: 1700, oldPrice: 1900 },
+            'L': { price: 1700, oldPrice: 1900 },
+            'XL': { price: 1700, oldPrice: 1900 }
+        },
+        colors: ['#00f2ff'],
+        desc: 'Infinity Edition Oversized Tee (Printed) by Python. A refreshing light blue design featuring the iconic infinity motif and premium 190 GSM comfort.'
     }
 ];
 
@@ -230,9 +262,11 @@ function displayProducts(filteredProducts) {
             <div class="add-to-cart" onclick="event.stopPropagation(); addToCart('${p.name}', ${displayPrice}, '${p.images[0]}')">
                 <i data-lucide="plus"></i>
             </div>
+            ${p.category === 'Oversized Tee (Printed)' ? '' : `
             <div class="size-chart-card-btn" onclick="event.stopPropagation(); openSizeChart()" title="Size Chart" style="position: absolute; bottom: 20px; right: 75px; width: 45px; height: 45px; border-radius: 50%; background: #fff; border: 1px solid #ddd; color: #000; display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(20px); transition: 0.3s; cursor: pointer; z-index: 10;">
                 <i data-lucide="ruler" style="width: 20px; height: 20px;"></i>
             </div>
+            `}
         </div>`;
     });
     if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -404,7 +438,7 @@ function placeOrder() {
     message += `\n💵 *Subtotal:* Rs. ${subtotal.toLocaleString()}.00\n`;
     message += `🚚 *Delivery Fee:* ${deliveryFee === 0 ? 'FREE' : 'Rs. ' + deliveryFee.toLocaleString() + '.00'}\n`;
     message += `💰 *Grand Total: Rs. ${grandTotal.toLocaleString()}.00*\n\n`;
-    
+
     message += `📄 *View E-Invoice:* ${invoiceUrl}\n\n`;
     message += `Thank you for shopping with Python Store!`;
 
@@ -413,12 +447,12 @@ function placeOrder() {
     orders.push({ id: orderID, date: now.toLocaleDateString(), items: [...cart], total: grandTotal, userEmail: currentUser ? currentUser.email : 'Guest' });
     localStorage.setItem('python_orders', JSON.stringify(orders));
     cart = []; saveCart();
-    
+
     // Open WhatsApp immediately to avoid popup blockers
     window.open(whatsappUrl, '_blank');
-    
+
     showNotification('Order placed successfully! Redirecting...');
-    
+
     setTimeout(() => { window.location.href = 'profile.html'; }, 2000);
 }
 
@@ -470,17 +504,40 @@ function loadProfile() {
 const styleSheet = document.createElement('style');
 styleSheet.textContent = `
     @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes pulse-red { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 20, 60, 0.7); } 70% { transform: scale(1.2); box-shadow: 0 0 0 10px rgba(220, 20, 60, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 20, 60, 0); } }
     .btn-qty { background: white; border: 1px solid #ddd; color: #000; width: 25px; height: 25px; border-radius: 5px; cursor: pointer; transition: 0.2s; font-weight: bold; }
     .btn-qty:hover { background: #000; color: white; }
+    .offer-dot { position: absolute; top: -2px; right: -10px; width: 8px; height: 8px; background: #DC143C; border-radius: 50%; animation: pulse-red 2s infinite; }
 `;
 document.head.appendChild(styleSheet);
+
+function handleOfferNotification() {
+    const offerViewed = localStorage.getItem('python_offer_viewed_14');
+    const isOfferPage = window.location.pathname.includes('offers.html');
+    if (isOfferPage) { localStorage.setItem('python_offer_viewed_14', 'true'); }
+    if (!offerViewed && !isOfferPage) {
+        document.querySelectorAll('a[href="offers.html"]').forEach(link => {
+            if (!link.querySelector('.offer-dot')) {
+                link.style.position = 'relative';
+                const dot = document.createElement('span');
+                dot.className = 'offer-dot';
+                link.appendChild(dot);
+            }
+        });
+    }
+}
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     updateCartCount();
+    handleOfferNotification();
     if (window.location.pathname.includes('cart.html')) { renderCart(); }
     if (window.location.pathname.includes('profile.html')) { loadProfile(); }
-    if (window.location.pathname.includes('shop.html')) { filterProducts('All'); }
+    if (window.location.pathname.includes('shop.html')) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const catParam = urlParams.get('category');
+        catParam ? filterProducts(catParam) : filterProducts('All');
+    }
     if (window.location.pathname.includes('index.html') || window.location.pathname === '/') { displayProducts(products.slice(0, 4)); }
     if ((window.location.pathname.includes('login.html') || window.location.pathname.includes('signup.html')) && currentUser) {
         window.location.href = 'profile.html';

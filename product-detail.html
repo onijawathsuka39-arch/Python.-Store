@@ -115,7 +115,7 @@
                 <p style="font-size: 0.9rem; color: var(--text-muted);">Brand: <span id="detail-brand" style="color: #000; font-weight: 700;">Python</span></p>
             </div>
 
-            <div style="margin-bottom: 40px;">
+            <div id="size-chart-section" style="margin-bottom: 40px;">
                 <button class="btn btn-outline" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; margin: 0;" onclick="openSizeChart()">
                     <i data-lucide="ruler"></i> View Size Chart
                 </button>
@@ -170,6 +170,11 @@
         let currentSlide = 0;
 
         if (product) {
+            if (product.category === 'Oversized Tee (Printed)') {
+                const scSection = document.getElementById('size-chart-section');
+                if (scSection) scSection.style.display = 'none';
+            }
+
             document.getElementById('detail-name').innerText = product.name;
             document.getElementById('detail-gsm').innerText = product.gsm || '180 GSM';
             document.getElementById('detail-brand').innerText = product.brand || 'Python';
