@@ -239,45 +239,63 @@
                 const list = document.getElementById('items-list');
                 let sub = 0;
 
+                const stickerMap = {
+                    'S1': 'https://i.ibb.co/gMrCJPnN/A3-1.png',
+                    'S2': 'https://i.ibb.co/QFRLTykz/A3-2.png',
+                    'S3': 'https://i.ibb.co/S7f8ZfJs/A3-3.png',
+                    'S4': 'https://i.ibb.co/tMccn0qh/A3-4.png',
+                    'S5': 'https://i.ibb.co/B5s9qhyX/A3-5.png',
+                    'S6': 'https://i.ibb.co/bj43Hcks/A3-6.png',
+                    'S7': 'https://i.ibb.co/7B5DZmx/A3-7.png',
+                    'S8': 'https://i.ibb.co/SXdG9PTc/A3-8.png',
+                    'S9': 'https://i.ibb.co/tp3krXPp/A3-9.png',
+                    'S10': 'https://i.ibb.co/VY90dG3G/A3-10.png',
+                    'S11': 'https://i.ibb.co/1JQ00QMd/A3-11.png'
+                };
+
                 order.items.forEach(item => {
                     const row = document.createElement('tr');
-                    const line = item.price * item.quantity;
+                    const line = (item.price || 0) * (item.quantity || 1);
                     sub += line;
 
                     let previewHtml = '';
-                    if (item.isCustom && item.customStickers) {
+                    if (item.isCustom && item.customStickers && Array.isArray(item.customStickers)) {
                         // Reconstruct design visually
                         previewHtml = `
                             <div class="inv-preview">
                                 <div class="inv-t-base" style="background-color: ${item.color || '#fff'};">
                                     <img src="https://i.ibb.co/NnQrQr7y/T-Shirt.png" class="inv-t-img">
-                                    ${item.customStickers.map(s => `
-                                        <img src="${s.url}" class="inv-sticker" style="top: ${s.top}; left: ${s.left}; width: calc(${s.width} / 4);">
-                                    `).join('')}
+                                    ${item.customStickers.map(s => {
+                                        const url = stickerMap[s.u] || s.u;
+                                        const w = s.w || '160px';
+                                        return `<img src="${url}" class="inv-sticker" style="top: ${s.t || '50%'}; left: ${s.l || '50%'}; width: calc(${w} / 4);">`;
+                                    }).join('')}
                                 </div>
                             </div>
                         `;
                     } else {
-                        previewHtml = `<img src="${item.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;" onerror="this.style.display='none'">`;
+                        const imgUrl = item.image || 'https://via.placeholder.com/150';
+                        previewHtml = `<img src="${imgUrl}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;" onerror="this.style.display='none'">`;
                     }
 
                     let descriptionHtml = `
                         <div class="item-box">
                             ${previewHtml}
                             <div style="flex: 1;">
-                                <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 5px;">${item.name}</p>
+                                <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 5px;">${item.name || 'Unknown Item'}</p>
                                 <p style="font-size: 0.85rem; opacity: 0.7; margin-bottom: 10px;">
-                                    Size: ${item.size || 'Custom'} | Color: ${item.color}
+                                    Size: ${item.size || 'Custom'} | Color: ${item.color || 'Default'}
                                 </p>
                     `;
 
-                    if (item.isCustom && item.customStickers) {
+                    if (item.isCustom && item.customStickers && Array.isArray(item.customStickers)) {
                         descriptionHtml += `<div style="border-top: 1px solid #eee; padding-top: 10px;">`;
                         item.customStickers.forEach((s, idx) => {
+                            const url = stickerMap[s.u] || s.u;
                             descriptionHtml += `
                                 <div style="margin-bottom: 8px; display: flex; align-items: center; gap: 15px; font-size: 0.8rem;">
-                                    <span style="font-weight: 700;">Design ${idx + 1} (${s.size})</span>
-                                    <a href="${s.url}" download="sticker_${order.id}_${idx+1}.png" 
+                                    <span style="font-weight: 700;">Design ${idx + 1} (${s.s || 'N/A'})</span>
+                                    <a href="${url}" download="sticker_${order.id}_${idx+1}.png" 
                                        style="color: var(--primary); text-decoration: none; font-weight: 800; font-size: 0.7rem; background: #fff5f5; padding: 4px 10px; border-radius: 5px; border: 1px solid var(--primary);">
                                        DOWNLOAD FILE
                                     </a>
@@ -291,7 +309,7 @@
 
                     row.innerHTML = `
                         <td>${descriptionHtml}</td>
-                        <td style="text-align: center; font-weight: 800;">${item.quantity}</td>
+                        <td style="text-align: center; font-weight: 800;">${item.quantity || 1}</td>
                         <td style="text-align: right; font-weight: 900;">Rs. ${line.toLocaleString()}.00</td>
                     `;
                     list.appendChild(row);

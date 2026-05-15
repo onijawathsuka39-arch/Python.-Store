@@ -56,10 +56,6 @@
             mix-blend-mode: multiply;
         }
 
-        .color-overlay {
-            display: none;
-        }
-
         /* Sticker Wrapper */
         .sticker-wrapper {
             position: absolute;
@@ -84,7 +80,6 @@
             pointer-events: none;
         }
 
-        /* Controls on Sticker */
         .sticker-delete {
             position: absolute;
             top: -10px;
@@ -100,7 +95,6 @@
             font-size: 12px;
             cursor: pointer;
             z-index: 20;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
         .resize-handle {
@@ -113,7 +107,6 @@
             border-radius: 50%;
             cursor: nwse-resize;
             display: none;
-            box-shadow: 0 0 10px rgba(0,0,0,0.3);
             z-index: 20;
         }
 
@@ -175,17 +168,15 @@
             padding: 8px;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
 
         .sticker-item:hover {
             border-color: var(--primary);
             transform: translateY(-3px);
-            box-shadow: 0 8px 15px rgba(220, 20, 60, 0.1);
             background: #fffafa;
         }
 
@@ -253,15 +244,14 @@
     <main class="section" style="padding-top: 120px;">
         <div class="section-title">
             <h2>Design <span style="color: #ff0000;">Your Own</span></h2>
-            <p>Add multiple stickers and position them anywhere!</p>
+            <p>Your design is automatically saved as you go!</p>
         </div>
 
         <div class="customize-layout">
             <div class="preview-box">
                 <div class="tshirt-base" id="canvas">
                     <img id="tshirt-img" src="https://i.ibb.co/NnQrQr7y/T-Shirt.png" class="tshirt-img" alt="Plain T-shirt">
-                    <div id="tshirt-overlay" class="color-overlay"></div>
-                    <!-- Stickers will be added here -->
+                    <!-- Stickers will be injected here -->
                 </div>
             </div>
 
@@ -269,27 +259,26 @@
                 <div class="control-section">
                     <h4><i data-lucide="palette"></i> T-Shirt Color</h4>
                     <div class="color-grid">
-                        <div class="color-dot active" style="background: #ffffff;" onclick="setTshirtColor('#ffffff', this)"></div>
-                        <div class="color-dot" style="background: #ff0000;" onclick="setTshirtColor('#ff0000', this)"></div>
-                        <div class="color-dot" style="background: #ffff00;" onclick="setTshirtColor('#ffff00', this)"></div>
-                        <div class="color-dot" style="background: #ffc0cb;" onclick="setTshirtColor('#ffc0cb', this)"></div>
-                        <div class="color-dot" style="background: #e91e63;" onclick="setTshirtColor('#e91e63', this)"></div>
-                        <div class="color-dot" style="background: #000000;" onclick="setTshirtColor('#000000', this)"></div>
-                        <div class="color-dot" style="background: #0000ff;" onclick="setTshirtColor('#0000ff', this)"></div>
-                        <div class="color-dot" style="background: #008000;" onclick="setTshirtColor('#008000', this)"></div>
-                        <div class="color-dot" style="background: #ffa500;" onclick="setTshirtColor('#ffa500', this)"></div>
-                        <div class="color-dot" style="background: #800080;" onclick="setTshirtColor('#800080', this)"></div>
+                        <div class="color-dot active" style="background: #ffffff;" data-color="#ffffff" onclick="setTshirtColor('#ffffff', this)"></div>
+                        <div class="color-dot" style="background: #ff0000;" data-color="#ff0000" onclick="setTshirtColor('#ff0000', this)"></div>
+                        <div class="color-dot" style="background: #ffff00;" data-color="#ffff00" onclick="setTshirtColor('#ffff00', this)"></div>
+                        <div class="color-dot" style="background: #ffc0cb;" data-color="#ffc0cb" onclick="setTshirtColor('#ffc0cb', this)"></div>
+                        <div class="color-dot" style="background: #e91e63;" data-color="#e91e63" onclick="setTshirtColor('#e91e63', this)"></div>
+                        <div class="color-dot" style="background: #000000;" data-color="#000000" onclick="setTshirtColor('#000000', this)"></div>
+                        <div class="color-dot" style="background: #0000ff;" data-color="#0000ff" onclick="setTshirtColor('#0000ff', this)"></div>
+                        <div class="color-dot" style="background: #008000;" data-color="#008000" onclick="setTshirtColor('#008000', this)"></div>
+                        <div class="color-dot" style="background: #ffa500;" data-color="#ffa500" onclick="setTshirtColor('#ffa500', this)"></div>
+                        <div class="color-dot" style="background: #800080;" data-color="#800080" onclick="setTshirtColor('#800080', this)"></div>
                     </div>
                 </div>
 
                 <div class="control-section">
-                    <h4><i data-lucide="maximize"></i> New Sticker Size</h4>
+                    <h4><i data-lucide="maximize"></i> Selected Sticker Size</h4>
                     <div class="size-btns">
                         <div class="size-btn" onclick="setSize('A5', 150, 100, this)">A5</div>
                         <div class="size-btn active" onclick="setSize('A4', 250, 160, this)">A4</div>
                         <div class="size-btn" onclick="setSize('A3', 350, 220, this)">A3</div>
                     </div>
-                    <p style="font-size: 0.7rem; color: #999; margin-top: 10px;">Select size before adding a sticker</p>
                 </div>
 
                 <div class="control-section">
@@ -331,9 +320,10 @@
                     </div>
                 </div>
 
-                <button class="btn btn-primary" style="width: 100%; height: 50px;" onclick="addCustomToCart()">
-                    ADD TO CART
-                </button>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn" style="flex: 1; font-size: 0.8rem;" onclick="resetDesign()">RESET</button>
+                    <button class="btn btn-primary" style="flex: 2; height: 50px;" onclick="addCustomToCart()">ADD TO CART</button>
+                </div>
             </div>
         </div>
     </main>
@@ -349,30 +339,29 @@
         let currentSizeWidth = 160;
         let selectedColor = '#ffffff';
 
+        // --- Core Functions ---
+
         function setTshirtColor(color, btn) {
             document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
             btn.classList.add('active');
             selectedColor = color;
             document.querySelector('.tshirt-base').style.backgroundColor = color;
+            saveDesignState();
         }
 
         function setSize(size, price, width, btn) {
             document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
-            currentSize = size;
-            currentSizePrice = price;
-            currentSizeWidth = width;
+            currentSize = size; currentSizePrice = price; currentSizeWidth = width;
 
-            // If a sticker is selected, update it
             if (selectedStickerId) {
-                const sticker = activeStickers.find(s => s.id === selectedStickerId);
-                if (sticker) {
-                    sticker.size = size;
-                    sticker.price = price;
+                const s = activeStickers.find(s => s.id === selectedStickerId);
+                if (s) {
+                    s.size = size; s.price = price;
                     const el = document.getElementById(selectedStickerId);
                     el.style.width = width + 'px';
                     updateTotal();
+                    saveDesignState();
                 }
             }
         }
@@ -383,25 +372,24 @@
             const activeEl = document.getElementById(id);
             if (activeEl) activeEl.style.border = '1px dashed var(--primary)';
             
-            // Sync size buttons
             const sticker = activeStickers.find(s => s.id === id);
             if (sticker) {
                 const sizeBtn = Array.from(document.querySelectorAll('.size-btn')).find(b => b.innerText === sticker.size);
                 if (sizeBtn) {
                     document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
                     sizeBtn.classList.add('active');
-                    currentSize = sticker.size;
-                    currentSizePrice = sticker.price;
+                    currentSize = sticker.size; currentSizePrice = sticker.price;
                 }
             }
         }
 
-        function addNewSticker(url) {
-            const id = 'sticker-' + Date.now();
+        function addNewSticker(url, pos = null) {
+            const id = 'sticker-' + Date.now() + Math.random().toString(36).substr(2, 5);
             const wrapper = document.createElement('div');
             wrapper.className = 'sticker-wrapper';
             wrapper.id = id;
-            wrapper.style.width = currentSizeWidth + 'px';
+            wrapper.style.width = (pos ? pos.width : currentSizeWidth + 'px');
+            if (pos) { wrapper.style.top = pos.top; wrapper.style.left = pos.left; }
             wrapper.onclick = (e) => { e.stopPropagation(); selectSticker(id); };
             
             wrapper.innerHTML = `
@@ -413,19 +401,26 @@
             document.getElementById('canvas').appendChild(wrapper);
             lucide.createIcons();
             
-            const stickerObj = { id, url, price: currentSizePrice, size: currentSize };
+            const stickerObj = { 
+                id, url, 
+                price: pos ? pos.price : currentSizePrice, 
+                size: pos ? pos.size : currentSize 
+            };
             activeStickers.push(stickerObj);
             
             initInteractions(wrapper);
             selectSticker(id);
             updateTotal();
+            saveDesignState();
         }
 
         function removeSticker(id) {
-            document.getElementById(id).remove();
+            const el = document.getElementById(id);
+            if(el) el.remove();
             activeStickers = activeStickers.filter(s => s.id !== id);
             if (selectedStickerId === id) selectedStickerId = null;
             updateTotal();
+            saveDesignState();
         }
 
         function handleUpload(e) {
@@ -444,115 +439,111 @@
         }
 
         function initInteractions(el) {
-            let isDragging = false;
-            let isResizing = false;
+            let isDragging = false, isResizing = false;
             let startX, startY, startW;
             const handle = el.querySelector('.resize-handle');
 
-            el.addEventListener('mousedown', (e) => {
+            const start = (e) => {
                 if (e.target.closest('.sticker-delete')) return;
-                if (e.target === handle) return;
-                isDragging = true;
-                startX = e.clientX - el.offsetLeft;
-                startY = e.clientY - el.offsetTop;
-            });
-
-            handle.addEventListener('mousedown', (e) => {
-                isResizing = true;
-                startX = e.clientX;
-                startW = el.offsetWidth;
+                if (e.target === handle) { isResizing = true; startX = getX(e); startW = el.offsetWidth; }
+                else { isDragging = true; startX = getX(e) - el.offsetLeft; startY = getY(e) - el.offsetTop; }
                 e.stopPropagation();
-            });
+            };
 
-            window.addEventListener('mousemove', (e) => {
-                if (isDragging) {
-                    el.style.left = (e.clientX - startX) + 'px';
-                    el.style.top = (e.clientY - startY) + 'px';
-                }
+            const move = (e) => {
+                if (isDragging) { el.style.left = (getX(e) - startX) + 'px'; el.style.top = (getY(e) - startY) + 'px'; }
                 if (isResizing) {
-                    const newW = startW + (e.clientX - startX);
+                    const newW = startW + (getX(e) - startX);
                     if (newW > 40 && newW < 350) el.style.width = newW + 'px';
                 }
-            });
+            };
 
-            window.addEventListener('mouseup', () => { isDragging = false; isResizing = false; });
+            const end = () => { if(isDragging || isResizing) saveDesignState(); isDragging = false; isResizing = false; };
+
+            const getX = (e) => e.touches ? e.touches[0].clientX : e.clientX;
+            const getY = (e) => e.touches ? e.touches[0].clientY : e.clientY;
+
+            el.addEventListener('mousedown', start); handle.addEventListener('mousedown', start);
+            window.addEventListener('mousemove', move); window.addEventListener('mouseup', end);
+            el.addEventListener('touchstart', start); handle.addEventListener('touchstart', start);
+            window.addEventListener('touchmove', move); window.addEventListener('touchend', end);
+        }
+
+        // --- Persistence Logic ---
+
+        function saveDesignState() {
+            const state = {
+                color: selectedColor,
+                stickers: activeStickers.map(s => {
+                    const el = document.getElementById(s.id);
+                    return { ...s, top: el.style.top, left: el.style.left, width: el.style.width };
+                })
+            };
+            localStorage.setItem('python_design_temp', JSON.stringify(state));
+        }
+
+        function loadDesignState() {
+            const saved = localStorage.getItem('python_design_temp');
+            if (!saved) return;
+            const state = JSON.parse(saved);
             
-            // Touch support
-            el.addEventListener('touchstart', (e) => {
-                if (e.target.closest('.sticker-delete')) return;
-                if (e.target === handle) return;
-                isDragging = true;
-                const t = e.touches[0];
-                startX = t.clientX - el.offsetLeft;
-                startY = t.clientY - el.offsetTop;
+            // Restore color
+            const colorBtn = document.querySelector(`.color-dot[data-color="${state.color}"]`);
+            if (colorBtn) setTshirtColor(state.color, colorBtn);
+            
+            // Restore stickers
+            state.stickers.forEach(s => {
+                addNewSticker(s.url, { top: s.top, left: s.left, width: s.width, price: s.price, size: s.size });
             });
+        }
 
-            handle.addEventListener('touchstart', (e) => {
-                isResizing = true;
-                const t = e.touches[0];
-                startX = t.clientX;
-                startW = el.offsetWidth;
-                e.stopPropagation();
-            });
-
-            window.addEventListener('touchmove', (e) => {
-                const t = e.touches[0];
-                if (isDragging) {
-                    el.style.left = (t.clientX - startX) + 'px';
-                    el.style.top = (t.clientY - startY) + 'px';
-                }
-                if (isResizing) {
-                    const newW = startW + (t.clientX - startX);
-                    if (newW > 40 && newW < 350) el.style.width = newW + 'px';
-                }
-            });
-            window.addEventListener('touchend', () => { isDragging = false; isResizing = false; });
+        function resetDesign() {
+            if(confirm('Are you sure you want to reset your design?')) {
+                localStorage.removeItem('python_design_temp');
+                location.reload();
+            }
         }
 
         function addCustomToCart() {
             if (activeStickers.length === 0) { alert('Please add at least one sticker!'); return; }
             const stickersTotal = activeStickers.reduce((sum, s) => sum + s.price, 0);
             const total = 1300 + stickersTotal;
-            
-            // Capture positions of each sticker
+
+            const stickerMap = {
+                'https://i.ibb.co/gMrCJPnN/A3-1.png': 'S1',
+                'https://i.ibb.co/QFRLTykz/A3-2.png': 'S2',
+                'https://i.ibb.co/S7f8ZfJs/A3-3.png': 'S3',
+                'https://i.ibb.co/tMccn0qh/A3-4.png': 'S4',
+                'https://i.ibb.co/B5s9qhyX/A3-5.png': 'S5',
+                'https://i.ibb.co/bj43Hcks/A3-6.png': 'S6',
+                'https://i.ibb.co/7B5DZmx/A3-7.png': 'S7',
+                'https://i.ibb.co/SXdG9PTc/A3-8.png': 'S8',
+                'https://i.ibb.co/tp3krXPp/A3-9.png': 'S9',
+                'https://i.ibb.co/VY90dG3G/A3-10.png': 'S10',
+                'https://i.ibb.co/1JQ00QMd/A3-11.png': 'S11'
+            };
+
             const stickerDetails = activeStickers.map(s => {
                 const el = document.getElementById(s.id);
-                return {
-                    url: s.url,
-                    size: s.size,
-                    price: s.price,
-                    top: el.style.top,
-                    left: el.style.left,
-                    width: el.style.width
+                return { 
+                    u: stickerMap[s.url] || s.url, 
+                    s: s.size, p: s.price, 
+                    t: el.style.top, l: el.style.left, w: el.style.width 
                 };
             });
-
             const cartItem = {
                 id: 'custom-' + Date.now(),
-                name: 'Custom Designed Tee',
-                price: total,
-                quantity: 1,
-                color: selectedColor,
-                isCustom: true,
-                customStickers: stickerDetails,
-                image: 'https://i.ibb.co/NnQrQr7y/T-Shirt.png'
+                name: 'Custom Designed Tee', price: total, quantity: 1, color: selectedColor, isCustom: true,
+                customStickers: stickerDetails, image: 'https://i.ibb.co/NnQrQr7y/T-Shirt.png'
             };
-            
-            cart.push(cartItem);
-            saveCart();
-            updateCartCount();
-            showNotification('Custom design added to cart!');
+            cart.push(cartItem); saveCart(); updateCartCount();
+            showNotification('Design added to cart!');
+            localStorage.removeItem('python_design_temp'); // Clear temp after adding to cart
         }
 
         window.onload = () => {
-            updateTotal();
-            updateCartCount();
-            lucide.createIcons();
-            // Ensure A4 is default visual
-            document.querySelectorAll('.size-btn').forEach(b => {
-                if(b.innerText === 'A4') b.classList.add('active');
-                else b.classList.remove('active');
-            });
+            loadDesignState();
+            updateTotal(); updateCartCount(); lucide.createIcons();
         };
     </script>
 </body>
