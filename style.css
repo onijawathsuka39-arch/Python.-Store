@@ -154,7 +154,10 @@ nav.scrolled {
     height: 100vh;
     width: 100%;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    text-align: center;
     padding: 120px 10% 0;
     /* Clear space for fixed header */
     position: relative;
@@ -163,8 +166,11 @@ nav.scrolled {
 }
 
 .hero-content {
-    max-width: 600px;
+    max-width: 800px;
     z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .hero-tag {
@@ -193,7 +199,14 @@ nav.scrolled {
     font-size: 1.1rem;
     color: var(--text-muted);
     margin-bottom: 40px;
-    max-width: 500px;
+    max-width: 600px;
+}
+
+.hero-btns {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
 }
 
 
@@ -225,7 +238,6 @@ nav.scrolled {
     background: transparent;
     border: 1px solid var(--primary-dark);
     color: var(--primary-dark);
-    margin-left: 20px;
 }
 
 .btn-outline:hover {
@@ -705,4 +717,29 @@ nav.scrolled {
 .menu-overlay.active {
     opacity: 1;
     visibility: visible;
+}
+
+.filter-btn {
+    padding: 10px 25px;
+    border-radius: 50px;
+    border: 1px solid var(--glass-border);
+    background: var(--surface);
+    color: var(--primary-dark);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.filter-btn:hover, .filter-btn.active {
+    background: var(--accent-gold);
+    color: #FFFFFF;
+    border-color: var(--accent-gold);
+    box-shadow: 0 10px 20px rgba(220, 20, 60, 0.2);
+    transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }

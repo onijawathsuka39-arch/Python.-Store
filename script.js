@@ -5,8 +5,8 @@ const colorNames = {
 };
 
 const products = [
-    { 
-        id: '1', name: 'Infinity Edition', category: 'Regular Tee (Printed)', 
+    {
+        id: '1', name: 'Infinity Edition', category: 'Regular Tee (Printed)',
         images: [
             'https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png',
             'https://i.ibb.co/NnswC8R5/Chat-GPT-Image-Apr-30-2026-12-01-14-PM.png'
@@ -20,6 +20,56 @@ const products = [
         },
         colors: ['#fff'],
         desc: 'The Infinity Edition Regular Tee (Printed) by Python. Crafted with premium 220 GSM fabric for ultimate comfort and durability.'
+    },
+    {
+        id: '2', name: 'Peace Design', category: 'Regular Tee (Printed)',
+        images: [
+            'https://i.ibb.co/ZzqQ1P97/Python-Peace.png',
+            'https://i.ibb.co/QvcG1bRY/Chat-GPT-Image-May-4-2026-03-30-55-PM.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1600, oldPrice: 1850 },
+            'M': { price: 1600, oldPrice: 1850 },
+            'L': { price: 1600, oldPrice: 1850 },
+            'XL': { price: 1600, oldPrice: 1850 }
+        },
+        colors: ['#000'],
+        desc: 'Peace Design Regular Tee (Printed) by Python. Featuring a premium 220 GSM build for a sleek and meaningful streetwear look.'
+    },
+    { 
+        id: '3', name: 'Nike Design', category: 'Regular Tee (Printed)', 
+        images: [
+            'https://i.ibb.co/XkDb3jmB/Nike.png',
+            'https://i.ibb.co/BV3wRfLt/Chat-GPT-Image-Apr-30-2026-04-50-57-PM.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1600, oldPrice: 1850 },
+            'M': { price: 1600, oldPrice: 1850 },
+            'L': { price: 1600, oldPrice: 1850 },
+            'XL': { price: 1600, oldPrice: 1850 }
+        },
+        colors: ['#fff'],
+        desc: 'Nike Design Regular Tee (Printed) by Python. A classic aesthetic combined with high-quality 220 GSM fabric for everyday premium style.'
+    },
+    { 
+        id: '4', name: 'Stitch Design for Girls', category: 'Regular Tee (Printed)', 
+        images: [
+            'https://i.ibb.co/20MCs0nk/Python-Scrich.png',
+            'https://i.ibb.co/C3SgXz87/Python-Srtich-balck.png',
+            'https://i.ibb.co/Qj1hcz4D/Gemini-Generated-Image-9ngc6s9ngc6s9ngc.png',
+            'https://i.ibb.co/sdC39Jz8/Gemini-Generated-Image-rgqfm7rgqfm7rgqf.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1600, oldPrice: 1850 },
+            'M': { price: 1600, oldPrice: 1850 },
+            'L': { price: 1600, oldPrice: 1850 },
+            'XL': { price: 1600, oldPrice: 1850 }
+        },
+        colors: ['#fff', '#000'],
+        desc: 'Stitch Design for Girls Regular Tee (Printed) by Python. Cute and stylish aesthetic combined with high-quality 220 GSM fabric for everyday premium style.'
     }
 ];
 
@@ -70,11 +120,24 @@ function displayProducts(filteredProducts) {
         const displayPrice = hasSizes ? Object.values(p.sizes)[0].price : p.price;
         const displayOldPrice = hasSizes ? Object.values(p.sizes)[0].oldPrice : p.oldPrice;
 
+        // Calculate discount percentage
+        let discountBadge = '';
+        if (displayOldPrice && displayOldPrice > displayPrice) {
+            const discountPercent = Math.round(((displayOldPrice - displayPrice) / displayOldPrice) * 100);
+            discountBadge = `<span style="position: absolute; top: 15px; left: 15px; background: #DC143C; color: white; padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; z-index: 10; box-shadow: 0 4px 10px rgba(220, 20, 60, 0.3);">${discountPercent}% OFF</span>`;
+        }
+
         grid.innerHTML += `
-        <div class="product-card glass" onclick="window.location.href='product-detail.html?id=${p.id}'" style="cursor: pointer; animation: fadeIn 0.5s ease forwards;">
-            <div class="product-image">
-                ${displayOldPrice && p.id === '1' ? `<span style="position: absolute; top: 15px; left: 15px; background: #DC143C; color: white; padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; z-index: 10;">15% OFF</span>` : ''}
-                <img src="${p.images[0]}" alt="${p.name}">
+        <div class="product-card glass" 
+             onclick="window.location.href='product-detail.html?id=${p.id}'" 
+             onmouseenter="startHoverSlide('${p.id}', this.querySelector('.card-slider'))"
+             onmouseleave="stopHoverSlide('${p.id}', this.querySelector('.card-slider'))"
+             style="cursor: pointer; animation: fadeIn 0.5s ease forwards; overflow: hidden; display: flex; flex-direction: column;">
+            <div class="product-image" style="overflow: hidden; position: relative; width: 100%; aspect-ratio: 1/1; border-radius: 15px;">
+                ${discountBadge}
+                <div class="card-slider" style="display: flex; transition: transform 0.5s ease; height: 100%; width: 100%;">
+                    ${p.images.map(img => `<img src="${img}" style="width: 100%; flex-shrink: 0; height: 100%; object-fit: cover;">`).join('')}
+                </div>
             </div>
             <div class="product-info">
                 <span style="font-size: 0.7rem; color: #DC143C; font-weight: 800;">${p.category || ''}</span>
@@ -93,6 +156,27 @@ function displayProducts(filteredProducts) {
         </div>`;
     });
     if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+let hoverIntervals = {};
+
+function startHoverSlide(productId, sliderElement) {
+    const p = products.find(prod => prod.id === productId);
+    if (!p || !p.images || p.images.length <= 1) return;
+    
+    let currentIdx = 0;
+    hoverIntervals[productId] = setInterval(() => {
+        currentIdx = (currentIdx + 1) % p.images.length;
+        sliderElement.style.transform = `translateX(-${currentIdx * 100}%)`;
+    }, 1000);
+}
+
+function stopHoverSlide(productId, sliderElement) {
+    if (hoverIntervals[productId]) {
+        clearInterval(hoverIntervals[productId]);
+        delete hoverIntervals[productId];
+    }
+    sliderElement.style.transform = 'translateX(0)';
 }
 
 function filterProducts(category) {
@@ -279,6 +363,8 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCartCount();
     if (window.location.pathname.includes('cart.html')) { renderCart(); }
     if (window.location.pathname.includes('profile.html')) { loadProfile(); }
+    if (window.location.pathname.includes('shop.html')) { filterProducts('All'); }
+    if (window.location.pathname.includes('index.html') || window.location.pathname === '/') { displayProducts(products.slice(0, 4)); }
     if ((window.location.pathname.includes('login.html') || window.location.pathname.includes('signup.html')) && currentUser) {
         window.location.href = 'profile.html';
     }

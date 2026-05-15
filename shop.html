@@ -52,47 +52,72 @@
             <p>Browse through our exclusive T-shirt collection</p>
         </div>
 
+        <div class="category-filter"
+            style="display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; flex-wrap: wrap;">
+            <button class="filter-btn active" onclick="filterProducts('All')">All</button>
+            <button class="filter-btn" onclick="filterProducts('Regular Tee (Printed)')">Regular Tee (Printed)</button>
+            <button class="filter-btn" onclick="filterProducts('Oversized Tee')">Oversized Tee</button>
+            <button class="filter-btn" onclick="filterProducts('Essential')">Essential</button>
+        </div>
+
         <div class="product-grid" id="product-grid">
             <!-- Products will be here -->
         </div>
     </main>
 
     <script>
-        const products = [
-            { name: 'Python Classic Black', price: 2450, img: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600' },
-            { name: 'Infinity Edition White', price: 2850, img: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600' },
-            { name: 'Gold Signature Tee', price: 3200, img: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600' },
-            { name: 'Arctic Python Blue', price: 2650, img: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600' },
-            { name: 'Midnight Stealth', price: 2950, img: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=600' },
-            { name: 'Retro Python Graphic', price: 2750, img: 'https://images.unsplash.com/photo-1562157873-818bc0726f68?w=600' },
-            { name: 'Minimalist Vibe', price: 2200, img: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600' },
-            { name: 'Oversized Streetwear', price: 3500, img: 'https://images.unsplash.com/photo-1554568218-0f1715e72254?w=600' }
-        ];
-
-        const grid = document.getElementById('product-grid');
-        products.forEach((p, index) => {
-            grid.innerHTML += `
-            <div class="product-card glass" onclick="window.location.href='product-detail.html?id=${index + 1}'" style="cursor: pointer;">
-                <div class="product-image">
-                    <img src="${p.img}" alt="${p.name}">
-                </div>
-                <div class="product-info">
-                    <h3>${p.name}</h3>
-                    <p class="price">Rs. ${p.price.toLocaleString()}.00</p>
-                </div>
-                <div class="add-to-cart" onclick="event.stopPropagation(); addToCart('${p.name}', ${p.price})">
-                    <i data-lucide="plus"></i>
-                </div>
-            </div>`;
-        });
+        // Initial display
+        if (typeof products !== 'undefined') {
+            displayProducts(products);
+        }
+    </script>
     </script>
 
+    <!-- Size Chart Modal -->
+    <div id="sizeChartModal" class="modal-overlay" onclick="closeSizeChart()"
+        style="display:none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); align-items: center; justify-content: center;">
+        <div class="glass"
+            style="max-width: 90%; max-height: 90%; position: relative; padding: 10px; background: white; border-radius: 20px;"
+            onclick="event.stopPropagation()">
+            <span onclick="closeSizeChart()"
+                style="position: absolute; right: -15px; top: -15px; background: #DC143C; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; box-shadow: 0 5px 15px rgba(220, 20, 60, 0.3);">&times;</span>
+            <img src="https://i.ibb.co/pvGrdQMD/Size-Chart-01.jpg" alt="Size Chart"
+                style="width: 100%; height: auto; max-height: 80vh; border-radius: 15px; display: block;">
+        </div>
+    </div>
+
+    <style>
+        .product-card:hover .size-chart-card-btn {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        .size-chart-card-btn:hover {
+            background: #000 !important;
+            color: #fff !important;
+        }
+
+        .modal-overlay.active {
+            display: flex !important;
+        }
+    </style>
+
     <footer class="footer">
-        <!-- Footer content (same as above) -->
+        <!-- Footer content -->
     </footer>
 
     <script src="script.js"></script>
-    <script>lucide.createIcons();</script>
+    <script>
+        lucide.createIcons();
+        function openSizeChart() {
+            document.getElementById('sizeChartModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeSizeChart() {
+            document.getElementById('sizeChartModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
 </body>
 
 </html>
