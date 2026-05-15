@@ -3,414 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Invoice - Python Store</title>
+    <title>Order Bill - Python Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Anta&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root {
             --primary: #DC143C;
-            --secondary: #1a1a1a;
-            --text-main: #333;
-            --text-light: #666;
-            --border-color: #eee;
+            --black: #000;
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        
         body {
-            background: #eef1f4;
-            font-family: 'Anta', sans-serif;
-            color: var(--text-main);
-            padding: 50px 20px;
-            line-height: 1.6;
-        }
-
-        .invoice-wrapper {
-            max-width: 900px;
-            margin: 0 auto;
             background: #fff;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
+            font-family: 'Anta', sans-serif;
+            color: #000;
+            padding: 40px;
         }
-
-        /* Top Accent Bar */
-        .top-accent {
-            height: 8px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        .bill-container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 2px solid #eee;
+            padding: 40px;
+            border-radius: 15px;
         }
-
-        .invoice-header {
-            padding: 60px 60px 40px;
+        .bill-header {
+            text-align: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+        }
+        .bill-header img {
+            height: 80px;
+            margin-bottom: 15px;
+        }
+        .bill-header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 5px;
+            font-weight: 900;
+        }
+        .bill-info {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            margin-bottom: 40px;
+            font-size: 1rem;
         }
-
-        .brand-section h1 {
-            font-family: 'Anta', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            letter-spacing: 8px;
-            color: var(--secondary);
-            margin-bottom: 5px;
-        }
-
-        .brand-section p {
-            font-size: 0.8rem;
-            letter-spacing: 3px;
+        .cust-details h3 {
             color: var(--primary);
-            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
             text-transform: uppercase;
         }
-
-        .invoice-status-box {
+        .order-details {
             text-align: right;
         }
-
-        .status-badge {
-            display: inline-block;
-            padding: 6px 15px;
-            background: #e8f5e9;
-            color: #2e7d32;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-
-        .invoice-id-large {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--secondary);
-        }
-
-        .address-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            padding: 0 60px 40px;
-            gap: 100px;
-        }
-
-        .address-box h4 {
-            font-family: 'Anta', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 800;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 5px;
-            display: inline-block;
-        }
-
-        .address-box p {
-            font-size: 0.95rem;
-            margin-bottom: 5px;
-            color: #444;
-        }
-
-        .item-table-container {
-            padding: 0 60px;
-        }
-
-        .main-table {
+        .item-table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 30px;
         }
-
-        .main-table th {
-            background: var(--secondary);
-            color: #fff;
+        .item-table th {
             text-align: left;
-            padding: 15px 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            background: #f9f9f9;
+            padding: 12px;
+            border-bottom: 2px solid #eee;
         }
-
-        .main-table td {
-            padding: 25px 20px;
-            border-bottom: 1px solid #f0f0f0;
+        .item-table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #eee;
         }
-
-        .product-info {
+        .item-box {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
         }
-
-        .product-img {
-            width: 70px;
-            height: 70px;
-            border-radius: 4px;
+        .item-box img {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
             object-fit: cover;
-            background: #f9f9f9;
         }
-
-        .product-details h5 {
-            font-size: 1.05rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .product-details span {
-            font-size: 0.85rem;
-            color: var(--text-light);
-        }
-
-        .summary-container {
-            padding: 40px 60px;
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 50px;
-        }
-
-        .notes-area {
-            font-size: 0.85rem;
-            color: #888;
-        }
-
-        .notes-area h5 {
-            color: var(--secondary);
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
         .totals-box {
-            background: #fdfdfd;
+            margin-left: auto;
+            width: 300px;
         }
-
         .total-row {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
-            font-size: 0.95rem;
+            padding: 8px 0;
         }
-
-        .total-row.grand {
-            margin-top: 15px;
-            padding: 20px 0;
-            border-top: 3px double var(--secondary);
+        .total-row.final {
+            border-top: 2px solid #000;
+            margin-top: 10px;
+            padding-top: 15px;
             font-weight: 900;
             font-size: 1.4rem;
             color: var(--primary);
         }
-
-        .invoice-footer {
-            margin-top: 20px;
-            padding: 40px 60px;
-            background: var(--secondary);
+        .payment-method {
+            margin-top: 40px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            font-weight: 800;
+            text-align: center;
+        }
+        .btn-print {
+            display: block;
+            width: 200px;
+            margin: 40px auto 0;
+            padding: 15px;
+            background: #000;
             color: #fff;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .footer-left p {
-            font-size: 0.8rem;
-            opacity: 0.6;
-            margin-bottom: 5px;
-        }
-
-        .qr-mock {
-            width: 80px;
-            height: 80px;
-            background: #fff;
-            padding: 5px;
-            border-radius: 4px;
-        }
-
-        .print-btn-fixed {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            padding: 15px 30px;
+            text-align: center;
+            text-decoration: none;
             border-radius: 50px;
             font-weight: 800;
             cursor: pointer;
-            box-shadow: 0 10px 30px rgba(220, 20, 60, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            z-index: 100;
-            transition: 0.3s;
         }
-
-        .print-btn-fixed:hover {
-            transform: scale(1.05);
-            background: #b01030;
-        }
-
         @media print {
-            body { padding: 0; background: #fff; }
-            .invoice-wrapper { box-shadow: none; max-width: 100%; border-radius: 0; }
-            .print-btn-fixed { display: none; }
+            .btn-print { display: none; }
+            body { padding: 0; }
+            .bill-container { border: none; max-width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <button class="print-btn-fixed" onclick="window.print()">
-        <i data-lucide="printer"></i> PRINT INVOICE
-    </button>
+    <div class="bill-container">
+        <div class="bill-header">
+            <img src="logo.png" alt="Logo">
+            <h1>PYTHON</h1>
+            <p style="letter-spacing: 3px; opacity: 0.7;">ORDER INVOICE</p>
+        </div>
 
-    <div class="invoice-wrapper">
-        <div class="top-accent"></div>
-        
-        <header class="invoice-header">
-            <div class="brand-section">
-                <h1>PYTHON</h1>
-                <p>Premium Streetwear Store</p>
+        <div class="bill-info">
+            <div class="cust-details">
+                <h3>Customer Details</h3>
+                <p><strong>Name:</strong> <span id="c-name">Loading...</span></p>
+                <p><strong>Address:</strong> <span id="c-address"></span></p>
+                <p><strong>Phone:</strong> <span id="c-phone"></span></p>
             </div>
-            <div class="invoice-status-box">
-                <span class="status-badge">Payment Confirmed</span>
-                <div class="invoice-id-large" id="inv-id">#ORD-PS-000000</div>
-                <p style="font-size: 0.85rem; color: #888; margin-top: 5px;" id="order-timestamp"></p>
+            <div class="order-details">
+                <p><strong>Order ID:</strong> <span id="o-id"></span></p>
+                <p><strong>Date:</strong> <span id="o-date"></span></p>
+                <p><strong>Time:</strong> <span id="o-time"></span></p>
             </div>
-        </header>
+        </div>
 
-        <section class="address-grid">
-            <div class="address-box">
-                <h4>From</h4>
-                <p><strong>Python Store Official</strong></p>
-                <p>Colombo, Sri Lanka</p>
-                <p>Phone: +94 75 721 8786</p>
-                <p>Web: python-store.com</p>
-            </div>
-            <div class="address-box" style="text-align: right;">
-                <h4>Bill To</h4>
-                <p><strong id="cust-name" style="font-size: 1.1rem;">Customer Name</strong></p>
-                <p id="cust-address">Loading address...</p>
-                <p id="cust-phone">Phone: +94 -- --- ----</p>
-            </div>
-        </section>
+        <table class="item-table">
+            <thead>
+                <tr>
+                    <th>Item Description</th>
+                    <th style="text-align: center;">Qty</th>
+                    <th style="text-align: right;">Price</th>
+                </tr>
+            </thead>
+            <tbody id="items-list">
+                <!-- Items injected here -->
+            </tbody>
+        </table>
 
-        <section class="item-table-container">
-            <table class="main-table">
-                <thead>
-                    <tr>
-                        <th>Product Details</th>
-                        <th style="text-align: center;">Qty</th>
-                        <th style="text-align: right;">Subtotal</th>
-                    </tr>
-                </thead>
-                <tbody id="invoice-items">
-                    <!-- Items will be injected here -->
-                </tbody>
-            </table>
-        </section>
+        <div class="totals-box">
+            <div class="total-row">
+                <span>Items Total</span>
+                <span id="s-total">Rs. 0.00</span>
+            </div>
+            <div class="total-row">
+                <span>Delivery Fee</span>
+                <span id="d-fee">Rs. 350.00</span>
+            </div>
+            <div class="total-row final">
+                <span>Grand Total</span>
+                <span id="g-total">Rs. 0.00</span>
+            </div>
+        </div>
 
-        <section class="summary-container">
-            <div class="notes-area">
-                <h5>Terms & Conditions</h5>
-                <p>1. Returns must be initiated within 7 days of delivery.</p>
-                <p>2. Items must be in original condition with tags attached.</p>
-                <p>3. Delivery time varies by location (usually 2-5 business days).</p>
-                <p style="margin-top: 20px; font-weight: 700; color: var(--secondary);">Thank you for choosing Python Store!</p>
-            </div>
-            <div class="totals-box">
-                <div class="total-row">
-                    <span style="color: #999;">Items Subtotal</span>
-                    <span id="subtotal" style="font-weight: 600;">Rs. 0.00</span>
-                </div>
-                <div class="total-row">
-                    <span style="color: #999;">Shipping & Handling</span>
-                    <span id="delivery" style="font-weight: 600;">Rs. 0.00</span>
-                </div>
-                <div class="total-row grand">
-                    <span>Total Amount</span>
-                    <span id="grand-total">Rs. 0.00</span>
-                </div>
-            </div>
-        </section>
-
-        <footer class="invoice-footer">
-            <div class="footer-left">
-                <p>Authorized Signature</p>
-                <div style="height: 1px; width: 150px; background: #555; margin-bottom: 10px;"></div>
-                <p style="font-weight: 700; opacity: 1;">Python Store Management</p>
-            </div>
-            <div class="footer-right">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=PYTHONSTORE" alt="QR Code" class="qr-mock">
-            </div>
-        </footer>
+        <div class="payment-method">
+            PAYMENT METHOD: <span id="p-method">CASH ON DELIVERY</span>
+        </div>
     </div>
 
-    <script>
-        lucide.createIcons();
+    <button class="btn-print" onclick="window.print()">PRINT BILL</button>
 
-        function loadInvoice() {
-            console.log("Invoice loading...");
+    <script>
+        function loadBill() {
             const params = new URLSearchParams(window.location.search);
-            const rawData = params.get('data');
-            
-            if (!rawData) {
-                console.error("No data found in URL");
-                document.body.innerHTML = '<div style="text-align:center; padding:50px;"><h1>Invalid Invoice</h1><p>No order data provided in the URL.</p></div>';
-                return;
-            }
+            const raw = params.get('data');
+            if (!raw) return;
 
             try {
-                // Decode data
-                const decoded = atob(rawData);
-                const jsonStr = decodeURIComponent(escape(decoded));
-                const order = JSON.parse(jsonStr);
+                const order = JSON.parse(decodeURIComponent(escape(atob(raw))));
                 
-                console.log("Order data loaded:", order);
-                
-                document.getElementById('inv-id').innerText = '#' + order.id;
-                document.getElementById('order-timestamp').innerText = order.date + ' | ' + order.time;
-                document.getElementById('cust-name').innerText = order.name;
-                document.getElementById('cust-address').innerText = order.address;
-                document.getElementById('cust-phone').innerText = 'Phone: ' + order.phone;
+                document.getElementById('o-id').innerText = order.id;
+                document.getElementById('o-date').innerText = order.date;
+                document.getElementById('o-time').innerText = order.time;
+                document.getElementById('c-name').innerText = order.name;
+                document.getElementById('c-address').innerText = order.address;
+                document.getElementById('c-phone').innerText = order.phone;
 
-                const container = document.getElementById('invoice-items');
-                if (!container) return;
-                
-                container.innerHTML = ''; // Clear existing
-                let subtotal = 0;
+                const list = document.getElementById('items-list');
+                let sub = 0;
 
                 order.items.forEach(item => {
                     const row = document.createElement('tr');
-                    const lineTotal = item.price * item.quantity;
-                    subtotal += lineTotal;
+                    const line = item.price * item.quantity;
+                    sub += line;
 
                     row.innerHTML = `
                         <td>
-                            <div class="product-info">
-                                <img src="${item.image}" class="product-img" onerror="this.src='https://via.placeholder.com/150'">
-                                <div class="product-details">
-                                    <h5>${item.name}</h5>
-                                    <span>Size: ${item.size} | Color: ${item.color}</span>
+                            <div class="item-box">
+                                <img src="${item.image}" onerror="this.style.display='none'">
+                                <div>
+                                    <p style="font-weight: 800;">${item.name}</p>
+                                    <p style="font-size: 0.8rem; opacity: 0.6;">Size: ${item.size} | Color: ${item.color}</p>
                                 </div>
                             </div>
                         </td>
-                        <td style="text-align: center; font-weight: 700;">${item.quantity}</td>
-                        <td style="text-align: right; font-weight: 800;">Rs. ${lineTotal.toLocaleString()}.00</td>
+                        <td style="text-align: center;">${item.quantity}</td>
+                        <td style="text-align: right; font-weight: 800;">Rs. ${line.toLocaleString()}.00</td>
                     `;
-                    container.appendChild(row);
+                    list.appendChild(row);
                 });
 
                 const delivery = order.delivery || 350;
-                document.getElementById('subtotal').innerText = `Rs. ${subtotal.toLocaleString()}.00`;
-                document.getElementById('delivery').innerText = `Rs. ${delivery.toLocaleString()}.00`;
-                document.getElementById('grand-total').innerText = `Rs. ${(subtotal + delivery).toLocaleString()}.00`;
+                document.getElementById('s-total').innerText = `Rs. ${sub.toLocaleString()}.00`;
+                document.getElementById('d-fee').innerText = `Rs. ${delivery.toLocaleString()}.00`;
+                document.getElementById('g-total').innerText = `Rs. ${(sub + delivery).toLocaleString()}.00`;
 
             } catch (e) {
-                console.error("Error loading invoice:", e);
-                alert("Error loading invoice data. Please ensure you are using the correct link.");
+                console.error(e);
             }
         }
-
-        window.onload = loadInvoice;
+        window.onload = loadBill;
     </script>
 </body>
 </html>
