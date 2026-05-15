@@ -29,11 +29,52 @@
         </div>
     </nav>
 
+    <!-- Mobile Side Menu -->
+    <div class="menu-overlay" id="menu-overlay"></div>
+    <div class="mobile-menu" id="mobile-menu">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+            <div class="logo">
+                <img src="logo.png" alt="Python Logo" style="width: 30px;">
+                <span style="font-size: 1.2rem; font-weight: 900; letter-spacing: 2px; color: var(--primary-dark);">PYTHON</span>
+            </div>
+            <button id="close-menu" style="background: none; border: none; color: var(--primary-dark); cursor: pointer;">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 25px;"><a href="index.html" style="color: var(--primary-dark); text-decoration: none; font-size: 1.1rem; display: flex; align-items: center; gap: 15px;"><i data-lucide="home"></i> Home</a></li>
+            <li style="margin-bottom: 25px;"><a href="shop.html" style="color: var(--primary-dark); text-decoration: none; font-size: 1.1rem; display: flex; align-items: center; gap: 15px;"><i data-lucide="shopping-bag"></i> Shop</a></li>
+            <li style="margin-bottom: 25px;"><a href="customize.html" style="color: var(--primary-dark); text-decoration: none; font-size: 1.1rem; display: flex; align-items: center; gap: 15px;"><i data-lucide="edit-3"></i> Customize</a></li>
+            <li style="margin-bottom: 25px;"><a href="offers.html" style="color: var(--primary-dark); text-decoration: none; font-size: 1.1rem; display: flex; align-items: center; gap: 15px;"><i data-lucide="tag"></i> Offers</a></li>
+            <li style="margin-top: 50px;"><a href="login.html" style="color: var(--accent-gold); text-decoration: none; font-size: 1.1rem; display: flex; align-items: center; gap: 15px;"><i data-lucide="user"></i> My Account</a></li>
+        </ul>
+    </div>
+
 <main class="section" style="padding-top: 150px;">
     <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px;">
-        <!-- Product Image Gallery -->
-        <div class="glass" style="padding: 20px;">
-            <img id="detail-img" src="" alt="Product Image" style="width: 100%; border-radius: 15px; background: #f1f5f9;">
+        <!-- Product Image Gallery Slider -->
+        <div class="glass" style="padding: 10px; position: relative; border-radius: 25px; background: #fff;">
+            <div style="overflow: hidden; border-radius: 20px; width: 100%;">
+                <div id="image-slider" style="display: flex; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); width: 100%;">
+                    <!-- Images will be injected here -->
+                </div>
+            </div>
+            
+            <!-- Navigation Buttons -->
+            <button id="prev-btn" onclick="slideImage(-1)" style="position: absolute; left: 20px; top: 40%; transform: translateY(-50%); background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); color: #000; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 10; display: none; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(0,0,0,0.15); transition: 0.3s;">
+                <i data-lucide="chevron-left"></i>
+            </button>
+            <button id="next-btn" onclick="slideImage(1)" style="position: absolute; right: 20px; top: 40%; transform: translateY(-50%); background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); color: #000; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; z-index: 10; display: none; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(0,0,0,0.15); transition: 0.3s;">
+                <i data-lucide="chevron-right"></i>
+            </button>
+            
+            <!-- Pagination Dots (Small ones on image) -->
+            <div id="slider-dots" style="position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10;"></div>
+
+            <!-- Image Thumbnails (Previews) -->
+            <div id="image-thumbnails" style="display: flex; gap: 15px; padding: 15px 5px; justify-content: center; border-top: 1px solid #f1f5f9; margin-top: 5px;">
+                <!-- Thumbnails will be injected here -->
+            </div>
         </div>
 
         <!-- Product Details -->
@@ -45,52 +86,62 @@
                 Premium quality T-shirt crafted with precision and care. Designed for comfort and style that lasts.
             </p>
 
-            <div style="margin-bottom: 30px;">
-                <h4 style="margin-bottom: 15px;">Available Colors</h4>
-                <div class="color-options" id="detail-colors">
+            <div style="margin-bottom: 20px;">
+                <h4 style="margin-bottom: 10px;">Select Size</h4>
+                <div class="size-options" id="detail-sizes" style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <!-- Dynamic sizes -->
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h4 style="margin-bottom: 10px;">Select Color</h4>
+                <div class="color-options" id="detail-colors" style="display: flex; gap: 10px;">
                     <!-- Dynamic colors -->
                 </div>
             </div>
 
             <div style="margin-bottom: 30px;">
-                <h4 style="margin-bottom: 15px;">Specification</h4>
-                <p style="font-size: 0.9rem; color: var(--text-muted);">GSM: <span id="detail-gsm" style="color: var(--primary-dark); font-weight: 700;">180 GSM</span></p>
+                <h4 style="margin-bottom: 10px;">Quantity</h4>
+                <div style="display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.05); width: fit-content; padding: 10px 20px; border-radius: 10px;">
+                    <button class="btn-qty" onclick="changeQty(-1)">-</button>
+                    <span id="detail-qty" style="font-weight: 800; min-width: 20px; text-align: center;">1</span>
+                    <button class="btn-qty" onclick="changeQty(1)">+</button>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 30px;">
+                <h4 style="margin-bottom: 10px;">Specification</h4>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">GSM: <span id="detail-gsm" style="color: #000; font-weight: 700;">180 GSM</span></p>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Brand: <span id="detail-brand" style="color: #000; font-weight: 700;">Python</span></p>
             </div>
 
             <div style="margin-bottom: 40px;">
-                <h4 style="margin-bottom: 15px;">Size Chart</h4>
-                <table style="width: 100%; border-collapse: collapse; text-align: left;" class="glass">
-                    <thead>
-                        <tr style="border-bottom: 1px solid #f1f5f9;">
-                            <th style="padding: 10px;">Size</th>
-                            <th style="padding: 10px;">Chest (in)</th>
-                            <th style="padding: 10px;">Length (in)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="border-bottom: 1px solid #f1f5f9;">
-                            <td style="padding: 10px;">S</td>
-                            <td style="padding: 10px;">38</td>
-                            <td style="padding: 10px;">27</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #f1f5f9;">
-                            <td style="padding: 10px;">M</td>
-                            <td style="padding: 10px;">40</td>
-                            <td style="padding: 10px;">28</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid #f1f5f9;">
-                            <td style="padding: 10px;">L</td>
-                            <td style="padding: 10px;">42</td>
-                            <td style="padding: 10px;">29</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 10px;">XL</td>
-                            <td style="padding: 10px;">44</td>
-                            <td style="padding: 10px;">30</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <button class="btn btn-outline" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; margin: 0;" onclick="openSizeChart()">
+                    <i data-lucide="ruler"></i> View Size Chart
+                </button>
             </div>
+
+            <!-- Size Chart Modal -->
+            <div id="sizeChartModal" class="modal-overlay" onclick="closeSizeChart()" style="display:none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); align-items: center; justify-content: center;">
+                <div class="glass" style="max-width: 90%; max-height: 90%; position: relative; padding: 10px; background: white; border-radius: 20px; animation: modalZoom 0.3s cubic-bezier(0.16, 1, 0.3, 1);" onclick="event.stopPropagation()">
+                    <span onclick="closeSizeChart()" style="position: absolute; right: -15px; top: -15px; background: #DC143C; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; box-shadow: 0 5px 15px rgba(220, 20, 60, 0.3);">&times;</span>
+                    <img src="https://i.ibb.co/pvGrdQMD/Size-Chart-01.jpg" alt="Size Chart" style="width: 100%; height: auto; max-height: 80vh; border-radius: 15px; display: block;">
+                </div>
+            </div>
+
+            <style>
+                @keyframes modalZoom { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+                .modal-overlay.active { display: flex !important; }
+                .size-btn { padding: 10px 20px; border: 1px solid #ddd; border-radius: 8px; cursor: pointer; transition: 0.2s; background: white; font-weight: 600; }
+                .size-btn.active { background: #000; color: #fff; border-color: #000; }
+                .color-btn { width: 30px; height: 30px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: 0.2s; }
+                .color-btn.active { border-color: #000; transform: scale(1.1); }
+                .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(0,0,0,0.2); cursor: pointer; transition: 0.3s; }
+                .dot.active { background: var(--accent-gold); width: 20px; border-radius: 50px; }
+                .thumb { width: 70px; height: 70px; border-radius: 12px; object-fit: cover; cursor: pointer; border: 2px solid transparent; transition: 0.3s; opacity: 0.6; }
+                .thumb:hover { opacity: 1; }
+                .thumb.active { border-color: var(--accent-gold); opacity: 1; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+            </style>
 
             <button class="btn btn-primary" style="width: 100%; padding: 20px;" onclick="addCurrentToCart()">Add to Cart</button>
         </div>
@@ -107,32 +158,167 @@
     <script>
         lucide.createIcons();
         
-        const productData = {
-            '1': {name: 'Python Essential Black', price: 2450, gsm: '180 GSM', img: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800', colors: ['#000', '#333']},
-            '2': {name: 'Infinity Edition White', price: 2850, gsm: '210 GSM', img: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800', colors: ['#fff', '#f0f0f0']},
-            '3': {name: 'Gold Signature Tee', price: 3200, gsm: '220 GSM', img: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800', colors: ['#000', '#0A0F1E']},
-            '4': {name: 'Arctic Python Blue', price: 2650, gsm: '190 GSM', img: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800', colors: ['#1a2a4a', '#4a90e2']}
-        };
-
         const urlParams = new URLSearchParams(window.location.search);
         const pid = urlParams.get('id') || '1';
-        const product = productData[pid];
+        const product = products.find(p => p.id === pid) || products[0];
+
+        let selectedSize = '';
+        let selectedColor = '';
+        let currentPrice = 0;
+        let currentOldPrice = 0;
+        let currentQty = 1;
+        let currentSlide = 0;
 
         if (product) {
             document.getElementById('detail-name').innerText = product.name;
-            document.getElementById('detail-price').innerText = `Rs. ${product.price.toLocaleString()}.00`;
-            document.getElementById('detail-gsm').innerText = product.gsm;
-            document.getElementById('detail-img').src = product.img;
+            document.getElementById('detail-gsm').innerText = product.gsm || '180 GSM';
+            document.getElementById('detail-brand').innerText = product.brand || 'Python';
             
+            // Image Slider & Thumbnails
+            const slider = document.getElementById('image-slider');
+            const dotsContainer = document.getElementById('slider-dots');
+            const thumbContainer = document.getElementById('image-thumbnails');
+            const images = product.images || [product.img];
+            
+            images.forEach((img, idx) => {
+                // Slider Image
+                const imgTag = document.createElement('img');
+                imgTag.src = img;
+                imgTag.style.width = '100%';
+                imgTag.style.flexShrink = '0';
+                imgTag.style.objectFit = 'contain';
+                imgTag.style.maxHeight = '500px';
+                imgTag.style.background = '#fff';
+                slider.appendChild(imgTag);
+                
+                // Dot
+                if (images.length > 1) {
+                    const dot = document.createElement('div');
+                    dot.className = `dot ${idx === 0 ? 'active' : ''}`;
+                    dot.onclick = () => goToSlide(idx);
+                    dotsContainer.appendChild(dot);
+                    
+                    // Thumbnail
+                    const thumb = document.createElement('img');
+                    thumb.src = img;
+                    thumb.className = `thumb ${idx === 0 ? 'active' : ''}`;
+                    thumb.onclick = () => goToSlide(idx);
+                    thumbContainer.appendChild(thumb);
+                }
+            });
+
+            if (images.length > 1) {
+                document.getElementById('prev-btn').style.display = 'flex';
+                document.getElementById('next-btn').style.display = 'flex';
+            } else {
+                thumbContainer.style.display = 'none';
+            }
+            
+            if (product.desc) document.getElementById('detail-desc').innerText = product.desc;
+            
+            // Sizes
+            const sizeContainer = document.getElementById('detail-sizes');
+            const sizes = product.sizes ? Object.keys(product.sizes) : ['Free'];
+            selectedSize = sizes[0];
+            const sizeData = product.sizes ? product.sizes[selectedSize] : { price: product.price, oldPrice: product.oldPrice };
+            currentPrice = typeof sizeData === 'object' ? sizeData.price : sizeData;
+            currentOldPrice = typeof sizeData === 'object' ? sizeData.oldPrice : product.oldPrice;
+
+            sizes.forEach(s => {
+                const btn = document.createElement('button');
+                btn.className = `size-btn ${s === selectedSize ? 'active' : ''}`;
+                btn.innerText = s;
+                btn.onclick = () => selectSize(s, btn);
+                sizeContainer.appendChild(btn);
+            });
+
+            // Colors
             const colorContainer = document.getElementById('detail-colors');
-            product.colors.forEach(c => {
-                colorContainer.innerHTML += `<div class="color-btn" style="background: ${c}; border: 1px solid #ddd;"></div>`;
+            selectedColor = product.colors ? product.colors[0] : 'Default';
+            if (product.colors) {
+                product.colors.forEach(c => {
+                    const btn = document.createElement('div');
+                    btn.className = `color-btn ${c === selectedColor ? 'active' : ''}`;
+                    btn.style.background = c;
+                    btn.onclick = () => selectColor(c, btn);
+                    colorContainer.appendChild(btn);
+                });
+            }
+
+            updatePriceDisplay();
+        }
+
+        function slideImage(dir) {
+            const images = product.images || [product.img];
+            currentSlide += dir;
+            if (currentSlide >= images.length) currentSlide = 0;
+            if (currentSlide < 0) currentSlide = images.length - 1;
+            updateSlider();
+        }
+
+        function goToSlide(idx) {
+            currentSlide = idx;
+            updateSlider();
+        }
+
+        function updateSlider() {
+            const slider = document.getElementById('image-slider');
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, idx) => {
+                idx === currentSlide ? dot.classList.add('active') : dot.classList.remove('active');
             });
         }
 
+        function selectSize(size, btn) {
+            selectedSize = size;
+            const sizeData = product.sizes ? product.sizes[size] : { price: product.price, oldPrice: product.oldPrice };
+            currentPrice = typeof sizeData === 'object' ? sizeData.price : sizeData;
+            currentOldPrice = typeof sizeData === 'object' ? sizeData.oldPrice : product.oldPrice;
+            
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updatePriceDisplay();
+        }
+
+        function selectColor(color, btn) {
+            selectedColor = color;
+            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function changeQty(delta) {
+            currentQty += delta;
+            if (currentQty < 1) currentQty = 1;
+            document.getElementById('detail-qty').innerText = currentQty;
+        }
+
+        function updatePriceDisplay() {
+            const priceEl = document.getElementById('detail-price');
+            let html = `Rs. ${currentPrice.toLocaleString()}.00`;
+            if (currentOldPrice) {
+                html += ` <span style="text-decoration: line-through; color: var(--text-muted); font-size: 1.2rem; margin-left: 15px;">Rs. ${currentOldPrice.toLocaleString()}</span>`;
+            }
+            priceEl.innerHTML = html;
+        }
+
         function addCurrentToCart() {
-            addToCart(product.name, product.price, product.img);
+            const images = product.images || [product.img];
+            addToCart(product.name, currentPrice, images[0], selectedSize, selectedColor, currentQty);
+        }
+
+        function openSizeChart() {
+            document.getElementById('sizeChartModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSizeChart() {
+            document.getElementById('sizeChartModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
     </script>
+</body>
+</html>
 </body>
 </html>
