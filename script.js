@@ -344,6 +344,10 @@ function placeOrder() {
     const totalOrdersCount = (orders.length + 1).toString().padStart(3, '0');
     const orderID = `ORD-PS-${dateStr}${totalOrdersCount}`;
 
+    // Calculate dynamic delivery fee
+    const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
+    const deliveryFee = itemCount > 3 ? 0 : 450;
+
     // Prepare data for the E-Invoice
     const orderData = {
         id: orderID,
@@ -363,7 +367,7 @@ function placeOrder() {
                 image: item.image || (p.images ? p.images[0] : '')
             };
         }),
-        delivery: 350
+        delivery: deliveryFee
     };
 
     // Encode order data for the URL (Safe for Unicode/Sinhala)
@@ -387,9 +391,9 @@ function placeOrder() {
         subtotal += item.price * item.quantity;
     });
 
-    const grandTotal = subtotal + 350;
+    const grandTotal = subtotal + deliveryFee;
     message += `\n💵 *Subtotal:* Rs. ${subtotal.toLocaleString()}.00\n`;
-    message += `🚚 *Delivery Fee:* Rs. 350.00\n`;
+    message += `🚚 *Delivery Fee:* ${deliveryFee === 0 ? 'FREE' : 'Rs. ' + deliveryFee.toLocaleString() + '.00'}\n`;
     message += `💰 *Grand Total: Rs. ${grandTotal.toLocaleString()}.00*\n\n`;
     
     message += `📄 *View E-Invoice:* ${invoiceUrl}\n\n`;

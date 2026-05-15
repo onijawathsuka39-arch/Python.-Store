@@ -228,9 +228,9 @@
                     list.appendChild(row);
                 });
 
-                const delivery = order.delivery || 350;
+                const delivery = (order.delivery !== undefined) ? order.delivery : 450;
                 document.getElementById('s-total').innerText = `Rs. ${sub.toLocaleString()}.00`;
-                document.getElementById('d-fee').innerText = `Rs. ${delivery.toLocaleString()}.00`;
+                document.getElementById('d-fee').innerText = delivery === 0 ? 'FREE' : `Rs. ${delivery.toLocaleString()}.00`;
                 document.getElementById('g-total').innerText = `Rs. ${(sub + delivery).toLocaleString()}.00`;
 
             } catch (e) {
