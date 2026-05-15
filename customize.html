@@ -2,77 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Design Studio | Python Store</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         :root { --primary: #DC143C; }
         .customize-layout { display: grid; grid-template-columns: 1fr 400px; gap: 30px; max-width: 1200px; margin: 0 auto; padding: 20px; }
-        
-        /* Large Preview Box for Mobile */
-        .preview-box { 
-            position: relative; background: #fff; border-radius: 24px; padding: 20px; 
-            display: flex; justify-content: center; align-items: center; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.05); min-height: 500px; 
-            border: 1px solid #eee; overflow: hidden;
-        }
-
-        .tshirt-base { 
-            position: relative; width: 100%; max-width: 450px; background-color: #ffffff; transition: 0.3s;
-            -webkit-mask-image: url('https://i.ibb.co/NnQrQr7y/T-Shirt.png'); mask-image: url('https://i.ibb.co/NnQrQr7y/T-Shirt.png');
-            -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;
-        }
+        .preview-box { position: relative; background: #fff; border-radius: 24px; padding: 20px; display: flex; justify-content: center; align-items: center; box-shadow: 0 10px 40px rgba(0,0,0,0.05); min-height: 500px; border: 1px solid #eee; overflow: hidden; touch-action: none; }
+        .tshirt-base { position: relative; width: 100%; max-width: 450px; background-color: #ffffff; transition: 0.3s; -webkit-mask-image: url('https://i.ibb.co/NnQrQr7y/T-Shirt.png'); mask-image: url('https://i.ibb.co/NnQrQr7y/T-Shirt.png'); -webkit-mask-size: contain; mask-size: contain; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center; }
         .tshirt-img { width: 100%; display: block; pointer-events: none; mix-blend-mode: multiply; }
-        
-        /* Sticker Styling */
-        .sticker-wrapper { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); width: 160px; cursor: move; z-index: 10; border: 2px dashed transparent; }
+        .sticker-wrapper { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); width: 160px; cursor: move; z-index: 10; border: 2px dashed transparent; transform-origin: center center; }
+        .sticker-wrapper.active { border-color: var(--primary); z-index: 100; }
         .sticker-wrapper.locked { cursor: default !important; border: none !important; }
-        .sticker-wrapper:not(.locked):hover { border-color: var(--primary); }
         .sticker-wrapper img { width: 100%; display: block; pointer-events: none; }
-        
-        .sticker-delete { position: absolute; top: -15px; left: -15px; background: #ff0000; color: white; width: 28px; height: 28px; border-radius: 50%; display: none; justify-content: center; align-items: center; cursor: pointer; z-index: 20; border: 2px solid #fff; box-shadow: 0 5px 10px rgba(0,0,0,0.2); }
-        .resize-handle { position: absolute; width: 20px; height: 20px; background: var(--primary); bottom: -10px; right: -10px; border-radius: 50%; cursor: nwse-resize; display: none; z-index: 20; border: 2px solid #fff; box-shadow: 0 5px 10px rgba(0,0,0,0.2); }
-        .sticker-wrapper:not(.locked):hover .sticker-delete, .sticker-wrapper:not(.locked):hover .resize-handle { display: flex; }
-
+        .sticker-size-tag { position: absolute; bottom: -45px; left: 50%; transform: translateX(-50%); background: #000; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 800; display: none; white-space: nowrap; }
+        .sticker-wrapper.active .sticker-size-tag { display: block; }
+        .handle { position: absolute; background: var(--primary); color: white; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.2); display: none; justify-content: center; align-items: center; z-index: 120; cursor: pointer; width: 35px; height: 35px; }
+        .sticker-wrapper.active:not(.locked) .handle { display: flex; }
+        .sticker-delete { top: -17px; left: -17px; background: #ff0000; }
+        .resize-handle { bottom: -17px; right: -17px; }
+        .rotate-handle { top: -45px; left: 50%; transform: translateX(-50%); background: #000; }
         .controls-panel { display: flex; flex-direction: column; gap: 15px; }
         .control-section { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 5px 20px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; }
         .control-section h4 { font-size: 0.85rem; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-
-        /* Color & Size Selectors */
         .color-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
         .color-dot { width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 3px solid transparent; transition: 0.2s; }
         .color-dot.active { border-color: #000; transform: scale(1.1); }
-
         .selector-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
         .selector-btn { padding: 10px 5px; border: 1px solid #eee; background: #fff; border-radius: 10px; cursor: pointer; text-align: center; font-size: 0.75rem; font-weight: 800; }
         .selector-btn.active { background: #000; color: #fff; border-color: #000; }
-
-        /* Sticker Library */
         .sticker-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; max-height: 250px; overflow-y: auto; }
         .sticker-item { background: #fff; border: 1px solid #eee; padding: 8px; border-radius: 12px; cursor: pointer; }
         .sticker-item img { width: 100%; height: auto; object-fit: contain; }
-
-        /* Modal Size Chart */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: none; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background: white; padding: 20px; border-radius: 20px; max-width: 500px; width: 100%; position: relative; }
         .close-modal { position: absolute; top: 15px; right: 15px; cursor: pointer; }
-
         #btn-finish { width: 100%; height: 50px; background: #000; color: #fff; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; }
         #btn-cart { display: none; width: 100%; height: 50px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; }
-
-        @media (max-width: 900px) { 
-            .customize-layout { grid-template-columns: 1fr; }
-            .preview-box { min-height: 400px; padding: 10px; }
-        }
+        .sticker-summary { margin-top: 15px; padding: 10px; background: #f9f9f9; border-radius: 12px; font-size: 0.75rem; }
+        .summary-item { display: flex; justify-content: space-between; margin-bottom: 5px; color: #555; }
+        @media (max-width: 900px) { .customize-layout { grid-template-columns: 1fr; } .preview-box { min-height: 400px; } }
     </style>
 </head>
 <body>
     <nav id="navbar" class="scrolled">
         <a href="index.html" class="logo"><img src="logo.png" alt="Python Logo"><span>PYTHON</span></a>
-        <div class="nav-icons">
-            <a href="cart.html" style="position: relative;"><i data-lucide="shopping-cart"></i><span id="cart-count">0</span></a>
-        </div>
     </nav>
 
     <main class="section" style="padding-top: 100px;">
@@ -81,27 +56,25 @@
                 <div class="tshirt-base" id="canvas">
                     <img src="https://i.ibb.co/NnQrQr7y/T-Shirt.png" class="tshirt-img">
                 </div>
-                <!-- Size Chart Button -->
-                <button onclick="toggleModal(true)" style="position: absolute; bottom: 20px; right: 20px; background: #fff; border: 1px solid #ddd; padding: 8px 15px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; gap: 5px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                <button onclick="toggleModal(true)" style="position: absolute; bottom: 20px; right: 20px; background: #fff; border: 1px solid #ddd; padding: 8px 15px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; display: flex; align-items: center; gap: 5px; cursor: pointer;">
                     <i data-lucide="info" style="width: 14px;"></i> SIZE CHART
                 </button>
             </div>
 
             <div class="controls-panel">
                 <div class="control-section">
-                    <h4><i data-lucide="palette"></i> Fabric Color</h4>
-                    <div class="color-grid">
+                    <h4><i data-lucide="shirt"></i> 1. T-Shirt Config</h4>
+                    <div class="color-grid" style="margin-bottom: 15px;">
                         <div class="color-dot active" style="background: #ffffff;" data-name="White" onclick="setTshirtColor('#ffffff', 'White', this)"></div>
                         <div class="color-dot" style="background: #ff0000;" data-name="Red" onclick="setTshirtColor('#ff0000', 'Red', this)"></div>
                         <div class="color-dot" style="background: #000000;" data-name="Black" onclick="setTshirtColor('#000000', 'Black', this)"></div>
                         <div class="color-dot" style="background: #0000ff;" data-name="Blue" onclick="setTshirtColor('#0000ff', 'Blue', this)"></div>
                         <div class="color-dot" style="background: #008000;" data-name="Green" onclick="setTshirtColor('#008000', 'Green', this)"></div>
                         <div class="color-dot" style="background: #ffff00;" data-name="Yellow" onclick="setTshirtColor('#ffff00', 'Yellow', this)"></div>
+                        <div class="color-dot" style="background: #808080;" data-name="Gray" onclick="setTshirtColor('#808080', 'Gray', this)"></div>
+                        <div class="color-dot" style="background: #00f2ff;" data-name="Light Blue" onclick="setTshirtColor('#00f2ff', 'Light Blue', this)"></div>
+                        <div class="color-dot" style="background: #e100ff;" data-name="Pink" onclick="setTshirtColor('#e100ff', 'Pink', this)"></div>
                     </div>
-                </div>
-
-                <div class="control-section">
-                    <h4><i data-lucide="shirt"></i> T-Shirt Size</h4>
                     <div class="selector-grid">
                         <div class="selector-btn" onclick="setTshirtSize('S', this)">S</div>
                         <div class="selector-btn active" onclick="setTshirtSize('M', this)">M</div>
@@ -112,17 +85,7 @@
                 </div>
 
                 <div class="control-section">
-                    <h4><i data-lucide="maximize"></i> Selected Sticker Print Size</h4>
-                    <div class="selector-grid">
-                        <div class="selector-btn" onclick="setStickerSize('A5', 150, 100, this)">A5</div>
-                        <div class="selector-btn active" onclick="setStickerSize('A4', 250, 160, this)">A4</div>
-                        <div class="selector-btn" onclick="setStickerSize('A3', 350, 220, this)">A3</div>
-                    </div>
-                    <p style="font-size: 0.65rem; color: #888; margin-top: 8px;">*Tip: You can also manually resize the sticker by its corner.</p>
-                </div>
-
-                <div class="control-section">
-                    <h4><i data-lucide="image"></i> Sticker Designs</h4>
+                    <h4><i data-lucide="image"></i> 2. Select Stickers</h4>
                     <div class="sticker-grid">
                         <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/gMrCJPnN/A3-1.png')"><img src="https://i.ibb.co/gMrCJPnN/A3-1.png"></div>
                         <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/QFRLTykz/A3-2.png')"><img src="https://i.ibb.co/QFRLTykz/A3-2.png"></div>
@@ -132,26 +95,42 @@
                         <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/bj43Hcks/A3-6.png')"><img src="https://i.ibb.co/bj43Hcks/A3-6.png"></div>
                         <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/7B5DZmx/A3-7.png')"><img src="https://i.ibb.co/7B5DZmx/A3-7.png"></div>
                         <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/SXdG9PTc/A3-8.png')"><img src="https://i.ibb.co/SXdG9PTc/A3-8.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/tp3krXPp/A3-9.png')"><img src="https://i.ibb.co/tp3krXPp/A3-9.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/VY90dG3G/A3-10.png')"><img src="https://i.ibb.co/VY90dG3G/A3-10.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/1JQ00QMd/A3-11.png')"><img src="https://i.ibb.co/1JQ00QMd/A3-11.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/XkDb3jmB/Nike.png')"><img src="https://i.ibb.co/XkDb3jmB/Nike.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/gLS0w69Y/Python-BMW.png')"><img src="https://i.ibb.co/gLS0w69Y/Python-BMW.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png')"><img src="https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/84sH5Qvb/Chat-GPT-Image-Apr-29-2026-10-06-33-PM.png')"><img src="https://i.ibb.co/84sH5Qvb/Chat-GPT-Image-Apr-29-2026-10-06-33-PM.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/NdBPMyjn/Chat-GPT-Image-Apr-30-2026-02-22-11-PM.png')"><img src="https://i.ibb.co/NdBPMyjn/Chat-GPT-Image-Apr-30-2026-02-22-11-PM.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/0VKQ1GX2/download-23.png')"><img src="https://i.ibb.co/0VKQ1GX2/download-23.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/pvszmzQC/Whats-App-Image-2026-04-28-at-16-06-29-1.png')"><img src="https://i.ibb.co/pvszmzQC/Whats-App-Image-2026-04-28-at-16-06-29-1.png"></div>
+                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/XfbrZJLh/Whats-App-Image-2026-04-28-at-16-06-31.png')"><img src="https://i.ibb.co/XfbrZJLh/Whats-App-Image-2026-04-28-at-16-06-31.png"></div>
                     </div>
                 </div>
 
                 <div class="control-section">
-                    <p style="font-weight: 800; margin-bottom: 15px;">Total: Rs. <span id="grand-total-display">1300</span>.00</p>
-                    <button id="btn-finish" onclick="finishDesign()">FINISH & SAVE</button>
-                    <button id="btn-cart" onclick="addCustomToCart()">ADD TO CART</button>
-                    <button id="btn-edit" class="btn" style="display: none; width: 100%; margin-top: 10px;" onclick="enableEditing()">EDIT DESIGN</button>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <span style="font-weight: 800;">TOTAL ESTIMATE</span>
+                        <span style="font-weight: 900; color: var(--primary); font-size: 1.2rem;">Rs. <span id="grand-total-display">1300</span>.00</span>
+                    </div>
+                    <div id="sticker-summary-box" class="sticker-summary"></div>
+                    <div style="margin-top: 20px;">
+                        <button id="btn-finish" onclick="finishDesign()">FINISH & SAVE</button>
+                        <button id="btn-cart" onclick="addCustomToCart()">ADD TO CART</button>
+                        <button id="btn-edit" class="btn" style="display: none; width: 100%; margin-top: 10px;" onclick="enableEditing()">EDIT DESIGN</button>
+                        <button class="btn" style="width: 100%; margin-top: 10px; background: #eee; color: #333; font-size: 0.75rem;" onclick="resetDesign()">RESET DESIGN</button>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Size Chart Modal -->
     <div id="size-modal" class="modal">
         <div class="modal-content">
             <i data-lucide="x" class="close-modal" onclick="toggleModal(false)"></i>
             <h3 style="margin-bottom: 20px;">T-Shirt Size Chart</h3>
-            <img src="https://i.ibb.co/4gn2pYt/Size-Chart.png" style="width: 100%; border-radius: 10px;" alt="Size Chart">
-            <p style="font-size: 0.8rem; margin-top: 15px; color: #666;">Measurements are in inches. Standard fit.</p>
+            <img src="https://i.ibb.co/pvGrdQMD/Size-Chart-01.jpg" style="width: 100%; border-radius: 10px;" alt="Size Chart">
         </div>
     </div>
 
@@ -159,12 +138,8 @@
     <script>
         lucide.createIcons();
         let activeStickers = [];
-        let selectedStickerId = null;
         let isLocked = false;
         let currentTshirtSize = 'M';
-        let currentStickerSizeName = 'A4';
-        let currentStickerPrice = 250;
-        let currentStickerWidth = 160;
         let selectedColor = '#ffffff';
         let selectedColorName = 'White';
 
@@ -172,100 +147,167 @@
             'https://i.ibb.co/gMrCJPnN/A3-1.png': 'S1', 'https://i.ibb.co/QFRLTykz/A3-2.png': 'S2',
             'https://i.ibb.co/S7f8ZfJs/A3-3.png': 'S3', 'https://i.ibb.co/tMccn0qh/A3-4.png': 'S4',
             'https://i.ibb.co/B5s9qhyX/A3-5.png': 'S5', 'https://i.ibb.co/bj43Hcks/A3-6.png': 'S6',
-            'https://i.ibb.co/7B5DZmx/A3-7.png': 'S7', 'https://i.ibb.co/SXdG9PTc/A3-8.png': 'S8'
+            'https://i.ibb.co/7B5DZmx/A3-7.png': 'S7', 'https://i.ibb.co/SXdG9PTc/A3-8.png': 'S8',
+            'https://i.ibb.co/tp3krXPp/A3-9.png': 'S9', 'https://i.ibb.co/VY90dG3G/A3-10.png': 'S10',
+            'https://i.ibb.co/1JQ00QMd/A3-11.png': 'S11', 'https://i.ibb.co/XkDb3jmB/Nike.png': 'S12',
+            'https://i.ibb.co/gLS0w69Y/Python-BMW.png': 'S13', 'https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png': 'S14',
+            'https://i.ibb.co/84sH5Qvb/Chat-GPT-Image-Apr-29-2026-10-06-33-PM.png': 'S15',
+            'https://i.ibb.co/NdBPMyjn/Chat-GPT-Image-Apr-30-2026-02-22-11-PM.png': 'S16',
+            'https://i.ibb.co/0VKQ1GX2/download-23.png': 'S17',
+            'https://i.ibb.co/pvszmzQC/Whats-App-Image-2026-04-28-at-16-06-29-1.png': 'S18',
+            'https://i.ibb.co/XfbrZJLh/Whats-App-Image-2026-04-28-at-16-06-31.png': 'S19'
         };
 
         function toggleModal(show) { document.getElementById('size-modal').style.display = show ? 'flex' : 'none'; }
-        
         function setTshirtColor(color, name, btn) {
             if (isLocked) return;
             document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
-            btn.classList.add('active');
+            if(btn) btn.classList.add('active');
             selectedColor = color; selectedColorName = name;
             document.querySelector('.tshirt-base').style.backgroundColor = color;
+            autoSave();
         }
-
         function setTshirtSize(size, btn) {
             if (isLocked) return;
-            document.querySelectorAll('.selector-btn').forEach((b, i) => { if(i < 5) b.classList.remove('active'); });
-            btn.classList.add('active');
+            document.querySelectorAll('.selector-btn').forEach(b => b.classList.remove('active'));
+            if(btn) btn.classList.add('active');
             currentTshirtSize = size;
+            autoSave();
         }
-
-        function setStickerSize(size, price, width, btn) {
-            if (isLocked) return;
-            document.querySelectorAll('.selector-btn').forEach((b, i) => { if(i >= 5) b.classList.remove('active'); });
-            btn.classList.add('active');
-            currentStickerSizeName = size; currentStickerPrice = price; currentStickerWidth = width;
-            if (selectedStickerId) {
-                const s = activeStickers.find(s => s.id === selectedStickerId);
-                if (s) {
-                    s.size = size; s.price = price;
-                    document.getElementById(selectedStickerId).style.width = width + 'px';
-                    updateTotal();
-                }
-            }
-        }
-
         function addNewSticker(url, pos = null) {
             if (isLocked) return;
-            const id = 'sticker-' + Math.random().toString(36).substr(2, 9);
+            const id = pos ? pos.id : 'sticker-' + Math.random().toString(36).substr(2, 9);
             const wrapper = document.createElement('div');
             wrapper.className = 'sticker-wrapper';
             wrapper.id = id;
-            wrapper.style.width = pos ? pos.w : currentStickerWidth + 'px';
-            if (pos) { wrapper.style.top = pos.t; wrapper.style.left = pos.l; }
-            wrapper.onclick = (e) => { e.stopPropagation(); selectSticker(id); };
-            wrapper.innerHTML = `<img src="${url}"><div class="sticker-delete" onclick="removeSticker('${id}')">X</div><div class="resize-handle"></div>`;
+            wrapper.style.width = pos ? pos.w : '160px';
+            wrapper.dataset.rotation = pos ? pos.r : 0;
+            if (pos) { wrapper.style.top = pos.t; wrapper.style.left = pos.l; wrapper.style.transform = `translate(-50%, -50%) rotate(${pos.r}deg)`; }
+            wrapper.innerHTML = `
+                <img src="${url}">
+                <div class="sticker-size-tag">A3</div>
+                <div class="handle sticker-delete" onclick="event.stopPropagation(); removeSticker('${id}')"><i data-lucide="trash-2" style="width:16px"></i></div>
+                <div class="handle resize-handle"><i data-lucide="maximize-2" style="width:16px"></i></div>
+                <div class="handle rotate-handle"><i data-lucide="rotate-cw" style="width:16px"></i></div>
+            `;
             document.getElementById('canvas').appendChild(wrapper);
-            activeStickers.push({ id, url, price: pos ? pos.p : currentStickerPrice, size: pos ? pos.s : currentStickerSizeName });
-            initInteractions(wrapper); selectSticker(id); updateTotal();
+            activeStickers.push({ id, url, price: 250, szName: 'A3' });
+            initInteractions(wrapper); 
+            selectSticker(id); 
+            updateTotal(); 
+            lucide.createIcons();
+            autoSave();
         }
-
         function removeSticker(id) {
             if (isLocked) return;
             const el = document.getElementById(id); if(el) el.remove();
             activeStickers = activeStickers.filter(s => s.id !== id);
             updateTotal();
+            autoSave();
         }
-
         function updateTotal() {
-            const total = 1300 + activeStickers.reduce((sum, s) => sum + s.price, 0);
+            let total = 1300;
+            const summaryBox = document.getElementById('sticker-summary-box');
+            summaryBox.innerHTML = '<div class="summary-item"><span>Base T-Shirt</span><span>Rs. 1300</span></div>';
+            activeStickers.forEach((s, idx) => {
+                const el = document.getElementById(s.id);
+                if(!el) return;
+                const w = parseFloat(el.style.width);
+                let sz = 'A3', price = 250;
+                if (w < 90) { sz = 'A5'; price = 100; }
+                else if (w < 130) { sz = 'A4'; price = 150; }
+                else if (w < 220) { sz = 'A3'; price = 250; }
+                else { sz = 'A2'; price = 350; }
+                s.price = price; s.szName = sz; total += price;
+                const tag = el.querySelector('.sticker-size-tag');
+                if(tag) tag.innerText = sz;
+                summaryBox.innerHTML += `<div class="summary-item"><span>Design ${idx+1} (${sz})</span><span>Rs. ${price}</span></div>`;
+            });
             document.getElementById('grand-total-display').innerText = total.toLocaleString();
         }
-
+        function selectSticker(id) {
+            if (isLocked) return;
+            document.querySelectorAll('.sticker-wrapper').forEach(el => el.classList.remove('active'));
+            const activeEl = document.getElementById(id);
+            if (activeEl) activeEl.classList.add('active');
+        }
         function initInteractions(el) {
-            let isDragging = false, isResizing = false, startX, startY, startW;
-            const handle = el.querySelector('.resize-handle');
+            let isDragging = false, isResizing = false, isRotating = false;
+            let startX, startY, startW, startAngle, startRotation, startDist = 0;
             const canvas = document.getElementById('canvas');
-
+            const getDist = (t) => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
             const start = (e) => {
                 if (isLocked) return;
-                const t = e.touches ? e.touches[0] : e;
-                if (e.target === handle) { isResizing = true; startX = t.clientX; startW = el.offsetWidth; }
-                else { isDragging = true; startX = t.clientX - el.offsetLeft; startY = t.clientY - el.offsetTop; }
+                selectSticker(el.id);
+                const touches = e.touches;
+                if (touches && touches.length === 2) { isResizing = true; startDist = getDist(touches); startW = el.offsetWidth; }
+                else {
+                    const t = touches ? touches[0] : e;
+                    if (e.target.closest('.resize-handle')) { isResizing = true; startX = t.clientX; startW = el.offsetWidth; }
+                    else if (e.target.closest('.rotate-handle')) {
+                        isRotating = true;
+                        const rect = el.getBoundingClientRect();
+                        const centerX = rect.left + rect.width / 2, centerY = rect.top + rect.height / 2;
+                        startAngle = Math.atan2(t.clientY - centerY, t.clientX - centerX);
+                        startRotation = parseFloat(el.dataset.rotation || 0);
+                    } else { isDragging = true; startX = t.clientX - el.offsetLeft; startY = t.clientY - el.offsetTop; }
+                }
                 e.stopPropagation();
             };
-
             const move = (e) => {
-                if (!isDragging && !isResizing) return;
-                const t = e.touches ? e.touches[0] : e;
-                if (isDragging) {
-                    el.style.left = (((t.clientX - startX) / canvas.offsetWidth) * 100) + '%';
-                    el.style.top = (((t.clientY - startY) / canvas.offsetHeight) * 100) + '%';
+                if (!isDragging && !isResizing && !isRotating) return;
+                const touches = e.touches;
+                if (touches && touches.length === 2 && isResizing) {
+                    const dist = getDist(touches);
+                    const scale = dist / startDist;
+                    const newW = startW * scale;
+                    if (newW > 40 && newW < 380) el.style.width = newW + 'px';
+                } else {
+                    const t = touches ? touches[0] : e;
+                    if (isDragging) {
+                        el.style.left = (((t.clientX - startX) / canvas.offsetWidth) * 100) + '%';
+                        el.style.top = (((t.clientY - startY) / canvas.offsetHeight) * 100) + '%';
+                    } else if (isResizing) {
+                        const newW = startW + (t.clientX - startX);
+                        if (newW > 40 && newW < 380) el.style.width = newW + 'px';
+                    } else if (isRotating) {
+                        const rect = el.getBoundingClientRect();
+                        const centerX = rect.left + rect.width / 2, centerY = rect.top + rect.height / 2;
+                        const currentAngle = Math.atan2(t.clientY - centerY, t.clientX - centerX);
+                        const rotation = startRotation + (currentAngle - startAngle) * (180 / Math.PI);
+                        el.dataset.rotation = rotation;
+                        el.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+                    }
                 }
-                if (isResizing) {
-                    const newW = startW + (t.clientX - startX);
-                    if (newW > 40 && newW < 300) el.style.width = newW + 'px';
-                }
+                updateTotal();
+                if (e.touches) e.preventDefault();
             };
-
-            const end = () => { isDragging = isResizing = false; };
+            const end = () => { if(isDragging || isResizing || isRotating) autoSave(); isDragging = isResizing = isRotating = false; };
             el.addEventListener('mousedown', start); el.addEventListener('touchstart', start, {passive: false});
             window.addEventListener('mousemove', move); window.addEventListener('touchmove', move, {passive: false});
             window.addEventListener('mouseup', end); window.addEventListener('touchend', end);
         }
-
+        function autoSave() {
+            const data = {
+                color: selectedColor, colorName: selectedColorName, size: currentTshirtSize,
+                stickers: activeStickers.map(s => {
+                    const el = document.getElementById(s.id);
+                    if(!el) return null;
+                    return { id: s.id, url: s.url, t: el.style.top, l: el.style.left, w: el.style.width, r: el.dataset.rotation };
+                }).filter(s => s !== null)
+            };
+            localStorage.setItem('roohira_custom_design', JSON.stringify(data));
+        }
+        function loadSavedDesign() {
+            const saved = localStorage.getItem('roohira_custom_design');
+            if (saved) {
+                const data = JSON.parse(saved);
+                setTshirtColor(data.color, data.colorName, null);
+                setTshirtSize(data.size, null);
+                data.stickers.forEach(s => addNewSticker(s.url, s));
+            } else { setTshirtColor('#ffffff', 'White', null); setTshirtSize('M', null); }
+        }
+        function resetDesign() { if(confirm("Reset design?")) { localStorage.removeItem('roohira_custom_design'); location.reload(); } }
         function finishDesign() {
             if (activeStickers.length === 0) { alert('Add at least one sticker!'); return; }
             isLocked = true;
@@ -274,7 +316,6 @@
             document.getElementById('btn-cart').style.display = 'block';
             document.getElementById('btn-edit').style.display = 'block';
         }
-
         function enableEditing() {
             isLocked = false;
             document.querySelectorAll('.sticker-wrapper').forEach(el => el.classList.remove('locked'));
@@ -282,22 +323,32 @@
             document.getElementById('btn-cart').style.display = 'none';
             document.getElementById('btn-edit').style.display = 'none';
         }
-
         function addCustomToCart() {
-            const total = 1300 + activeStickers.reduce((sum, s) => sum + s.price, 0);
-            const details = activeStickers.map(s => {
-                const el = document.getElementById(s.id);
-                return { u: stickerMap[s.url] || s.url, sz: s.size, t: el.style.top, l: el.style.left, w: el.style.width };
-            });
-            cart.push({
-                id: 'custom-' + Date.now(), name: 'Custom Tee', price: total, quantity: 1, 
-                size: currentTshirtSize, color: selectedColorName,
-                isCustom: true, customStickers: details, image: 'https://i.ibb.co/NnQrQr7y/T-Shirt.png'
-            });
-            saveCart(); updateCartCount(); window.location.href = 'cart.html';
+            try {
+                const details = activeStickers.map(s => {
+                    const el = document.getElementById(s.id);
+                    if(!el) return null;
+                    const w = parseFloat(el.style.width);
+                    let sz = 'A3';
+                    if (w < 90) sz = 'A5';
+                    else if (w < 130) sz = 'A4';
+                    else if (w > 220) sz = 'A2';
+                    return { u: stickerMap[s.url] || s.url, sz, t: el.style.top, l: el.style.left, w: el.style.width, r: el.dataset.rotation || 0 };
+                }).filter(d => d !== null);
+                const total = 1300 + activeStickers.reduce((sum, s) => sum + (s.price || 250), 0);
+                if (typeof cart === 'undefined') window.cart = JSON.parse(localStorage.getItem('cart')) || [];
+                cart.push({
+                    id: 'custom-' + Date.now(), name: 'Custom Tee', price: total, quantity: 1, size: currentTshirtSize, color: selectedColorName,
+                    isCustom: true, customStickers: details, image: 'https://i.ibb.co/NnQrQr7y/T-Shirt.png'
+                });
+                if (typeof saveCart === 'function') saveCart();
+                else localStorage.setItem('cart', JSON.stringify(cart));
+                if (typeof updateCartCount === 'function') updateCartCount();
+                localStorage.removeItem('roohira_custom_design');
+                window.location.href = 'cart.html';
+            } catch (err) { console.error("Cart Error:", err); alert("Something went wrong. Please try again."); }
         }
-
-        window.onload = () => { updateCartCount(); lucide.createIcons(); };
+        window.onload = () => { loadSavedDesign(); updateCartCount(); lucide.createIcons(); };
     </script>
 </body>
 </html>

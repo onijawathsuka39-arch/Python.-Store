@@ -295,7 +295,13 @@
                     'S5': 'https://i.ibb.co/B5s9qhyX/A3-5.png', 'S6': 'https://i.ibb.co/bj43Hcks/A3-6.png',
                     'S7': 'https://i.ibb.co/7B5DZmx/A3-7.png', 'S8': 'https://i.ibb.co/SXdG9PTc/A3-8.png',
                     'S9': 'https://i.ibb.co/tp3krXPp/A3-9.png', 'S10': 'https://i.ibb.co/VY90dG3G/A3-10.png',
-                    'S11': 'https://i.ibb.co/1JQ00QMd/A3-11.png'
+                    'S11': 'https://i.ibb.co/1JQ00QMd/A3-11.png', 'S12': 'https://i.ibb.co/XkDb3jmB/Nike.png',
+                    'S13': 'https://i.ibb.co/gLS0w69Y/Python-BMW.png', 'S14': 'https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png',
+                    'S15': 'https://i.ibb.co/84sH5Qvb/Chat-GPT-Image-Apr-29-2026-10-06-33-PM.png',
+                    'S16': 'https://i.ibb.co/NdBPMyjn/Chat-GPT-Image-Apr-30-2026-02-22-11-PM.png',
+                    'S17': 'https://i.ibb.co/0VKQ1GX2/download-23.png',
+                    'S18': 'https://i.ibb.co/pvszmzQC/Whats-App-Image-2026-04-28-at-16-06-29-1.png',
+                    'S19': 'https://i.ibb.co/XfbrZJLh/Whats-App-Image-2026-04-28-at-16-06-31.png'
                 };
 
                 const colorNames = {
@@ -321,7 +327,8 @@
                                     <img src="https://i.ibb.co/NnQrQr7y/T-Shirt.png" class="inv-t-img">
                                     ${item.customStickers.map(s => {
                                         const url = stickerMap[s.u] || s.u;
-                                        return `<img src="${url}" class="inv-sticker" style="top: ${s.t}; left: ${s.l}; width: calc(${s.w} / 4);">`;
+                                        const rot = s.r || 0;
+                                        return `<img src="${url}" class="inv-sticker" style="top: ${s.t}; left: ${s.l}; width: calc(${s.w} / 4); transform: translate(-50%, -50%) rotate(${rot}deg);">`;
                                     }).join('')}
                                 </div>
                             </div>
@@ -337,7 +344,8 @@
                                     <img src="https://i.ibb.co/NnQrQr7y/T-Shirt.png" class="inv-t-img" style="width: 100%;">
                                     ${item.customStickers.map(s => {
                                         const url = stickerMap[s.u] || s.u;
-                                        return `<img src="${url}" class="inv-sticker" style="top: ${s.t}; left: ${s.l}; width: calc(${s.w} / 1.5);">`;
+                                        const rot = s.r || 0;
+                                        return `<img src="${url}" class="inv-sticker" style="top: ${s.t}; left: ${s.l}; width: calc(${s.w} / 1.5); transform: translate(-50%, -50%) rotate(${rot}deg);">`;
                                     }).join('')}
                                 </div>
                             </div>
@@ -345,13 +353,22 @@
                             <p style="font-size: 1.2rem; margin: 15px 0;">Fabric Size: <b style="background: #000; color: #fff; padding: 2px 10px; border-radius: 5px;">${item.size}</b> | Color: <b>${item.color}</b></p>
                             
                             <div style="text-align: left; background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #ddd;">
-                                <h4 style="margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px;">Sticker Details:</h4>
-                                ${item.customStickers.map((s, idx) => `
-                                    <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #eee; padding-bottom: 5px;">
-                                        <span>Sticker ${idx+1}: <b style="font-size: 1rem;">${s.sz}</b></span>
-                                        <a href="${stickerMap[s.u] || s.u}" download class="btn" style="padding: 5px 10px; font-size: 0.7rem;">SAVE FILE</a>
-                                    </div>
-                                `).join('')}
+                                <h4 style="margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px;">Production Specifications:</h4>
+                                <div style="margin-bottom: 10px; display: flex; justify-content: space-between;">
+                                    <span>Fabric Size:</span> <b style="font-size: 1.1rem; color: var(--primary);">${item.size}</b>
+                                </div>
+                                <div style="margin-bottom: 15px; display: flex; justify-content: space-between;">
+                                    <span>Fabric Color:</span> <b>${item.color}</b>
+                                </div>
+                                <div style="border-top: 1px dashed #eee; padding-top: 10px;">
+                                    <p style="font-weight: 800; margin-bottom: 10px; font-size: 0.85rem;">Sticker List:</p>
+                                    ${item.customStickers.map((s, idx) => `
+                                        <div style="margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 8px; border-radius: 8px;">
+                                            <span>#${idx+1} Design Size: <b style="font-size: 1rem;">${s.sz}</b></span>
+                                            <a href="${stickerMap[s.u] || s.u}" download class="btn" style="padding: 4px 8px; font-size: 0.6rem;">SAVE FILE</a>
+                                        </div>
+                                    `).join('')}
+                                </div>
                             </div>
                         `;
                         designGrid.appendChild(card);
