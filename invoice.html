@@ -90,28 +90,30 @@
         }
         .inv-t-base {
             position: relative;
-            width: 100%;
-            height: 100%;
-            -webkit-mask-image: url('https://i.ibb.co/NnQrQr7y/T-Shirt.png');
-            mask-image: url('https://i.ibb.co/NnQrQr7y/T-Shirt.png');
-            -webkit-mask-size: contain;
-            mask-size: contain;
-            -webkit-mask-repeat: no-repeat;
-            mask-repeat: no-repeat;
-            -webkit-mask-position: center;
-            mask-position: center;
-            background-color: #ffffff;
+            width: 120px;
+            height: 140px;
+            margin: 0 auto;
+            overflow: hidden; /* Only show one side */
+            border-radius: 8px;
         }
-        .inv-t-img {
-            width: 100%;
-            display: block;
-            pointer-events: none;
-            mix-blend-mode: multiply;
+        .inv-t-content {
+            position: absolute;
+            top: 0;
+            left: -100%; /* Hide the back side (left half) */
+            width: 200%; /* Total width for front+back */
+            height: 100%;
+            background-image: url('https://i.ibb.co/NnQrQr7y/T-Shirt.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: #ffffff;
+            background-blend-mode: multiply;
         }
         .inv-sticker {
             position: absolute;
             pointer-events: none;
             transform: translate(-50%, -50%);
+            z-index: 10;
         }
         .totals-box {
             margin-left: auto;
@@ -340,13 +342,14 @@
                         
                         previewHtml = `
                             <div class="inv-preview">
-                                <div class="inv-t-base" style="background-color: ${bgColor};">
-                                    <img src="https://i.ibb.co/NnQrQr7y/T-Shirt.png" class="inv-t-img">
-                                    ${item.customStickers.map(s => {
-                                        const url = stickerMap[s.u] || s.u;
-                                        const rot = s.r || 0;
-                                        return `<img src="${url}" class="inv-sticker" style="top: ${s.t}; left: ${s.l}; width: calc(${s.w} / 4); transform: translate(-50%, -50%) rotate(${rot}deg);">`;
-                                    }).join('')}
+                                <div class="inv-t-base">
+                                    <div class="inv-t-content" style="background-color: ${bgColor};">
+                                        ${item.customStickers.map(s => {
+                                            const url = stickerMap[s.u] || s.u;
+                                            const rot = s.r || 0;
+                                            return `<img src="${url}" class="inv-sticker" style="top: ${s.t}; left: ${s.l}; width: calc(${s.w} / 4); transform: translate(-50%, -50%) rotate(${rot}deg);">`;
+                                        }).join('')}
+                                    </div>
                                 </div>
                             </div>
                         `;
@@ -357,13 +360,14 @@
                         card.style.border = '2px solid #000';
                         card.innerHTML = `
                             <div class="large-preview-box" style="width: 300px; height: 350px;">
-                                <div class="inv-t-base" style="background-color: ${bgColor}; width: 100%; height: 100%;">
-                                    <img src="https://i.ibb.co/NnQrQr7y/T-Shirt.png" class="inv-t-img" style="width: 100%;">
-                                    ${item.customStickers.map(s => {
-                                        const url = stickerMap[s.u] || s.u;
-                                        const rot = s.r || 0;
-                                        return `<img src="${url}" class="inv-sticker" style="top: ${s.t}; left: ${s.l}; width: calc(${s.w} / 1.5); transform: translate(-50%, -50%) rotate(${rot}deg);">`;
-                                    }).join('')}
+                                <div class="inv-t-base" style="width: 100%; height: 100%;">
+                                    <div class="inv-t-content" style="background-color: ${bgColor};">
+                                        ${item.customStickers.map(s => {
+                                            const url = stickerMap[s.u] || s.u;
+                                            const rot = s.r || 0;
+                                            return `<img src="${url}" class="inv-sticker" style="top: ${s.t}; left: ${s.l}; width: calc(${s.w} / 1.5); transform: translate(-50%, -50%) rotate(${rot}deg);">`;
+                                        }).join('')}
+                                    </div>
                                 </div>
                             </div>
                             <h2 style="margin: 0; font-weight: 900; color: var(--primary);">PRODUCTION SPEC</h2>
