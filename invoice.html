@@ -391,6 +391,9 @@
                                                 <span>Sticker #${idx+1} (${s.sz}):</span> <b>Rs. ${s.p || 0}.00</b>
                                             </div>
                                         `).join('')}
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.85rem; border-top: 1px solid #eee; padding-top: 5px; margin-top: 5px;">
+                                            <span>Total Designs Price:</span> <b>Rs. ${item.customStickers.reduce((sum, s) => sum + (s.p || 0), 0).toLocaleString()}.00</b>
+                                        </div>
                                         <div style="display: flex; justify-content: space-between; border-top: 1px dashed #ccc; padding-top: 5px; margin-top: 5px; font-weight: 900; color: var(--primary);">
                                             <span>Total Item Price:</span> <span>Rs. ${(item.price || 0).toLocaleString()}.00</span>
                                         </div>
