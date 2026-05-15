@@ -37,8 +37,8 @@
             <h2>Secure <span style="color: #ff0000;">Checkout</span></h2>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto;">
-            <div class="glass" style="padding: 40px;">
+        <div class="checkout-grid" style="max-width: 1200px; margin: 0 auto;">
+            <div class="glass checkout-form" style="padding: 40px;">
                 <h3 style="margin-bottom: 30px;">Shipping Details</h3>
                 <div class="form-group">
                     <label>Address</label>
@@ -86,9 +86,12 @@
         document.addEventListener('DOMContentLoaded', () => {
             const cart = JSON.parse(localStorage.getItem('python_cart')) || [];
             const container = document.getElementById('checkout-items');
-            let total = 0;
+            let subtotal = 0;
+            let itemCount = 0;
+
             cart.forEach(item => {
-                total += item.price * item.quantity;
+                subtotal += item.price * item.quantity;
+                itemCount += item.quantity;
                 container.innerHTML += `
                     <div style="display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.9rem;">
                         <span>${item.name} x ${item.quantity}</span>
@@ -96,7 +99,19 @@
                     </div>
                 `;
             });
-            document.getElementById('checkout-total').innerText = `Rs. ${total.toLocaleString()}.00`;
+
+            const deliveryFee = itemCount > 3 ? 0 : 450;
+            const grandTotal = subtotal + deliveryFee;
+
+            container.innerHTML += `
+                <div style="display: flex; justify-content: space-between; margin-top: 15px; color: var(--text-muted); font-size: 0.9rem;">
+                    <span>Delivery Fee ${itemCount > 3 ? '(Free Promo)' : ''}</span>
+                    <span>${deliveryFee === 0 ? 'FREE' : 'Rs. ' + deliveryFee.toLocaleString()}</span>
+                </div>
+                ${itemCount <= 3 ? `<p style="font-size: 0.7rem; color: #DC143C; margin-top: 5px;">Add ${4 - itemCount} more item(s) for FREE delivery!</p>` : ''}
+            `;
+
+            document.getElementById('checkout-total').innerText = `Rs. ${grandTotal.toLocaleString()}.00`;
         });
     </script>
 </body>
