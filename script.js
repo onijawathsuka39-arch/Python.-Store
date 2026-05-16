@@ -240,9 +240,9 @@ function displayProducts(filteredProducts) {
         }
 
         const isOutOfStock = p.stock === 0;
-        const stockBadge = isOutOfStock
-            ? `<span style="position: absolute; top: 15px; right: 15px; background: #555; color: white; padding: 5px 12px; border-radius: 50px; font-size: 0.65rem; font-weight: 800; z-index: 10;">OUT OF STOCK</span>`
-            : `<span style="position: absolute; top: 15px; right: 15px; background: #2ecc71; color: white; padding: 5px 12px; border-radius: 50px; font-size: 0.65rem; font-weight: 800; z-index: 10;">IN STOCK</span>`;
+        const stockBadge = isOutOfStock 
+            ? `<span style="background: #fdf2f2; color: #9b1c1c; padding: 2px 8px; border-radius: 4px; font-size: 0.6rem; font-weight: 800; display: inline-block; margin-left: 8px; vertical-align: middle; border: 1px solid #fbd5d5;">OUT OF STOCK</span>`
+            : `<span style="background: #f3faf7; color: #03543f; padding: 2px 8px; border-radius: 4px; font-size: 0.6rem; font-weight: 800; display: inline-block; margin-left: 8px; vertical-align: middle; border: 1px solid #def7ec;">IN STOCK</span>`;
 
         grid.innerHTML += `
         <div class="product-card glass ${isOutOfStock ? 'out-of-stock' : ''}" 
@@ -252,14 +252,16 @@ function displayProducts(filteredProducts) {
              style="cursor: pointer; animation: fadeIn 0.5s ease forwards; overflow: hidden; display: flex; flex-direction: column; position: relative; ${isOutOfStock ? 'opacity: 0.7;' : ''}">
             <div class="product-image" style="overflow: hidden; position: relative; width: 100%; aspect-ratio: 1/1; border-radius: 15px;">
                 ${discountBadge}
-                ${stockBadge}
                 <div class="card-slider" style="display: flex; transition: transform 0.5s ease; height: 100%; width: 100%;">
                     ${p.images.map(img => `<img src="${img}" style="width: 100%; flex-shrink: 0; height: 100%; object-fit: cover;">`).join('')}
                 </div>
             </div>
             <div class="product-info">
-                <span style="font-size: 0.7rem; color: #DC143C; font-weight: 800;">${p.category || ''}</span>
-                <h3>${p.name}</h3>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;">
+                    <span style="font-size: 0.7rem; color: #DC143C; font-weight: 800;">${p.category || ''}</span>
+                    ${stockBadge}
+                </div>
+                <h3 style="margin-top: 0;">${p.name}</h3>
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <p class="price">Rs. ${displayPrice.toLocaleString()}.00</p>
                     ${displayOldPrice ? `<p style="text-decoration: line-through; color: var(--text-muted); font-size: 0.8rem;">Rs. ${displayOldPrice.toLocaleString()}</p>` : ''}
