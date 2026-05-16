@@ -212,18 +212,46 @@
 
         .sticker-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            max-height: 250px;
-            overflow-y: auto;
+            grid-template-rows: repeat(3, 65px);
+            grid-auto-flow: column;
+            grid-auto-columns: 65px;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 5px 0 15px 0;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .sticker-grid::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .sticker-grid::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .sticker-grid::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 10px;
         }
 
         .sticker-item {
             background: #fff;
             border: 1px solid #eee;
-            padding: 8px;
-            border-radius: 12px;
+            padding: 5px;
+            border-radius: 10px;
             cursor: pointer;
+            scroll-snap-align: start;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .sticker-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
         }
 
         .sticker-item img {
@@ -361,8 +389,8 @@
                             onclick="setTshirtColor('#ffffff', 'White', this)"></div>
                         <div class="color-dot" style="background: #ff0000;" data-name="Red"
                             onclick="setTshirtColor('#ff0000', 'Red', this)"></div>
-                        <div class="color-dot" style="background: #1a1a1a;" data-name="Black"
-                            onclick="setTshirtColor('#1a1a1a', 'Black', this)"></div>
+                        <div class="color-dot" style="background: #2b2b2b;" data-name="Black"
+                            onclick="setTshirtColor('#2b2b2b', 'Black', this)"></div>
                         <div class="color-dot" style="background: #0000ff;" data-name="Blue"
                             onclick="setTshirtColor('#0000ff', 'Blue', this)"></div>
                         <div class="color-dot" style="background: #008000;" data-name="Green"
@@ -387,46 +415,54 @@
 
                 <div class="control-section">
                     <h4><i data-lucide="image"></i> 2. Select Stickers</h4>
-                    <p style="font-size: 0.75rem; opacity: 0.6; margin: -5px 0 10px 0;">Premium Graphic Designs</p>
-                    <div class="sticker-grid" style="margin-bottom: 20px;">
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/gMrCJPnN/A3-1.png')"><img src="https://i.ibb.co/gMrCJPnN/A3-1.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/QFRLTykz/A3-2.png')"><img src="https://i.ibb.co/QFRLTykz/A3-2.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/S7f8ZfJs/A3-3.png')"><img src="https://i.ibb.co/S7f8ZfJs/A3-3.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/tMccn0qh/A3-4.png')"><img src="https://i.ibb.co/tMccn0qh/A3-4.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/B5s9qhyX/A3-5.png')"><img src="https://i.ibb.co/B5s9qhyX/A3-5.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/bj43Hcks/A3-6.png')"><img src="https://i.ibb.co/bj43Hcks/A3-6.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/7B5DZmx/A3-7.png')"><img src="https://i.ibb.co/7B5DZmx/A3-7.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/SXdG9PTc/A3-8.png')"><img src="https://i.ibb.co/SXdG9PTc/A3-8.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/tp3krXPp/A3-9.png')"><img src="https://i.ibb.co/tp3krXPp/A3-9.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/VY90dG3G/A3-10.png')"><img src="https://i.ibb.co/VY90dG3G/A3-10.png"></div>
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/1JQ00QMd/A3-11.png')"><img src="https://i.ibb.co/1JQ00QMd/A3-11.png"></div>
+                    <div class="category-tabs" style="display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px;">
+                        <div class="selector-btn active" style="padding: 5px 15px; font-size: 0.7rem; white-space: nowrap;" onclick="filterStickers('all', this)">All Designs</div>
+                        <div class="selector-btn" style="padding: 5px 15px; font-size: 0.7rem; white-space: nowrap;" onclick="filterStickers('bw', this)">Black & White</div>
+                        <div class="selector-btn" style="padding: 5px 15px; font-size: 0.7rem; white-space: nowrap;" onclick="filterStickers('python', this)">Python Collection</div>
                     </div>
-
-                    <p style="font-size: 0.75rem; opacity: 0.6; margin: -5px 0 10px 0;">Brands & Special Collections</p>
-                    <div class="sticker-grid">
+                    <div class="sticker-grid" id="main-sticker-grid">
+                        <!-- Black & White Collection -->
+                        <div class="sticker-item" data-cat="bw" onclick="addNewSticker('https://i.ibb.co/MyV1gShG/download-28.png')"><img src="https://i.ibb.co/MyV1gShG/download-28.png"></div>
+                        <div class="sticker-item" data-cat="bw" onclick="addNewSticker('https://i.ibb.co/k2V8LGH8/download-29.png')"><img src="https://i.ibb.co/k2V8LGH8/download-29.png"></div>
+                        <div class="sticker-item" data-cat="bw" onclick="addNewSticker('https://i.ibb.co/XfMfT2Pc/download-30.png')"><img src="https://i.ibb.co/XfMfT2Pc/download-30.png"></div>
+                        <div class="sticker-item" data-cat="bw" onclick="addNewSticker('https://i.ibb.co/v9nFCm5/download-31.png')"><img src="https://i.ibb.co/v9nFCm5/download-31.png"></div>
+                        <div class="sticker-item" data-cat="bw" onclick="addNewSticker('https://i.ibb.co/0jNxLvYv/Believe.png')"><img src="https://i.ibb.co/0jNxLvYv/Believe.png"></div>
                         <!-- Nike -->
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/XfbrZJLh/Whats-App-Image-2026-04-28-at-16-06-31.png')"><img src="https://i.ibb.co/XfbrZJLh/Whats-App-Image-2026-04-28-at-16-06-31.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/XfbrZJLh/Whats-App-Image-2026-04-28-at-16-06-31.png')"><img src="https://i.ibb.co/XfbrZJLh/Whats-App-Image-2026-04-28-at-16-06-31.png"></div>
                         <!-- BMW -->
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/pvszmzQC/Whats-App-Image-2026-04-28-at-16-06-29-1.png')"><img src="https://i.ibb.co/pvszmzQC/Whats-App-Image-2026-04-28-at-16-06-29-1.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/pvszmzQC/Whats-App-Image-2026-04-28-at-16-06-29-1.png')"><img src="https://i.ibb.co/pvszmzQC/Whats-App-Image-2026-04-28-at-16-06-29-1.png"></div>
                         <!-- Infinity -->
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/0VKQ1GX2/download-23.png')"><img src="https://i.ibb.co/0VKQ1GX2/download-23.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/0VKQ1GX2/download-23.png')"><img src="https://i.ibb.co/0VKQ1GX2/download-23.png"></div>
                         
                         <!-- NEW BRANDS -->
                         <!-- Ferrari -->
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/8g3YLLRP/download-25.png')"><img src="https://i.ibb.co/8g3YLLRP/download-25.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/8g3YLLRP/download-25.png')"><img src="https://i.ibb.co/8g3YLLRP/download-25.png"></div>
                         <!-- Porsche -->
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/rf382jbv/download-26.png')"><img src="https://i.ibb.co/rf382jbv/download-26.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/rf382jbv/download-26.png')"><img src="https://i.ibb.co/rf382jbv/download-26.png"></div>
                         <!-- Lamborghini -->
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/gFXHwFCX/download-27.png')"><img src="https://i.ibb.co/gFXHwFCX/download-27.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/gFXHwFCX/download-27.png')"><img src="https://i.ibb.co/gFXHwFCX/download-27.png"></div>
                         <!-- Mustang -->
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/rGGMkwkb/Ford-Mustang-Built-to-Be-Legendary.png')"><img src="https://i.ibb.co/rGGMkwkb/Ford-Mustang-Built-to-Be-Legendary.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/rGGMkwkb/Ford-Mustang-Built-to-Be-Legendary.png')"><img src="https://i.ibb.co/rGGMkwkb/Ford-Mustang-Built-to-Be-Legendary.png"></div>
                         <!-- Flintstones -->
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/Sw7MG9wS/Kids-The-Flintstones-Fred-And-Barney-Let-s-Rock-Png-Fred-And-Barney-The-Flintstones-Fred-Barney.png')"><img src="https://i.ibb.co/Sw7MG9wS/Kids-The-Flintstones-Fred-And-Barney-Let-s-Rock-Png-Fred-And-Barney-The-Flintstones-Fred-Barney.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/Sw7MG9wS/Kids-The-Flintstones-Fred-And-Barney-Let-s-Rock-Png-Fred-And-Barney-The-Flintstones-Fred-Barney.png')"><img src="https://i.ibb.co/Sw7MG9wS/Kids-The-Flintstones-Fred-And-Barney-Let-s-Rock-Png-Fred-And-Barney-The-Flintstones-Fred-Barney.png"></div>
 
                         <!-- Space -->
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/84sH5Qvb/Chat-GPT-Image-Apr-29-2026-10-06-33-PM.png')"><img src="https://i.ibb.co/84sH5Qvb/Chat-GPT-Image-Apr-29-2026-10-06-33-PM.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/84sH5Qvb/Chat-GPT-Image-Apr-29-2026-10-06-33-PM.png')"><img src="https://i.ibb.co/84sH5Qvb/Chat-GPT-Image-Apr-29-2026-10-06-33-PM.png"></div>
                         <!-- Urban -->
-                        <div class="sticker-item" onclick="addNewSticker('https://i.ibb.co/NdBPMyjn/Chat-GPT-Image-Apr-30-2026-02-22-11-PM.png')"><img src="https://i.ibb.co/NdBPMyjn/Chat-GPT-Image-Apr-30-2026-02-22-11-PM.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/NdBPMyjn/Chat-GPT-Image-Apr-30-2026-02-22-11-PM.png')"><img src="https://i.ibb.co/NdBPMyjn/Chat-GPT-Image-Apr-30-2026-02-22-11-PM.png"></div>
+
+                        <!-- Graphics -->
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/gMrCJPnN/A3-1.png')"><img src="https://i.ibb.co/gMrCJPnN/A3-1.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/QFRLTykz/A3-2.png')"><img src="https://i.ibb.co/QFRLTykz/A3-2.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/S7f8ZfJs/A3-3.png')"><img src="https://i.ibb.co/S7f8ZfJs/A3-3.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/tMccn0qh/A3-4.png')"><img src="https://i.ibb.co/tMccn0qh/A3-4.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/B5s9qhyX/A3-5.png')"><img src="https://i.ibb.co/B5s9qhyX/A3-5.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/bj43Hcks/A3-6.png')"><img src="https://i.ibb.co/bj43Hcks/A3-6.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/7B5DZmx/A3-7.png')"><img src="https://i.ibb.co/7B5DZmx/A3-7.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/SXdG9PTc/A3-8.png')"><img src="https://i.ibb.co/SXdG9PTc/A3-8.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/tp3krXPp/A3-9.png')"><img src="https://i.ibb.co/tp3krXPp/A3-9.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/VY90dG3G/A3-10.png')"><img src="https://i.ibb.co/VY90dG3G/A3-10.png"></div>
+                        <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/1JQ00QMd/A3-11.png')"><img src="https://i.ibb.co/1JQ00QMd/A3-11.png"></div>
                     </div>
                 </div>
 
@@ -514,7 +550,12 @@
             'https://i.ibb.co/rf382jbv/download-26.png': 'S21',
             'https://i.ibb.co/gFXHwFCX/download-27.png': 'S22',
             'https://i.ibb.co/rGGMkwkb/Ford-Mustang-Built-to-Be-Legendary.png': 'S23',
-            'https://i.ibb.co/Sw7MG9wS/Kids-The-Flintstones-Fred-And-Barney-Let-s-Rock-Png-Fred-And-Barney-The-Flintstones-Fred-Barney.png': 'S24'
+            'https://i.ibb.co/Sw7MG9wS/Kids-The-Flintstones-Fred-And-Barney-Let-s-Rock-Png-Fred-And-Barney-The-Flintstones-Fred-Barney.png': 'S24',
+            'https://i.ibb.co/MyV1gShG/download-28.png': 'S25',
+            'https://i.ibb.co/k2V8LGH8/download-29.png': 'S26',
+            'https://i.ibb.co/XfMfT2Pc/download-30.png': 'S27',
+            'https://i.ibb.co/v9nFCm5/download-31.png': 'S28',
+            'https://i.ibb.co/0jNxLvYv/Believe.png': 'S29'
         };
 
         function toggleModal(show) { document.getElementById('size-modal').style.display = show ? 'flex' : 'none'; }
@@ -722,6 +763,18 @@
             } catch (err) { console.error("Cart Error:", err); alert("Something went wrong. Please try again."); }
         }
         window.onload = () => { loadSavedDesign(); updateCartCount(); lucide.createIcons(); };
+        function filterStickers(cat, btn) {
+            document.querySelectorAll('.category-tabs .selector-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const items = document.querySelectorAll('#main-sticker-grid .sticker-item');
+            items.forEach(item => {
+                if (cat === 'all' || item.dataset.cat === cat) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
     </script>
 </body>
 
