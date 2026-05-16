@@ -330,18 +330,31 @@
 
         @media (max-width: 900px) {
             .customize-layout {
-                grid-template-columns: 1fr;
+                display: flex;
+                flex-direction: column;
                 padding: 15px;
                 width: 100%;
                 box-sizing: border-box;
                 gap: 20px;
+                overflow-x: hidden;
             }
 
             .preview-box {
-                min-height: 350px;
+                min-height: unset;
+                height: auto;
+                aspect-ratio: 1 / 1;
                 padding: 10px;
                 width: 100%;
                 box-sizing: border-box;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .tshirt-base {
+                width: 90%;
+                max-width: 100%;
+                height: auto;
             }
 
             .control-section {
@@ -351,7 +364,7 @@
             }
 
             .color-grid {
-                grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(35px, 1fr));
             }
 
             .selector-grid {
