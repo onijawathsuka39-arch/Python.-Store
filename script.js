@@ -34,7 +34,7 @@ const products = [
             'L': { price: 1600, oldPrice: 1850 },
             'XL': { price: 1600, oldPrice: 1850 }
         },
-        colors: ['#ffffff'],
+        colors: ['#ffffff'], stock: 10,
         desc: 'The Infinity Edition Regular Tee (Printed) by Python. Crafted with premium 220 GSM fabric for ultimate comfort and durability.'
     },
     {
@@ -50,7 +50,7 @@ const products = [
             'L': { price: 1600, oldPrice: 1850 },
             'XL': { price: 1600, oldPrice: 1850 }
         },
-        colors: ['#000000'],
+        colors: ['#000000'], stock: 10,
         desc: 'Peace Design Regular Tee (Printed) by Python. Featuring a premium 220 GSM build for a sleek and meaningful streetwear look.'
     },
     {
@@ -66,7 +66,7 @@ const products = [
             'L': { price: 1600, oldPrice: 1850 },
             'XL': { price: 1600, oldPrice: 1850 }
         },
-        colors: ['#ffffff'],
+        colors: ['#ffffff'], stock: 10,
         desc: 'Nike Design Regular Tee (Printed) by Python. A classic aesthetic combined with high-quality 220 GSM fabric for everyday premium style.'
     },
     {
@@ -132,7 +132,7 @@ const products = [
             'L': { price: 1600, oldPrice: 1850 },
             'XL': { price: 1600, oldPrice: 1850 }
         },
-        colors: ['#000000'],
+        colors: ['#000000'], stock: 10,
         desc: 'Air Jordan Design Regular Tee (Printed) by Python. Iconic basketball-inspired aesthetic meets premium 220 GSM comfort.'
     },
     {
@@ -239,14 +239,20 @@ function displayProducts(filteredProducts) {
             discountBadge = `<span style="position: absolute; top: 15px; left: 15px; background: #DC143C; color: white; padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; z-index: 10; box-shadow: 0 4px 10px rgba(220, 20, 60, 0.3);">${discountPercent}% OFF</span>`;
         }
 
+        const isOutOfStock = p.stock === 0;
+        const stockBadge = isOutOfStock
+            ? `<span style="position: absolute; top: 15px; right: 15px; background: #555; color: white; padding: 5px 12px; border-radius: 50px; font-size: 0.65rem; font-weight: 800; z-index: 10;">OUT OF STOCK</span>`
+            : `<span style="position: absolute; top: 15px; right: 15px; background: #2ecc71; color: white; padding: 5px 12px; border-radius: 50px; font-size: 0.65rem; font-weight: 800; z-index: 10;">IN STOCK</span>`;
+
         grid.innerHTML += `
-        <div class="product-card glass" 
+        <div class="product-card glass ${isOutOfStock ? 'out-of-stock' : ''}" 
              onclick="window.location.href='product-detail.html?id=${p.id}'" 
              onmouseenter="startHoverSlide('${p.id}', this.querySelector('.card-slider'))"
              onmouseleave="stopHoverSlide('${p.id}', this.querySelector('.card-slider'))"
-             style="cursor: pointer; animation: fadeIn 0.5s ease forwards; overflow: hidden; display: flex; flex-direction: column;">
+             style="cursor: pointer; animation: fadeIn 0.5s ease forwards; overflow: hidden; display: flex; flex-direction: column; position: relative; ${isOutOfStock ? 'opacity: 0.7;' : ''}">
             <div class="product-image" style="overflow: hidden; position: relative; width: 100%; aspect-ratio: 1/1; border-radius: 15px;">
                 ${discountBadge}
+                ${stockBadge}
                 <div class="card-slider" style="display: flex; transition: transform 0.5s ease; height: 100%; width: 100%;">
                     ${p.images.map(img => `<img src="${img}" style="width: 100%; flex-shrink: 0; height: 100%; object-fit: cover;">`).join('')}
                 </div>
@@ -259,10 +265,12 @@ function displayProducts(filteredProducts) {
                     ${displayOldPrice ? `<p style="text-decoration: line-through; color: var(--text-muted); font-size: 0.8rem;">Rs. ${displayOldPrice.toLocaleString()}</p>` : ''}
                 </div>
             </div>
+            ${isOutOfStock ? '' : `
             <div class="add-to-cart" onclick="event.stopPropagation(); addToCart('${p.name}', ${displayPrice}, '${p.images[0]}')">
                 <i data-lucide="plus"></i>
             </div>
-            ${p.category === 'Oversized Tee (Printed)' ? '' : `
+            `}
+            ${p.category === 'Oversized Tee (Printed)' || isOutOfStock ? '' : `
             <div class="size-chart-card-btn" onclick="event.stopPropagation(); openSizeChart()" title="Size Chart" style="position: absolute; bottom: 20px; right: 75px; width: 45px; height: 45px; border-radius: 50%; background: #fff; border: 1px solid #ddd; color: #000; display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(20px); transition: 0.3s; cursor: pointer; z-index: 10;">
                 <i data-lucide="ruler" style="width: 20px; height: 20px;"></i>
             </div>
