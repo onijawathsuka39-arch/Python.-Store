@@ -11,6 +11,32 @@
     --glass: rgba(255, 255, 255, 0.9);
     --glass-border: rgba(220, 20, 60, 0.1);
     --surface: #FFFFFF;
+    --border-color: #e2e8f0;
+    --border-light: #f1f5f9;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="dark"] {
+    --primary-dark: #F8FAFC;
+    --primary-light: #0A0F1E;
+    --text-main: #F8FAFC;
+    --text-muted: rgba(248, 250, 252, 0.6);
+    --glass: rgba(19, 25, 43, 0.9);
+    --glass-border: rgba(220, 20, 60, 0.25);
+    --surface: #13192B;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --border-light: rgba(255, 255, 255, 0.05);
+    --shadow-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Fallback override for any remaining hardcoded inline dark colors in Dark Mode */
+[data-theme="dark"] [style*="color: #1a0a0a"],
+[data-theme="dark"] [style*="color:#1a0a0a"],
+[data-theme="dark"] [style*="color: #000000"],
+[data-theme="dark"] [style*="color:#000000"],
+[data-theme="dark"] [style*="color: #000"],
+[data-theme="dark"] [style*="color:#000"] {
+    color: var(--text-main) !important;
 }
 
 * {
@@ -43,9 +69,9 @@ body {
 
 /* Subtle, premium boxes */
 .glass {
-    background: #FFFFFF;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
-    border: 1px solid #f1f5f9;
+    background: var(--surface);
+    box-shadow: 0 15px 35px var(--shadow-color);
+    border: 1px solid var(--border-light);
     border-radius: 25px;
     transition: var(--transition-smooth);
 }
@@ -161,7 +187,7 @@ nav.scrolled {
     padding: 120px 10% 0;
     position: relative;
     overflow: hidden;
-    background: #FFFFFF;
+    background: var(--primary-light);
 }
 
 .hero-content {
@@ -364,8 +390,8 @@ nav.scrolled {
     width: 100%;
     aspect-ratio: 4/5;
     border-radius: 15px;
-    background: #FFFFFF;
-    border: 1px solid #f1f5f9;
+    background: var(--surface);
+    border: 1px solid var(--border-light);
     margin-bottom: 20px;
     display: flex;
     align-items: center;
@@ -440,8 +466,8 @@ nav.scrolled {
 /* Contact Footer */
 .footer {
     padding: 80px 5% 40px;
-    border-top: 1px solid #e2e8f0;
-    background: #FFFFFF;
+    border-top: 1px solid var(--border-color);
+    background: var(--surface);
 }
 
 .footer-grid {
@@ -479,7 +505,7 @@ nav.scrolled {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #f1f5f9;
+    background: var(--border-light);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -490,7 +516,7 @@ nav.scrolled {
 .footer-bottom {
     text-align: center;
     padding-top: 40px;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid var(--border-color);
     color: var(--text-muted);
     font-size: 0.9rem;
 }
@@ -573,7 +599,7 @@ nav.scrolled {
 }
 
 .tshirt-preview {
-    background: #f1f5f9;
+    background: var(--border-light);
     border-radius: 30px;
     padding: 50px;
     display: flex;
@@ -649,8 +675,8 @@ nav.scrolled {
 .form-group input {
     width: 100%;
     padding: 14px 20px;
-    background: #FFFFFF;
-    border: 1px solid #e2e8f0;
+    background: var(--surface);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
     color: var(--primary-dark);
     font-size: 1rem;

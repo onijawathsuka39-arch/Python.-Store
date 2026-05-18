@@ -1,3 +1,9 @@
+// Apply stored theme immediately to avoid flash of light theme
+(function() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+})();
+
 // Centralized Color Configuration (Hex to Name Mapping)
 const colorNames = {
     '#ffffff': 'White',
@@ -537,8 +543,107 @@ function handleOfferNotification() {
     }
 }
 
+// Centralized Light/Dark Theme System
+function initThemeToggle() {
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    
+    // 1. Desktop Navbar Toggle
+    let navIcons = document.querySelector('.nav-icons');
+    if (!navIcons) {
+        const nav = document.getElementById('navbar');
+        if (nav) {
+            navIcons = document.createElement('div');
+            navIcons.className = 'nav-icons';
+            nav.appendChild(navIcons);
+        }
+    }
+    if (navIcons) {
+        if (!document.getElementById('theme-toggle')) {
+            const toggleBtn = document.createElement('a');
+            toggleBtn.href = '#';
+            toggleBtn.id = 'theme-toggle';
+            toggleBtn.style.cursor = 'pointer';
+            toggleBtn.style.display = 'flex';
+            toggleBtn.style.alignItems = 'center';
+            toggleBtn.setAttribute('title', 'Toggle Dark/Light Mode');
+            toggleBtn.innerHTML = `<i data-lucide="${currentTheme === 'dark' ? 'sun' : 'moon'}"></i>`;
+            
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            if (mobileMenuBtn) {
+                navIcons.insertBefore(toggleBtn, mobileMenuBtn);
+            } else {
+                navIcons.appendChild(toggleBtn);
+            }
+            
+            toggleBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const activeTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = activeTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                
+                toggleBtn.innerHTML = `<i data-lucide="${newTheme === 'dark' ? 'sun' : 'moon'}"></i>`;
+                const mobileToggle = document.getElementById('mobile-theme-toggle');
+                if (mobileToggle) {
+                    mobileToggle.innerHTML = `<i data-lucide="${newTheme === 'dark' ? 'sun' : 'moon'}"></i> Theme: ${newTheme === 'dark' ? 'Light' : 'Dark'}`;
+                }
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            });
+        }
+    }
+    
+    // 2. Mobile Drawer Toggle
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileMenu && !document.getElementById('mobile-theme-toggle')) {
+        const mobileToggle = document.createElement('a');
+        mobileToggle.href = '#';
+        mobileToggle.id = 'mobile-theme-toggle';
+        mobileToggle.style.display = 'flex';
+        mobileToggle.style.alignItems = 'center';
+        mobileToggle.style.gap = '15px';
+        mobileToggle.style.marginTop = '30px';
+        mobileToggle.style.padding = '12px 18px';
+        mobileToggle.style.borderRadius = '15px';
+        mobileToggle.style.background = 'var(--border-light)';
+        mobileToggle.style.color = 'var(--primary-dark)';
+        mobileToggle.style.fontSize = '1.1rem';
+        mobileToggle.style.fontWeight = '600';
+        mobileToggle.style.textDecoration = 'none';
+        mobileToggle.style.border = '1px solid var(--border-color)';
+        mobileToggle.innerHTML = `<i data-lucide="${currentTheme === 'dark' ? 'sun' : 'moon'}"></i> Theme: ${currentTheme === 'dark' ? 'Light' : 'Dark'}`;
+        
+        // Append to the list/menu block in mobile sidebar
+        const listContainer = mobileMenu.querySelector('ul');
+        if (listContainer) {
+            const li = document.createElement('li');
+            li.style.marginTop = '20px';
+            li.appendChild(mobileToggle);
+            listContainer.appendChild(li);
+        } else {
+            mobileMenu.appendChild(mobileToggle);
+        }
+        
+        mobileToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            const activeTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = activeTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const mainToggle = document.getElementById('theme-toggle');
+            if (mainToggle) {
+                mainToggle.innerHTML = `<i data-lucide="${newTheme === 'dark' ? 'sun' : 'moon'}"></i>`;
+            }
+            mobileToggle.innerHTML = `<i data-lucide="${newTheme === 'dark' ? 'sun' : 'moon'}"></i> Theme: ${newTheme === 'dark' ? 'Light' : 'Dark'}`;
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
+    }
+}
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+    initThemeToggle();
     updateCartCount();
     handleOfferNotification();
     if (window.location.pathname.includes('cart.html')) { renderCart(); }
