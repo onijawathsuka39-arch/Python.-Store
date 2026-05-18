@@ -28,7 +28,7 @@ const colorNames = {
 
 const products = [
     {
-        id: '1', name: 'Infinity Edition', category: 'Regular Tee (Printed)',
+        id: '1', name: 'Infinity Edition', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
         images: [
             'https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png',
             'https://i.ibb.co/NnswC8R5/Chat-GPT-Image-Apr-30-2026-12-01-14-PM.png'
@@ -44,7 +44,7 @@ const products = [
         desc: 'The Infinity Edition Regular Tee (Printed) by Python. Crafted with premium 220 GSM fabric for ultimate comfort and durability.'
     },
     {
-        id: '2', name: 'Peace Design', category: 'Regular Tee (Printed)',
+        id: '2', name: 'Peace Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
         images: [
             'https://i.ibb.co/ZzqQ1P97/Python-Peace.png',
             'https://i.ibb.co/QvcG1bRY/Chat-GPT-Image-May-4-2026-03-30-55-PM.png'
@@ -60,7 +60,7 @@ const products = [
         desc: 'Peace Design Regular Tee (Printed) by Python. Featuring a premium 220 GSM build for a sleek and meaningful streetwear look.'
     },
     {
-        id: '3', name: 'Nike Design', category: 'Regular Tee (Printed)',
+        id: '3', name: 'Nike Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
         images: [
             'https://i.ibb.co/XkDb3jmB/Nike.png',
             'https://i.ibb.co/BV3wRfLt/Chat-GPT-Image-Apr-30-2026-04-50-57-PM.png'
@@ -76,7 +76,7 @@ const products = [
         desc: 'Nike Design Regular Tee (Printed) by Python. A classic aesthetic combined with high-quality 220 GSM fabric for everyday premium style.'
     },
     {
-        id: '4', name: 'Stitch Design for Girls', category: 'Regular Tee (Printed)',
+        id: '4', name: 'Stitch Design for Girls', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
         images: [
             'https://i.ibb.co/20MCs0nk/Python-Scrich.png',
             'https://i.ibb.co/C3SgXz87/Python-Srtich-balck.png',
@@ -94,7 +94,7 @@ const products = [
         desc: 'Stitch Design for Girls Regular Tee (Printed) by Python. Cute and stylish aesthetic combined with high-quality 220 GSM fabric for everyday premium style.'
     },
     {
-        id: '5', name: 'BMW Design', category: 'Regular Tee (Printed)',
+        id: '5', name: 'BMW Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
         images: [
             'https://i.ibb.co/gLS0w69Y/Python-BMW.png',
             'https://i.ibb.co/m5mSZSSB/Chat-GPT-Image-Apr-30-2026-02-48-53-PM.png'
@@ -110,7 +110,7 @@ const products = [
         desc: 'BMW Design Regular Tee (Printed) by Python. Iconic automotive styling paired with premium 220 GSM comfort.'
     },
     {
-        id: '6', name: 'Space Design', category: 'Regular Tee (Printed)',
+        id: '6', name: 'Space Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
         images: [
             'https://i.ibb.co/jZ8BbSM2/Python-Space.png',
             'https://i.ibb.co/j9SNvjhp/Chat-GPT-Image-Apr-30-2026-12-19-43-PM.png'
@@ -126,7 +126,7 @@ const products = [
         desc: 'Space Design Regular Tee (Printed) by Python. Explore the cosmos in style with this premium 220 GSM graphic tee.'
     },
     {
-        id: '7', name: 'Air Jordan Design', category: 'Regular Tee (Printed)',
+        id: '7', name: 'Air Jordan Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
         images: [
             'https://i.ibb.co/yFQVXd3p/Chat-GPT-Image-Apr-29-2026-10-04-36-PM.png',
             'https://i.ibb.co/fdyjtDZY/Chat-GPT-Image-Apr-30-2026-05-36-29-PM.png'
@@ -142,7 +142,7 @@ const products = [
         desc: 'Air Jordan Design Regular Tee (Printed) by Python. Iconic basketball-inspired aesthetic meets premium 220 GSM comfort.'
     },
     {
-        id: '8', name: 'Urban Design Oversized Tee (Printed)', category: 'Oversized Tee (Printed)',
+        id: '8', name: 'Urban Design Oversized Tee (Printed)', category: 'Oversized Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
         images: [
             'https://i.ibb.co/G4Nb8tRV/OVERSIZE-190-python.png',
             'https://i.ibb.co/cSvDHTyx/Chat-GPT-Image-Apr-30-2026-05-10-31-PM.png'
@@ -158,7 +158,7 @@ const products = [
         desc: 'Urban Oversized Tee (Printed) by Python. A bold, relaxed fit in a refreshing light blue hue, crafted from premium 190 GSM fabric for the ultimate streetwear vibe.'
     },
     {
-        id: '9', name: 'Nike Design Oversized Tee (Printed) ', category: 'Oversized Tee (Printed)',
+        id: '9', name: 'Nike Design Oversized Tee (Printed) ', category: 'Oversized Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
         images: [
             'https://i.ibb.co/7d7g8Hmd/190gsm-python-nike-yellow.png',
             'https://i.ibb.co/Y7hJ3Mjy/Chat-GPT-Image-Apr-30-2026-04-53-45-PM.png'
@@ -174,7 +174,7 @@ const products = [
         desc: 'Nike Design Oversized Tee (Printed) by Python. A high-energy, vibrant yellow design featuring iconic streetwear aesthetics and premium 190 GSM comfort.'
     },
     {
-        id: '10', name: 'Infinity Edition Oversized Tee (Printed)', category: 'Oversized Tee (Printed)',
+        id: '10', name: 'Infinity Edition Oversized Tee (Printed)', category: 'Oversized Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
         images: [
             'https://i.ibb.co/yFmFFkG0/Python-Infinity-B.png',
             'https://i.ibb.co/Y7dvR0vH/Chat-GPT-Image-Apr-30-2026-12-07-41-PM.png'
@@ -309,11 +309,102 @@ function stopHoverSlide(productId, sliderElement) {
     sliderElement.style.transform = 'translateX(0)';
 }
 
-function filterProducts(category) {
-    const buttons = document.querySelectorAll('.filter-btn');
-    buttons.forEach(btn => btn.innerText === category ? btn.classList.add('active') : btn.classList.remove('active'));
-    category === 'All' ? displayProducts(products) : displayProducts(products.filter(p => p.category === category));
+// --- Two-Level Shop Filtering System ---
+let currentSection = 'All';
+let currentSubcategory = 'All';
+
+function selectSection(section, btn) {
+    currentSection = section;
+    currentSubcategory = 'All'; // Reset subcategory when switching sections
+    
+    // Update active tab styling
+    document.querySelectorAll('.tab-btn').forEach(b => {
+        if (b.innerText === section || (section === 'Unisexs' && b.innerText === 'Unisexs')) {
+            b.classList.add('active');
+        } else {
+            b.classList.remove('active');
+        }
+    });
+    
+    // Reset subcategory active tab
+    document.querySelectorAll('.filter-btn').forEach(b => {
+        if (b.innerText === 'All Subcategories') {
+            b.classList.add('active');
+        } else {
+            b.classList.remove('active');
+        }
+    });
+    
+    filterShop();
 }
+
+function selectSubcategory(subcat, btn) {
+    currentSubcategory = subcat;
+    
+    // Update active subcategory styling
+    document.querySelectorAll('.filter-btn').forEach(b => {
+        if (b.innerText === subcat || (subcat === 'All' && b.innerText === 'All Subcategories') || (b.getAttribute('onclick') && b.getAttribute('onclick').includes(`'${subcat}'`))) {
+            b.classList.add('active');
+        } else {
+            b.classList.remove('active');
+        }
+    });
+    
+    filterShop();
+}
+
+function filterShop() {
+    // 0. Dynamic Visibility of Subcategory Bar (Only show when an active gender/unisex section is chosen or subcategory filter is active)
+    const subcatContainer = document.querySelector('.category-filter');
+    if (subcatContainer) {
+        if ((currentSection === 'All' && currentSubcategory === 'All') || currentSection === 'Kids') {
+            subcatContainer.style.display = 'none';
+        } else {
+            subcatContainer.style.display = 'flex';
+        }
+    }
+
+    let filtered = products;
+    
+    // 1. Filter by Primary Section (All, Kids, Mens, Womens, Unisexs)
+    if (currentSection !== 'All') {
+        filtered = filtered.filter(p => {
+            const sections = p.sections || ['Mens', 'Womens', 'Unisexs'];
+            return sections.includes(currentSection);
+        });
+    }
+    
+    // 2. Filter by Subcategory (Regular Tee, Oversized Tee)
+    if (currentSubcategory !== 'All') {
+        filtered = filtered.filter(p => p.category === currentSubcategory);
+    }
+    
+    displayProducts(filtered);
+    
+    // 3. Empty State for Kids or sections with 0 matching products
+    const grid = document.getElementById('product-grid');
+    if (grid && filtered.length === 0) {
+        grid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 80px 20px; animation: fadeIn 0.5s ease;">
+                <div class="glass" style="display: inline-block; padding: 40px 60px; border-radius: 24px; border: 1px dashed var(--border-color); max-width: 450px;">
+                    <i data-lucide="shopping-bag" style="width: 48px; height: 48px; color: var(--accent-gold); margin-bottom: 20px; stroke-width: 1.5;"></i>
+                    <h3 style="margin-bottom: 10px; font-weight: 800; font-size: 1.3rem;">Coming Soon</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Our premium Kids T-Shirt Collection is currently in production. Stay tuned for the drop!</p>
+                </div>
+            </div>
+        `;
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+}
+
+function filterProducts(category) {
+    if (category === 'Regular Tee (Printed)' || category === 'Oversized Tee (Printed)') {
+        selectSubcategory(category, null);
+    } else {
+        selectSection(category, null);
+    }
+}
+
 
 function renderCart() {
     const cartContainer = document.getElementById('cart-items');

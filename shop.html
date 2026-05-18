@@ -52,11 +52,22 @@
             <p>Browse through our exclusive T-shirt collection</p>
         </div>
 
+        <!-- Primary Section Tabs -->
+        <div class="section-tabs"
+            style="display: flex; justify-content: center; gap: 12px; margin-bottom: 25px; flex-wrap: wrap;">
+            <button class="tab-btn active" onclick="selectSection('All', this)">All</button>
+            <button class="tab-btn" onclick="selectSection('Kids', this)">Kids</button>
+            <button class="tab-btn" onclick="selectSection('Mens', this)">Mens</button>
+            <button class="tab-btn" onclick="selectSection('Womens', this)">Womens</button>
+            <button class="tab-btn" onclick="selectSection('Unisexs', this)">Unisexs</button>
+        </div>
+
+        <!-- Subcategory Filters -->
         <div class="category-filter"
-            style="display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; flex-wrap: wrap;">
-            <button class="filter-btn active" onclick="filterProducts('All')">All</button>
-            <button class="filter-btn" onclick="filterProducts('Regular Tee (Printed)')">Regular Tee (Printed)</button>
-            <button class="filter-btn" onclick="filterProducts('Oversized Tee (Printed)')">Oversized Tee (Printed)</button>
+            style="display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; flex-wrap: wrap;">
+            <button class="filter-btn active" onclick="selectSubcategory('All', this)">All Subcategories</button>
+            <button class="filter-btn" onclick="selectSubcategory('Regular Tee (Printed)', this)">Regular Tee (Printed)</button>
+            <button class="filter-btn" onclick="selectSubcategory('Oversized Tee (Printed)', this)">Oversized Tee (Printed)</button>
         </div>
 
         <div class="product-grid" id="product-grid">
@@ -64,13 +75,7 @@
         </div>
     </main>
 
-    <script>
-        // Initial display
-        if (typeof products !== 'undefined') {
-            displayProducts(products);
-        }
-    </script>
-    </script>
+
 
     <!-- Size Chart Modal -->
     <div id="sizeChartModal" class="modal-overlay" onclick="closeSizeChart()"

@@ -768,3 +768,26 @@ nav.scrolled {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* Primary Category Tab Button Styling */
+.tab-btn {
+    padding: 8px 20px;
+    border-radius: 50px;
+    border: 1.5px solid var(--border-color);
+    background: var(--surface);
+    color: var(--text-muted);
+    font-weight: 800;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.tab-btn:hover, .tab-btn.active {
+    background: rgba(220, 20, 60, 0.08);
+    color: #DC143C !important;
+    border-color: #DC143C;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(220, 20, 60, 0.1);
+}
