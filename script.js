@@ -1,5 +1,5 @@
 // Apply stored theme immediately to avoid flash of light theme
-(function() {
+(function () {
     const savedTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
 })();
@@ -76,7 +76,7 @@ const products = [
         desc: 'Nike Design Regular Tee (Printed) by Python. A classic aesthetic combined with high-quality 220 GSM fabric for everyday premium style.'
     },
     {
-        id: '4', name: 'Stitch Design for Girls', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        id: '4', name: 'Stitch Design for Girls', category: 'Regular Tee (Printed)', sections: ['Womens'],
         images: [
             'https://i.ibb.co/20MCs0nk/Python-Scrich.png',
             'https://i.ibb.co/C3SgXz87/Python-Srtich-balck.png',
@@ -142,7 +142,7 @@ const products = [
         desc: 'Air Jordan Design Regular Tee (Printed) by Python. Iconic basketball-inspired aesthetic meets premium 220 GSM comfort.'
     },
     {
-        id: '8', name: 'Urban Design Oversized Tee (Printed)', category: 'Oversized Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        id: '8', name: 'Urban Design Oversized Tee (Printed)', category: 'Oversized Tee (Printed)', sections: ['Womens',],
         images: [
             'https://i.ibb.co/G4Nb8tRV/OVERSIZE-190-python.png',
             'https://i.ibb.co/cSvDHTyx/Chat-GPT-Image-Apr-30-2026-05-10-31-PM.png'
@@ -246,7 +246,7 @@ function displayProducts(filteredProducts) {
         }
 
         const isOutOfStock = p.stock === 0;
-        const stockBadge = isOutOfStock 
+        const stockBadge = isOutOfStock
             ? `<span style="background: #fdf2f2; color: #9b1c1c; padding: 2px 8px; border-radius: 4px; font-size: 0.6rem; font-weight: 800; display: inline-block; margin-left: 8px; vertical-align: middle; border: 1px solid #fbd5d5;">OUT OF STOCK</span>`
             : `<span style="background: #f3faf7; color: #03543f; padding: 2px 8px; border-radius: 4px; font-size: 0.6rem; font-weight: 800; display: inline-block; margin-left: 8px; vertical-align: middle; border: 1px solid #def7ec;">IN STOCK</span>`;
 
@@ -316,7 +316,7 @@ let currentSubcategory = 'All';
 function selectSection(section, btn) {
     currentSection = section;
     currentSubcategory = 'All'; // Reset subcategory when switching sections
-    
+
     // Update active tab styling
     document.querySelectorAll('.tab-btn').forEach(b => {
         if (b.innerText === section || (section === 'Unisexs' && b.innerText === 'Unisexs')) {
@@ -325,7 +325,7 @@ function selectSection(section, btn) {
             b.classList.remove('active');
         }
     });
-    
+
     // Reset subcategory active tab
     document.querySelectorAll('.filter-btn').forEach(b => {
         if (b.innerText === 'All Subcategories') {
@@ -334,13 +334,13 @@ function selectSection(section, btn) {
             b.classList.remove('active');
         }
     });
-    
+
     filterShop();
 }
 
 function selectSubcategory(subcat, btn) {
     currentSubcategory = subcat;
-    
+
     // Update active subcategory styling
     document.querySelectorAll('.filter-btn').forEach(b => {
         if (b.innerText === subcat || (subcat === 'All' && b.innerText === 'All Subcategories') || (b.getAttribute('onclick') && b.getAttribute('onclick').includes(`'${subcat}'`))) {
@@ -349,7 +349,7 @@ function selectSubcategory(subcat, btn) {
             b.classList.remove('active');
         }
     });
-    
+
     filterShop();
 }
 
@@ -365,7 +365,7 @@ function filterShop() {
     }
 
     let filtered = products;
-    
+
     // 1. Filter by Primary Section (All, Kids, Mens, Womens, Unisexs)
     if (currentSection !== 'All') {
         filtered = filtered.filter(p => {
@@ -373,14 +373,14 @@ function filterShop() {
             return sections.includes(currentSection);
         });
     }
-    
+
     // 2. Filter by Subcategory (Regular Tee, Oversized Tee)
     if (currentSubcategory !== 'All') {
         filtered = filtered.filter(p => p.category === currentSubcategory);
     }
-    
+
     displayProducts(filtered);
-    
+
     // 3. Empty State for Kids or sections with 0 matching products
     const grid = document.getElementById('product-grid');
     if (grid && filtered.length === 0) {
@@ -638,7 +638,7 @@ function handleOfferNotification() {
 function initThemeToggle() {
     const currentTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', currentTheme);
-    
+
     // 1. Desktop Navbar Toggle
     let navIcons = document.querySelector('.nav-icons');
     if (!navIcons) {
@@ -659,21 +659,21 @@ function initThemeToggle() {
             toggleBtn.style.alignItems = 'center';
             toggleBtn.setAttribute('title', 'Toggle Dark/Light Mode');
             toggleBtn.innerHTML = `<i data-lucide="${currentTheme === 'dark' ? 'sun' : 'moon'}"></i>`;
-            
+
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             if (mobileMenuBtn) {
                 navIcons.insertBefore(toggleBtn, mobileMenuBtn);
             } else {
                 navIcons.appendChild(toggleBtn);
             }
-            
+
             toggleBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const activeTheme = document.documentElement.getAttribute('data-theme');
                 const newTheme = activeTheme === 'dark' ? 'light' : 'dark';
                 document.documentElement.setAttribute('data-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
-                
+
                 toggleBtn.innerHTML = `<i data-lucide="${newTheme === 'dark' ? 'sun' : 'moon'}"></i>`;
                 const mobileToggle = document.getElementById('mobile-theme-toggle');
                 if (mobileToggle) {
@@ -683,7 +683,7 @@ function initThemeToggle() {
             });
         }
     }
-    
+
     // 2. Mobile Drawer Toggle
     const mobileMenu = document.getElementById('mobile-menu');
     if (mobileMenu && !document.getElementById('mobile-theme-toggle')) {
@@ -703,7 +703,7 @@ function initThemeToggle() {
         mobileToggle.style.textDecoration = 'none';
         mobileToggle.style.border = '1px solid var(--border-color)';
         mobileToggle.innerHTML = `<i data-lucide="${currentTheme === 'dark' ? 'sun' : 'moon'}"></i> Theme: ${currentTheme === 'dark' ? 'Light' : 'Dark'}`;
-        
+
         // Append to the list/menu block in mobile sidebar
         const listContainer = mobileMenu.querySelector('ul');
         if (listContainer) {
@@ -714,14 +714,14 @@ function initThemeToggle() {
         } else {
             mobileMenu.appendChild(mobileToggle);
         }
-        
+
         mobileToggle.addEventListener('click', (e) => {
             e.preventDefault();
             const activeTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = activeTheme === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-            
+
             const mainToggle = document.getElementById('theme-toggle');
             if (mainToggle) {
                 mainToggle.innerHTML = `<i data-lucide="${newTheme === 'dark' ? 'sun' : 'moon'}"></i>`;
