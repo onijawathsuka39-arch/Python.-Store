@@ -250,6 +250,12 @@ function displayProducts(filteredProducts) {
             ? `<span style="background: #fdf2f2; color: #9b1c1c; padding: 2px 8px; border-radius: 4px; font-size: 0.6rem; font-weight: 800; display: inline-block; margin-left: 8px; vertical-align: middle; border: 1px solid #fbd5d5;">OUT OF STOCK</span>`
             : `<span style="background: #f3faf7; color: #03543f; padding: 2px 8px; border-radius: 4px; font-size: 0.6rem; font-weight: 800; display: inline-block; margin-left: 8px; vertical-align: middle; border: 1px solid #def7ec;">IN STOCK</span>`;
 
+        // Determine wishlist state
+        const wished = isInWishlist(p.id);
+        const heartIcon = wished ? 'heart' : 'heart';
+        const heartFill = wished ? 'fill="#DC143C" stroke="#DC143C"' : 'stroke="currentColor"';
+        const heartColor = wished ? 'color: #DC143C;' : 'color: var(--text-main);';
+
         grid.innerHTML += `
         <div class="product-card glass ${isOutOfStock ? 'out-of-stock' : ''}" 
              onclick="window.location.href='product-detail.html?id=${p.id}'" 
@@ -258,6 +264,12 @@ function displayProducts(filteredProducts) {
              style="cursor: pointer; animation: fadeIn 0.5s ease forwards; overflow: hidden; display: flex; flex-direction: column; position: relative; ${isOutOfStock ? 'opacity: 0.7;' : ''}">
             <div class="product-image" style="overflow: hidden; position: relative; width: 100%; aspect-ratio: 1/1; border-radius: 15px;">
                 ${discountBadge}
+                <!-- Wishlist Toggle overlay -->
+                <div class="wishlist-overlay-btn" onclick="event.stopPropagation(); handleCardWishlistToggle('${p.id}', this)" 
+                     style="position: absolute; top: 15px; right: 15px; background: var(--surface); border: 1px solid var(--border-color); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 12; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.1);"
+                     title="Add to Wishlist">
+                    <i data-lucide="heart" style="width: 18px; height: 18px; ${heartColor}" ${wished ? 'fill="#DC143C"' : ''}></i>
+                </div>
                 <div class="card-slider" style="display: flex; transition: transform 0.5s ease; height: 100%; width: 100%;">
                     ${p.images.map(img => `<img src="${img}" style="width: 100%; flex-shrink: 0; height: 100%; object-fit: cover;">`).join('')}
                 </div>
@@ -732,13 +744,64 @@ function initThemeToggle() {
     }
 }
 
+// Wishlist Functionality
+let wishlist = JSON.parse(localStorage.getItem('python_wishlist')) || [];
+
+function toggleWishlist(productId) {
+    wishlist = JSON.parse(localStorage.getItem('python_wishlist')) || [];
+    const index = wishlist.indexOf(productId);
+    let added = false;
+    if (index === -1) {
+        wishlist.push(productId);
+        added = true;
+    } else {
+        wishlist.splice(index, 1);
+    }
+    localStorage.setItem('python_wishlist', JSON.stringify(wishlist));
+    updateWishlistCount();
+    
+    // Refresh display if we are on the wishlist page
+    if (window.location.pathname.includes('wishlist.html')) {
+        renderWishlist();
+    }
+    return added;
+}
+
+function handleCardWishlistToggle(productId, btnElement) {
+    const added = toggleWishlist(productId);
+    const heart = btnElement.querySelector('i');
+    if (added) {
+        heart.setAttribute('fill', '#DC143C');
+        heart.style.color = '#DC143C';
+        showNotification('Added to Wishlist!');
+    } else {
+        heart.removeAttribute('fill');
+        heart.style.color = 'var(--text-main)';
+        showNotification('Removed from Wishlist!');
+    }
+}
+
+function isInWishlist(productId) {
+    return wishlist.includes(productId);
+}
+
+function updateWishlistCount() {
+    wishlist = JSON.parse(localStorage.getItem('python_wishlist')) || [];
+    const counts = document.querySelectorAll('#wishlist-count');
+    counts.forEach(el => {
+        el.innerText = wishlist.length;
+    });
+}
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
     initThemeToggle();
     updateCartCount();
+    updateWishlistCount();
     handleOfferNotification();
     if (window.location.pathname.includes('cart.html')) { renderCart(); }
     if (window.location.pathname.includes('profile.html')) { loadProfile(); }
+    if (window.location.pathname.includes('wishlist.html')) { renderWishlist(); }
     if (window.location.pathname.includes('shop.html')) {
         const urlParams = new URLSearchParams(window.location.search);
         const catParam = urlParams.get('category');

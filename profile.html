@@ -25,6 +25,11 @@
             <a href="https://www.instagram.com/" target="_blank"><i data-lucide="instagram"></i></a>
             <a href="https://www.facebook.com/" target="_blank"><i data-lucide="facebook"></i></a>
             <a href="profile.html" class="active"><i data-lucide="user"></i></a>
+            <a href="wishlist.html" style="position: relative; margin-right: 5px;">
+                <i data-lucide="heart"></i>
+                <span id="wishlist-count"
+                    style="position: absolute; top: -10px; right: -10px; background: #DC143C; color: white; font-size: 10px; padding: 2px 5px; border-radius: 50%; font-weight: 800;">0</span>
+            </a>
             <a href="cart.html" style="position: relative;">
                 <i data-lucide="shopping-cart"></i>
                 <span id="cart-count"
@@ -41,6 +46,7 @@
         <a href="shop.html">Shop</a>
         <a href="customize.html">Customize</a>
         <a href="offers.html">Offers</a>
+        <a href="wishlist.html">Wishlist</a>
         <a href="profile.html">My Account</a>
         <a href="cart.html">Cart</a>
     </div>
@@ -60,8 +66,8 @@
                         <h3 style="color: var(--accent-gold);" id="order-count">0</h3>
                         <p>Total Orders</p>
                     </div>
-                    <div class="glass" style="padding: 20px;">
-                        <h3 style="color: var(--accent-gold);">0</h3>
+                    <div class="glass" style="padding: 20px; cursor: pointer;" onclick="window.location.href='wishlist.html'">
+                        <h3 style="color: var(--accent-gold);" id="profile-wishlist-count">0</h3>
                         <p>Wishlist</p>
                     </div>
                 </div>
@@ -102,6 +108,10 @@
             document.getElementById('profile-name').innerText = user.name;
             document.getElementById('profile-email').innerText = user.email;
             document.getElementById('profile-initial').innerText = user.name.charAt(0).toUpperCase();
+            
+            // Set dynamic wishlist length
+            const wl = JSON.parse(localStorage.getItem('python_wishlist')) || [];
+            document.getElementById('profile-wishlist-count').innerText = wl.length;
         });
     </script>
 </body>

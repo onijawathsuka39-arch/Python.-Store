@@ -143,7 +143,13 @@
                 .thumb.active { border-color: var(--accent-gold); opacity: 1; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
             </style>
 
-            <button id="add-to-cart-btn" class="btn btn-primary" style="width: 100%; padding: 20px;" onclick="addCurrentToCart()">Add to Cart</button>
+            <div style="display: flex; gap: 15px;">
+                <button id="add-to-cart-btn" class="btn btn-primary" style="flex: 1; padding: 20px;" onclick="addCurrentToCart()">Add to Cart</button>
+                <button id="detail-wishlist-btn" onclick="toggleDetailWishlist()" 
+                        style="width: 60px; border-radius: 12px; background: var(--surface); border: 1px solid var(--border-color); color: var(--text-main); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <i data-lucide="heart" id="detail-wishlist-icon" style="width: 24px; height: 24px;"></i>
+                </button>
+            </div>
         </div>
     </div>
 </main>
@@ -334,6 +340,40 @@
             document.getElementById('sizeChartModal').classList.remove('active');
             document.body.style.overflow = 'auto';
         }
+
+        function initWishlistState() {
+            const icon = document.getElementById('detail-wishlist-icon');
+            if (icon) {
+                if (isInWishlist(product.id)) {
+                    icon.setAttribute('fill', '#DC143C');
+                    icon.style.color = '#DC143C';
+                } else {
+                    icon.removeAttribute('fill');
+                    icon.style.color = 'var(--text-main)';
+                }
+            }
+        }
+
+        function toggleDetailWishlist() {
+            const added = toggleWishlist(product.id);
+            const icon = document.getElementById('detail-wishlist-icon');
+            if (icon) {
+                if (added) {
+                    icon.setAttribute('fill', '#DC143C');
+                    icon.style.color = '#DC143C';
+                    showNotification('Added to Wishlist!');
+                } else {
+                    icon.removeAttribute('fill');
+                    icon.style.color = 'var(--text-main)';
+                    showNotification('Removed from Wishlist!');
+                }
+            }
+        }
+
+        // Initialize state on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initWishlistState();
+        });
     </script>
 </body>
 </html>
