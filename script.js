@@ -321,32 +321,12 @@ function stopHoverSlide(productId, sliderElement) {
     sliderElement.style.transform = 'translateX(0)';
 }
 
-// --- Two-Level Shop Filtering System ---
-let currentSection = 'All';
+// --- Shop Filtering System ---
 let currentSubcategory = 'All';
+let searchQuery = '';
 
-function selectSection(section, btn) {
-    currentSection = section;
-    currentSubcategory = 'All'; // Reset subcategory when switching sections
-
-    // Update active tab styling
-    document.querySelectorAll('.tab-btn').forEach(b => {
-        if (b.innerText === section || (section === 'Unisexs' && b.innerText === 'Unisexs')) {
-            b.classList.add('active');
-        } else {
-            b.classList.remove('active');
-        }
-    });
-
-    // Reset subcategory active tab
-    document.querySelectorAll('.filter-btn').forEach(b => {
-        if (b.innerText === 'All Subcategories') {
-            b.classList.add('active');
-        } else {
-            b.classList.remove('active');
-        }
-    });
-
+function handleSearch(val) {
+    searchQuery = val.trim().toLowerCase();
     filterShop();
 }
 
@@ -355,7 +335,7 @@ function selectSubcategory(subcat, btn) {
 
     // Update active subcategory styling
     document.querySelectorAll('.filter-btn').forEach(b => {
-        if (b.innerText === subcat || (subcat === 'All' && b.innerText === 'All Subcategories') || (b.getAttribute('onclick') && b.getAttribute('onclick').includes(`'${subcat}'`))) {
+        if (b.innerText === subcat || (subcat === 'All' && (b.innerText === 'All Subcategories' || b.innerText === 'All T-Shirts')) || (b.getAttribute('onclick') && b.getAttribute('onclick').includes(`'${subcat}'`))) {
             b.classList.add('active');
         } else {
             b.classList.remove('active');
@@ -366,42 +346,82 @@ function selectSubcategory(subcat, btn) {
 }
 
 function filterShop() {
-    // 0. Dynamic Visibility of Subcategory Bar (Only show when an active gender/unisex section is chosen or subcategory filter is active)
-    const subcatContainer = document.querySelector('.category-filter');
-    if (subcatContainer) {
-        if ((currentSection === 'All' && currentSubcategory === 'All') || currentSection === 'Kids') {
-            subcatContainer.style.display = 'none';
-        } else {
-            subcatContainer.style.display = 'flex';
-        }
-    }
-
     let filtered = products;
 
-    // 1. Filter by Primary Section (All, Kids, Mens, Womens, Unisexs)
-    if (currentSection !== 'All') {
-        filtered = filtered.filter(p => {
-            const sections = p.sections || ['Mens', 'Womens', 'Unisexs'];
-            return sections.includes(currentSection);
-        });
-    }
-
-    // 2. Filter by Subcategory (Regular Tee, Oversized Tee)
+    // Filter by Subcategory (Regular Tee, Oversized Tee)
     if (currentSubcategory !== 'All') {
         filtered = filtered.filter(p => p.category === currentSubcategory);
     }
 
+    // Filter by Search Query
+    if (searchQuery !== '') {
+        filtered = filtered.filter(p => {
+            const name = p.name.toLowerCase();
+            const desc = (p.desc || '').toLowerCase();
+            const category = (p.category || '').toLowerCase();
+            const sections = (p.sections || []).map(s => s.toLowerCase());
+
+            // 1. Direct includes match
+            if (name.includes(searchQuery) || desc.includes(searchQuery) || category.includes(searchQuery)) {
+                return true;
+            }
+
+            // 2. Synonyms and clothing type mapping
+            const isTeeQuery = searchQuery.includes('t shirt') || searchQuery.includes('t-shirt') || searchQuery.includes('tee') || searchQuery.includes('te-shirt') || searchQuery.includes('tshirt');
+            const isOversizedQuery = searchQuery.includes('oversize') || searchQuery.includes('oversized');
+            const isKidsQuery = searchQuery.includes('kid') || searchQuery.includes('child');
+            const isMensQuery = searchQuery.includes('men') || searchQuery.includes('boy');
+            const isWomensQuery = searchQuery.includes('women') || searchQuery.includes('girl') || searchQuery.includes('lady') || searchQuery.includes('ladies');
+            const isFrockQuery = searchQuery.includes('frock') || searchQuery.includes('dress');
+
+            // If query is for a T-shirt and product is a T-shirt
+            if (isTeeQuery && (category.includes('tee') || category.includes('t-shirt') || category.includes('t shirt'))) {
+                // If it is also an oversized query, ensure product is oversized
+                if (isOversizedQuery && !category.includes('oversized')) {
+                    return false;
+                }
+                // If it's a kids query, check sections
+                if (isKidsQuery && !sections.includes('kids')) {
+                    return false;
+                }
+                return true;
+            }
+
+            // Kids clothing query
+            if (isKidsQuery && sections.includes('kids')) {
+                return true;
+            }
+
+            // Men's clothing query
+            if (isMensQuery && (sections.includes('mens') || sections.includes('unisexs'))) {
+                return true;
+            }
+
+            // Women's clothing query
+            if (isWomensQuery && (sections.includes('womens') || sections.includes('unisexs'))) {
+                return true;
+            }
+
+            // Frock or dress query
+            if (isFrockQuery && (name.includes('frock') || name.includes('dress') || desc.includes('frock') || desc.includes('dress'))) {
+                return true;
+            }
+
+            return false;
+        });
+    }
+
     displayProducts(filtered);
 
-    // 3. Empty State for Kids or sections with 0 matching products
+    // Empty State if 0 matching products
     const grid = document.getElementById('product-grid');
     if (grid && filtered.length === 0) {
         grid.innerHTML = `
             <div style="grid-column: 1 / -1; text-align: center; padding: 80px 20px; animation: fadeIn 0.5s ease;">
                 <div class="glass" style="display: inline-block; padding: 40px 60px; border-radius: 24px; border: 1px dashed var(--border-color); max-width: 450px;">
                     <i data-lucide="shopping-bag" style="width: 48px; height: 48px; color: var(--accent-gold); margin-bottom: 20px; stroke-width: 1.5;"></i>
-                    <h3 style="margin-bottom: 10px; font-weight: 800; font-size: 1.3rem;">Coming Soon</h3>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Our premium Kids T-Shirt Collection is currently in production. Stay tuned for the drop!</p>
+                    <h3 style="margin-bottom: 10px; font-weight: 800; font-size: 1.3rem;">No Products Found</h3>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">We couldn't find any products in this category. Stay tuned for the next drop!</p>
                 </div>
             </div>
         `;
@@ -413,7 +433,7 @@ function filterProducts(category) {
     if (category === 'Regular Tee (Printed)' || category === 'Oversized Tee (Printed)') {
         selectSubcategory(category, null);
     } else {
-        selectSection(category, null);
+        selectSubcategory('All', null);
     }
 }
 
