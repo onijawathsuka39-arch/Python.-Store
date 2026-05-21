@@ -188,6 +188,120 @@ const products = [
         },
         colors: ['#00f2ff'],
         desc: 'Infinity Edition Oversized Tee (Printed) by Python. A refreshing light blue design featuring the iconic infinity motif and premium 190 GSM comfort.'
+    },
+    {
+        id: '11', name: 'GTR Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/jmXL8K9/GTR-Design.png',
+            'https://i.ibb.co/N24VB8L1/Chat-GPT-Image-May-20-2026-08-42-05-PM.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1600, oldPrice: 1850 },
+            'M': { price: 1600, oldPrice: 1850 },
+            'L': { price: 1600, oldPrice: 1850 },
+            'XL': { price: 1600, oldPrice: 1850 }
+        },
+        colors: ['#ffffff'], stock: 10,
+        desc: 'GTR Design Regular Tee (Printed) by Python. Featuring an iconic Nissan GT-R Liberty Walk graphic on the back, crafted from premium 220 GSM fabric for ultimate comfort and durability.'
+    },
+    {
+        id: '12', name: 'F30 M3 Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/qLqb4RNj/F30-M3-Design.png',
+            'https://i.ibb.co/fzDHqJw6/Chat-GPT-Image-May-20-2026-08-51-35-PM.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1600, oldPrice: 1850 },
+            'M': { price: 1600, oldPrice: 1850 },
+            'L': { price: 1600, oldPrice: 1850 },
+            'XL': { price: 1600, oldPrice: 1850 }
+        },
+        colors: ['#ffffff'], stock: 10,
+        desc: 'F30 M3 Design Regular Tee (Printed) by Python. Featuring an iconic BMW F30 M3 graphic on the back, crafted from premium 220 GSM fabric for ultimate comfort and durability.'
+    },
+    {
+        id: '13', name: 'Samurai Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/35YkhXRs/honor-black-design.png',
+            'https://i.ibb.co/p7ftW61/honor-white-design.png',
+            'https://i.ibb.co/7NVzPVhv/Chat-GPT-Image-May-20-2026-08-47-42-PM.png',
+            'https://i.ibb.co/rK2NP38J/Chat-GPT-Image-May-20-2026-09-03-02-PM.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1600, oldPrice: 1850 },
+            'M': { price: 1600, oldPrice: 1850 },
+            'L': { price: 1600, oldPrice: 1850 },
+            'XL': { price: 1600, oldPrice: 1850 }
+        },
+        colors: ['#000000', '#ffffff'], stock: 10,
+        desc: 'Samurai Design Regular Tee (Printed) by Python. A premium 220 GSM streetwear t-shirt featuring a striking Japanese Samurai "Honor" design, available in both black and white.'
+    },
+    {
+        id: '14', name: 'Mustang Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/23M5QKKX/Mustang-desing.png',
+            'https://i.ibb.co/JRBp67cp/Chat-GPT-Image-May-20-2026-08-44-29-PM.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1600, oldPrice: 1850 },
+            'M': { price: 1600, oldPrice: 1850 },
+            'L': { price: 1600, oldPrice: 1850 },
+            'XL': { price: 1600, oldPrice: 1850 }
+        },
+        colors: ['#ffffff'], stock: 10,
+        desc: 'Mustang Design Regular Tee (Printed) by Python. Featuring an iconic Ford Mustang graphic, crafted from premium 220 GSM fabric for ultimate comfort and durability.'
+    },
+    {
+        id: '15', name: 'Angel Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/hFsMZR7s/angels-design.png',
+            'https://i.ibb.co/rR6WpLZC/Chat-GPT-Image-May-20-2026-08-54-03-PM.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1600, oldPrice: 1850 },
+            'M': { price: 1600, oldPrice: 1850 },
+            'L': { price: 1600, oldPrice: 1850 },
+            'XL': { price: 1600, oldPrice: 1850 }
+        },
+        colors: ['#ffffff'], stock: 10,
+        desc: 'Angel Design Regular Tee (Printed) by Python. Featuring a unique angelic graphic, crafted from premium 220 GSM fabric for ultimate comfort and durability.'
+    },
+    {
+        id: '16', name: 'Rock Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/gMQPpMfR/rock-desing.png',
+            'https://i.ibb.co/zV2z6pj0/Chat-GPT-Image-May-20-2026-08-57-42-PM.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1600, oldPrice: 1850 },
+            'M': { price: 1600, oldPrice: 1850 },
+            'L': { price: 1600, oldPrice: 1850 },
+            'XL': { price: 1600, oldPrice: 1850 }
+        },
+        colors: ['#ffffff'], stock: 10,
+        desc: 'Rock Design Regular Tee (Printed) by Python. Featuring a striking rock-inspired graphic, crafted from premium 220 GSM fabric for ultimate comfort and durability.'
+    },
+    {
+        id: '17', name: 'Never Give Up Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/zh9kdHYY/never-give-up-design.png',
+            'https://i.ibb.co/fcL3x12/Chat-GPT-Image-May-20-2026-08-49-40-PM.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1600, oldPrice: 1850 },
+            'M': { price: 1600, oldPrice: 1850 },
+            'L': { price: 1600, oldPrice: 1850 },
+            'XL': { price: 1600, oldPrice: 1850 }
+        },
+        colors: ['#ffffff'], stock: 10,
+        desc: 'Never Give Up Design Regular Tee (Printed) by Python. Featuring a motivational graphic, crafted from premium 220 GSM fabric for ultimate comfort and durability.'
     }
 ];
 
@@ -227,6 +341,7 @@ function updateQuantity(index, delta) {
 function saveCart() {
     localStorage.setItem('python_cart', JSON.stringify(cart));
     updateCartCount();
+    if(typeof updateFreeDeliveryBar === 'function') updateFreeDeliveryBar();
 }
 
 function displayProducts(filteredProducts) {
@@ -585,6 +700,9 @@ function placeOrder() {
 
     orders.push({ id: orderID, date: now.toLocaleDateString(), items: [...cart], total: grandTotal, userEmail: currentUser ? currentUser.email : 'Guest' });
     localStorage.setItem('python_orders', JSON.stringify(orders));
+    localStorage.removeItem('python_free_delivery_active');
+    const bar = document.getElementById('free-delivery-bar');
+    if (bar) bar.remove();
     cart = []; saveCart();
 
     // Open WhatsApp immediately to avoid popup blockers
@@ -764,6 +882,85 @@ function initThemeToggle() {
     }
 }
 
+// --- Free Delivery Promo Bar ---
+function initFreeDeliveryBar() {
+    const isShopPage = window.location.pathname.includes('shop.html');
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('offer') === 'freedelivery') {
+        localStorage.setItem('python_free_delivery_active', 'true');
+        window.history.replaceState({}, document.title, 'shop.html');
+    }
+    
+    const isActive = localStorage.getItem('python_free_delivery_active') === 'true';
+    if (isShopPage && isActive) {
+        if (!document.getElementById('free-delivery-bar')) {
+            const bar = document.createElement('div');
+            bar.id = 'free-delivery-bar';
+            bar.style.cssText = `
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: var(--primary-dark);
+                color: var(--primary-light);
+                padding: 15px;
+                text-align: center;
+                z-index: 10000;
+                box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
+                transition: transform 0.3s ease;
+                font-size: 1rem;
+                font-weight: 500;
+                border-top: 3px solid var(--accent-gold);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+            `;
+            document.body.appendChild(bar);
+            
+            if (!document.getElementById('promo-animations')) {
+                const style = document.createElement('style');
+                style.id = 'promo-animations';
+                style.innerHTML = `
+                    @keyframes celebrate {
+                        0%, 100% { transform: scale(1); }
+                        50% { transform: scale(1.05); }
+                    }
+                    @keyframes pop {
+                        0% { transform: scale(0.9); opacity: 0; }
+                        100% { transform: scale(1); opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+        updateFreeDeliveryBar();
+    }
+}
+
+function updateFreeDeliveryBar() {
+    const bar = document.getElementById('free-delivery-bar');
+    if (!bar) return;
+    
+    const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
+    
+    if (itemCount >= 4) {
+        bar.innerHTML = '🎉 <span style="font-weight: 800; letter-spacing: 1px;">Congratulations! You have unlocked FREE DELIVERY!</span> 🚚';
+        bar.style.animation = 'celebrate 1s ease 3, pop 0.5s ease-out';
+        bar.style.background = 'var(--accent-gold)';
+        bar.style.color = '#fff';
+        bar.style.borderTop = '3px solid #fff';
+    } else {
+        const needed = 4 - itemCount;
+        bar.innerHTML = `<i data-lucide="shopping-bag" style="width: 20px;"></i> Buy <b style="color: var(--accent-gold); font-size: 1.2rem; margin: 0 5px;">${needed}</b> more item${needed > 1 ? 's' : ''} to get <b style="letter-spacing: 0.5px; margin-left: 5px;">FREE DELIVERY</b> Island Wide! 🚚`;
+        bar.style.animation = 'pop 0.3s ease-out';
+        bar.style.background = 'var(--primary-dark)';
+        bar.style.color = 'var(--primary-light)';
+        bar.style.borderTop = '3px solid var(--accent-gold)';
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+}
+
 // Wishlist Functionality
 let wishlist = JSON.parse(localStorage.getItem('python_wishlist')) || [];
 
@@ -849,5 +1046,10 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         overlay.addEventListener('click', closeHandler);
         if (closeBtn) closeBtn.addEventListener('click', closeHandler);
+    }
+    
+    // Initialize Free Delivery Promo Bar if needed
+    if (typeof initFreeDeliveryBar === 'function') {
+        initFreeDeliveryBar();
     }
 });
