@@ -561,6 +561,46 @@ nav.scrolled {
     .nav-links {
         display: none;
     }
+
+    nav {
+        padding: 10px 4% !important;
+    }
+
+    nav.scrolled {
+        padding: 10px 4% !important;
+    }
+
+    .logo img {
+        height: 48px;
+    }
+
+    .logo span {
+        font-size: 1rem;
+        letter-spacing: 1.5px;
+    }
+
+    .nav-icons {
+        gap: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .logo span {
+        display: none;
+    }
+
+    .logo img {
+        height: 42px;
+    }
+
+    .nav-icons {
+        gap: 12px;
+    }
+
+    .nav-icons a[href*="instagram"],
+    .nav-icons a[href*="facebook"] {
+        display: none;
+    }
 }
 
 @media (max-width: 600px) {
