@@ -789,51 +789,6 @@ function initThemeToggle() {
     const currentTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', currentTheme);
 
-    // 1. Desktop Navbar Toggle
-    let navIcons = document.querySelector('.nav-icons');
-    if (!navIcons) {
-        const nav = document.getElementById('navbar');
-        if (nav) {
-            navIcons = document.createElement('div');
-            navIcons.className = 'nav-icons';
-            nav.appendChild(navIcons);
-        }
-    }
-    if (navIcons) {
-        if (!document.getElementById('theme-toggle')) {
-            const toggleBtn = document.createElement('a');
-            toggleBtn.href = '#';
-            toggleBtn.id = 'theme-toggle';
-            toggleBtn.style.cursor = 'pointer';
-            toggleBtn.style.display = 'flex';
-            toggleBtn.style.alignItems = 'center';
-            toggleBtn.setAttribute('title', 'Toggle Dark/Light Mode');
-            toggleBtn.innerHTML = `<i data-lucide="${currentTheme === 'dark' ? 'sun' : 'moon'}"></i>`;
-
-            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            if (mobileMenuBtn) {
-                navIcons.insertBefore(toggleBtn, mobileMenuBtn);
-            } else {
-                navIcons.appendChild(toggleBtn);
-            }
-
-            toggleBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const activeTheme = document.documentElement.getAttribute('data-theme');
-                const newTheme = activeTheme === 'dark' ? 'light' : 'dark';
-                document.documentElement.setAttribute('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-
-                toggleBtn.innerHTML = `<i data-lucide="${newTheme === 'dark' ? 'sun' : 'moon'}"></i>`;
-                const mobileToggle = document.getElementById('mobile-theme-toggle');
-                if (mobileToggle) {
-                    mobileToggle.innerHTML = `<i data-lucide="${newTheme === 'dark' ? 'sun' : 'moon'}"></i> Theme: ${newTheme === 'dark' ? 'Light' : 'Dark'}`;
-                }
-                if (typeof lucide !== 'undefined') lucide.createIcons();
-            });
-        }
-    }
-
     // 2. Mobile Drawer Toggle
     const mobileMenu = document.getElementById('mobile-menu');
     if (mobileMenu && !document.getElementById('mobile-theme-toggle')) {
