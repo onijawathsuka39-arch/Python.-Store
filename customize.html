@@ -507,7 +507,7 @@
                 <div class="control-section">
                     <h4><i data-lucide="image"></i> 2. Select Stickers</h4>
                     <div class="category-tabs"
-                        style="display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px;">
+                        style="display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; align-items: center;">
                         <div class="selector-btn active"
                             style="padding: 5px 15px; font-size: 0.7rem; white-space: nowrap;"
                             onclick="filterStickers('all', this)">All Designs</div>
@@ -515,7 +515,14 @@
                             onclick="filterStickers('bw', this)">Black & White</div>
                         <div class="selector-btn" style="padding: 5px 15px; font-size: 0.7rem; white-space: nowrap;"
                             onclick="filterStickers('python', this)">Python Collection</div>
+                        <div class="selector-btn" style="padding: 5px 15px; font-size: 0.7rem; white-space: nowrap;"
+                            onclick="filterStickers('custom', this)">Your Stickers</div>
+                        <button class="selector-btn" style="padding: 5px 15px; font-size: 0.7rem; white-space: nowrap; background: #DC143C; color: #fff; border-color: #DC143C; display: flex; align-items: center; gap: 4px; margin-left: auto; border: none;"
+                            onclick="triggerUpload()">
+                            <i data-lucide="upload" style="width: 12px; height: 12px;"></i> Upload Sticker
+                        </button>
                     </div>
+                    <input type="file" id="custom-sticker-input" accept="image/*" style="display: none;" onchange="handleStickerUpload(event)">
                     <div class="sticker-grid" id="main-sticker-grid">
                         <!-- Black & White Collection -->
                         <div class="sticker-item" data-cat="bw"
@@ -701,6 +708,97 @@
         let selectedColor = '#ffffff';
         let selectedColorName = 'White';
 
+        function triggerUpload() {
+            if (isLocked) return;
+            document.getElementById('custom-sticker-input').click();
+        }
+
+        function handleStickerUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file.');
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                alert('File size exceeds 5MB limit.');
+                return;
+            }
+
+            if (typeof showNotification === 'function') {
+                showNotification('Uploading custom sticker...');
+            }
+
+            const formData = new FormData();
+            formData.append('sticker', file);
+
+            fetch('upload.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => {
+                if (!res.ok) throw new Error('Upload server error');
+                return res.json();
+            })
+            .then(data => {
+                if (data.status === 'success') {
+                    if (typeof showNotification === 'function') {
+                        showNotification('Sticker uploaded successfully!');
+                    }
+                    addNewSticker(data.full_url);
+                    addCustomStickerToGrid(data.full_url);
+                } else {
+                    throw new Error(data.message || 'Upload failed');
+                }
+            })
+            .catch(err => {
+                console.warn('Upload failed, using offline fallback:', err);
+                if (typeof showNotification === 'function') {
+                    showNotification('Loaded locally (offline fallback)');
+                }
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Url = e.target.result;
+                    addNewSticker(base64Url);
+                    addCustomStickerToGrid(base64Url);
+                };
+                reader.readAsDataURL(file);
+            });
+
+            event.target.value = '';
+        }
+
+        function addCustomStickerToGrid(url, autoSwitch = true) {
+            const grid = document.getElementById('main-sticker-grid');
+            if (!grid) return;
+            
+            // Avoid duplicate custom stickers in grid
+            const existing = Array.from(grid.querySelectorAll('.sticker-item img')).find(img => img.src === url);
+            if (existing) return;
+            
+            const item = document.createElement('div');
+            item.className = 'sticker-item';
+            item.dataset.cat = 'custom';
+            item.onclick = function() {
+                addNewSticker(url);
+            };
+            
+            const img = document.createElement('img');
+            img.src = url;
+            item.appendChild(img);
+            
+            grid.insertBefore(item, grid.firstChild);
+            
+            if (autoSwitch) {
+                const customTab = document.querySelector('.category-tabs .selector-btn[onclick*="custom"]');
+                if (customTab) {
+                    filterStickers('custom', customTab);
+                }
+            }
+        }
+
         function startCustomizing(type, price, img) {
             currentTshirtType = type;
             baseTshirtPrice = price;
@@ -774,15 +872,19 @@
             wrapper.style.width = pos ? pos.w : '160px';
             wrapper.dataset.rotation = pos ? pos.r : 0;
             if (pos) { wrapper.style.top = pos.t; wrapper.style.left = pos.l; wrapper.style.transform = `translate(-50%, -50%) rotate(${pos.r}deg)`; }
+            
+            const initialPrice = pos && pos.p !== undefined ? pos.p : 350;
+            const initialSzName = pos && pos.sz !== undefined ? pos.sz : 'A3';
+            
             wrapper.innerHTML = `
                 <img src="${url}">
-                <div class="sticker-size-tag">A3</div>
+                <div class="sticker-size-tag">${initialSzName}</div>
                 <div class="handle sticker-delete" onclick="event.stopPropagation(); removeSticker('${id}')"><i data-lucide="trash-2" style="width:16px"></i></div>
                 <div class="handle resize-handle"><i data-lucide="maximize-2" style="width:16px"></i></div>
                 <div class="handle rotate-handle"><i data-lucide="rotate-cw" style="width:16px"></i></div>
             `;
             document.getElementById('canvas').appendChild(wrapper);
-            activeStickers.push({ id, url, price: 350, szName: 'A3' });
+            activeStickers.push({ id, url, price: initialPrice, szName: initialSzName });
             initInteractions(wrapper);
             selectSticker(id);
             updateTotal();
@@ -915,7 +1017,13 @@
                 const data = JSON.parse(saved);
                 setTshirtColor(data.color, data.colorName, null);
                 setTshirtSize(data.size, null);
-                data.stickers.forEach(s => addNewSticker(s.url, s));
+                data.stickers.forEach(s => {
+                    addNewSticker(s.url, s);
+                    // Reload custom stickers into selection grid on startup (without auto-switching tab)
+                    if (!stickerMap[s.url]) {
+                        addCustomStickerToGrid(s.url, false);
+                    }
+                });
             } else { setTshirtColor('#ffffff', 'White', null); setTshirtSize('M', null); }
         }
         function resetDesign() { if (confirm("Reset design?")) { localStorage.removeItem('roohira_custom_design'); location.reload(); } }

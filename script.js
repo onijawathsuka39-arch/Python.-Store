@@ -670,7 +670,12 @@ function placeOrder() {
     // Encode order data for the URL (Safe for Unicode/Sinhala)
     const jsonStr = JSON.stringify(orderData);
     const encodedData = btoa(unescape(encodeURIComponent(jsonStr)));
-    const baseUrl = 'https://onijawathsuka39-arch.github.io/Python.-Store/';
+    
+    let baseUrl = window.location.protocol + '//' + window.location.host + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+    if (window.location.protocol === 'file:') {
+        baseUrl = 'https://onijawathsuka39-arch.github.io/Python.-Store/';
+    }
+    
     const invoiceUrl = `${baseUrl}invoice.html?data=${encodeURIComponent(encodedData)}`;
 
     let message = `🔴 *NEW ORDER CONFIRMATION: ${orderID}*\n\n`;
