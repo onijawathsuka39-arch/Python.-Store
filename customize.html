@@ -649,9 +649,8 @@
                             UPLOAD YOUR STICKER
                         </button>
                         <div style="margin-top: 10px; display: flex; align-items: flex-start; gap: 8px; font-size: 0.65rem; color: var(--accent-gold);">
-                            <i data-lucide="star" style="width: 12px; height: 12px; flex-shrink: 0; margin-top: 1px;"></i>
-                            <span><b>Recommended: Transparent .PNG format</b> — PNG eka clear background ekata hondai.<br>
-                            Your original HD image is preserved for print. Preview only shows placement.</span>
+                            <i data-lucide="cloud" style="width: 12px; height: 12px; flex-shrink: 0; margin-top: 1px;"></i>
+                            <span><b>☁️ Cloud Upload:</b> Your sticker uploads to the cloud so it appears on <b>any device</b> when viewed via WhatsApp link or invoice. PNG format recommended for clear backgrounds.</span>
                         </div>
                     </div>
 
@@ -718,6 +717,14 @@
         let selectedColor = '#ffffff';
         let selectedColorName = 'White';
 
+        // ─────────────────────────────────────────────────────────────────────
+        // ImgBB Free API Key — get yours FREE at https://imgbb.com/
+        //   1. Register at imgbb.com (free, no credit card)
+        //   2. Go to https://api.imgbb.com/ and copy your API key
+        //   3. Paste it below replacing YOUR_IMGBB_KEY_HERE
+        // ─────────────────────────────────────────────────────────────────────
+        const IMGBB_API_KEY = '05f9ffbbbadb71e449b28e2d1adf8975';
+
         function triggerUpload() {
             if (isLocked) return;
             document.getElementById('custom-sticker-input').click();
@@ -738,57 +745,94 @@
             }
 
             if (typeof showNotification === 'function') {
-                showNotification('Uploading custom sticker...');
+                showNotification('\u2601\ufe0f Uploading to cloud...');
             }
 
-            // Read the file as a high-quality base64 Data URL (preserving PNG transparency and original quality)
-            // Limit the dimensions of the local HD cache to 1000px to avoid quota exceeded errors in localStorage
+            // Get HD version of image (max 1000px, preserve PNG transparency)
             getHDImage(file, function(hdBase64) {
-                const formData = new FormData();
-                formData.append('sticker', file);
 
-                fetch('upload.php', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(res => {
-                    if (!res.ok) throw new Error('Upload server error');
-                    return res.json();
-                })
-                .then(data => {
-                    if (data.status === 'success') {
-                        if (typeof showNotification === 'function') {
-                            showNotification('Sticker uploaded successfully!');
-                        }
-                        // Save HD mapping
-                        try {
-                            localStorage.setItem('hd_mapping_' + data.full_url, hdBase64);
-                        } catch (e) {
-                            console.warn("Storage quota exceeded", e);
-                        }
-                        addNewSticker(data.full_url);
-                        addCustomStickerToGrid(data.full_url);
-                    } else {
-                        throw new Error(data.message || 'Upload failed');
+                // ── TIER 1: ImgBB Cloud Upload ─────────────────────────────
+                // Uploads to imgbb.com CDN → URL works on ANY device, anywhere
+                function tryImgBB() {
+                    if (!IMGBB_API_KEY || IMGBB_API_KEY === 'YOUR_IMGBB_KEY_HERE') {
+                        console.info('ImgBB key not set, skipping to server upload.');
+                        tryServer();
+                        return;
                     }
-                })
-                .catch(err => {
-                    console.warn('Upload failed, using offline fallback:', err);
+                    const base64Data = hdBase64.split(',')[1]; // Strip data:image/...;base64, prefix
+                    const imgbbForm = new FormData();
+                    imgbbForm.append('key', IMGBB_API_KEY);
+                    imgbbForm.append('image', base64Data);
+
+                    fetch('https://api.imgbb.com/1/upload', {
+                        method: 'POST',
+                        body: imgbbForm
+                    })
+                    .then(res => { if (!res.ok) throw new Error('ImgBB HTTP ' + res.status); return res.json(); })
+                    .then(data => {
+                        if (data && data.success) {
+                            const imgUrl = data.data.url;
+                            if (typeof showNotification === 'function') {
+                                showNotification('\u2705 Cloud upload done! Any device can view this.');
+                            }
+                            // Store HD mapping locally for instant display without re-fetch
+                            try { localStorage.setItem('hd_mapping_' + imgUrl, hdBase64); } catch(e) {}
+                            addNewSticker(imgUrl);
+                            addCustomStickerToGrid(imgUrl);
+                        } else {
+                            throw new Error('ImgBB rejected: ' + JSON.stringify(data));
+                        }
+                    })
+                    .catch(err => {
+                        console.warn('ImgBB upload failed, trying server:', err);
+                        tryServer();
+                    });
+                }
+
+                // ── TIER 2: Server upload.php ──────────────────────────────
+                // Saves to InfinityFree hosting → works on same domain only
+                function tryServer() {
+                    const serverForm = new FormData();
+                    serverForm.append('sticker', file);
+
+                    fetch('upload.php', {
+                        method: 'POST',
+                        body: serverForm
+                    })
+                    .then(res => { if (!res.ok) throw new Error('Server error ' + res.status); return res.json(); })
+                    .then(data => {
+                        if (data.status === 'success') {
+                            if (typeof showNotification === 'function') {
+                                showNotification('\u2714\ufe0f Uploaded to server (same-site devices only).');
+                            }
+                            try { localStorage.setItem('hd_mapping_' + data.full_url, hdBase64); } catch(e) {}
+                            addNewSticker(data.full_url);
+                            addCustomStickerToGrid(data.full_url);
+                        } else {
+                            throw new Error(data.message || 'Server upload failed');
+                        }
+                    })
+                    .catch(err => {
+                        console.warn('Server upload failed, using offline fallback:', err);
+                        tryOffline();
+                    });
+                }
+
+                // ── TIER 3: Offline Base64 Fallback ───────────────────────
+                // Stores only in localStorage → this device only
+                function tryOffline() {
                     if (typeof showNotification === 'function') {
-                        showNotification('Loaded locally (offline fallback)');
+                        showNotification('\ud83d\udcf1 Saved locally (this device only).');
                     }
-                    // Compress local images so the WhatsApp/Invoice link doesn't crash on size limits
-                    // Limit width to 150px and preserve transparent PNG background format
                     getFallbackImage(file, function(fallbackBase64) {
-                        try {
-                            localStorage.setItem('hd_mapping_' + fallbackBase64, hdBase64);
-                        } catch (e) {
-                            console.warn("Storage quota exceeded", e);
-                        }
+                        try { localStorage.setItem('hd_mapping_' + fallbackBase64, hdBase64); } catch(e) {}
                         addNewSticker(fallbackBase64);
                         addCustomStickerToGrid(fallbackBase64);
                     });
-                });
+                }
+
+                // Start with best option first
+                tryImgBB();
             });
 
             event.target.value = '';
