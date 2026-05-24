@@ -679,11 +679,21 @@ function placeOrder() {
     const encodedData = btoa(unescape(encodeURIComponent(jsonStr)));
     
     let baseUrl = window.location.protocol + '//' + window.location.host + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+    let whatsappBaseUrl = baseUrl;
+    
     if (window.location.protocol === 'file:') {
-        baseUrl = 'https://onijawathsuka39-arch.github.io/Python.-Store/';
+        // Construct local file path for local preview and testing so localStorage works
+        baseUrl = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+        baseUrl = 'file:///' + baseUrl.replace(/^\/+/g, '');
+        
+        // Use production path for the WhatsApp shared link
+        whatsappBaseUrl = 'https://onijawathsuka39-arch.github.io/Python.-Store/';
+    } else {
+        whatsappBaseUrl = baseUrl;
     }
     
     const invoiceUrl = `${baseUrl}invoice.html?data=${encodeURIComponent(encodedData)}`;
+    const whatsappInvoiceUrl = `${whatsappBaseUrl}invoice.html?data=${encodeURIComponent(encodedData)}`;
 
     let message = `🔴 *NEW ORDER CONFIRMATION: ${orderID}*\n\n`;
     message += `👤 *Customer:* ${orderData.name}\n`;
@@ -705,7 +715,7 @@ function placeOrder() {
     message += `🚚 *Delivery Fee:* ${deliveryFee === 0 ? 'FREE' : 'Rs. ' + deliveryFee.toLocaleString() + '.00'}\n`;
     message += `💰 *Grand Total: Rs. ${grandTotal.toLocaleString()}.00*\n\n`;
 
-    message += `📄 *View E-Invoice:* ${invoiceUrl}\n\n`;
+    message += `📄 *View E-Invoice:* ${whatsappInvoiceUrl}\n\n`;
     message += `Thank you for shopping with Python Store!`;
 
     const whatsappUrl = `https://wa.me/94757218786?text=${encodeURIComponent(message)}`;
@@ -722,7 +732,7 @@ function placeOrder() {
 
     showNotification('Order placed successfully! Redirecting...');
 
-    setTimeout(() => { window.location.href = 'profile.html'; }, 2000);
+    setTimeout(() => { window.location.href = invoiceUrl; }, 2000);
 }
 
 function clearOrderHistory() {
