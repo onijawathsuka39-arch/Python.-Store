@@ -758,16 +758,50 @@
                 if (typeof showNotification === 'function') {
                     showNotification('Loaded locally (offline fallback)');
                 }
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const base64Url = e.target.result;
-                    addNewSticker(base64Url);
-                    addCustomStickerToGrid(base64Url);
-                };
-                reader.readAsDataURL(file);
+                // Compress local images so the WhatsApp/Invoice link doesn't crash on size limits
+                compressImage(file, 120, function(compressedBase64) {
+                    addNewSticker(compressedBase64);
+                    addCustomStickerToGrid(compressedBase64);
+                });
             });
 
             event.target.value = '';
+        }
+
+        // Helper to compress base64 images client-side
+        function compressImage(file, maxDim, callback) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    
+                    if (width > height) {
+                        if (width > maxDim) {
+                            height = Math.round(height * maxDim / width);
+                            width = maxDim;
+                        }
+                    } else {
+                        if (height > maxDim) {
+                            width = Math.round(width * maxDim / height);
+                            height = maxDim;
+                        }
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    // Convert to low-quality JPEG for tiny footprint (approx 2KB)
+                    const compressedBase64 = canvas.toDataURL('image/jpeg', 0.5);
+                    callback(compressedBase64);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
         }
 
         function addCustomStickerToGrid(url, autoSwitch = true) {
@@ -1049,17 +1083,58 @@
                     if (!el) return null;
                     return { u: stickerMap[s.url] || s.url, sz: s.szName, p: s.price, t: el.style.top, l: el.style.left, w: el.style.width, r: el.dataset.rotation || 0 };
                 }).filter(d => d !== null);
+                
                 const total = baseTshirtPrice + activeStickers.reduce((sum, s) => sum + (s.price || 250), 0);
-                if (typeof cart === 'undefined') window.cart = JSON.parse(localStorage.getItem('python_cart')) || [];
-                cart.push({
-                    id: 'custom-' + Date.now(), name: currentTshirtType + ' (Custom)', price: total, quantity: 1, size: currentTshirtSize, color: selectedColorName,
-                    isCustom: true, customStickers: details, image: 'https://i.ibb.co/NnQrQr7y/T-Shirt.png', basePrice: baseTshirtPrice
+                
+                // Safe cart checking & initialization
+                let tempCart;
+                if (typeof cart !== 'undefined') {
+                    tempCart = cart;
+                } else if (window.cart !== undefined) {
+                    tempCart = window.cart;
+                } else {
+                    try {
+                        tempCart = JSON.parse(localStorage.getItem('python_cart')) || [];
+                    } catch (e) {
+                        tempCart = [];
+                    }
+                    if (!Array.isArray(tempCart)) tempCart = [];
+                    window.cart = tempCart;
+                }
+                
+                tempCart.push({
+                    id: 'custom-' + Date.now(),
+                    name: currentTshirtType + ' (Custom)',
+                    price: total,
+                    quantity: 1,
+                    size: currentTshirtSize,
+                    color: selectedColorName,
+                    isCustom: true,
+                    customStickers: details,
+                    image: 'https://i.ibb.co/NnQrQr7y/T-Shirt.png',
+                    basePrice: baseTshirtPrice
                 });
-                if (typeof saveCart === 'function') saveCart();
-                else localStorage.setItem('python_cart', JSON.stringify(cart));
+                
+                if (typeof saveCart === 'function') {
+                    if (typeof cart !== 'undefined') {
+                        try {
+                            cart = tempCart;
+                        } catch (e) {
+                            window.cart = tempCart;
+                        }
+                    }
+                    saveCart();
+                } else {
+                    localStorage.setItem('python_cart', JSON.stringify(tempCart));
+                    if (typeof updateCartCount === 'function') updateCartCount();
+                }
+                
                 localStorage.removeItem('roohira_custom_design');
                 window.location.href = 'cart.html';
-            } catch (err) { console.error("Cart Error:", err); alert("Something went wrong. Please try again."); }
+            } catch (err) {
+                console.error("Cart Error:", err);
+                alert("Something went wrong. Please try again.");
+            }
         }
         window.onload = () => { loadSavedDesign(); updateCartCount(); lucide.createIcons(); };
         function filterStickers(cat, btn) {

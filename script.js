@@ -306,7 +306,14 @@ const products = [
 ];
 
 // --- Cart System ---
-let cart = JSON.parse(localStorage.getItem('python_cart')) || [];
+let cart = [];
+try {
+    cart = JSON.parse(localStorage.getItem('python_cart')) || [];
+    if (!Array.isArray(cart)) cart = [];
+} catch (e) {
+    cart = [];
+    console.error("Failed to load cart from localStorage", e);
+}
 
 function updateCartCount() {
     const countElement = document.getElementById('cart-count');
