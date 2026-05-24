@@ -657,7 +657,7 @@
                     <p style="font-size: 0.62rem; color: var(--accent-gold); margin-top: 10px; background: rgba(220, 20, 60, 0.07); padding: 10px; border-radius: 8px; border: 1px dashed rgba(220, 20, 60, 0.3); display: flex; align-items: flex-start; gap: 8px;">
                         <i data-lucide="info" style="width: 14px; flex-shrink: 0; margin-top: 1px;"></i>
                         <span>
-                            <b>Note / සටහන:</b> Preview eka placement dakwanawa witharak. Meke add wenna originel quality eke nemei — eth print rakara quality ekata enawa. (This preview is for placement only. The final product will be printed in original HD quality.)
+                            <b>Note -:This preview is for placement only. The final product will be printed in original HD quality.)
                         </span>
                     </p>
                 </div>
@@ -1017,7 +1017,7 @@
             wrapper.dataset.rotation = pos ? pos.r : 0;
             if (pos) { wrapper.style.top = pos.t; wrapper.style.left = pos.l; wrapper.style.transform = `translate(-50%, -50%) rotate(${pos.r}deg)`; }
             
-            const initialPrice = pos && pos.p !== undefined ? pos.p : 350;
+            const initialPrice = pos && pos.p !== undefined ? pos.p : 580;
             const initialSzName = pos && pos.sz !== undefined ? pos.sz : 'A3';
             
             // Check if there is a local HD version in localStorage
@@ -1044,7 +1044,7 @@
             if (!activeEl) return;
             const sticker = activeStickers.find(s => s.id === activeEl.id);
             if (sticker) {
-                const prices = { 'A2': 500, 'A3': 350, 'A4': 250, 'A5': 150, 'A6': 100 };
+                const prices = { 'A2': 800, 'A3': 580, 'A4': 320, 'A5': 150, 'A6': 100 };
                 sticker.szName = sz;
                 sticker.price = prices[sz];
                 const tag = activeEl.querySelector('.sticker-size-tag');

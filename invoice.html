@@ -435,7 +435,7 @@
                                             <span>Base (${item.name.replace(' (Custom)', '')}):</span> <b>Rs. ${item.basePrice || 1300}.00 (220GSM)</b>
                                         </div>
                                         ${item.customStickers.map((s, idx) => {
-                                            const prices = { 'A2': 500, 'A3': 350, 'A4': 250, 'A5': 150, 'A6': 100 };
+                                            const prices = { 'A2': 800, 'A3': 580, 'A4': 320, 'A5': 150, 'A6': 100 };
                                             const p = s.p || prices[s.sz] || 0;
                                             return `
                                                 <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.85rem;">
@@ -445,7 +445,7 @@
                                         }).join('')}
                                         <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.85rem; border-top: 1px solid #eee; padding-top: 5px; margin-top: 5px;">
                                             <span>Total Designs Price:</span> <b>Rs. ${item.customStickers.reduce((sum, s) => {
-                                                const prices = { 'A2': 500, 'A3': 350, 'A4': 250, 'A5': 150, 'A6': 100 };
+                                                const prices = { 'A2': 800, 'A3': 580, 'A4': 320, 'A5': 150, 'A6': 100 };
                                                 return sum + (s.p || prices[s.sz] || 0);
                                             }, 0).toLocaleString()}.00</b>
                                         </div>
@@ -463,7 +463,7 @@
                                     <div style="border-top: 1px solid #eee; padding-top: 15px;">
                                         <p style="font-weight: 800; margin-bottom: 12px; font-size: 0.85rem;">DESIGN FILES & SIZES:</p>
                                         ${item.customStickers.map((s, idx) => {
-                                            const prices = { 'A2': 500, 'A3': 350, 'A4': 250, 'A5': 150, 'A6': 100 };
+                                            const prices = { 'A2': 800, 'A3': 580, 'A4': 320, 'A5': 150, 'A6': 100 };
                                             const p = s.p || prices[s.sz] || 0;
                                             const resolvedUrl = resolveStickerUrl(s.u);
                                             const fileExtension = resolvedUrl.startsWith('data:image/png') ? 'png' : 'jpeg';
@@ -483,7 +483,7 @@
                                         <!-- Pricing Reference Note -->
                                         <div style="margin-top: 15px; padding: 10px; background: #fff; border: 1px dashed #ddd; border-radius: 8px; font-size: 0.7rem; color: #888;">
                                             <span style="font-weight: 800; display: block; margin-bottom: 3px; color: #444;">PRINT PRICING REFERENCE:</span>
-                                            A2: Rs. 500 | A3: Rs. 350 | A4: Rs. 250 | A5: Rs. 150 | A6: Rs. 100
+                                            A2: Rs. 800 | A3: Rs. 580 | A4: Rs. 320 | A5: Rs. 150 | A6: Rs. 100
                                         </div>
                                     </div>
                                 </div>
