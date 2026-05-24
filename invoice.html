@@ -353,27 +353,54 @@
                     '#900056': 'Dark Pink'
                 };
 
+                const resolveStickerUrl = (u) => {
+                    const originalUrl = stickerMap[u] || u;
+                    const localHd = localStorage.getItem('hd_mapping_' + originalUrl);
+                    return localHd || originalUrl;
+                };
+
                 order.items.forEach(item => {
                     const row = document.createElement('tr');
                     const line = (item.price || 0) * (item.quantity || 1);
                     sub += line;
 
                     let previewHtml = `<img src="${item.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">`;
-                    
+
+                    // ── Smart width resolver ──────────────────────────────────────
+                    // New orders store width as '29.09%' (% of canvas).
+                    // Old orders store it as '160px'. We handle both.
+                    const resolveWidth = (w, containerPx) => {
+                        if (!w) return containerPx * 0.29 + 'px';
+                        const ws = String(w);
+                        if (ws.endsWith('%')) return ws;           // native %, scales perfectly
+                        const px = parseFloat(ws) || 0;           // old px value
+                        return (px / 4) + 'px';                   // legacy fallback ÷4
+                    };
+                    // Large-preview container is 300px wide
+                    const resolveLargeWidth = (w) => {
+                        if (!w) return '87px';
+                        const ws = String(w);
+                        if (ws.endsWith('%')) return ws;
+                        const px = parseFloat(ws) || 0;
+                        return (px / 1.5) + 'px';
+                    };
+                    // ─────────────────────────────────────────────────────────────
+
                     if (item.isCustom && item.customStickers) {
                         hasCustom = true;
                         const colorNameClean = (item.color || "").trim().toLowerCase();
-                        const bgColor = (item.color && item.color.startsWith('#')) ? item.color : 
+                        const bgColor = (item.color && item.color.startsWith('#')) ? item.color :
                                        Object.keys(colorNames).find(key => colorNames[key].trim().toLowerCase() === colorNameClean) || '#ffffff';
-                        
+
                         previewHtml = `
                             <div class="inv-preview">
                                 <div class="inv-t-base" style="background-color: ${bgColor};">
                                     <img src="https://i.ibb.co/NnQrQr7y/T-Shirt.png" class="inv-t-img">
                                     ${item.customStickers.map(s => {
-                                        const url = stickerMap[s.u] || s.u;
+                                        const url = resolveStickerUrl(s.u);
                                         const rot = s.r || 0;
-                                        return `<img src="${url}" class="inv-sticker" style="top: ${s.t}; left: ${s.l}; width: calc(${s.w} / 4); transform: translate(-50%, -50%) rotate(${rot}deg);">`;
+                                        const w = resolveWidth(s.w, 120);
+                                        return `<img src="${url}" class="inv-sticker" style="top: ${s.t}; left: ${s.l}; width: ${w}; transform: translate(-50%, -50%) rotate(${rot}deg);">`;
                                     }).join('')}
                                 </div>
                             </div>
@@ -388,9 +415,10 @@
                                 <div class="inv-t-base" style="background-color: ${bgColor};">
                                     <img src="https://i.ibb.co/NnQrQr7y/T-Shirt.png" class="inv-t-img">
                                     ${item.customStickers.map(s => {
-                                        const url = stickerMap[s.u] || s.u;
+                                        const url = resolveStickerUrl(s.u);
                                         const rot = s.r || 0;
-                                        return `<img src="${url}" class="inv-sticker" style="top: ${s.t}; left: ${s.l}; width: calc(${s.w} / 1.5); transform: translate(-50%, -50%) rotate(${rot}deg);">`;
+                                        const w = resolveLargeWidth(s.w);
+                                        return `<img src="${url}" class="inv-sticker" style="top: ${s.t}; left: ${s.l}; width: ${w}; transform: translate(-50%, -50%) rotate(${rot}deg);">`;
                                     }).join('')}
                                 </div>
                             </div>
@@ -437,14 +465,17 @@
                                         ${item.customStickers.map((s, idx) => {
                                             const prices = { 'A2': 500, 'A3': 350, 'A4': 250, 'A5': 150, 'A6': 100 };
                                             const p = s.p || prices[s.sz] || 0;
+                                            const resolvedUrl = resolveStickerUrl(s.u);
+                                            const fileExtension = resolvedUrl.startsWith('data:image/png') ? 'png' : 'jpeg';
                                             return `
                                                 <div style="margin-bottom: 10px; display: flex; align-items: center; gap: 12px; background: #f9f9f9; padding: 10px; border-radius: 8px; border: 1px solid #f0f0f0;">
-                                                    <img src="${stickerMap[s.u] || s.u}" style="width: 45px; height: 45px; object-fit: contain; background: #fff; border-radius: 4px; border: 1px solid #ddd;">
+                                                    <img src="${resolvedUrl}" style="width: 45px; height: 45px; object-fit: contain; background: #fff; border-radius: 4px; border: 1px solid #ddd;">
                                                     <div style="flex: 1;">
                                                         <p style="margin: 0; font-weight: 800; font-size: 0.85rem;">#${idx+1} - ${s.sz} Size Print</p>
                                                         <p style="margin: 0; font-size: 0.75rem; color: #666;">Unit Price: Rs. ${p}.00</p>
+                                                        <p style="margin: 2px 0 0; font-size: 0.65rem; color: #DC143C; font-weight: 700;">⬇ Original HD quality file</p>
                                                     </div>
-                                                    <a href="${stickerMap[s.u] || s.u}" download class="btn" style="padding: 5px 10px; font-size: 0.6rem; border-radius: 4px;">SAVE</a>
+                                                    <a href="${resolvedUrl}" download="custom_sticker_${idx+1}.${fileExtension}" target="_blank" class="btn" style="padding: 5px 10px; font-size: 0.6rem; border-radius: 4px; background: #000; color: #fff; text-decoration: none;">SAVE HD</a>
                                                 </div>
                                             `;
                                         }).join('')}

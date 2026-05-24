@@ -517,10 +517,6 @@
                             onclick="filterStickers('python', this)">Python Collection</div>
                         <div class="selector-btn" style="padding: 5px 15px; font-size: 0.7rem; white-space: nowrap;"
                             onclick="filterStickers('custom', this)">Your Stickers</div>
-                        <button class="selector-btn" style="padding: 5px 15px; font-size: 0.7rem; white-space: nowrap; background: #DC143C; color: #fff; border-color: #DC143C; display: flex; align-items: center; gap: 4px; margin-left: auto; border: none;"
-                            onclick="triggerUpload()">
-                            <i data-lucide="upload" style="width: 12px; height: 12px;"></i> Upload Sticker
-                        </button>
                     </div>
                     <input type="file" id="custom-sticker-input" accept="image/*" style="display: none;" onchange="handleStickerUpload(event)">
                     <div class="sticker-grid" id="main-sticker-grid">
@@ -645,11 +641,25 @@
                         <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/BHf6fLxr/Whats-App-Image-2026-05-20-at-17-27-59.png')"><img src="https://i.ibb.co/BHf6fLxr/Whats-App-Image-2026-05-20-at-17-27-59.png"></div>
                         <div class="sticker-item" data-cat="python" onclick="addNewSticker('https://i.ibb.co/zHGbqMn0/honor-design.png')"><img src="https://i.ibb.co/zHGbqMn0/honor-design.png"></div>
                     </div>
-                    <p
-                        style="font-size: 0.65rem; color: var(--accent-gold); margin-top: 10px; background: rgba(220, 20, 60, 0.1); padding: 10px; border-radius: 8px; border: 1px dashed rgba(220, 20, 60, 0.3); display: flex; align-items: center; gap: 8px;">
-                        <i data-lucide="info" style="width: 14px; flex-shrink: 0;"></i>
-                        Note: The stickers shown in the preview are for placement purposes only. The final product will
-                        be printed using high-definition, original quality assets.
+
+                    <!-- Custom Sticker Upload Panel -->
+                    <div style="margin-top: 15px; padding: 14px; background: var(--bg-page, var(--primary-light)); border-radius: 14px; border: 1px dashed var(--border-color);">
+                        <button onclick="triggerUpload()" style="width: 100%; padding: 11px; background: var(--primary-dark); color: var(--primary-light); border: none; border-radius: 10px; font-weight: 800; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; letter-spacing: 0.5px;">
+                            <i data-lucide="upload-cloud" style="width: 16px; height: 16px;"></i>
+                            UPLOAD YOUR STICKER
+                        </button>
+                        <div style="margin-top: 10px; display: flex; align-items: flex-start; gap: 8px; font-size: 0.65rem; color: var(--accent-gold);">
+                            <i data-lucide="star" style="width: 12px; height: 12px; flex-shrink: 0; margin-top: 1px;"></i>
+                            <span><b>Recommended: Transparent .PNG format</b> — PNG eka clear background ekata hondai.<br>
+                            Your original HD image is preserved for print. Preview only shows placement.</span>
+                        </div>
+                    </div>
+
+                    <p style="font-size: 0.62rem; color: var(--accent-gold); margin-top: 10px; background: rgba(220, 20, 60, 0.07); padding: 10px; border-radius: 8px; border: 1px dashed rgba(220, 20, 60, 0.3); display: flex; align-items: flex-start; gap: 8px;">
+                        <i data-lucide="info" style="width: 14px; flex-shrink: 0; margin-top: 1px;"></i>
+                        <span>
+                            <b>Note / සටහන:</b> Preview eka placement dakwanawa witharak. Meke add wenna originel quality eke nemei — eth print rakara quality ekata enawa. (This preview is for placement only. The final product will be printed in original HD quality.)
+                        </span>
                     </p>
                 </div>
 
@@ -731,45 +741,61 @@
                 showNotification('Uploading custom sticker...');
             }
 
-            const formData = new FormData();
-            formData.append('sticker', file);
+            // Read the file as a high-quality base64 Data URL (preserving PNG transparency and original quality)
+            // Limit the dimensions of the local HD cache to 1000px to avoid quota exceeded errors in localStorage
+            getHDImage(file, function(hdBase64) {
+                const formData = new FormData();
+                formData.append('sticker', file);
 
-            fetch('upload.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => {
-                if (!res.ok) throw new Error('Upload server error');
-                return res.json();
-            })
-            .then(data => {
-                if (data.status === 'success') {
-                    if (typeof showNotification === 'function') {
-                        showNotification('Sticker uploaded successfully!');
+                fetch('upload.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => {
+                    if (!res.ok) throw new Error('Upload server error');
+                    return res.json();
+                })
+                .then(data => {
+                    if (data.status === 'success') {
+                        if (typeof showNotification === 'function') {
+                            showNotification('Sticker uploaded successfully!');
+                        }
+                        // Save HD mapping
+                        try {
+                            localStorage.setItem('hd_mapping_' + data.full_url, hdBase64);
+                        } catch (e) {
+                            console.warn("Storage quota exceeded", e);
+                        }
+                        addNewSticker(data.full_url);
+                        addCustomStickerToGrid(data.full_url);
+                    } else {
+                        throw new Error(data.message || 'Upload failed');
                     }
-                    addNewSticker(data.full_url);
-                    addCustomStickerToGrid(data.full_url);
-                } else {
-                    throw new Error(data.message || 'Upload failed');
-                }
-            })
-            .catch(err => {
-                console.warn('Upload failed, using offline fallback:', err);
-                if (typeof showNotification === 'function') {
-                    showNotification('Loaded locally (offline fallback)');
-                }
-                // Compress local images so the WhatsApp/Invoice link doesn't crash on size limits
-                compressImage(file, 120, function(compressedBase64) {
-                    addNewSticker(compressedBase64);
-                    addCustomStickerToGrid(compressedBase64);
+                })
+                .catch(err => {
+                    console.warn('Upload failed, using offline fallback:', err);
+                    if (typeof showNotification === 'function') {
+                        showNotification('Loaded locally (offline fallback)');
+                    }
+                    // Compress local images so the WhatsApp/Invoice link doesn't crash on size limits
+                    // Limit width to 150px and preserve transparent PNG background format
+                    getFallbackImage(file, function(fallbackBase64) {
+                        try {
+                            localStorage.setItem('hd_mapping_' + fallbackBase64, hdBase64);
+                        } catch (e) {
+                            console.warn("Storage quota exceeded", e);
+                        }
+                        addNewSticker(fallbackBase64);
+                        addCustomStickerToGrid(fallbackBase64);
+                    });
                 });
             });
 
             event.target.value = '';
         }
 
-        // Helper to compress base64 images client-side
-        function compressImage(file, maxDim, callback) {
+        // Helper to get HD (1000px) quality image and preserve format (PNG transparency)
+        function getHDImage(file, callback) {
             const reader = new FileReader();
             reader.onload = function(e) {
                 const img = new Image();
@@ -777,6 +803,7 @@
                     const canvas = document.createElement('canvas');
                     let width = img.width;
                     let height = img.height;
+                    const maxDim = 1000;
                     
                     if (width > height) {
                         if (width > maxDim) {
@@ -795,9 +822,46 @@
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
                     
-                    // Convert to low-quality JPEG for tiny footprint (approx 2KB)
-                    const compressedBase64 = canvas.toDataURL('image/jpeg', 0.5);
-                    callback(compressedBase64);
+                    const format = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+                    const dataUrl = format === 'image/png' ? canvas.toDataURL('image/png') : canvas.toDataURL('image/jpeg', 0.9);
+                    callback(dataUrl);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Helper to get compressed fallback (150px) image and preserve format (PNG transparency)
+        function getFallbackImage(file, callback) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    const maxDim = 150;
+                    
+                    if (width > height) {
+                        if (width > maxDim) {
+                            height = Math.round(height * maxDim / width);
+                            width = maxDim;
+                        }
+                    } else {
+                        if (height > maxDim) {
+                            width = Math.round(width * maxDim / height);
+                            height = maxDim;
+                        }
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    const format = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+                    const dataUrl = format === 'image/png' ? canvas.toDataURL('image/png') : canvas.toDataURL('image/jpeg', 0.7);
+                    callback(dataUrl);
                 };
                 img.src = e.target.result;
             };
@@ -809,7 +873,7 @@
             if (!grid) return;
             
             // Avoid duplicate custom stickers in grid
-            const existing = Array.from(grid.querySelectorAll('.sticker-item img')).find(img => img.src === url);
+            const existing = Array.from(grid.querySelectorAll('.sticker-item img')).find(img => img.dataset.url === url || img.src === url);
             if (existing) return;
             
             const item = document.createElement('div');
@@ -820,7 +884,9 @@
             };
             
             const img = document.createElement('img');
-            img.src = url;
+            const localHd = localStorage.getItem('hd_mapping_' + url);
+            img.src = localHd || url;
+            img.dataset.url = url;
             item.appendChild(img);
             
             grid.insertBefore(item, grid.firstChild);
@@ -910,8 +976,12 @@
             const initialPrice = pos && pos.p !== undefined ? pos.p : 350;
             const initialSzName = pos && pos.sz !== undefined ? pos.sz : 'A3';
             
+            // Check if there is a local HD version in localStorage
+            const localHd = localStorage.getItem('hd_mapping_' + url);
+            const displayUrl = localHd || url;
+
             wrapper.innerHTML = `
-                <img src="${url}">
+                <img src="${displayUrl}">
                 <div class="sticker-size-tag">${initialSzName}</div>
                 <div class="handle sticker-delete" onclick="event.stopPropagation(); removeSticker('${id}')"><i data-lucide="trash-2" style="width:16px"></i></div>
                 <div class="handle resize-handle"><i data-lucide="maximize-2" style="width:16px"></i></div>
@@ -1035,12 +1105,17 @@
             window.addEventListener('mouseup', end); window.addEventListener('touchend', end);
         }
         function autoSave() {
+            const canvas = document.getElementById('canvas');
+            const canvasW = canvas ? canvas.offsetWidth : 1;
             const data = {
                 color: selectedColor, colorName: selectedColorName, size: currentTshirtSize,
                 stickers: activeStickers.map(s => {
                     const el = document.getElementById(s.id);
                     if (!el) return null;
-                    return { id: s.id, url: s.url, t: el.style.top, l: el.style.left, w: el.style.width, r: el.dataset.rotation, sz: s.szName, p: s.price };
+                    // Store width as % of canvas so invoice/production previews scale exactly
+                    const pxW = parseFloat(el.style.width) || el.offsetWidth;
+                    const pctW = ((pxW / canvasW) * 100).toFixed(4) + '%';
+                    return { id: s.id, url: s.url, t: el.style.top, l: el.style.left, w: pctW, r: el.dataset.rotation, sz: s.szName, p: s.price };
                 }).filter(s => s !== null)
             };
             localStorage.setItem('roohira_custom_design', JSON.stringify(data));
@@ -1078,14 +1153,20 @@
         }
         function addCustomToCart() {
             try {
+                const canvas = document.getElementById('canvas');
+                const canvasW = canvas ? canvas.offsetWidth : 1;
+
                 const details = activeStickers.map(s => {
                     const el = document.getElementById(s.id);
                     if (!el) return null;
-                    return { u: stickerMap[s.url] || s.url, sz: s.szName, p: s.price, t: el.style.top, l: el.style.left, w: el.style.width, r: el.dataset.rotation || 0 };
+                    // Save width as % of canvas for accurate scaling on invoice
+                    const pxW = parseFloat(el.style.width) || el.offsetWidth;
+                    const pctW = ((pxW / canvasW) * 100).toFixed(4) + '%';
+                    return { u: stickerMap[s.url] || s.url, sz: s.szName, p: s.price, t: el.style.top, l: el.style.left, w: pctW, r: el.dataset.rotation || 0 };
                 }).filter(d => d !== null);
-                
+
                 const total = baseTshirtPrice + activeStickers.reduce((sum, s) => sum + (s.price || 250), 0);
-                
+
                 // Safe cart checking & initialization
                 let tempCart;
                 if (typeof cart !== 'undefined') {
@@ -1101,7 +1182,7 @@
                     if (!Array.isArray(tempCart)) tempCart = [];
                     window.cart = tempCart;
                 }
-                
+
                 tempCart.push({
                     id: 'custom-' + Date.now(),
                     name: currentTshirtType + ' (Custom)',
@@ -1114,26 +1195,22 @@
                     image: 'https://i.ibb.co/NnQrQr7y/T-Shirt.png',
                     basePrice: baseTshirtPrice
                 });
-                
+
                 if (typeof saveCart === 'function') {
                     if (typeof cart !== 'undefined') {
-                        try {
-                            cart = tempCart;
-                        } catch (e) {
-                            window.cart = tempCart;
-                        }
+                        try { cart = tempCart; } catch (e) { window.cart = tempCart; }
                     }
                     saveCart();
                 } else {
                     localStorage.setItem('python_cart', JSON.stringify(tempCart));
                     if (typeof updateCartCount === 'function') updateCartCount();
                 }
-                
+
                 localStorage.removeItem('roohira_custom_design');
                 window.location.href = 'cart.html';
             } catch (err) {
                 console.error("Cart Error:", err);
-                alert("Something went wrong. Please try again.");
+                alert("Something went wrong: " + err.message);
             }
         }
         window.onload = () => { loadSavedDesign(); updateCartCount(); lucide.createIcons(); };
