@@ -1162,7 +1162,21 @@
                     // Save width as % of canvas for accurate scaling on invoice
                     const pxW = parseFloat(el.style.width) || el.offsetWidth;
                     const pctW = ((pxW / canvasW) * 100).toFixed(4) + '%';
-                    return { u: stickerMap[s.url] || s.url, sz: s.szName, p: s.price, t: el.style.top, l: el.style.left, w: pctW, r: el.dataset.rotation || 0 };
+                    
+                    let uVal = stickerMap[s.url] || s.url;
+                    if (uVal.startsWith('data:')) {
+                        uVal = 'offline_' + s.id;
+                        // Copy HD mapping to this offline key so it can be resolved locally
+                        const localHd = localStorage.getItem('hd_mapping_' + s.url);
+                        if (localHd) {
+                            try {
+                                localStorage.setItem('hd_mapping_' + uVal, localHd);
+                            } catch (e) {
+                                console.warn("Failed to copy HD mapping", e);
+                            }
+                        }
+                    }
+                    return { u: uVal, sz: s.szName, p: s.price, t: el.style.top, l: el.style.left, w: pctW, r: el.dataset.rotation || 0 };
                 }).filter(d => d !== null);
 
                 const total = baseTshirtPrice + activeStickers.reduce((sum, s) => sum + (s.price || 250), 0);
