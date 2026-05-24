@@ -67,10 +67,18 @@
 
         <!-- Category Filters -->
         <div class="category-filter"
-            style="display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; flex-wrap: wrap;">
-            <button class="filter-btn active" onclick="selectSubcategory('All', this)">All T-Shirts</button>
-            <button class="filter-btn" onclick="selectSubcategory('Regular Tee (Printed)', this)">Regular Tee (Printed)</button>
-            <button class="filter-btn" onclick="selectSubcategory('Oversized Tee (Printed)', this)">Oversized Tee (Printed)</button>
+            style="display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+            <button class="filter-btn active" id="btn-all" onclick="selectMainCat('All', this)">All T-Shirts</button>
+            <button class="filter-btn" id="btn-regular" onclick="selectMainCat('Regular Tee (Printed)', this)">Regular Tee (Printed)</button>
+            <button class="filter-btn" id="btn-oversized" onclick="selectMainCat('Oversized Tee (Printed)', this)">Oversized Tee (Printed)</button>
+        </div>
+
+        <!-- GSM sub-category row — always visible -->
+        <div id="gsm-subcat-row" style="display: flex; justify-content: center; gap: 8px; margin-bottom: 35px; flex-wrap: wrap; align-items: center;">
+            <span style="font-size: 0.72rem; font-weight: 800; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase;">GSM :</span>
+            <button class="filter-btn gsm-sub active" id="gsm-all" onclick="selectGSM('all', this)">All</button>
+            <button class="filter-btn gsm-sub" id="gsm-220" onclick="selectGSM('220 GSM', this)">220 GSM</button>
+            <button class="filter-btn gsm-sub" id="gsm-190" onclick="selectGSM('190 GSM', this)">190 GSM</button>
         </div>
 
         <div class="product-grid" id="product-grid">
@@ -94,6 +102,33 @@
     </div>
 
     <style>
+        /* GSM sub-category buttons — outline only, no fill */
+        .gsm-sub {
+            padding: 5px 14px !important;
+            border-radius: 50px !important;
+            border: 1.5px solid #333 !important;
+            background: transparent !important;
+            color: var(--primary-dark) !important;
+            font-size: 0.75rem !important;
+            font-weight: 700 !important;
+            box-shadow: none !important;
+            transform: none !important;
+        }
+        .gsm-sub:hover {
+            border-color: #DC143C !important;
+            color: #DC143C !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            transform: none !important;
+        }
+        .gsm-sub.active {
+            border-color: #DC143C !important;
+            color: #DC143C !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            transform: none !important;
+        }
+
         .product-card:hover .size-chart-card-btn {
             opacity: 1 !important;
             transform: translateY(0) !important;
@@ -121,6 +156,61 @@
     <script src="script.js"></script>
     <script>
         lucide.createIcons();
+
+        // ── GSM Sub-category filter logic ──────────────────────────
+        let activeMainCat = 'All';
+        let activeGSM = 'all';
+
+        function selectMainCat(cat, btn) {
+            activeMainCat = cat;
+            activeGSM = 'all'; // reset GSM on category change
+
+            // Update main filter buttons
+            document.querySelectorAll('.category-filter .filter-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+
+            // Reset GSM buttons to All
+            document.querySelectorAll('.gsm-sub').forEach(b => b.classList.remove('active'));
+            const gsmAllBtn = document.getElementById('gsm-all');
+            if (gsmAllBtn) gsmAllBtn.classList.add('active');
+
+            currentSubcategory = cat;
+            applyFilters();
+        }
+
+        function selectGSM(gsm, btn) {
+            activeGSM = gsm;
+            document.querySelectorAll('.gsm-sub').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            applyFilters();
+        }
+
+        function applyFilters() {
+            let filtered = products;
+
+            // Main category filter
+            if (activeMainCat !== 'All') {
+                filtered = filtered.filter(p => p.category === activeMainCat);
+            }
+
+            // GSM filter — applies to all categories
+            if (activeGSM !== 'all') {
+                filtered = filtered.filter(p => p.gsm === activeGSM);
+            }
+
+            // Search query
+            if (searchQuery !== '') {
+                filtered = filtered.filter(p =>
+                    p.name.toLowerCase().includes(searchQuery) ||
+                    (p.desc || '').toLowerCase().includes(searchQuery) ||
+                    (p.category || '').toLowerCase().includes(searchQuery)
+                );
+            }
+
+            displayProducts(filtered);
+        }
+        // ────────────────────────────────────────────────────────────
+
         function openSizeChart() {
             document.getElementById('sizeChartModal').classList.add('active');
             document.body.style.overflow = 'hidden';
