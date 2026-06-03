@@ -374,8 +374,6 @@ function displayProducts(filteredProducts) {
 
         // Determine wishlist state
         const wished = isInWishlist(p.id);
-        const heartIcon = wished ? 'heart' : 'heart';
-        const heartFill = wished ? 'fill="#DC143C" stroke="#DC143C"' : 'stroke="currentColor"';
         const heartColor = wished ? 'color: #DC143C;' : 'color: var(--text-main);';
 
         grid.innerHTML += `
@@ -395,6 +393,11 @@ function displayProducts(filteredProducts) {
                 <div class="card-slider" style="display: flex; transition: transform 0.5s ease; height: 100%; width: 100%;">
                     ${p.images.map(img => `<img src="${img}" style="width: 100%; flex-shrink: 0; height: 100%; object-fit: cover;">`).join('')}
                 </div>
+                ${p.images.length > 1 ? `
+                <div class="card-slider-indicators">
+                    ${p.images.map((_, idx) => `<div class="card-slider-indicator-dot ${idx === 0 ? 'active' : ''}"></div>`).join('')}
+                </div>
+                ` : ''}
             </div>
             <div class="product-info">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;">
@@ -429,9 +432,20 @@ function startHoverSlide(productId, sliderElement) {
     if (!p || !p.images || p.images.length <= 1) return;
 
     let currentIdx = 0;
+    const container = sliderElement.parentElement;
+    const dots = container.querySelectorAll('.card-slider-indicator-dot');
+
     hoverIntervals[productId] = setInterval(() => {
         currentIdx = (currentIdx + 1) % p.images.length;
         sliderElement.style.transform = `translateX(-${currentIdx * 100}%)`;
+        
+        dots.forEach((dot, idx) => {
+            if (idx === currentIdx) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
     }, 1000);
 }
 
@@ -441,6 +455,16 @@ function stopHoverSlide(productId, sliderElement) {
         delete hoverIntervals[productId];
     }
     sliderElement.style.transform = 'translateX(0)';
+    
+    const container = sliderElement.parentElement;
+    const dots = container.querySelectorAll('.card-slider-indicator-dot');
+    dots.forEach((dot, idx) => {
+        if (idx === 0) {
+            dot.classList.add('active');
+        } else {
+            dot.classList.remove('active');
+        }
+    });
 }
 
 // --- Shop Filtering System ---
