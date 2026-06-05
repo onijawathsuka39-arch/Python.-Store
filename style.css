@@ -292,7 +292,7 @@ nav.scrolled {
     scroll-behavior: smooth; 
     -webkit-overflow-scrolling: touch; 
     width: 100%; 
-    max-width: 800px; 
+    max-width: 480px; 
     margin: 0 auto; 
     border-radius: 24px; 
     padding-bottom: 20px;
@@ -310,16 +310,16 @@ nav.scrolled {
     flex-shrink: 0; 
     scroll-snap-align: start; 
     display: flex; 
-    flex-direction: row; 
-    gap: 30px; 
-    align-items: center; 
+    flex-direction: column; 
+    gap: 20px; 
+    align-items: stretch; 
     background: var(--surface); 
     border: 1px solid var(--glass-border); 
     border-radius: 24px;
     transition: var(--transition-smooth);
 }
 .top-selling-image-wrapper {
-    width: 45%; 
+    width: 100%; 
     padding: 15px; 
     display: flex; 
     justify-content: center; 
@@ -328,9 +328,10 @@ nav.scrolled {
     background: var(--primary-light); 
     border-radius: 18px;
     flex-shrink: 0;
+    margin-bottom: 20px;
 }
 .top-selling-details {
-    width: 55%; 
+    width: 100%; 
     display: flex; 
     flex-direction: column; 
     align-items: stretch; 
@@ -358,21 +359,6 @@ nav.scrolled {
 
 /* Responsive Overrides for Mobile (<= 768px) */
 @media (max-width: 768px) {
-    .top-selling-carousel-container {
-        max-width: 480px; 
-    }
-    .top-selling-card {
-        flex-direction: column !important; 
-        gap: 20px !important;
-        padding: 20px !important;
-    }
-    .top-selling-image-wrapper {
-        width: 100% !important;
-        padding: 15px !important;
-    }
-    .top-selling-details {
-        width: 100% !important;
-    }
     .top-selling-details h3 {
         font-size: 1.5rem !important;
     }
