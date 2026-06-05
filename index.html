@@ -95,16 +95,14 @@
 
         <!-- Carousel Container -->
         <div class="top-selling-carousel-container" 
+             id="top-selling-carousel"
              onmouseenter="if(typeof topSellingSlideInterval !== 'undefined') clearInterval(topSellingSlideInterval);" 
-             onmouseleave="startTopSellingAutoScroll();"
-             style="position: relative; overflow: hidden; width: 100%; max-width: 800px; margin: 0 auto; border-radius: 24px; padding-bottom: 20px;">
+             onmouseleave="startTopSellingAutoScroll();">
              
-          <div class="top-selling-carousel-track" id="top-selling-track" style="display: flex; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); width: 200%;">
-            
             <!-- Card 1: Product ID 1 (Infinity Edition) -->
-            <div class="top-selling-card glass" style="width: 50%; padding: 25px; flex-shrink: 0; display: flex; flex-direction: row; gap: 30px; align-items: center; background: var(--surface); border: 1px solid var(--glass-border); border-radius: 24px;">
-              <!-- Left Side: Product Image -->
-              <div class="top-selling-image-wrapper" style="width: 45%; padding: 15px; display: flex; justify-content: center; align-items: center; position: relative; background: var(--primary-light); border-radius: 18px; flex-shrink: 0;">
+            <div class="top-selling-card glass">
+              <!-- Product Image -->
+              <div class="top-selling-image-wrapper">
                 <span style="position: absolute; top: 15px; left: 15px; background: #DC143C; color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; z-index: 10; box-shadow: 0 4px 10px rgba(220, 20, 60, 0.3);">15% OFF</span>
                 <img id="top-selling-1-img" src="https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png" alt="Infinity Edition T-Shirt" style="width: 100%; height: auto; max-height: 320px; object-fit: contain; border-radius: 12px; transition: transform 0.5s ease;">
                 
@@ -115,8 +113,8 @@
                 </div>
               </div>
 
-              <!-- Right Side: Product Info inside the same card frame -->
-              <div class="top-selling-details" style="width: 55%; display: flex; flex-direction: column; align-items: stretch; text-align: left;">
+              <!-- Product Info inside the same card frame -->
+              <div class="top-selling-details">
                 <span style="color: var(--accent-gold); font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;">Regular Tee (Printed)</span>
                 <h3 style="font-size: 1.8rem; margin: 8px 0; color: var(--text-main);">Infinity Edition</h3>
                 
@@ -163,9 +161,9 @@
             </div>
 
             <!-- Card 2: Product ID 5 (BMW Design) -->
-            <div class="top-selling-card glass" style="width: 50%; padding: 25px; flex-shrink: 0; display: flex; flex-direction: row; gap: 30px; align-items: center; background: var(--surface); border: 1px solid var(--glass-border); border-radius: 24px;">
-              <!-- Left Side: Product Image -->
-              <div class="top-selling-image-wrapper" style="width: 45%; padding: 15px; display: flex; justify-content: center; align-items: center; position: relative; background: var(--primary-light); border-radius: 18px; flex-shrink: 0;">
+            <div class="top-selling-card glass">
+              <!-- Product Image -->
+              <div class="top-selling-image-wrapper">
                 <span style="position: absolute; top: 15px; left: 15px; background: #DC143C; color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; z-index: 10; box-shadow: 0 4px 10px rgba(220, 20, 60, 0.3);">15% OFF</span>
                 <img id="top-selling-5-img" src="https://i.ibb.co/gLS0w69Y/Python-BMW.png" alt="BMW Design T-Shirt" style="width: 100%; height: auto; max-height: 320px; object-fit: contain; border-radius: 12px; transition: transform 0.5s ease;">
                 
@@ -176,8 +174,8 @@
                 </div>
               </div>
 
-              <!-- Right Side: Product Info inside the same card frame -->
-              <div class="top-selling-details" style="width: 55%; display: flex; flex-direction: column; align-items: stretch; text-align: left;">
+              <!-- Product Info inside the same card frame -->
+              <div class="top-selling-details">
                 <span style="color: var(--accent-gold); font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;">Regular Tee (Printed)</span>
                 <h3 style="font-size: 1.8rem; margin: 8px 0; color: var(--text-main);">BMW Design</h3>
                 
@@ -223,7 +221,6 @@
               </div>
             </div>
 
-          </div>
         </div>
 
         <!-- Indicator dots outside the track so they don't slide -->
@@ -420,6 +417,62 @@
         if (typeof startTopSellingAutoScroll === 'function') {
             startTopSellingAutoScroll();
         }
+
+        // Bind scroll listener for manual swipe / drag dot updates
+        const container = document.getElementById('top-selling-carousel');
+        if (container) {
+            container.addEventListener('scroll', () => {
+                const cardWidth = container.getBoundingClientRect().width;
+                if (cardWidth > 0) {
+                    const scrollPosition = container.scrollLeft;
+                    const index = Math.round(scrollPosition / cardWidth);
+                    if (index !== currentTopSellingSlide) {
+                        currentTopSellingSlide = index;
+                        updateTopSellingDots(index);
+                    }
+                }
+            });
+
+            // Mouse drag-to-scroll implementation
+            let isDown = false;
+            let startX;
+            let scrollLeftVal;
+
+            container.addEventListener('mousedown', (e) => {
+                isDown = true;
+                container.style.scrollBehavior = 'auto'; // Disable smooth snap scroll temporarily during drag
+                startX = e.pageX - container.offsetLeft;
+                scrollLeftVal = container.scrollLeft;
+                if (topSellingSlideInterval) clearInterval(topSellingSlideInterval);
+            });
+
+            container.addEventListener('mouseleave', () => {
+                if (isDown) {
+                    isDown = false;
+                    container.style.scrollBehavior = 'smooth';
+                    startTopSellingAutoScroll();
+                }
+            });
+
+            container.addEventListener('mouseup', () => {
+                if (isDown) {
+                    isDown = false;
+                    container.style.scrollBehavior = 'smooth';
+                    const cardWidth = container.getBoundingClientRect().width;
+                    const index = Math.round(container.scrollLeft / cardWidth);
+                    showTopSellingSlide(index);
+                    startTopSellingAutoScroll();
+                }
+            });
+
+            container.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - container.offsetLeft;
+                const walk = (x - startX) * 1.5; // speed multiplier
+                container.scrollLeft = scrollLeftVal - walk;
+            });
+        }
     });
 
     window.addEventListener('scroll', () => {
@@ -435,14 +488,7 @@
     let currentTopSellingSlide = 0;
     let topSellingSlideInterval;
 
-    function showTopSellingSlide(index) {
-        currentTopSellingSlide = index;
-        const track = document.getElementById('top-selling-track');
-        if (track) {
-            track.style.transform = `translateX(-${index * 50}%)`;
-        }
-        
-        // Update dots styling
+    function updateTopSellingDots(index) {
         document.querySelectorAll('.top-selling-dot').forEach((dot, idx) => {
             if (idx === index) {
                 dot.classList.add('active');
@@ -456,6 +502,19 @@
                 dot.style.background = 'var(--text-muted)';
             }
         });
+    }
+
+    function showTopSellingSlide(index) {
+        currentTopSellingSlide = index;
+        const container = document.getElementById('top-selling-carousel');
+        if (container) {
+            const cardWidth = container.getBoundingClientRect().width;
+            container.scrollTo({
+                left: index * cardWidth,
+                behavior: 'smooth'
+            });
+        }
+        updateTopSellingDots(index);
     }
 
     function startTopSellingAutoScroll() {
