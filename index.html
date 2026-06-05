@@ -84,6 +84,156 @@
 
     </section>
 
+    <!-- This Month's Top Selling Section -->
+    <section class="section top-selling-section" style="background: rgba(220, 20, 60, 0.03); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); padding: 80px 10%;">
+      <div class="container" style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
+        <div class="section-title" style="text-align: center; margin-bottom: 40px;">
+          <span class="hero-tag" style="background: var(--accent-gold); color: #fff; border-color: var(--accent-gold);">Top Selling</span>
+          <h2>This Month's <span style="color: var(--accent-gold);">Most Popular</span></h2>
+          <p>The ultimate customer favorites, flying off the shelves</p>
+        </div>
+
+        <!-- Carousel Container -->
+        <div class="top-selling-carousel-container" 
+             onmouseenter="if(typeof topSellingSlideInterval !== 'undefined') clearInterval(topSellingSlideInterval);" 
+             onmouseleave="startTopSellingAutoScroll();"
+             style="position: relative; overflow: hidden; width: 100%; max-width: 800px; margin: 0 auto; border-radius: 24px; padding-bottom: 20px;">
+             
+          <div class="top-selling-carousel-track" id="top-selling-track" style="display: flex; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); width: 200%;">
+            
+            <!-- Card 1: Product ID 1 (Infinity Edition) -->
+            <div class="top-selling-card glass" style="width: 50%; padding: 25px; flex-shrink: 0; display: flex; flex-direction: row; gap: 30px; align-items: center; background: var(--surface); border: 1px solid var(--glass-border); border-radius: 24px;">
+              <!-- Left Side: Product Image -->
+              <div class="top-selling-image-wrapper" style="width: 45%; padding: 15px; display: flex; justify-content: center; align-items: center; position: relative; background: var(--primary-light); border-radius: 18px; flex-shrink: 0;">
+                <span style="position: absolute; top: 15px; left: 15px; background: #DC143C; color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; z-index: 10; box-shadow: 0 4px 10px rgba(220, 20, 60, 0.3);">15% OFF</span>
+                <img id="top-selling-1-img" src="https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png" alt="Infinity Edition T-Shirt" style="width: 100%; height: auto; max-height: 320px; object-fit: contain; border-radius: 12px; transition: transform 0.5s ease;">
+                
+                <!-- Thumbnails -->
+                <div style="position: absolute; bottom: 15px; display: flex; gap: 8px; z-index: 10;">
+                  <img src="https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png" onclick="setTopSelling1Image('https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid var(--accent-gold); cursor: pointer; background: white;">
+                  <img src="https://i.ibb.co/NnswC8R5/Chat-GPT-Image-Apr-30-2026-12-01-14-PM.png" onclick="setTopSelling1Image('https://i.ibb.co/NnswC8R5/Chat-GPT-Image-Apr-30-2026-12-01-14-PM.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid transparent; cursor: pointer; background: white;">
+                </div>
+              </div>
+
+              <!-- Right Side: Product Info inside the same card frame -->
+              <div class="top-selling-details" style="width: 55%; display: flex; flex-direction: column; align-items: stretch; text-align: left;">
+                <span style="color: var(--accent-gold); font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;">Regular Tee (Printed)</span>
+                <h3 style="font-size: 1.8rem; margin: 8px 0; color: var(--text-main);">Infinity Edition</h3>
+                
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                  <span style="font-size: 1.5rem; color: var(--accent-gold); font-weight: 800;">Rs. 1,600.00</span>
+                  <span style="text-decoration: line-through; color: var(--text-muted); font-size: 1rem;">Rs. 1,850.00</span>
+                </div>
+
+                <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-size: 0.9rem;">
+                  The Infinity Edition Regular Tee (Printed) by Python. Crafted with premium 220 GSM fabric for ultimate comfort and durability. Features our iconic branding.
+                </p>
+
+                <!-- Size Selector -->
+                <div style="margin-bottom: 25px;">
+                  <span style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-main);">SELECT SIZE:</span>
+                  <div style="display: flex; gap: 10px;" id="top-selling-1-sizes">
+                    <button onclick="selectTopSelling1Size('S')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--accent-gold); background: var(--accent-gold); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">S</button>
+                    <button onclick="selectTopSelling1Size('M')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">M</button>
+                    <button onclick="selectTopSelling1Size('L')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">L</button>
+                    <button onclick="selectTopSelling1Size('XL')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">XL</button>
+                  </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 25px;">
+                  <button onclick="addTopSelling1ToCart()" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px; padding: 12px 28px; font-weight: 800; text-transform: uppercase; border-radius: 50px; cursor: pointer; font-size: 0.85rem;">
+                    <i data-lucide="shopping-cart" style="width: 16px; height: 16px;"></i> Add to Cart
+                  </button>
+                  <button onclick="buyTopSelling1Now()" class="btn btn-outline" style="padding: 12px 24px; border-radius: 50px; font-weight: 800; border: 2px solid var(--primary-dark); text-transform: uppercase; cursor: pointer; font-size: 0.85rem;">
+                    Buy Now
+                  </button>
+                </div>
+                
+                <!-- Features list -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid var(--border-light); padding-top: 15px;">
+                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> 220 GSM Cotton
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> Premium Print
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: Product ID 5 (BMW Design) -->
+            <div class="top-selling-card glass" style="width: 50%; padding: 25px; flex-shrink: 0; display: flex; flex-direction: row; gap: 30px; align-items: center; background: var(--surface); border: 1px solid var(--glass-border); border-radius: 24px;">
+              <!-- Left Side: Product Image -->
+              <div class="top-selling-image-wrapper" style="width: 45%; padding: 15px; display: flex; justify-content: center; align-items: center; position: relative; background: var(--primary-light); border-radius: 18px; flex-shrink: 0;">
+                <span style="position: absolute; top: 15px; left: 15px; background: #DC143C; color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; z-index: 10; box-shadow: 0 4px 10px rgba(220, 20, 60, 0.3);">15% OFF</span>
+                <img id="top-selling-5-img" src="https://i.ibb.co/gLS0w69Y/Python-BMW.png" alt="BMW Design T-Shirt" style="width: 100%; height: auto; max-height: 320px; object-fit: contain; border-radius: 12px; transition: transform 0.5s ease;">
+                
+                <!-- Thumbnails -->
+                <div style="position: absolute; bottom: 15px; display: flex; gap: 8px; z-index: 10;">
+                  <img src="https://i.ibb.co/gLS0w69Y/Python-BMW.png" onclick="setTopSelling5Image('https://i.ibb.co/gLS0w69Y/Python-BMW.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid var(--accent-gold); cursor: pointer; background: white;">
+                  <img src="https://i.ibb.co/m5mSZSSB/Chat-GPT-Image-Apr-30-2026-02-48-53-PM.png" onclick="setTopSelling5Image('https://i.ibb.co/m5mSZSSB/Chat-GPT-Image-Apr-30-2026-02-48-53-PM.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid transparent; cursor: pointer; background: white;">
+                </div>
+              </div>
+
+              <!-- Right Side: Product Info inside the same card frame -->
+              <div class="top-selling-details" style="width: 55%; display: flex; flex-direction: column; align-items: stretch; text-align: left;">
+                <span style="color: var(--accent-gold); font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;">Regular Tee (Printed)</span>
+                <h3 style="font-size: 1.8rem; margin: 8px 0; color: var(--text-main);">BMW Design</h3>
+                
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                  <span style="font-size: 1.5rem; color: var(--accent-gold); font-weight: 800;">Rs. 1,600.00</span>
+                  <span style="text-decoration: line-through; color: var(--text-muted); font-size: 1rem;">Rs. 1,850.00</span>
+                </div>
+
+                <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-size: 0.9rem;">
+                  BMW Design Regular Tee (Printed) by Python. Iconic automotive styling paired with premium 220 GSM comfort. Features detailed M performance artwork.
+                </p>
+
+                <!-- Size Selector -->
+                <div style="margin-bottom: 25px;">
+                  <span style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-main);">SELECT SIZE:</span>
+                  <div style="display: flex; gap: 10px;" id="top-selling-5-sizes">
+                    <button onclick="selectTopSelling5Size('S')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--accent-gold); background: var(--accent-gold); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">S</button>
+                    <button onclick="selectTopSelling5Size('M')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">M</button>
+                    <button onclick="selectTopSelling5Size('L')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">L</button>
+                    <button onclick="selectTopSelling5Size('XL')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">XL</button>
+                  </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 25px;">
+                  <button onclick="addTopSelling5ToCart()" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px; padding: 12px 28px; font-weight: 800; text-transform: uppercase; border-radius: 50px; cursor: pointer; font-size: 0.85rem;">
+                    <i data-lucide="shopping-cart" style="width: 16px; height: 16px;"></i> Add to Cart
+                  </button>
+                  <button onclick="buyTopSelling5Now()" class="btn btn-outline" style="padding: 12px 24px; border-radius: 50px; font-weight: 800; border: 2px solid var(--primary-dark); text-transform: uppercase; cursor: pointer; font-size: 0.85rem;">
+                    Buy Now
+                  </button>
+                </div>
+                
+                <!-- Features list -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid var(--border-light); padding-top: 15px;">
+                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> 220 GSM Cotton
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> Premium Print
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Indicator dots outside the track so they don't slide -->
+        <div class="top-selling-dots" style="display: flex; justify-content: center; gap: 8px; margin-top: 25px; width: 100%;">
+          <span class="top-selling-dot active" onclick="showTopSellingSlide(0)" style="width: 20px; height: 8px; border-radius: 4px; background: var(--accent-gold); cursor: pointer; transition: 0.3s; display: inline-block;"></span>
+          <span class="top-selling-dot" onclick="showTopSellingSlide(1)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); cursor: pointer; transition: 0.3s; display: inline-block;"></span>
+        </div>
+      </div>
+    </section>
+
     <!-- Featured Products -->
     <section class="section">
       <div class="section-title">
@@ -198,8 +348,77 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+        // Splitting hero text into words for premium drop animation
+        const heroTitle = document.querySelector('.hero-content h1');
+        const heroSubtitle = document.querySelector('.hero-content p');
+        const heroBtns = document.querySelector('.hero-content .hero-btns');
+        const heroStats = document.querySelector('.hero-content .hero-btns + div');
+
+        function wrapWords(element) {
+            if (!element) return;
+            const nodes = Array.from(element.childNodes);
+            nodes.forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    const text = node.textContent;
+                    const words = text.split(/(\s+)/);
+                    const fragment = document.createDocumentFragment();
+                    
+                    words.forEach(word => {
+                        if (word.trim().length > 0) {
+                            const span = document.createElement('span');
+                            span.className = 'word-drop';
+                            span.textContent = word;
+                            fragment.appendChild(span);
+                        } else {
+                            fragment.appendChild(document.createTextNode(word));
+                        }
+                    });
+                    node.parentNode.replaceChild(fragment, node);
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    wrapWords(node);
+                }
+            });
+        }
+
+        wrapWords(heroTitle);
+        wrapWords(heroSubtitle);
+
+        // Set sequential animation delays for all .word-drop spans
+        const titleWords = heroTitle ? heroTitle.querySelectorAll('.word-drop') : [];
+        const subtitleWords = heroSubtitle ? heroSubtitle.querySelectorAll('.word-drop') : [];
+        
+        let currentDelay = 0.1;
+        const delayStep = 0.08;
+
+        titleWords.forEach(word => {
+            word.style.animationDelay = `${currentDelay}s`;
+            currentDelay += delayStep;
+        });
+
+        currentDelay += 0.15; // smooth gap between title and subtitle starting
+
+        subtitleWords.forEach(word => {
+            word.style.animationDelay = `${currentDelay}s`;
+            currentDelay += delayStep * 0.7; // slightly faster delay for paragraph words
+        });
+
+        // Delay the buttons and stats to fade up after text completes dropping
+        if (heroBtns) {
+            heroBtns.style.animation = `fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards`;
+            heroBtns.style.animationDelay = `${currentDelay + 0.15}s`;
+        }
+        if (heroStats) {
+            heroStats.style.animation = `fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards`;
+            heroStats.style.animationDelay = `${currentDelay + 0.3}s`;
+        }
+
         if (typeof displayProducts !== 'undefined' && typeof products !== 'undefined') {
             displayProducts(products.slice(0, 4)); // Show first 4 on home
+        }
+
+        // Start Top Selling Carousel auto-scrolling
+        if (typeof startTopSellingAutoScroll === 'function') {
+            startTopSellingAutoScroll();
         }
     });
 
@@ -211,6 +430,119 @@
         nav.classList.remove('scrolled');
       }
     });
+
+    // Top Selling Section Logic
+    let currentTopSellingSlide = 0;
+    let topSellingSlideInterval;
+
+    function showTopSellingSlide(index) {
+        currentTopSellingSlide = index;
+        const track = document.getElementById('top-selling-track');
+        if (track) {
+            track.style.transform = `translateX(-${index * 50}%)`;
+        }
+        
+        // Update dots styling
+        document.querySelectorAll('.top-selling-dot').forEach((dot, idx) => {
+            if (idx === index) {
+                dot.classList.add('active');
+                dot.style.width = '20px';
+                dot.style.borderRadius = '4px';
+                dot.style.background = 'var(--accent-gold)';
+            } else {
+                dot.classList.remove('active');
+                dot.style.width = '8px';
+                dot.style.borderRadius = '50%';
+                dot.style.background = 'var(--text-muted)';
+            }
+        });
+    }
+
+    function startTopSellingAutoScroll() {
+        if (topSellingSlideInterval) clearInterval(topSellingSlideInterval);
+        topSellingSlideInterval = setInterval(() => {
+            let nextSlide = (currentTopSellingSlide + 1) % 2;
+            showTopSellingSlide(nextSlide);
+        }, 5000);
+    }
+
+    // Product 1 (ID 1) Handlers
+    let selectedTopSelling1Size = 'S';
+    let selectedTopSelling1Image = 'https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png';
+
+    function setTopSelling1Image(src, element) {
+        document.getElementById('top-selling-1-img').src = src;
+        selectedTopSelling1Image = src;
+        
+        element.parentNode.querySelectorAll('.top-selling-thumbnail').forEach(thumb => {
+            thumb.style.border = '2px solid transparent';
+        });
+        element.style.border = '2px solid var(--accent-gold)';
+    }
+
+    function selectTopSelling1Size(size) {
+        selectedTopSelling1Size = size;
+        
+        document.querySelectorAll('#top-selling-1-sizes .size-select-btn').forEach(btn => {
+            if (btn.innerText === size) {
+                btn.style.background = 'var(--accent-gold)';
+                btn.style.color = 'white';
+                btn.style.borderColor = 'var(--accent-gold)';
+            } else {
+                btn.style.background = 'var(--surface)';
+                btn.style.color = 'var(--text-main)';
+                btn.style.borderColor = 'var(--border-color)';
+            }
+        });
+    }
+
+    function addTopSelling1ToCart() {
+        addToCart("Infinity Edition", 1600, selectedTopSelling1Image, selectedTopSelling1Size, '#ffffff');
+    }
+
+    function buyTopSelling1Now() {
+        addTopSelling1ToCart();
+        window.location.href = 'cart.html';
+    }
+
+    // Product 2 (ID 5) Handlers
+    let selectedTopSelling5Size = 'S';
+    let selectedTopSelling5Image = 'https://i.ibb.co/gLS0w69Y/Python-BMW.png';
+
+    function setTopSelling5Image(src, element) {
+        document.getElementById('top-selling-5-img').src = src;
+        selectedTopSelling5Image = src;
+        
+        element.parentNode.querySelectorAll('.top-selling-thumbnail').forEach(thumb => {
+            thumb.style.border = '2px solid transparent';
+        });
+        element.style.border = '2px solid var(--accent-gold)';
+    }
+
+    function selectTopSelling5Size(size) {
+        selectedTopSelling5Size = size;
+        
+        document.querySelectorAll('#top-selling-5-sizes .size-select-btn').forEach(btn => {
+            if (btn.innerText === size) {
+                btn.style.background = 'var(--accent-gold)';
+                btn.style.color = 'white';
+                btn.style.borderColor = 'var(--accent-gold)';
+            } else {
+                btn.style.background = 'var(--surface)';
+                btn.style.color = 'var(--text-main)';
+                btn.style.borderColor = 'var(--border-color)';
+            }
+        });
+    }
+
+    function addTopSelling5ToCart() {
+        addToCart("BMW Design", 1600, selectedTopSelling5Image, selectedTopSelling5Size, '#ffffff');
+    }
+
+    function buyTopSelling5Now() {
+        addTopSelling5ToCart();
+        window.location.href = 'cart.html';
+    }
   </script>
 </body>
 
