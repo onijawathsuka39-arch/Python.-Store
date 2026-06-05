@@ -303,16 +303,48 @@
             // Sizes
             const sizeContainer = document.getElementById('detail-sizes');
             const sizes = product.sizes ? Object.keys(product.sizes) : ['Free'];
-            selectedSize = sizes[0];
+
+            // Build a reverse map: size → color (if colorSizes exists)
+            const sizeToColor = {};
+            if (product.colorSizes) {
+                Object.entries(product.colorSizes).forEach(([col, sz]) => { sizeToColor[sz] = col; });
+            }
+
+            // Determine which sizes are actually available
+            const availableSizes = product.colorSizes
+                ? sizes.filter(s => sizeToColor[s])
+                : sizes;
+
+            selectedSize = availableSizes[0] || sizes[0];
             const sizeData = product.sizes ? product.sizes[selectedSize] : { price: product.price, oldPrice: product.oldPrice };
             currentPrice = typeof sizeData === 'object' ? sizeData.price : sizeData;
             currentOldPrice = typeof sizeData === 'object' ? sizeData.oldPrice : product.oldPrice;
 
             sizes.forEach(s => {
                 const btn = document.createElement('div');
-                btn.className = `size-chip ${s === selectedSize ? 'active' : ''}`;
-                btn.innerText = s;
-                btn.onclick = () => selectSize(s, btn);
+                const isUnavailable = product.colorSizes && !sizeToColor[s];
+
+                btn.className = `size-chip ${s === selectedSize ? 'active' : ''} ${isUnavailable ? 'out-of-stock-size' : ''}`;
+                btn.innerHTML = isUnavailable
+                    ? `${s} <span style="font-size:0.6rem;display:block;color:#e53935;">Out of Stock</span>`
+                    : s;
+
+                if (product.colorSizes) {
+                    // Size is ONLY controlled by color — make all size chips non-clickable
+                    btn.style.cssText += isUnavailable
+                        ? 'opacity:0.4;cursor:not-allowed;text-decoration:line-through;pointer-events:none;'
+                        : 'cursor:default;pointer-events:none;';
+                    btn.title = isUnavailable
+                        ? 'Out of Stock'
+                        : 'Select the matching color to choose this size';
+                } else {
+                    // Normal products — size chips are clickable
+                    if (isUnavailable) {
+                        btn.style.cssText = 'opacity:0.4;cursor:not-allowed;text-decoration:line-through;pointer-events:none;';
+                    } else {
+                        btn.onclick = () => selectSize(s, btn);
+                    }
+                }
                 sizeContainer.appendChild(btn);
             });
 
@@ -328,6 +360,15 @@
                     btn.onclick = () => selectColor(c, btn);
                     colorContainer.appendChild(btn);
                 });
+            }
+
+            // If color→size linking exists, auto-trigger size from first color on load
+            if (product.colorSizes && product.colors && product.colors[0]) {
+                const initSize = product.colorSizes[product.colors[0]];
+                if (initSize) {
+                    const initSizeBtn = [...sizeContainer.querySelectorAll('.size-chip')].find(b => b.innerText.trim().startsWith(initSize));
+                    if (initSizeBtn) selectSize(initSize, initSizeBtn);
+                }
             }
 
             updatePriceDisplay();
@@ -418,12 +459,33 @@
             document.querySelectorAll('.size-chip').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             updatePriceDisplay();
+
+            // If this product has per-size images, jump the slider to the matching image
+            if (product.sizeImages && product.sizeImages[size]) {
+                const images = product.images || [];
+                const targetUrl = product.sizeImages[size];
+                const idx = images.indexOf(targetUrl);
+                if (idx !== -1) {
+                    currentSlide = idx;
+                    updateSlider();
+                    resetAutoScrollTimer();
+                }
+            }
         }
 
         function selectColor(color, btn) {
             selectedColor = color;
             document.querySelectorAll('.color-dot').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+
+            // If this product links colors to sizes, auto-select the matching size
+            if (product.colorSizes && product.colorSizes[color]) {
+                const linkedSize = product.colorSizes[color];
+                const sizeContainer = document.getElementById('detail-sizes');
+                const sizeBtn = [...sizeContainer.querySelectorAll('.size-chip:not(.out-of-stock-size)')]
+                    .find(b => b.innerText.trim().startsWith(linkedSize));
+                if (sizeBtn) selectSize(linkedSize, sizeBtn);
+            }
         }
 
         function changeQty(delta) {
@@ -448,6 +510,11 @@
         }
 
         function openSizeChart() {
+            // Use product-specific size chart if available
+            const chartImg = document.querySelector('#sizeChartModal img');
+            if (chartImg && product.sizeChartImg) {
+                chartImg.src = product.sizeChartImg;
+            }
             document.getElementById('sizeChartModal').classList.add('active');
             document.body.style.overflow = 'hidden';
         }

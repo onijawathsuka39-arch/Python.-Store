@@ -392,10 +392,22 @@
                         const bgColor = (item.color && item.color.startsWith('#')) ? item.color :
                                        Object.keys(colorNames).find(key => colorNames[key].trim().toLowerCase() === colorNameClean) || '#ffffff';
 
+                        const isWaffle = item.name.includes('Waffle');
+                        let baseImgSrc = 'https://i.ibb.co/NnQrQr7y/T-Shirt.png';
+                        let baseStyles = `background-color: ${bgColor};`;
+                        let imgStyles = `mix-blend-mode: multiply;`;
+
+                        if (isWaffle) {
+                            const isBrown = bgColor === '#c4956a' || colorNameClean.includes('brown');
+                            baseImgSrc = isBrown ? 'https://i.ibb.co/RTGD6DPx/12.png' : 'https://i.ibb.co/cKzdSStx/23.png';
+                            baseStyles = 'background-color: transparent; -webkit-mask-image: none; mask-image: none;';
+                            imgStyles = 'mix-blend-mode: normal;';
+                        }
+
                         previewHtml = `
                             <div class="inv-preview">
-                                <div class="inv-t-base" style="background-color: ${bgColor};">
-                                    <img src="https://i.ibb.co/NnQrQr7y/T-Shirt.png" class="inv-t-img">
+                                <div class="inv-t-base" style="${baseStyles}">
+                                    <img src="${baseImgSrc}" class="inv-t-img" style="${imgStyles}">
                                     ${item.customStickers.map(s => {
                                         const url = resolveStickerUrl(s.u);
                                         const rot = s.r || 0;
@@ -412,8 +424,8 @@
                         card.style.border = '2px solid #000';
                         card.innerHTML = `
                             <div class="large-preview-box" style="width: 300px; height: 350px;">
-                                <div class="inv-t-base" style="background-color: ${bgColor};">
-                                    <img src="https://i.ibb.co/NnQrQr7y/T-Shirt.png" class="inv-t-img">
+                                <div class="inv-t-base" style="${baseStyles}">
+                                    <img src="${baseImgSrc}" class="inv-t-img" style="${imgStyles}">
                                     ${item.customStickers.map(s => {
                                         const url = resolveStickerUrl(s.u);
                                         const rot = s.r || 0;

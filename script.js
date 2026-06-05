@@ -23,7 +23,13 @@ const colorNames = {
     '#333333': 'Grey',
     '#ff91a4': 'samon pink',
     '#800000': 'Maroon',
-    '#900056': 'Dark Pink'
+    '#900056': 'Dark Pink',
+    '#c4956a': 'Light Brown',
+    '#f5e6c8': 'Light Yellow',
+    '#36454f': 'Charcoal',
+    '#889c8a': 'Sage Green',
+    '#7f94a8': 'Dusty Blue',
+    '#d9cdbe': 'Beige'
 };
 
 const products = [
@@ -302,6 +308,54 @@ const products = [
         },
         colors: ['#ffffff'], stock: 10,
         desc: 'Never Give Up Design Regular Tee (Printed) by Python. Featuring a motivational graphic, crafted from premium 220 GSM fabric for ultimate comfort and durability.'
+    },
+    {
+        id: '18', name: 'Waffle T-shirts', category: 'Waffle T-shirts', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/RTGD6DPx/12.png',
+            'https://i.ibb.co/cKzdSStx/23.png'
+        ],
+        sizeImages: {
+            'M': 'https://i.ibb.co/RTGD6DPx/12.png',
+            'XL': 'https://i.ibb.co/cKzdSStx/23.png'
+        },
+        colorSizes: {
+            '#c4956a': 'M',
+            '#f5e6c8': 'XL'
+        },
+        sizeChartImg: 'https://i.ibb.co/0RVd9brV/Size-Chart-Waffle-240-GSM-OZ-T-Shirts-01.jpg',
+        gsm: '240 GSM', brand: 'Python',
+        sizes: {
+            'M':  { price: 1450, oldPrice: 1500 },
+            'XL': { price: 1450, oldPrice: 1500 }
+        },
+        colors: ['#c4956a', '#f5e6c8'], stock: 10,
+        desc: 'Waffle T-shirts by Python. Premium 240 GSM waffle-knit fabric for a unique texture and superior comfort. Available in Light Brown and Light Yellow. A must-have wardrobe essential.'
+    },
+    {
+        id: '19', name: 'Waffle Printed', category: 'Waffle T-shirts', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/7JPf15Fw/Chat-GPT-Image-Jun-5-2026-03-26-18-PM78.png',
+            'https://i.ibb.co/j9XPBYs8/Chat-GPT-Image-Jun-5-2026-03-26-18-PM24.png',
+            'https://i.ibb.co/CK4ZcVpH/Chat-GPT-Image-Jun-5-2026-04-31-07-PM.png',
+            'https://i.ibb.co/nNbt6sjK/Chat-GPT-Image-Jun-5-2026-04-29-40-PM.png'
+        ],
+        sizeImages: {
+            'M': 'https://i.ibb.co/7JPf15Fw/Chat-GPT-Image-Jun-5-2026-03-26-18-PM78.png',
+            'XL': 'https://i.ibb.co/j9XPBYs8/Chat-GPT-Image-Jun-5-2026-03-26-18-PM24.png'
+        },
+        colorSizes: {
+            '#c4956a': 'M',
+            '#f5e6c8': 'XL'
+        },
+        sizeChartImg: 'https://i.ibb.co/0RVd9brV/Size-Chart-Waffle-240-GSM-OZ-T-Shirts-01.jpg',
+        gsm: '240 GSM', brand: 'Python',
+        sizes: {
+            'M':  { price: 1850, oldPrice: null },
+            'XL': { price: 1850, oldPrice: null }
+        },
+        colors: ['#c4956a', '#f5e6c8'], stock: 10,
+        desc: 'Waffle Printed T-shirts by Python. Premium 240 GSM waffle-knit fabric for a unique texture, superior comfort, and clean prints. Features non-clickable sizes selected directly by color dots. Available in Light Brown and Light Yellow.'
     }
 ];
 

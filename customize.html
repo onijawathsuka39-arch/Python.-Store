@@ -457,6 +457,31 @@
                         style="margin-top: 15px; height: 45px; background: var(--primary-dark); color: var(--primary-light); display: flex; align-items: center; justify-content: center; border-radius: 12px; font-weight: 800; font-size: 0.85rem; letter-spacing: 0.5px;">
                         START DESIGNING</div>
                 </div>
+
+                <!-- Waffle T-shirt Card -->
+                <div class="selection-card"
+                    onclick="startCustomizing('Waffle T-shirt', 1450, 'https://i.ibb.co/RTGD6DPx/12.png')"
+                    style="background: var(--surface); padding: 25px; border-radius: 24px; border: 1px solid var(--border-color); cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 10px 40px var(--shadow-color); width: 260px; text-align: left; position: relative;">
+                    <div
+                        style="background: var(--bg-page, var(--primary-light)); border-radius: 18px; padding: 20px; margin-bottom: 18px; transition: 0.3s;">
+                        <img src="https://i.ibb.co/RTGD6DPx/12.png"
+                            style="width: 100%; height: 160px; object-fit: contain;">
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                        <div>
+                            <h3 style="margin: 0; font-weight: 900; font-size: 1.2rem; color: var(--text-main);">Waffle T-shirt</h3>
+                            <p style="opacity: 0.5; font-size: 0.75rem; margin: 4px 0 12px 0; font-weight: 600;">240 GSM
+                                PREMIUM</p>
+                        </div>
+                        <div
+                            style="background: var(--primary-dark); color: var(--primary-light); font-size: 0.65rem; padding: 4px 8px; border-radius: 6px; font-weight: 800;">
+                            BASE</div>
+                    </div>
+                    <div style="font-size: 1.4rem; font-weight: 900; color: var(--accent-gold);">Rs. 1450</div>
+                    <div
+                        style="margin-top: 15px; height: 45px; background: var(--primary-dark); color: var(--primary-light); display: flex; align-items: center; justify-content: center; border-radius: 12px; font-weight: 800; font-size: 0.85rem; letter-spacing: 0.5px;">
+                        START DESIGNING</div>
+                </div>
             </div>
         </div>
     </div>
@@ -946,6 +971,43 @@
         function startCustomizing(type, price, img) {
             currentTshirtType = type;
             baseTshirtPrice = price;
+
+            // Adjust available color options based on selected canvas
+            const colorGrid = document.querySelector('.color-grid');
+            if (type === 'Waffle T-shirt') {
+                colorGrid.innerHTML = `
+                    <div class="color-dot active" style="background: #c4956a;" data-name="Light Brown"
+                        onclick="setTshirtColor('#c4956a', 'Light Brown', this)"></div>
+                    <div class="color-dot" style="background: #f5e6c8;" data-name="Light Yellow"
+                        onclick="setTshirtColor('#f5e6c8', 'Light Yellow', this)"></div>
+                `;
+                // Set default color
+                setTshirtColor('#c4956a', 'Light Brown', null);
+            } else {
+                colorGrid.innerHTML = `
+                    <div class="color-dot active" style="background: #ffffff;" data-name="White"
+                        onclick="setTshirtColor('#ffffff', 'White', this)"></div>
+                    <div class="color-dot" style="background: #ff0000;" data-name="Red"
+                        onclick="setTshirtColor('#ff0000', 'Red', this)"></div>
+                    <div class="color-dot" style="background: #2b2b2b;" data-name="Black"
+                        onclick="setTshirtColor('#2b2b2b', 'Black', this)"></div>
+                    <div class="color-dot" style="background: #0000ff;" data-name="Blue"
+                        onclick="setTshirtColor('#0000ff', 'Blue', this)"></div>
+                    <div class="color-dot" style="background: #008000;" data-name="Green"
+                        onclick="setTshirtColor('#008000', 'Green', this)"></div>
+                    <div class="color-dot" style="background: #ffff00;" data-name="Yellow"
+                        onclick="setTshirtColor('#ffff00', 'Yellow', this)"></div>
+                    <div class="color-dot" style="background: #808080;" data-name="Gray"
+                        onclick="setTshirtColor('#808080', 'Gray', this)"></div>
+                    <div class="color-dot" style="background: #00f2ff;" data-name="Light Blue"
+                        onclick="setTshirtColor('#00f2ff', 'Light Blue', this)"></div>
+                    <div class="color-dot" style="background: #e100ff;" data-name="Pink"
+                        onclick="setTshirtColor('#e100ff', 'Pink', this)"></div>
+                `;
+                // Set default color
+                setTshirtColor('#ffffff', 'White', null);
+            }
+
             const overlay = document.getElementById('product-selection-overlay');
             overlay.style.transition = '0.4s';
             overlay.style.opacity = '0';
@@ -997,7 +1059,28 @@
             document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
             if (btn) btn.classList.add('active');
             selectedColor = color; selectedColorName = name;
-            document.querySelector('.tshirt-base').style.backgroundColor = color;
+            
+            const base = document.querySelector('.tshirt-base');
+            const img = document.querySelector('.tshirt-img');
+            
+            if (currentTshirtType === 'Waffle T-shirt') {
+                base.style.maskImage = 'none';
+                base.style.webkitMaskImage = 'none';
+                base.style.backgroundColor = 'transparent';
+                img.style.mixBlendMode = 'normal';
+                
+                if (color === '#c4956a') {
+                    img.src = 'https://i.ibb.co/RTGD6DPx/12.png'; // Light Brown
+                } else if (color === '#f5e6c8') {
+                    img.src = 'https://i.ibb.co/cKzdSStx/23.png'; // Light Yellow
+                }
+            } else {
+                base.style.webkitMaskImage = "url('https://i.ibb.co/NnQrQr7y/T-Shirt.png')";
+                base.style.maskImage = "url('https://i.ibb.co/NnQrQr7y/T-Shirt.png')";
+                base.style.backgroundColor = color;
+                img.style.mixBlendMode = 'multiply';
+                img.src = 'https://i.ibb.co/NnQrQr7y/T-Shirt.png';
+            }
             autoSave();
         }
         function setTshirtSize(size, btn) {
@@ -1152,6 +1235,8 @@
             const canvas = document.getElementById('canvas');
             const canvasW = canvas ? canvas.offsetWidth : 1;
             const data = {
+                tshirtType: currentTshirtType,
+                basePrice: baseTshirtPrice,
                 color: selectedColor, colorName: selectedColorName, size: currentTshirtSize,
                 stickers: activeStickers.map(s => {
                     const el = document.getElementById(s.id);
@@ -1168,8 +1253,59 @@
             const saved = localStorage.getItem('roohira_custom_design');
             if (saved) {
                 const data = JSON.parse(saved);
-                setTshirtColor(data.color, data.colorName, null);
+                currentTshirtType = data.tshirtType || 'Regular Tee';
+                baseTshirtPrice = data.basePrice || 1300;
+
+                // Set color dots grid based on type
+                const colorGrid = document.querySelector('.color-grid');
+                if (currentTshirtType === 'Waffle T-shirt') {
+                    colorGrid.innerHTML = `
+                        <div class="color-dot" style="background: #c4956a;" data-name="Light Brown"
+                            onclick="setTshirtColor('#c4956a', 'Light Brown', this)"></div>
+                        <div class="color-dot" style="background: #f5e6c8;" data-name="Light Yellow"
+                            onclick="setTshirtColor('#f5e6c8', 'Light Yellow', this)"></div>
+                    `;
+                } else {
+                    colorGrid.innerHTML = `
+                        <div class="color-dot" style="background: #ffffff;" data-name="White"
+                            onclick="setTshirtColor('#ffffff', 'White', this)"></div>
+                        <div class="color-dot" style="background: #ff0000;" data-name="Red"
+                            onclick="setTshirtColor('#ff0000', 'Red', this)"></div>
+                        <div class="color-dot" style="background: #2b2b2b;" data-name="Black"
+                            onclick="setTshirtColor('#2b2b2b', 'Black', this)"></div>
+                        <div class="color-dot" style="background: #0000ff;" data-name="Blue"
+                            onclick="setTshirtColor('#0000ff', 'Blue', this)"></div>
+                        <div class="color-dot" style="background: #008000;" data-name="Green"
+                            onclick="setTshirtColor('#008000', 'Green', this)"></div>
+                        <div class="color-dot" style="background: #ffff00;" data-name="Yellow"
+                            onclick="setTshirtColor('#ffff00', 'Yellow', this)"></div>
+                        <div class="color-dot" style="background: #808080;" data-name="Gray"
+                            onclick="setTshirtColor('#808080', 'Gray', this)"></div>
+                        <div class="color-dot" style="background: #00f2ff;" data-name="Light Blue"
+                            onclick="setTshirtColor('#00f2ff', 'Light Blue', this)"></div>
+                        <div class="color-dot" style="background: #e100ff;" data-name="Pink"
+                            onclick="setTshirtColor('#e100ff', 'Pink', this)"></div>
+                    `;
+                }
+
+                // Activate color dot
+                const targetDot = [...colorGrid.querySelectorAll('.color-dot')].find(d => {
+                    const onclickVal = d.getAttribute('onclick');
+                    return d.style.backgroundColor === data.color || (onclickVal && onclickVal.includes(data.color));
+                });
+                setTshirtColor(data.color, data.colorName, targetDot);
                 setTshirtSize(data.size, null);
+
+                // Highlight active size button
+                const sizeBtns = document.querySelectorAll('.selector-grid .selector-btn');
+                sizeBtns.forEach(btn => {
+                    btn.classList.toggle('active', btn.innerText === data.size);
+                });
+
+                // Remove overlay since we loaded a saved design
+                const overlay = document.getElementById('product-selection-overlay');
+                if (overlay) overlay.style.display = 'none';
+
                 data.stickers.forEach(s => {
                     addNewSticker(s.url, s);
                     // Reload custom stickers into selection grid on startup (without auto-switching tab)
@@ -1250,7 +1386,7 @@
                     color: selectedColorName,
                     isCustom: true,
                     customStickers: details,
-                    image: 'https://i.ibb.co/NnQrQr7y/T-Shirt.png',
+                    image: currentTshirtType === 'Waffle T-shirt' ? (selectedColor === '#c4956a' ? 'https://i.ibb.co/RTGD6DPx/12.png' : 'https://i.ibb.co/cKzdSStx/23.png') : 'https://i.ibb.co/NnQrQr7y/T-Shirt.png',
                     basePrice: baseTshirtPrice
                 });
 
