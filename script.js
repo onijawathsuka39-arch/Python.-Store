@@ -740,11 +740,9 @@ function placeOrder() {
     const totalOrdersCount = (orders.length + 1).toString().padStart(3, '0');
     const orderID = `ORD-PS-${dateStr}${totalOrdersCount}`;
 
-    // Calculate dynamic delivery fee and totals
+    // Calculate dynamic delivery fee
     const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
     const deliveryFee = itemCount > 3 ? 0 : 450;
-    const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const grandTotal = subtotal + deliveryFee;
 
     // Prepare data for the E-Invoice
     const orderData = {
@@ -767,8 +765,7 @@ function placeOrder() {
                 customStickers: item.customStickers || []
             };
         }),
-        delivery: deliveryFee,
-        total: grandTotal
+        delivery: deliveryFee
     };
 
     // Encode order data for the URL (Safe for Unicode/Sinhala)
@@ -799,12 +796,15 @@ function placeOrder() {
     message += `📅 *Date:* ${orderData.date} | ${orderData.time}\n\n`;
     message += `📦 *Items Ordered:*\n`;
 
+    let subtotal = 0;
     cart.forEach((item) => {
         const colorName = colorNames[item.color] || item.color;
         message += `• *${item.name}* (${item.size} | ${colorName})\n`;
         message += `  Qty: ${item.quantity} x Rs. ${item.price.toLocaleString()}\n`;
+        subtotal += item.price * item.quantity;
     });
 
+    const grandTotal = subtotal + deliveryFee;
     message += `\n💵 *Subtotal:* Rs. ${subtotal.toLocaleString()}.00\n`;
     message += `🚚 *Delivery Fee:* ${deliveryFee === 0 ? 'FREE' : 'Rs. ' + deliveryFee.toLocaleString() + '.00'}\n`;
     message += `💰 *Grand Total: Rs. ${grandTotal.toLocaleString()}.00*\n\n`;
@@ -821,31 +821,12 @@ function placeOrder() {
     if (bar) bar.remove();
     cart = []; saveCart();
 
-    // Send order to backend
-    fetch('save_order.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(orderData)
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.status === 'success') {
-            console.log('Order logged to backend panel:', data);
-        } else {
-            console.warn('Backend warning:', data.message);
-        }
-    })
-    .catch(err => {
-        console.error('Failed to log order to backend panel:', err);
-    })
-    .finally(() => {
-        // Open WhatsApp immediately to avoid popup blockers
-        window.open(whatsappUrl, '_blank');
-        showNotification('Order placed successfully! Redirecting...');
-        setTimeout(() => { window.location.href = invoiceUrl; }, 1500);
-    });
+    // Open WhatsApp immediately to avoid popup blockers
+    window.open(whatsappUrl, '_blank');
+
+    showNotification('Order placed successfully! Redirecting...');
+
+    setTimeout(() => { window.location.href = invoiceUrl; }, 2000);
 }
 
 function clearOrderHistory() {
