@@ -1,5 +1,5 @@
 <?php
-// PHP Admin Panel for order management
+// PHP Admin Panel for order management (Compatible with XAMPP/Apache)
 $file = 'orders.json';
 $orders = [];
 if (file_exists($file)) {
@@ -120,6 +120,69 @@ if (file_exists($file)) {
             bottom: 20px;
             opacity: 0.15;
             color: var(--accent-gold);
+        }
+
+        /* Import Order Section */
+        .import-section {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 25px;
+            border-radius: 24px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 35px var(--shadow-color);
+        }
+
+        .import-section h3 {
+            font-size: 1rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--primary-dark);
+        }
+
+        .import-box {
+            display: flex;
+            gap: 15px;
+        }
+
+        .import-box input {
+            flex-grow: 1;
+            padding: 15px 20px;
+            background: var(--surface);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .import-box input:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 15px rgba(220, 20, 60, 0.2);
+        }
+
+        .btn-import {
+            background: var(--accent-gold);
+            color: #fff;
+            border: none;
+            padding: 0 30px;
+            border-radius: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-import:hover {
+            background: #b30e30;
+            transform: translateY(-2px);
         }
 
         /* Controls / Search Bar */
@@ -482,6 +545,18 @@ if (file_exists($file)) {
         </div>
     </div>
 
+    <!-- Import WhatsApp Order Section -->
+    <div class="import-section">
+        <h3><i data-lucide="download" style="width: 18px;"></i> Import Order from WhatsApp Invoice Link</h3>
+        <div class="import-box">
+            <input type="text" id="import-link-input" placeholder="Paste the invoice link here (e.g. https://.../invoice.html?data=...)">
+            <button class="btn-import" onclick="importWhatsAppOrder()">
+                <i data-lucide="plus-circle" style="width: 18px;"></i> Import Order
+            </button>
+        </div>
+        <div id="import-feedback" style="margin-top: 10px; font-size: 0.85rem; font-weight: 800; display: none;"></div>
+    </div>
+
     <!-- Stats summary section -->
     <div class="stats-grid">
         <div class="stat-card">
@@ -561,15 +636,15 @@ if (file_exists($file)) {
                 osc2.start(ctx.currentTime + 0.1);
                 osc2.stop(ctx.currentTime + 0.35);
             } catch (e) {
-                console.error("Web Audio API not allowed or blocked by user interaction.", e);
+                console.error("Web Audio API blocked by browser policy.", e);
             }
         }
 
-        // Fetch orders from PHP local storage
+        // Fetch orders from local JSON database
         function fetchOrders() {
             fetch('orders.json?t=' + Date.now())
                 .then(res => {
-                    if (!res.ok) throw new Error('No orders logged yet or server offline.');
+                    if (!res.ok) throw new Error('No orders database found on server.');
                     return res.json();
                 })
                 .then(data => {
@@ -585,7 +660,6 @@ if (file_exists($file)) {
         function processOrdersData(data) {
             // Check for new orders
             if (initialLoadCompleted && data.length > currentOrdersList.length) {
-                // Determine if a genuinely new Order ID has arrived (not just loaded on reload)
                 const existingIds = currentOrdersList.map(o => o.id);
                 const hasNewOrder = data.some(o => !existingIds.includes(o.id));
                 
@@ -597,10 +671,10 @@ if (file_exists($file)) {
             currentOrdersList = data;
             initialLoadCompleted = true;
             
-            // Calculate and display statistics
+            // Calculate stats
             updateStatistics(data);
 
-            // Apply existing filters & search queries to show correct layout
+            // Apply filter
             applyFilters();
         }
 
@@ -640,7 +714,6 @@ if (file_exists($file)) {
             const searchQuery = document.getElementById('admin-search-input').value.toLowerCase().trim();
             const container = document.getElementById('admin-orders-container');
             
-            // Filter orders based on status & search queries
             const filteredOrders = currentOrdersList.filter(order => {
                 const orderId = (order.id || '').toLowerCase();
                 const clientName = (order.name || '').toLowerCase();
@@ -755,7 +828,7 @@ if (file_exists($file)) {
                                     <span>${order.address || 'N/A'}</span>
                                 </div>
                                 <div class="detail-line">
-                                    <label>Dynamic Invoice</label>
+                                    <label>Invoice View</label>
                                     <span>
                                         <a href="invoice.html?id=${order.id}&local_fallback=true" onclick="openInvoicePage(event, '${order.id}', '${btoa(unescape(encodeURIComponent(JSON.stringify(order))))}')" target="_blank">
                                             <i data-lucide="file-text" style="width: 14px; height: 14px;"></i> Open E-Invoice
@@ -790,7 +863,7 @@ if (file_exists($file)) {
                 <div class="empty-orders-view">
                     <i data-lucide="inbox" style="width: 60px; height: 60px;"></i>
                     <h3>No matching orders found</h3>
-                    <p>When orders are submitted by customers locally, they will instantly appear here.</p>
+                    <p>Paste customer's WhatsApp invoice links above to import orders, or place orders locally to see them here.</p>
                 </div>
             `;
             lucide.createIcons();
@@ -806,7 +879,6 @@ if (file_exists($file)) {
             .then(res => res.json())
             .then(data => {
                 if (data.status === 'success') {
-                    // Update state locally & refresh UI instantly
                     const orderIdx = currentOrdersList.findIndex(o => o.id === id);
                     if (orderIdx !== -1) {
                         currentOrdersList[orderIdx].status = status;
@@ -846,10 +918,80 @@ if (file_exists($file)) {
             }
         }
 
-        // Custom Helper function to load invoice in new tab using encoded base64
+        // Pasting invoice link parsing function
+        function importWhatsAppOrder() {
+            const input = document.getElementById('import-link-input');
+            const feedback = document.getElementById('import-feedback');
+            const linkVal = input.value.trim();
+
+            if (!linkVal) {
+                showFeedback('Please paste a link first.', 'red');
+                return;
+            }
+
+            try {
+                // Parse the link query parameters
+                const url = new URL(linkVal);
+                const dataParam = url.searchParams.get('data');
+
+                if (!dataParam) {
+                    showFeedback('Invalid Link. Could not find order data payload (?data=...).', 'red');
+                    return;
+                }
+
+                // Decode base64
+                const jsonStr = decodeURIComponent(escape(atob(dataParam)));
+                const orderData = JSON.parse(jsonStr);
+
+                if (!orderData || !orderData.id) {
+                    showFeedback('Invalid order payload structure inside link.', 'red');
+                    return;
+                }
+
+                showFeedback('Sending order to local database...', 'gold');
+
+                // POST to save_order.php
+                fetch('save_order.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(orderData)
+                })
+                .then(res => res.json())
+                .then(resData => {
+                    if (resData.status === 'success') {
+                        showFeedback(`Successfully imported Order #${orderData.id}!`, 'green');
+                        input.value = '';
+                        fetchOrders(); // Reload orders grid
+                    } else {
+                        showFeedback('Failed: ' + resData.message, 'red');
+                    }
+                })
+                .catch(err => {
+                    console.error('Server error saving order:', err);
+                    showFeedback('Failed to contact local server: ' + err.message, 'red');
+                });
+
+            } catch (err) {
+                console.error(err);
+                showFeedback('Failed to parse link: ' + err.message, 'red');
+            }
+        }
+
+        function showFeedback(text, colorHex) {
+            const feedback = document.getElementById('import-feedback');
+            feedback.innerText = text;
+            feedback.style.display = 'block';
+            if (colorHex === 'red') {
+                feedback.style.color = '#DC143C';
+            } else if (colorHex === 'green') {
+                feedback.style.color = '#32CD32';
+            } else {
+                feedback.style.color = '#FFA500';
+            }
+        }
+
         function openInvoicePage(event, orderId, base64Data) {
             event.preventDefault();
-            // Try loading from client data
             const targetUrl = 'invoice.html?data=' + encodeURIComponent(base64Data);
             window.open(targetUrl, '_blank');
         }

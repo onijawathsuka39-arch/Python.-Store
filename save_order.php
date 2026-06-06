@@ -1,4 +1,5 @@
 <?php
+// Enable CORS for frontend requests (especially if running from other local network devices)
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
@@ -48,7 +49,7 @@ if (!$exists) {
     if (!isset($orderData['status'])) {
         $orderData['status'] = 'Pending';
     }
-    // Append or prepend the order. We'll prepend to keep new orders at the top.
+    // Prepend to orders array so newest are at the top
     array_unshift($orders, $orderData);
     
     // Save back to JSON file
