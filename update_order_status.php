@@ -51,7 +51,7 @@ if ($action === 'update_status') {
     }
     
     for ($i = 0; $i < count($orders); $i++) {
-        if (isset($orders[$i]['id']) && $orders[$i]['id'] === $orderId) {
+        if (isset($orders[$i]['id']) && trim($orders[$i]['id']) == trim($orderId)) {
             $orders[$i]['status'] = $newStatus;
             $success = true;
             break;
@@ -60,7 +60,7 @@ if ($action === 'update_status') {
 } elseif ($action === 'delete') {
     $initialCount = count($orders);
     $orders = array_values(array_filter($orders, function($order) use ($orderId) {
-        return !(isset($order['id']) && $order['id'] === $orderId);
+        return !(isset($order['id']) && trim($order['id']) == trim($orderId));
     }));
     
     if (count($orders) < $initialCount) {

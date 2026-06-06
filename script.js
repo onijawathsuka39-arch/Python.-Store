@@ -740,9 +740,11 @@ function placeOrder() {
     const totalOrdersCount = (orders.length + 1).toString().padStart(3, '0');
     const orderID = `ORD-PS-${dateStr}${totalOrdersCount}`;
 
-    // Calculate dynamic delivery fee
+    // Calculate dynamic delivery fee and totals
     const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
     const deliveryFee = itemCount > 3 ? 0 : 450;
+    const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const grandTotal = subtotal + deliveryFee;
 
     // Prepare data for the E-Invoice
     const orderData = {
@@ -797,15 +799,12 @@ function placeOrder() {
     message += `📅 *Date:* ${orderData.date} | ${orderData.time}\n\n`;
     message += `📦 *Items Ordered:*\n`;
 
-    let subtotal = 0;
     cart.forEach((item) => {
         const colorName = colorNames[item.color] || item.color;
         message += `• *${item.name}* (${item.size} | ${colorName})\n`;
         message += `  Qty: ${item.quantity} x Rs. ${item.price.toLocaleString()}\n`;
-        subtotal += item.price * item.quantity;
     });
 
-    const grandTotal = subtotal + deliveryFee;
     message += `\n💵 *Subtotal:* Rs. ${subtotal.toLocaleString()}.00\n`;
     message += `🚚 *Delivery Fee:* ${deliveryFee === 0 ? 'FREE' : 'Rs. ' + deliveryFee.toLocaleString() + '.00'}\n`;
     message += `💰 *Grand Total: Rs. ${grandTotal.toLocaleString()}.00*\n\n`;
