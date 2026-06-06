@@ -526,6 +526,53 @@ if (file_exists($file)) {
             color: var(--text-muted);
             font-size: 0.9rem;
         }
+
+        /* Invoice T-shirt Preview */
+        .inv-preview {
+            position: relative;
+            width: 70px;
+            height: 70px;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            flex-shrink: 0;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .inv-t-base {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            -webkit-mask-image: url('https://i.ibb.co/NnQrQr7y/T-Shirt.png');
+            mask-image: url('https://i.ibb.co/NnQrQr7y/T-Shirt.png');
+            -webkit-mask-size: contain;
+            mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            mask-position: center;
+        }
+        .inv-t-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            pointer-events: none;
+            mix-blend-mode: multiply;
+            position: relative;
+            z-index: 1;
+        }
+        .inv-sticker {
+            position: absolute;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
     </style>
 </head>
 <body>
@@ -657,6 +704,68 @@ if (file_exists($file)) {
                 });
         }
 
+        const stickerMap = {
+            'S1': 'https://i.ibb.co/gMrCJPnN/A3-1.png', 'S2': 'https://i.ibb.co/QFRLTykz/A3-2.png',
+            'S3': 'https://i.ibb.co/S7f8ZfJs/A3-3.png', 'S4': 'https://i.ibb.co/tMccn0qh/A3-4.png',
+            'S5': 'https://i.ibb.co/B5s9qhyX/A3-5.png', 'S6': 'https://i.ibb.co/bj43Hcks/A3-6.png',
+            'S7': 'https://i.ibb.co/7B5DZmx/A3-7.png', 'S8': 'https://i.ibb.co/SXdG9PTc/A3-8.png',
+            'S9': 'https://i.ibb.co/tp3krXPp/A3-9.png', 'S10': 'https://i.ibb.co/VY90dG3G/A3-10.png',
+            'S11': 'https://i.ibb.co/1JQ00QMd/A3-11.png', 'S12': 'https://i.ibb.co/XkDb3jmB/Nike.png',
+            'S13': 'https://i.ibb.co/gLS0w69Y/Python-BMW.png', 'S14': 'https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png',
+            'S15': 'https://i.ibb.co/84sH5Qvb/Chat-GPT-Image-Apr-29-2026-10-06-33-PM.png',
+            'S16': 'https://i.ibb.co/NdBPMyjn/Chat-GPT-Image-Apr-30-2026-02-22-11-PM.png',
+            'S17': 'https://i.ibb.co/0VKQ1GX2/download-23.png',
+            'S18': 'https://i.ibb.co/pvszmzQC/Whats-App-Image-2026-04-28-at-16-06-29-1.png',
+            'S19': 'https://i.ibb.co/XfbrZJLh/Whats-App-Image-2026-04-28-at-16-06-31.png',
+            'S20': 'https://i.ibb.co/8g3YLLRP/download-25.png',
+            'S21': 'https://i.ibb.co/rf382jbv/download-26.png',
+            'S22': 'https://i.ibb.co/gFXHwFCX/download-27.png',
+            'S23': 'https://i.ibb.co/rGGMkwkb/Ford-Mustang-Built-to-Be-Legendary.png',
+            'S24': 'https://i.ibb.co/Sw7MG9wS/Kids-The-Flintstones-Fred-And-Barney-Let-s-Rock-Png-Fred-And-Barney-The-Flintstones-Fred-Barney.png',
+            'S25': 'https://i.ibb.co/MyV1gShG/download-28.png',
+            'S26': 'https://i.ibb.co/k2V8LGH8/download-29.png',
+            'S27': 'https://i.ibb.co/XfMfT2Pc/download-30.png',
+            'S28': 'https://i.ibb.co/v9nFCm5/download-31.png',
+            'S29': 'https://i.ibb.co/0jNxLvYv/Believe.png',
+            'S30': 'https://i.ibb.co/jnJPTYN/download-34.png',
+            'S31': 'https://i.ibb.co/prLnyfzg/download-35.png',
+            'S32': 'https://i.ibb.co/WW2ZJCcC/download-36.png',
+            'S33': 'https://i.ibb.co/35ZHqgy3/Chat-GPT-Image-May-20-2026-07-59-26-PM.png',
+            'S34': 'https://i.ibb.co/YTcqN8B8/Chat-GPT-Image-May-20-2026-08-08-16-PM.png',
+            'S35': 'https://i.ibb.co/Pv9K2vTz/Ford-Mustang-Built-to-Be-Legendary.png',
+            'S36': 'https://i.ibb.co/4ZnJMRK2/Kids-The-Flintstones-Fred-And-Barney-Let-s-Rock-Png-Fred-And-Barney-The-Flintstones-Fred-Barney.png',
+            'S37': 'https://i.ibb.co/2Ys8HnPd/Whats-App-Image-2026-05-20-at-17-27-58-1-copy.png',
+            'S38': 'https://i.ibb.co/BHf6fLxr/Whats-App-Image-2026-05-20-at-17-27-59.png',
+            'S39': 'https://i.ibb.co/zHGbqMn0/honor-design.png'
+        };
+
+        const colorNames = {
+            '#ffffff': 'White',
+            '#1a1a1a': 'Black',
+            '#ff0000': 'Red',
+            '#DC143C': 'Red',
+            '#0000ff': 'Blue',
+            '#008000': 'Green',
+            '#ffff00': 'Yellow',
+            '#808080': 'Gray',
+            '#00f2ff': 'Light Blue',
+            '#e100ff': 'Pink',
+            '#1a2a4a': 'Midnight Blue',
+            '#4a90e2': 'Sky Blue',
+            '#f0f0f0': 'Off-White',
+            '#0A0F1E': 'Dark Navy',
+            '#333333': 'Grey',
+            '#ff91a4': 'Salmon Pink',
+            '#800000': 'Maroon',
+            '#900056': 'Dark Pink'
+        };
+
+        const resolveStickerUrl = (u) => {
+            const originalUrl = stickerMap[u] || u;
+            const localHd = localStorage.getItem('hd_mapping_' + originalUrl);
+            return localHd || originalUrl;
+        };
+
         function processOrdersData(data) {
             // Check for new orders
             if (initialLoadCompleted && data.length > currentOrdersList.length) {
@@ -667,6 +776,14 @@ if (file_exists($file)) {
                     playNotificationSound();
                 }
             }
+
+            // Inject total if missing
+            data.forEach(order => {
+                if (order.total === undefined || order.total === null) {
+                    const itemsSubtotal = (order.items || []).reduce((sum, item) => sum + ((parseFloat(item.price) || 0) * (parseInt(item.quantity) || 1)), 0);
+                    order.total = itemsSubtotal + (parseFloat(order.delivery) || 0);
+                }
+            });
 
             currentOrdersList = data;
             initialLoadCompleted = true;
@@ -788,22 +905,85 @@ if (file_exists($file)) {
                                 <h4 style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 5px;">Ordered Items (${itemsCount})</h4>
                                 ${(order.items || []).map(item => {
                                     const itemImage = item.image || 'https://i.ibb.co/NnQrQr7y/T-Shirt.png';
-                                    const customDetails = (item.isCustom && item.customStickers && item.customStickers.length > 0) 
-                                        ? `<div style="font-size:0.7rem; color:#00BFFF; margin-top:4px;">🎨 Custom Stickers Applied: ${item.customStickers.length}</div>`
-                                        : '';
-                                    return `
-                                        <div class="order-item-row">
-                                            <img src="${itemImage}" class="order-item-img" alt="${item.name}">
-                                            <div class="order-item-info">
-                                                <div class="order-item-title">${item.name}</div>
-                                                <div class="order-item-meta">
-                                                    <span>Size: <b>${item.size || 'Free'}</b></span>
-                                                    <span>Color: <b>${item.color || 'Default'}</b></span>
-                                                    <span>Qty: <b>${item.quantity || 1}</b></span>
+                                    let previewHtml = `<img src="${itemImage}" class="order-item-img" alt="${item.name}">`;
+                                    let customDetails = '';
+
+                                    if (item.isCustom && item.customStickers && item.customStickers.length > 0) {
+                                        const colorNameClean = (item.color || "").trim().toLowerCase();
+                                        const bgColor = (item.color && item.color.startsWith('#')) ? item.color :
+                                                       Object.keys(colorNames).find(key => colorNames[key].trim().toLowerCase() === colorNameClean) || '#ffffff';
+
+                                        const isWaffle = item.name.includes('Waffle');
+                                        let baseImgSrc = 'https://i.ibb.co/NnQrQr7y/T-Shirt.png';
+                                        let baseStyles = `background-color: ${bgColor};`;
+                                        let imgStyles = `mix-blend-mode: multiply;`;
+
+                                        if (isWaffle) {
+                                            const isBrown = bgColor === '#c4956a' || colorNameClean.includes('brown');
+                                            baseImgSrc = isBrown ? 'https://i.ibb.co/RTGD6DPx/12.png' : 'https://i.ibb.co/cKzdSStx/23.png';
+                                            baseStyles = 'background-color: transparent; -webkit-mask-image: none; mask-image: none;';
+                                            imgStyles = 'mix-blend-mode: normal;';
+                                        }
+
+                                        const resolveWidth = (w, containerPx) => {
+                                            if (!w) return containerPx * 0.29 + 'px';
+                                            const ws = String(w);
+                                            if (ws.endsWith('%')) return ws;
+                                            const px = parseFloat(ws) || 0;
+                                            return (px / 4) + 'px';
+                                        };
+
+                                        previewHtml = `
+                                            <div class="inv-preview">
+                                                <div class="inv-t-base" style="${baseStyles}">
+                                                    <img src="${baseImgSrc}" class="inv-t-img" style="${imgStyles}">
+                                                    ${item.customStickers.map(s => {
+                                                        const url = resolveStickerUrl(s.u);
+                                                        const rot = s.r || 0;
+                                                        const w = resolveWidth(s.w, 70);
+                                                        return `<img src="${url}" class="inv-sticker" style="top: ${s.t}; left: ${s.l}; width: ${w}; transform: translate(-50%, -50%) rotate(${rot}deg);">`;
+                                                    }).join('')}
                                                 </div>
-                                                ${customDetails}
                                             </div>
-                                            <div class="order-item-price">Rs. ${(parseFloat(item.price) || 0).toLocaleString()}</div>
+                                        `;
+
+                                        customDetails = `
+                                            <div style="margin-top: 10px; padding: 10px; background: rgba(255, 255, 255, 0.03); border-radius: 12px; border: 1px solid var(--border-light); width: 100%;">
+                                                <div style="font-size: 0.72rem; font-weight: 800; color: #00BFFF; margin-bottom: 8px; display: flex; align-items: center; gap: 5px;">
+                                                    <i data-lucide="palette" style="width: 12px; height: 12px;"></i> Custom Stickers Specs:
+                                                </div>
+                                                ${item.customStickers.map((s, idx) => {
+                                                    const resolvedUrl = resolveStickerUrl(s.u);
+                                                    return `
+                                                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px; font-size: 0.7rem; border-bottom: 1px dashed rgba(255,255,255,0.05); padding-bottom: 6px;">
+                                                            <img src="${resolvedUrl}" style="width: 30px; height: 30px; object-fit: contain; background: #fff; border-radius: 4px; padding: 2px;">
+                                                            <div style="flex-grow: 1;">
+                                                                <span style="font-weight: 800;">Sticker #${idx+1} (${s.sz || 'A3'})</span>
+                                                                <span style="display: block; font-size: 0.65rem; color: var(--text-muted);">Size: ${s.sz || 'A3'} | Price: Rs. ${s.p || 0}</span>
+                                                            </div>
+                                                            <a href="${resolvedUrl}" target="_blank" style="font-size: 0.65rem; color: #32CD32; text-decoration: none; font-weight: 800;">Open HD</a>
+                                                        </div>
+                                                    `;
+                                                }).join('')}
+                                            </div>
+                                        `;
+                                    }
+
+                                    return `
+                                        <div class="order-item-row" style="flex-wrap: wrap;">
+                                            <div style="display: flex; gap: 15px; align-items: center; width: 100%;">
+                                                ${previewHtml}
+                                                <div class="order-item-info">
+                                                    <div class="order-item-title">${item.name}</div>
+                                                    <div class="order-item-meta">
+                                                        <span>Size: <b>${item.size || 'Free'}</b></span>
+                                                        <span>Color: <b>${item.color || 'Default'}</b></span>
+                                                        <span>Qty: <b>${item.quantity || 1}</b></span>
+                                                    </div>
+                                                </div>
+                                                <div class="order-item-price">Rs. ${(parseFloat(item.price) || 0).toLocaleString()}</div>
+                                            </div>
+                                            ${customDetails}
                                         </div>
                                     `;
                                 }).join('')}

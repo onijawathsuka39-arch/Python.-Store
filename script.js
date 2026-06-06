@@ -765,7 +765,8 @@ function placeOrder() {
                 customStickers: item.customStickers || []
             };
         }),
-        delivery: deliveryFee
+        delivery: deliveryFee,
+        total: grandTotal
     };
 
     // Encode order data for the URL (Safe for Unicode/Sinhala)

@@ -198,6 +198,20 @@
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 5px;
+        }
+        .status-Pending { background: rgba(255, 165, 0, 0.15); color: #FFA500; border: 1px solid rgba(255, 165, 0, 0.3); }
+        .status-Processing { background: rgba(0, 191, 255, 0.15); color: #00BFFF; border: 1px solid rgba(0, 191, 255, 0.3); }
+        .status-Completed { background: rgba(50, 205, 50, 0.15); color: #32CD32; border: 1px solid rgba(50, 205, 50, 0.3); }
+        .status-Cancelled { background: rgba(220, 20, 60, 0.15); color: #DC143C; border: 1px solid rgba(220, 20, 60, 0.3); }
         @media print {
             .btn-print { display: none; }
             body { padding: 0; }
@@ -231,6 +245,7 @@
             <div class="order-details">
                 <p><strong>Date:</strong> <span id="o-date"></span></p>
                 <p><strong>Time:</strong> <span id="o-time"></span></p>
+                <p style="margin-top: 5px;"><strong>Status:</strong> <span id="o-status" class="status-badge status-Pending">Pending</span></p>
             </div>
         </div>
 
@@ -290,6 +305,26 @@
                 document.getElementById('c-name').innerText = order.name;
                 document.getElementById('c-address').innerText = order.address;
                 document.getElementById('c-phone').innerText = order.phone;
+
+                const statusEl = document.getElementById('o-status');
+                if (statusEl) {
+                    const initialStatus = order.status || 'Pending';
+                    statusEl.innerText = initialStatus;
+                    statusEl.className = 'status-badge status-' + initialStatus;
+
+                    // Fetch live status from local database if possible
+                    fetch('get_order_status.php?id=' + order.id)
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data && data.status) {
+                            statusEl.innerText = data.status;
+                            statusEl.className = 'status-badge status-' + data.status;
+                        }
+                    })
+                    .catch(err => {
+                        console.log('Using static status from invoice metadata.');
+                    });
+                }
 
                 const list = document.getElementById('items-list');
                 const designGrid = document.getElementById('design-grid');

@@ -25,17 +25,13 @@ $action = $data['action'];
 $orderId = $data['id'];
 $file = 'orders.json';
 
-if (!file_exists($file)) {
-    echo json_encode(['status' => 'error', 'message' => 'Orders database not found.']);
-    exit;
-}
-
-$content = file_get_contents($file);
-$orders = json_decode($content, true);
-
-if (!is_array($orders)) {
-    echo json_encode(['status' => 'error', 'message' => 'Corrupt orders database.']);
-    exit;
+$orders = [];
+if (file_exists($file)) {
+    $content = file_get_contents($file);
+    $orders = json_decode($content, true);
+    if (!is_array($orders)) {
+        $orders = [];
+    }
 }
 
 $success = false;
