@@ -185,15 +185,15 @@ const products = [
             'https://i.ibb.co/yFmFFkG0/Python-Infinity-B.png',
             'https://i.ibb.co/Y7dvR0vH/Chat-GPT-Image-Apr-30-2026-12-07-41-PM.png'
         ],
-        gsm: '190 GSM', brand: 'Python',
+        gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 1700, oldPrice: 1900 },
-            'M': { price: 1700, oldPrice: 1900 },
-            'L': { price: 1700, oldPrice: 1900 },
-            'XL': { price: 1700, oldPrice: 1900 }
+            'S': { price: 1790, oldPrice: 1900 },
+            'M': { price: 1790, oldPrice: 1900 },
+            'L': { price: 1790, oldPrice: 1900 },
+            'XL': { price: 1790, oldPrice: 1900 }
         },
         colors: ['#00f2ff'],
-        desc: 'Infinity Edition Oversized Tee (Printed) by Python. A refreshing light blue design featuring the iconic infinity motif and premium 190 GSM comfort.'
+        desc: 'Infinity Edition Oversized Tee (Printed) by Python. A refreshing light blue design featuring the iconic infinity motif and premium 220 GSM comfort.'
     },
     {
         id: '11', name: 'GTR Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
@@ -310,7 +310,7 @@ const products = [
         desc: 'Never Give Up Design Regular Tee (Printed) by Python. Featuring a motivational graphic, crafted from premium 220 GSM fabric for ultimate comfort and durability.'
     },
     {
-        id: '18', name: 'Waffle T-shirts', category: 'Waffle T-shirts', sections: ['Mens', 'Womens', 'Unisexs'],
+        id: '18', name: 'Waffle T-shirts', category: 'Oversized Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
         images: [
             'https://i.ibb.co/RTGD6DPx/12.png',
             'https://i.ibb.co/cKzdSStx/23.png'
@@ -333,7 +333,7 @@ const products = [
         desc: 'Waffle T-shirts by Python. Premium 240 GSM waffle-knit fabric for a unique texture and superior comfort. Available in Light Brown and Light Yellow. A must-have wardrobe essential.'
     },
     {
-        id: '19', name: 'Waffle Printed', category: 'Waffle T-shirts', sections: ['Mens', 'Womens', 'Unisexs'],
+        id: '19', name: 'Waffle Printed', category: 'Oversized Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
         images: [
             'https://i.ibb.co/7JPf15Fw/Chat-GPT-Image-Jun-5-2026-03-26-18-PM78.png',
             'https://i.ibb.co/j9XPBYs8/Chat-GPT-Image-Jun-5-2026-03-26-18-PM24.png',
@@ -356,6 +356,22 @@ const products = [
         },
         colors: ['#c4956a', '#f5e6c8'], stock: 10,
         desc: 'Waffle Printed T-shirts by Python. Premium 240 GSM waffle-knit fabric for a unique texture, superior comfort, and clean prints. Features non-clickable sizes selected directly by color dots. Available in Light Brown and Light Yellow.'
+    },
+    {
+        id: '20', name: 'Colour Elephant Design', category: 'Oversized Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/67CjtFx0/Python-Infinity.png',
+            'https://i.ibb.co/WWwpQsLR/Chat-GPT-Image-Jun-6-2026-10-02-04-PM.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1790, oldPrice: 1900 },
+            'M': { price: 1790, oldPrice: 1900 },
+            'L': { price: 1790, oldPrice: 1900 },
+            'XL': { price: 1790, oldPrice: 1900 }
+        },
+        colors: ['#ffffff'], stock: 10,
+        desc: 'Colour Elephant Design Oversized Tee (Printed) by Python. Featuring a stunning elephant artwork graphic, crafted from premium 220 GSM fabric for ultimate comfort and design definition.'
     }
 ];
 
@@ -469,7 +485,7 @@ function displayProducts(filteredProducts) {
                 <i data-lucide="plus"></i>
             </div>
             `}
-            ${p.category === 'Oversized Tee (Printed)' || isOutOfStock ? '' : `
+            ${(p.category === 'Oversized Tee (Printed)' && !p.sizeChartImg) || isOutOfStock ? '' : `
             <div class="size-chart-card-btn" onclick="event.stopPropagation(); openSizeChart()" title="Size Chart" style="position: absolute; bottom: 20px; right: 75px; width: 45px; height: 45px; border-radius: 50%; background: #fff; border: 1px solid #ddd; color: #000; display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(20px); transition: 0.3s; cursor: pointer; z-index: 10;">
                 <i data-lucide="ruler" style="width: 20px; height: 20px;"></i>
             </div>

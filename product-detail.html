@@ -176,7 +176,7 @@
                         </div>
                         <div class="spec-details">
                             <h5>Print Tech</h5>
-                            <p>Premium Screen / DTF</p>
+                            <p>A3 DTF print</p>
                         </div>
                     </div>
                     <div class="spec-item">
@@ -240,7 +240,7 @@
         let autoScrollInterval = null;
 
         if (product) {
-            if (product.category === 'Oversized Tee (Printed)') {
+            if (product.category === 'Oversized Tee (Printed)' && !product.sizeChartImg) {
                 const scSection = document.getElementById('size-chart-link');
                 if (scSection) scSection.style.display = 'none';
             }
