@@ -821,12 +821,31 @@ function placeOrder() {
     if (bar) bar.remove();
     cart = []; saveCart();
 
-    // Open WhatsApp immediately to avoid popup blockers
-    window.open(whatsappUrl, '_blank');
-
-    showNotification('Order placed successfully! Redirecting...');
-
-    setTimeout(() => { window.location.href = invoiceUrl; }, 2000);
+    // Send order to backend
+    fetch('save_order.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(orderData)
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === 'success') {
+            console.log('Order logged to backend panel:', data);
+        } else {
+            console.warn('Backend warning:', data.message);
+        }
+    })
+    .catch(err => {
+        console.error('Failed to log order to backend panel:', err);
+    })
+    .finally(() => {
+        // Open WhatsApp immediately to avoid popup blockers
+        window.open(whatsappUrl, '_blank');
+        showNotification('Order placed successfully! Redirecting...');
+        setTimeout(() => { window.location.href = invoiceUrl; }, 1500);
+    });
 }
 
 function clearOrderHistory() {
