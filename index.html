@@ -338,39 +338,91 @@
     </section>
     <!-- ===== END NEW DROP SECTION ===== -->
 
-    <section class="section" id="contact" style="text-align: center;">
-      <div class="section-title">
+    <section class="section" id="contact">
+      <div class="section-title" style="text-align: center; margin-bottom: 40px;">
         <h2>Get In <span style="color: #DC143C;">Touch</span></h2>
         <p>Reach out to us anytime</p>
       </div>
 
-      <div style="display: flex; justify-content: center; gap: 40px; margin-top: 40px;">
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-          <a href="https://www.instagram.com/roohiracollectionby?igsh=MWNnazN2NHF5YXNiMA==" target="_blank" class="contact-circle" style="background: #E1306C; color: black; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s; box-shadow: 0 10px 20px rgba(225, 48, 108, 0.3);">
-            <i data-lucide="instagram" style="width: 28px; height: 28px; color: black;"></i>
-          </a>
-          <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-main);">Instagram</span>
+      <div class="contact-layout">
+        <!-- Left: Info & Form -->
+        <div class="contact-info-side">
+          <div class="social-circles-container">
+            <div class="social-circle-item">
+              <a href="https://www.instagram.com/roohiracollectionby?igsh=MWNnazN2NHF5YXNiMA==" target="_blank" class="contact-circle" style="background: #E1306C; color: black; box-shadow: 0 10px 20px rgba(225, 48, 108, 0.3);">
+                <i data-lucide="instagram" style="width: 28px; height: 28px; color: black;"></i>
+              </a>
+              <span>Instagram</span>
+            </div>
+
+            <div class="social-circle-item">
+              <a href="https://wa.me/94757218786" target="_blank" class="contact-circle" style="background: #25D366; color: black; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);">
+                <i data-lucide="message-circle" style="width: 28px; height: 28px; color: black;"></i>
+              </a>
+              <span>WhatsApp</span>
+            </div>
+
+            <div class="social-circle-item">
+              <a href="https://web.facebook.com/roohiraonline/" target="_blank" class="contact-circle" style="background: #1877F2; color: black; box-shadow: 0 10px 20px rgba(24, 119, 242, 0.3);">
+                <i data-lucide="facebook" style="width: 28px; height: 28px; color: black;"></i>
+              </a>
+              <span>Facebook</span>
+            </div>
+
+            <div class="social-circle-item">
+              <a href="tel:0757218786" class="contact-circle" style="background: #000; color: white; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);">
+                <i data-lucide="phone" style="width: 28px; height: 28px; color: white;"></i>
+              </a>
+              <span>Call Us</span>
+            </div>
+
+            <div class="social-circle-item">
+              <a href="mailto:pythonstore2008@gmail.com" onclick="openGmailCompose(event)" class="contact-circle" style="background: #EA4335; color: white; box-shadow: 0 10px 20px rgba(234, 67, 53, 0.3);">
+                <i data-lucide="mail" style="width: 28px; height: 28px; color: white;"></i>
+              </a>
+              <span>Gmail</span>
+            </div>
+          </div>
+
+          <!-- Email Contact Form -->
+          <div class="contact-form-card glass">
+            <h3>Send Message</h3>
+            <p>Send a message directly to pythonstore2008@gmail.com</p>
+            <div class="form-group">
+              <input type="email" id="email-from" placeholder="Your Email Address / ඔබේ විද්‍යුත් ලිපිනය" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="email-subject" placeholder="Subject / මාතෘකාව" required>
+            </div>
+            <div class="form-group">
+              <textarea id="email-message" rows="4" placeholder="Your Message / ඔබේ පණිවිඩය..." required></textarea>
+            </div>
+            <button onclick="sendEmailDirectly()" class="btn-email-submit" id="btn-email-submit">
+              <i data-lucide="send" style="width: 16px; height: 16px; margin-right: 8px;"></i> Send Message
+            </button>
+            <p id="email-status-msg" style="font-size: 0.85rem; margin-top: 10px; min-height: 18px; font-weight: 600;"></p>
+          </div>
         </div>
 
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-          <a href="https://wa.me/94757218786" target="_blank" class="contact-circle" style="background: #25D366; color: black; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);">
-            <i data-lucide="message-circle" style="width: 28px; height: 28px; color: black;"></i>
+        <!-- Right: Location Map -->
+        <div class="contact-map-side">
+          <a href="https://www.google.com/maps/place/7%C2%B001'17.0%22N+79%C2%B057'55.5%22E/@7.0213983,79.9654133,19.86z/data=!4m4!3m3!8m2!3d7.0213983!4d79.9654133?hl=en&entry=ttu&g_ep=EgoyMDI2MDYwMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="location-card glass">
+            <div class="location-map-container" style="height: 250px;">
+              <iframe src="https://maps.google.com/maps?q=7.0213983,79.9654133&t=&z=16&ie=UTF8&iwloc=&output=embed" loading="lazy" title="Store Location Map"></iframe>
+              <div class="location-map-overlay">
+                <span class="location-map-btn"><i data-lucide="external-link" style="width: 14px; height: 14px; margin-right: 5px;"></i> Open Map</span>
+              </div>
+            </div>
+            <div class="location-info">
+              <div class="location-icon-wrapper">
+                <i data-lucide="map-pin" style="width: 20px; height: 20px;"></i>
+              </div>
+              <div class="location-details">
+                <h4>Our Location</h4>
+                <p>7°01'17.0"N 79°57'55.5"E - Click for directions</p>
+              </div>
+            </div>
           </a>
-          <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-main);">WhatsApp</span>
-        </div>
-
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-          <a href="https://web.facebook.com/roohiraonline/" target="_blank" class="contact-circle" style="background: #1877F2; color: black; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s; box-shadow: 0 10px 20px rgba(24, 119, 242, 0.3);">
-            <i data-lucide="facebook" style="width: 28px; height: 28px; color: black;"></i>
-          </a>
-          <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-main);">Facebook</span>
-        </div>
-
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-          <a href="tel:0757218786" class="contact-circle" style="background: #000; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);">
-            <i data-lucide="phone" style="width: 28px; height: 28px; color: white;"></i>
-          </a>
-          <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-main);">Call Us</span>
         </div>
       </div>
     </section>
@@ -398,7 +450,7 @@
         <h4>Contact Us</h4>
         <p><i data-lucide="phone" style="width: 16px; margin-right: 10px;"></i> Call: 0757218786</p>
         <p><i data-lucide="message-circle" style="width: 16px; margin-right: 10px;"></i> WhatsApp: 0757218786</p>
-        <p><i data-lucide="mail" style="width: 16px; margin-right: 10px;"></i> roohira@gmail.com</p>
+        <p><i data-lucide="mail" style="width: 16px; margin-right: 10px;"></i> pythonstore2008@gmail.com</p>
       </div>
     </div>
     <div class="footer-bottom">
@@ -757,6 +809,113 @@
       }, { threshold: 0.15 });
       obs.observe(ndCard);
       obs.observe(ndVisual);
+    }
+
+    // ── Gmail Contact Option Helpers ───────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const emailFromInput = document.getElementById('email-from');
+        if (typeof currentUser !== 'undefined' && currentUser && currentUser.email) {
+          if (emailFromInput) {
+            emailFromInput.value = currentUser.email;
+            emailFromInput.disabled = true;
+            emailFromInput.style.opacity = '0.7';
+          }
+        }
+      }, 200);
+    });
+
+    function openGmailCompose(event) {
+      if (event) event.preventDefault();
+      const email = 'pythonstore2008@gmail.com';
+      const subject = encodeURIComponent('Inquiry to Python Store');
+      const body = encodeURIComponent('Hi Python Store,\n\n');
+      
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
+      const newWin = window.open(gmailUrl, '_blank');
+      
+      if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
+        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+      }
+    }
+
+    function sendEmailDirectly() {
+      const emailInput = document.getElementById('email-from');
+      const subjectInput = document.getElementById('email-subject');
+      const messageInput = document.getElementById('email-message');
+      const statusMsg = document.getElementById('email-status-msg');
+      const submitBtn = document.getElementById('btn-email-submit');
+
+      const emailVal = emailInput ? emailInput.value.trim() : '';
+      const subjectVal = subjectInput ? subjectInput.value.trim() : '';
+      const messageVal = messageInput ? messageInput.value.trim() : '';
+
+      if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+        if (statusMsg) {
+          statusMsg.textContent = '⚠️ කරුණාකර වලංගු Email ලිපිනයක් ඇතුළත් කරන්න. (Valid email required.)';
+          statusMsg.style.color = '#DC143C';
+        }
+        return;
+      }
+
+      if (!messageVal) {
+        if (statusMsg) {
+          statusMsg.textContent = '⚠️ කරුණාකර පණිවිඩය ඇතුළත් කරන්න. (Message required.)';
+          statusMsg.style.color = '#DC143C';
+        }
+        return;
+      }
+
+      // Show loading status
+      if (statusMsg) {
+        statusMsg.textContent = '⏳ පණිවිඩය යවමින් පවතී... (Sending message...)';
+        statusMsg.style.color = 'var(--text-muted)';
+      }
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.7';
+      }
+
+      fetch('send_email.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: emailVal,
+          subject: subjectVal,
+          message: messageVal
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'success') {
+          if (statusMsg) {
+            statusMsg.textContent = '✅ ' + data.message;
+            statusMsg.style.color = '#25D366';
+          }
+          if (subjectInput) subjectInput.value = '';
+          if (messageInput) messageInput.value = '';
+        } else {
+          if (statusMsg) {
+            statusMsg.textContent = '⚠️ ' + data.message;
+            statusMsg.style.color = '#DC143C';
+          }
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        if (statusMsg) {
+          statusMsg.textContent = '⚠️ සම්බන්ධතාවය අසාර්ථකයි. පසුව උත්සාහ කරන්න. (Connection failed. Try again.)';
+          statusMsg.style.color = '#DC143C';
+        }
+      })
+      .finally(() => {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.style.opacity = '1';
+        }
+      });
     }
   </script>
 </body>

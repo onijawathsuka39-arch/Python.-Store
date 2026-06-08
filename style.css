@@ -1932,3 +1932,274 @@ nav.scrolled {
 [data-theme="dark"] .nd-stat-divider {
     background: rgba(255, 255, 255, 0.08);
 }
+
+/* ── Location Card ── */
+.location-card {
+    max-width: 480px;
+    margin: 45px auto 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--text-main);
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+    z-index: 5;
+}
+
+.location-map-container {
+    width: 100%;
+    height: 200px;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--border-light);
+}
+
+.location-map-container iframe {
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.location-map-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(0px);
+}
+
+.location-map-btn {
+    background: var(--surface);
+    color: var(--text-main);
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    transform: translateY(10px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+}
+
+.location-card:hover .location-map-container iframe {
+    transform: scale(1.08);
+}
+
+.location-card:hover .location-map-overlay {
+    opacity: 1;
+    backdrop-filter: blur(3px);
+}
+
+.location-card:hover .location-map-btn {
+    transform: translateY(0);
+}
+
+.location-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.location-icon-wrapper {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(220, 20, 60, 0.1);
+    color: var(--accent-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 5px 15px rgba(220, 20, 60, 0.1);
+}
+
+.location-details {
+    flex-grow: 1;
+}
+
+.location-details h4 {
+    font-size: 1.1rem;
+    margin-bottom: 3px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.location-details p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Dark mode location overrides */
+[data-theme="dark"] .location-icon-wrapper {
+    background: rgba(220, 20, 60, 0.2);
+    box-shadow: 0 5px 15px rgba(220, 20, 60, 0.2);
+}
+
+[data-theme="dark"] .location-map-overlay {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+/* ── Contact Layout & Email Form ── */
+.contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 1100px;
+    margin: 40px auto 0;
+    align-items: stretch;
+}
+
+.contact-info-side {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.social-circles-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.social-circle-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.contact-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+.contact-circle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.contact-circle i {
+    width: 28px;
+    height: 28px;
+    stroke-width: 2px;
+}
+
+.social-circle-item span {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+/* Contact Form Card */
+.contact-form-card {
+    padding: 30px;
+    border-radius: 20px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-form-card h3 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.contact-form-card p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+}
+
+.contact-form-card .form-group {
+    width: 100%;
+}
+
+.contact-form-card input,
+.contact-form-card textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: var(--surface);
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 0.9rem;
+    transition: var(--transition-smooth);
+}
+
+.contact-form-card input:focus,
+.contact-form-card textarea:focus {
+    outline: none;
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.1);
+}
+
+.btn-email-submit {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 24px;
+    border-radius: 50px;
+    background: var(--accent-gold);
+    color: #FFFFFF;
+    font-size: 0.9rem;
+    font-weight: 800;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(220, 20, 60, 0.2);
+    transition: var(--transition-smooth);
+}
+
+.btn-email-submit:hover {
+    background: #e55a20;
+    box-shadow: 0 10px 25px rgba(220, 20, 60, 0.3);
+    transform: translateY(-3px);
+}
+
+.contact-map-side {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-map-side .location-card {
+    margin-top: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+}
+
+/* Responsive Layout */
+@media (max-width: 900px) {
+    .contact-layout {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    .contact-map-side .location-card {
+        height: auto;
+    }
+}
