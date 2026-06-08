@@ -386,21 +386,17 @@
 
           <!-- Email Contact Form -->
           <div class="contact-form-card glass">
-            <h3>Send Message</h3>
-            <p>Send a message directly to pythonstore2008@gmail.com</p>
-            <div class="form-group">
-              <input type="email" id="email-from" placeholder="Your Email Address / ඔබේ විද්‍යුත් ලිපිනය" required>
-            </div>
+            <h3>Send Message via Gmail</h3>
+            <p>Type your message below to send directly to pythonstore2008@gmail.com</p>
             <div class="form-group">
               <input type="text" id="email-subject" placeholder="Subject / මාතෘකාව" required>
             </div>
             <div class="form-group">
               <textarea id="email-message" rows="4" placeholder="Your Message / ඔබේ පණිවිඩය..." required></textarea>
             </div>
-            <button onclick="sendEmailDirectly()" class="btn-email-submit" id="btn-email-submit">
-              <i data-lucide="send" style="width: 16px; height: 16px; margin-right: 8px;"></i> Send Message
+            <button onclick="sendEmailViaGmail()" class="btn-email-submit" id="btn-email-submit">
+              <i data-lucide="mail" style="width: 16px; height: 16px; margin-right: 8px;"></i> Send via Gmail
             </button>
-            <p id="email-status-msg" style="font-size: 0.85rem; margin-top: 10px; min-height: 18px; font-weight: 600;"></p>
           </div>
         </div>
 
@@ -812,19 +808,6 @@
     }
 
     // ── Gmail Contact Option Helpers ───────────────────────────
-    document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => {
-        const emailFromInput = document.getElementById('email-from');
-        if (typeof currentUser !== 'undefined' && currentUser && currentUser.email) {
-          if (emailFromInput) {
-            emailFromInput.value = currentUser.email;
-            emailFromInput.disabled = true;
-            emailFromInput.style.opacity = '0.7';
-          }
-        }
-      }, 200);
-    });
-
     function openGmailCompose(event) {
       if (event) event.preventDefault();
       const email = 'pythonstore2008@gmail.com';
@@ -839,83 +822,39 @@
       }
     }
 
-    function sendEmailDirectly() {
-      const emailInput = document.getElementById('email-from');
+    function sendEmailViaGmail() {
       const subjectInput = document.getElementById('email-subject');
       const messageInput = document.getElementById('email-message');
-      const statusMsg = document.getElementById('email-status-msg');
-      const submitBtn = document.getElementById('btn-email-submit');
-
-      const emailVal = emailInput ? emailInput.value.trim() : '';
+      
       const subjectVal = subjectInput ? subjectInput.value.trim() : '';
       const messageVal = messageInput ? messageInput.value.trim() : '';
-
-      if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
-        if (statusMsg) {
-          statusMsg.textContent = '⚠️ කරුණාකර වලංගු Email ලිපිනයක් ඇතුළත් කරන්න. (Valid email required.)';
-          statusMsg.style.color = '#DC143C';
-        }
-        return;
-      }
-
+      
       if (!messageVal) {
-        if (statusMsg) {
-          statusMsg.textContent = '⚠️ කරුණාකර පණිවිඩය ඇතුළත් කරන්න. (Message required.)';
-          statusMsg.style.color = '#DC143C';
-        }
+        alert('කරුණාකර පණිවිඩය ඇතුළත් කරන්න. (Please enter your message.)');
         return;
       }
-
-      // Show loading status
-      if (statusMsg) {
-        statusMsg.textContent = '⏳ පණිවිඩය යවමින් පවතී... (Sending message...)';
-        statusMsg.style.color = 'var(--text-muted)';
+      
+      const email = 'pythonstore2008@gmail.com';
+      const subject = encodeURIComponent(subjectVal || 'Customer Message');
+      const body = encodeURIComponent(messageVal);
+      
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
+      const mailtoUrl = `mailto:${email}?subject=${subject}&body=${body}`;
+      
+      const isMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
+      
+      if (isMobile) {
+        window.location.href = mailtoUrl;
+      } else {
+        const newWin = window.open(gmailUrl, '_blank');
+        if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
+          window.location.href = mailtoUrl;
+        }
       }
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.style.opacity = '0.7';
-      }
-
-      fetch('send_email.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          email: emailVal,
-          subject: subjectVal,
-          message: messageVal
-        })
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 'success') {
-          if (statusMsg) {
-            statusMsg.textContent = '✅ ' + data.message;
-            statusMsg.style.color = '#25D366';
-          }
-          if (subjectInput) subjectInput.value = '';
-          if (messageInput) messageInput.value = '';
-        } else {
-          if (statusMsg) {
-            statusMsg.textContent = '⚠️ ' + data.message;
-            statusMsg.style.color = '#DC143C';
-          }
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        if (statusMsg) {
-          statusMsg.textContent = '⚠️ සම්බන්ධතාවය අසාර්ථකයි. පසුව උත්සාහ කරන්න. (Connection failed. Try again.)';
-          statusMsg.style.color = '#DC143C';
-        }
-      })
-      .finally(() => {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.style.opacity = '1';
-        }
-      });
+      
+      // Clear inputs
+      if (subjectInput) subjectInput.value = '';
+      if (messageInput) messageInput.value = '';
     }
   </script>
 </body>
