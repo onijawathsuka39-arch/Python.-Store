@@ -247,6 +247,97 @@
       </div>
     </section>
 
+    <!-- ===== NEW DROP COMING SOON SECTION ===== -->
+    <section class="new-drop-section" id="new-drop">
+      <div class="new-drop-bg-effects">
+        <div class="nd-orb nd-orb-1"></div>
+        <div class="nd-orb nd-orb-2"></div>
+        <div class="nd-orb nd-orb-3"></div>
+        <div class="nd-grid-lines"></div>
+      </div>
+
+      <div class="new-drop-inner">
+        <!-- Left: Teaser visual -->
+        <div class="nd-visual">
+          <div class="nd-shirt-wrapper">
+            <div class="nd-question-mark">?</div>
+            <div class="nd-glow-ring"></div>
+            <div class="nd-glow-ring nd-glow-ring-2"></div>
+          </div>
+          <div class="nd-label-group">
+            <span class="nd-label-badge">
+              <span class="nd-badge-dot"></span>
+              EXCLUSIVE PREVIEW
+            </span>
+          </div>
+        </div>
+
+        <!-- Right: Card content -->
+        <div class="nd-card glass">
+          <!-- Top row badges -->
+          <div class="nd-top-badges">
+            <span class="nd-tag-fire">🔥 Limited Edition</span>
+            <span class="nd-tag-new">NEW DROP</span>
+          </div>
+
+          <h2 class="nd-title">Something Big<br><span class="nd-title-accent">Is Coming</span></h2>
+          <p class="nd-subtitle">The next Python collection is being crafted with love. Be the first to know when it drops.</p>
+
+          <!-- Countdown Timer -->
+          <div class="nd-countdown" id="nd-countdown">
+            <div class="nd-time-block">
+              <span class="nd-time-num" id="nd-days">00</span>
+              <span class="nd-time-label">Days</span>
+            </div>
+            <div class="nd-time-sep">:</div>
+            <div class="nd-time-block">
+              <span class="nd-time-num" id="nd-hours">00</span>
+              <span class="nd-time-label">Hours</span>
+            </div>
+            <div class="nd-time-sep">:</div>
+            <div class="nd-time-block">
+              <span class="nd-time-num" id="nd-mins">00</span>
+              <span class="nd-time-label">Mins</span>
+            </div>
+            <div class="nd-time-sep">:</div>
+            <div class="nd-time-block">
+              <span class="nd-time-num" id="nd-secs">00</span>
+              <span class="nd-time-label">Secs</span>
+            </div>
+          </div>
+
+          <!-- Notify form -->
+          <div class="nd-notify-form">
+            <input type="email" id="nd-email-input" class="nd-email-input" placeholder="Enter your email to get notified…" />
+            <button class="nd-notify-btn" onclick="handleNewDropNotify()" id="nd-notify-btn">
+              <i data-lucide="bell" style="width:16px;height:16px;"></i>
+              Notify Me
+            </button>
+          </div>
+          <p class="nd-notify-msg" id="nd-notify-msg"></p>
+
+          <!-- Stats row -->
+          <div class="nd-stats">
+            <div class="nd-stat">
+              <span class="nd-stat-num">500+</span>
+              <span class="nd-stat-label">Already Waiting</span>
+            </div>
+            <div class="nd-stat-divider"></div>
+            <div class="nd-stat">
+              <span class="nd-stat-num">1</span>
+              <span class="nd-stat-label">New Collection</span>
+            </div>
+            <div class="nd-stat-divider"></div>
+            <div class="nd-stat">
+              <span class="nd-stat-num">48h</span>
+              <span class="nd-stat-label">Early Access</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== END NEW DROP SECTION ===== -->
+
     <section class="section" id="contact" style="text-align: center;">
       <div class="section-title">
         <h2>Get In <span style="color: #DC143C;">Touch</span></h2>
@@ -601,6 +692,71 @@
     function buyTopSelling5Now() {
         addTopSelling5ToCart();
         window.location.href = 'cart.html';
+    }
+  </script>
+
+  <!-- New Drop Countdown Script -->
+  <script>
+    // ── Countdown to drop date ──────────────────────────────────
+    // Set your drop date here (YYYY, MM-1, DD, HH, MM, SS)
+    const DROP_DATE = new Date(2026, 6, 15, 12, 0, 0); // 15 July 2026, 12:00
+
+    function updateNewDropCountdown() {
+      const now  = new Date();
+      const diff = DROP_DATE - now;
+      if (diff <= 0) {
+        document.getElementById('nd-countdown').innerHTML =
+          '<span style="color:var(--accent-gold);font-weight:800;font-size:1.4rem;letter-spacing:2px;">🎉 It\'s Live!</span>';
+        return;
+      }
+      const days  = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
+      const mins  = Math.floor((diff % 3600000)  / 60000);
+      const secs  = Math.floor((diff % 60000)    / 1000);
+
+      function pad(n) { return String(n).padStart(2, '0'); }
+      document.getElementById('nd-days').textContent  = pad(days);
+      document.getElementById('nd-hours').textContent = pad(hours);
+      document.getElementById('nd-mins').textContent  = pad(mins);
+      document.getElementById('nd-secs').textContent  = pad(secs);
+    }
+    updateNewDropCountdown();
+    setInterval(updateNewDropCountdown, 1000);
+
+    // ── Notify me handler ───────────────────────────────────────
+    function handleNewDropNotify() {
+      const input = document.getElementById('nd-email-input');
+      const msg   = document.getElementById('nd-notify-msg');
+      const btn   = document.getElementById('nd-notify-btn');
+      const email = input.value.trim();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        msg.textContent = '⚠️ Please enter a valid email address.';
+        msg.style.color = '#DC143C';
+        return;
+      }
+      btn.disabled = true;
+      btn.innerHTML = '<i data-lucide="check" style="width:16px;height:16px;"></i> You\'re In!';
+      btn.style.background = '#25D366';
+      msg.textContent = '✅ You\'ll get an exclusive heads-up 48 h before the drop!';
+      msg.style.color = '#25D366';
+      input.value = '';
+      lucide.createIcons();
+    }
+
+    // Intersection observer to animate card on scroll
+    const ndCard = document.querySelector('.nd-card');
+    const ndVisual = document.querySelector('.nd-visual');
+    if (ndCard && ndVisual) {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('nd-visible');
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      obs.observe(ndCard);
+      obs.observe(ndVisual);
     }
   </script>
 </body>
