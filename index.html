@@ -306,12 +306,15 @@
             </div>
           </div>
 
-          <!-- Notify form -->
-          <div class="nd-notify-form">
-            <input type="email" id="nd-email-input" class="nd-email-input" placeholder="Enter your email to get notified…" />
-            <button class="nd-notify-btn" onclick="handleNewDropNotify()" id="nd-notify-btn">
+          <!-- Waitlist form -->
+          <div class="nd-waitlist-form" id="nd-waitlist-form">
+            <div class="nd-waitlist-fields">
+              <input type="text" id="nd-name-input" class="nd-field-input" placeholder="Your Name" autocomplete="name" />
+              <input type="tel" id="nd-phone-input" class="nd-field-input" placeholder="Phone Number (e.g. 0771234567)" autocomplete="tel" />
+            </div>
+            <button class="nd-notify-btn" onclick="handleNewDropWaitlist()" id="nd-notify-btn">
               <i data-lucide="bell" style="width:16px;height:16px;"></i>
-              Notify Me
+              Join Waitlist
             </button>
           </div>
           <p class="nd-notify-msg" id="nd-notify-msg"></p>

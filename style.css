@@ -2203,3 +2203,103 @@ nav.scrolled {
         height: auto;
     }
 }
+
+/* ===== NEW DROP WAITLIST FORM ===== */
+.nd-waitlist-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.nd-waitlist-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.nd-field-input {
+  width: 100%;
+  padding: 13px 18px;
+  background: #000;
+  border: 1.5px solid rgba(255,255,255,0.18);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+  box-sizing: border-box;
+}
+
+#nd-name-input {
+  color: #DC143C;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.nd-field-input::placeholder {
+  color: rgba(255,255,255,0.45);
+}
+
+.nd-field-input:focus {
+  border-color: #DC143C;
+  background: rgba(220,20,60,0.08);
+  box-shadow: 0 0 0 3px rgba(220,20,60,0.18);
+}
+
+.nd-notify-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 36px;
+  background: linear-gradient(135deg, #DC143C, #a00028);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  box-shadow: 0 6px 24px rgba(220,20,60,0.35);
+  width: 100%;
+  letter-spacing: 0.03em;
+}
+
+.nd-notify-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(220,20,60,0.5);
+  background: linear-gradient(135deg, #ff2255, #DC143C);
+}
+
+.nd-notify-btn:active {
+  transform: translateY(0);
+}
+
+.nd-notify-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.nd-notify-msg {
+  font-size: 0.88rem;
+  font-weight: 600;
+  min-height: 22px;
+  text-align: center;
+  transition: opacity 0.3s;
+}
+
+.nd-notify-msg.success {
+  color: #4ade80;
+}
+
+.nd-notify-msg.error {
+  color: #f87171;
+}

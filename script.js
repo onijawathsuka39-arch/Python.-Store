@@ -1124,3 +1124,74 @@ document.addEventListener('DOMContentLoaded', () => {
         initFreeDeliveryBar();
     }
 });
+
+// ===== NEW DROP WAITLIST =====
+function handleNewDropWaitlist() {
+    const nameInput  = document.getElementById('nd-name-input');
+    const phoneInput = document.getElementById('nd-phone-input');
+    const btn        = document.getElementById('nd-notify-btn');
+    const msg        = document.getElementById('nd-notify-msg');
+
+    const name  = nameInput  ? nameInput.value.trim()  : '';
+    const phone = phoneInput ? phoneInput.value.trim() : '';
+
+    // Reset message
+    msg.className = 'nd-notify-msg';
+
+    // Validation
+    if (!name) {
+        msg.textContent = '⚠️ Please enter your name.';
+        msg.classList.add('error');
+        if (nameInput) nameInput.focus();
+        return;
+    }
+    if (!phone || !/^[0-9+\s\-]{7,15}$/.test(phone)) {
+        msg.textContent = '⚠️ Please enter a valid phone number.';
+        msg.classList.add('error');
+        if (phoneInput) phoneInput.focus();
+        return;
+    }
+
+    // Save to localStorage waitlist
+    const waitlist = JSON.parse(localStorage.getItem('python_waitlist') || '[]');
+    const alreadyIn = waitlist.some(function(e) { return e.phone === phone; });
+    if (alreadyIn) {
+        msg.textContent = '✅ You are already on the waitlist!';
+        msg.classList.add('success');
+        return;
+    }
+    waitlist.push({ name: name, phone: phone, joinedAt: new Date().toISOString() });
+    localStorage.setItem('python_waitlist', JSON.stringify(waitlist));
+
+    // Build WhatsApp message to admin
+    var waMessage =
+        '\uD83D\uDD14 *NEW DROP WAITLIST SIGNUP*\n\n' +
+        '\uD83D\uDC64 *Name:* ' + name + '\n' +
+        '\uD83D\uDCDE *Phone:* ' + phone + '\n' +
+        '\uD83D\uDD50 *Joined At:* ' + new Date().toLocaleString() + '\n\n' +
+        'Please add this customer to the New Drop waiting list. \uD83D\uDE4F';
+
+    var waUrl = 'https://wa.me/94757218786?text=' + encodeURIComponent(waMessage);
+
+    // Disable button to prevent double-submit
+    if (btn) { btn.disabled = true; btn.textContent = 'Joining...'; }
+
+    // Show success
+    msg.textContent = '\uD83C\uDF89 You\'re on the list! Opening WhatsApp\u2026';
+    msg.classList.add('success');
+
+    // Clear inputs
+    if (nameInput)  nameInput.value  = '';
+    if (phoneInput) phoneInput.value = '';
+
+    // Open WhatsApp after brief delay
+    setTimeout(function() {
+        window.open(waUrl, '_blank');
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = '<i data-lucide="bell" style="width:16px;height:16px;"></i> Join Waitlist';
+            if (window.lucide) lucide.createIcons();
+        }
+    }, 400);
+}
+
