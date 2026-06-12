@@ -221,12 +221,74 @@
               </div>
             </div>
 
+            <!-- Card 3: Product ID 20 (Colour Elephant Design) -->
+            <div class="top-selling-card glass">
+              <!-- Product Image -->
+              <div class="top-selling-image-wrapper">
+                <span style="position: absolute; top: 15px; left: 15px; background: #DC143C; color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; z-index: 10; box-shadow: 0 4px 10px rgba(220, 20, 60, 0.3);">6% OFF</span>
+                <img id="top-selling-20-img" src="https://i.ibb.co/67CjtFx0/Python-Infinity.png" alt="Colour Elephant Design T-Shirt" style="width: 100%; height: auto; max-height: 320px; object-fit: contain; border-radius: 12px; transition: transform 0.5s ease;">
+                
+                <!-- Thumbnails -->
+                <div style="position: absolute; bottom: 15px; display: flex; gap: 8px; z-index: 10;">
+                  <img src="https://i.ibb.co/67CjtFx0/Python-Infinity.png" onclick="setTopSelling20Image('https://i.ibb.co/67CjtFx0/Python-Infinity.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid var(--accent-gold); cursor: pointer; background: white;">
+                  <img src="https://i.ibb.co/WWwpQsLR/Chat-GPT-Image-Jun-6-2026-10-02-04-PM.png" onclick="setTopSelling20Image('https://i.ibb.co/WWwpQsLR/Chat-GPT-Image-Jun-6-2026-10-02-04-PM.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid transparent; cursor: pointer; background: white;">
+                </div>
+              </div>
+
+              <!-- Product Info inside the same card frame -->
+              <div class="top-selling-details">
+                <span style="color: var(--accent-gold); font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;">Oversized Tee (Printed)</span>
+                <h3 style="font-size: 1.8rem; margin: 8px 0; color: var(--text-main);">Colour Elephant Design</h3>
+                
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                  <span style="font-size: 1.5rem; color: var(--accent-gold); font-weight: 800;">Rs. 1,790.00</span>
+                  <span style="text-decoration: line-through; color: var(--text-muted); font-size: 1rem;">Rs. 1,900.00</span>
+                </div>
+
+                <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-size: 0.9rem;">
+                  Colour Elephant Design Oversized Tee (Printed) by Python. Featuring a stunning elephant artwork graphic, crafted from premium 220 GSM fabric for ultimate comfort and design definition.
+                </p>
+
+                <!-- Size Selector -->
+                <div style="margin-bottom: 25px;">
+                  <span style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-main);">SELECT SIZE:</span>
+                  <div style="display: flex; gap: 10px;" id="top-selling-20-sizes">
+                    <button onclick="selectTopSelling20Size('S')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--accent-gold); background: var(--accent-gold); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">S</button>
+                    <button onclick="selectTopSelling20Size('M')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">M</button>
+                    <button onclick="selectTopSelling20Size('L')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">L</button>
+                    <button onclick="selectTopSelling20Size('XL')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">XL</button>
+                  </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 25px;">
+                  <button onclick="addTopSelling20ToCart()" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px; padding: 12px 28px; font-weight: 800; text-transform: uppercase; border-radius: 50px; cursor: pointer; font-size: 0.85rem;">
+                    <i data-lucide="shopping-cart" style="width: 16px; height: 16px;"></i> Add to Cart
+                  </button>
+                  <button onclick="buyTopSelling20Now()" class="btn btn-outline" style="padding: 12px 24px; border-radius: 50px; font-weight: 800; border: 2px solid var(--primary-dark); text-transform: uppercase; cursor: pointer; font-size: 0.85rem;">
+                    Buy Now
+                  </button>
+                </div>
+                
+                <!-- Features list -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid var(--border-light); padding-top: 15px;">
+                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> 220 GSM Cotton
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> Premium Print
+                  </div>
+                </div>
+              </div>
+            </div>
+
         </div>
 
         <!-- Indicator dots outside the track so they don't slide -->
         <div class="top-selling-dots" style="display: flex; justify-content: center; gap: 8px; margin-top: 25px; width: 100%;">
           <span class="top-selling-dot active" onclick="showTopSellingSlide(0)" style="width: 20px; height: 8px; border-radius: 4px; background: var(--accent-gold); cursor: pointer; transition: 0.3s; display: inline-block;"></span>
           <span class="top-selling-dot" onclick="showTopSellingSlide(1)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); cursor: pointer; transition: 0.3s; display: inline-block;"></span>
+          <span class="top-selling-dot" onclick="showTopSellingSlide(2)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); cursor: pointer; transition: 0.3s; display: inline-block;"></span>
         </div>
       </div>
     </section>
@@ -260,7 +322,12 @@
         <!-- Left: Teaser visual -->
         <div class="nd-visual">
           <div class="nd-shirt-wrapper">
-            <div class="nd-question-mark">?</div>
+            <div class="nd-preview-circle">
+              <img src="https://i.ibb.co/Z9GSQjF/h1.png" class="nd-preview-img active" alt="Preview 1">
+              <img src="https://i.ibb.co/NdWNk7YV/h2.png" class="nd-preview-img" alt="Preview 2">
+              <img src="https://i.ibb.co/WvR5ggk7/h3.png" class="nd-preview-img" alt="Preview 3">
+              <img src="https://i.ibb.co/84cB946w/h4.png" class="nd-preview-img" alt="Preview 4">
+            </div>
             <div class="nd-glow-ring"></div>
             <div class="nd-glow-ring nd-glow-ring-2"></div>
           </div>
@@ -269,6 +336,12 @@
               <span class="nd-badge-dot"></span>
               EXCLUSIVE PREVIEW
             </span>
+            <div class="nd-preview-dots">
+              <span class="nd-pdot active" onclick="setNewDropPreview(0)"></span>
+              <span class="nd-pdot" onclick="setNewDropPreview(1)"></span>
+              <span class="nd-pdot" onclick="setNewDropPreview(2)"></span>
+              <span class="nd-pdot" onclick="setNewDropPreview(3)"></span>
+            </div>
           </div>
         </div>
 
@@ -662,7 +735,7 @@
     function startTopSellingAutoScroll() {
         if (topSellingSlideInterval) clearInterval(topSellingSlideInterval);
         topSellingSlideInterval = setInterval(() => {
-            let nextSlide = (currentTopSellingSlide + 1) % 2;
+            let nextSlide = (currentTopSellingSlide + 1) % 3;
             showTopSellingSlide(nextSlide);
         }, 5000);
     }
@@ -744,6 +817,45 @@
         addTopSelling5ToCart();
         window.location.href = 'cart.html';
     }
+
+    // Product 3 (ID 20) Handlers
+    let selectedTopSelling20Size = 'S';
+    let selectedTopSelling20Image = 'https://i.ibb.co/67CjtFx0/Python-Infinity.png';
+
+    function setTopSelling20Image(src, element) {
+        document.getElementById('top-selling-20-img').src = src;
+        selectedTopSelling20Image = src;
+        
+        element.parentNode.querySelectorAll('.top-selling-thumbnail').forEach(thumb => {
+            thumb.style.border = '2px solid transparent';
+        });
+        element.style.border = '2px solid var(--accent-gold)';
+    }
+
+    function selectTopSelling20Size(size) {
+        selectedTopSelling20Size = size;
+        
+        document.querySelectorAll('#top-selling-20-sizes .size-select-btn').forEach(btn => {
+            if (btn.innerText === size) {
+                btn.style.background = 'var(--accent-gold)';
+                btn.style.color = 'white';
+                btn.style.borderColor = 'var(--accent-gold)';
+            } else {
+                btn.style.background = 'var(--surface)';
+                btn.style.color = 'var(--text-main)';
+                btn.style.borderColor = 'var(--border-color)';
+            }
+        });
+    }
+
+    function addTopSelling20ToCart() {
+        addToCart("Colour Elephant Design", 1790, selectedTopSelling20Image, selectedTopSelling20Size, '#ffffff');
+    }
+
+    function buyTopSelling20Now() {
+        addTopSelling20ToCart();
+        window.location.href = 'cart.html';
+    }
   </script>
 
   <!-- New Drop Countdown Script -->
@@ -773,6 +885,42 @@
     }
     updateNewDropCountdown();
     setInterval(updateNewDropCountdown, 1000);
+
+    // ── New Drop Exclusive Preview Auto Slider ──────────────────
+    let currentNdSlide = 0;
+    const ndSlides = document.querySelectorAll('.nd-preview-img');
+    const ndDots = document.querySelectorAll('.nd-pdot');
+    let ndSlideInterval = setInterval(nextNewDropSlide, 3000);
+
+    function setNewDropPreview(index) {
+      clearInterval(ndSlideInterval);
+      showNewDropSlide(index);
+      ndSlideInterval = setInterval(nextNewDropSlide, 3000);
+    }
+
+    function showNewDropSlide(index) {
+      if (ndSlides.length === 0) return;
+      ndSlides.forEach((slide, i) => {
+        if (i === index) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+      ndDots.forEach((dot, i) => {
+        if (i === index) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+      currentNdSlide = index;
+    }
+
+    function nextNewDropSlide() {
+      let nextSlide = (currentNdSlide + 1) % ndSlides.length;
+      showNewDropSlide(nextSlide);
+    }
 
     // ── Notify me handler ───────────────────────────────────────
     function handleNewDropNotify() {

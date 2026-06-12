@@ -1577,24 +1577,69 @@ nav.scrolled {
     justify-content: center;
 }
 
-/* Mystery question-mark blob (Light Mode styling) */
-.nd-question-mark {
+/* Exclusive preview image circle (Light/Dark Mode styling) */
+.nd-preview-circle {
     width: 140px;
     height: 140px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #F8FAFC 0%, #FFF5F6 100%);
-    border: 2px solid rgba(220,20,60,0.15);
+    background: var(--surface);
+    border: 2px solid rgba(220,20,60,0.25);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 4rem;
-    font-weight: 900;
-    color: rgba(220,20,60,0.8);
-    text-shadow: 0 4px 15px rgba(220,20,60,0.15);
     position: relative;
     z-index: 2;
     animation: nd-float 5s ease-in-out infinite;
-    box-shadow: 0 10px 30px rgba(220,20,60,0.08);
+    box-shadow: 0 10px 30px var(--shadow-color);
+    overflow: hidden;
+    padding: 12px;
+}
+
+.nd-preview-img {
+    position: absolute;
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+    transform: scale(0.95);
+    pointer-events: none;
+}
+
+.nd-preview-img.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Dots indicators styles */
+.nd-preview-dots {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+}
+
+.nd-pdot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    opacity: 0.4;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nd-pdot:hover {
+    opacity: 0.8;
+}
+
+.nd-pdot.active {
+    background: #DC143C;
+    opacity: 1;
+    width: 16px;
+    border-radius: 3px;
 }
 
 @keyframes nd-float {
