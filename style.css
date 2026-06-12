@@ -2418,13 +2418,13 @@ nav.scrolled {
 
 /* Premium Filter Buttons */
 .shop-filter-btn {
-    padding: 8px 18px;
+    padding: 6px 14px;
     border-radius: 50px;
-    border: 1.5px solid var(--border-color);
-    background: var(--surface);
-    color: var(--text-muted);
+    border: 1.5px solid #000;
+    background: #000;
+    color: #fff;
     font-weight: 800;
-    font-size: 0.76rem;
+    font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     cursor: pointer;
@@ -2433,8 +2433,8 @@ nav.scrolled {
 }
 
 .shop-filter-btn:hover {
-    background: rgba(220, 20, 60, 0.05);
-    color: #DC143C;
+    background: rgba(220, 20, 60, 0.8);
+    color: #fff;
     border-color: #DC143C;
 }
 
