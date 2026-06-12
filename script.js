@@ -538,38 +538,170 @@ function stopHoverSlide(productId, sliderElement) {
 }
 
 // --- Shop Filtering System ---
+let currentCategory = 'All';
 let currentSubcategory = 'All';
+let currentGSM = 'all';
 let searchQuery = '';
+
+// true only when a *specific* (non-All) value is chosen
+let categorySelected = false;
+let subcategorySelected = false;
 
 function handleSearch(val) {
     searchQuery = val.trim().toLowerCase();
     filterShop();
 }
 
-function selectSubcategory(subcat, btn) {
-    currentSubcategory = subcat;
+function scrollToActiveButtonInContainer(containerSelector, activeSelector) {
+    const container = document.querySelector(containerSelector);
+    if (!container) return;
+    const activeBtn = container.querySelector(activeSelector);
+    if (!activeBtn) return;
+    
+    const containerWidth = container.getBoundingClientRect().width;
+    const btnWidth = activeBtn.getBoundingClientRect().width;
+    const btnLeft = activeBtn.offsetLeft;
+    
+    container.scrollTo({
+        left: btnLeft - (containerWidth / 2) + (btnWidth / 2),
+        behavior: 'smooth'
+    });
+}
 
-    // Update active subcategory styling
-    document.querySelectorAll('.filter-btn').forEach(b => {
-        if (b.innerText === subcat || (subcat === 'All' && (b.innerText === 'All Subcategories' || b.innerText === 'All T-Shirts')) || (b.getAttribute('onclick') && b.getAttribute('onclick').includes(`'${subcat}'`))) {
+function updateFilterVisibility() {
+    const categoryRow = document.getElementById('category-row-wrapper');
+    const subcategoryRow = document.getElementById('subcategory-row-wrapper');
+    const gsmRow = document.getElementById('gsm-row-wrapper');
+
+    // Category row is always visible
+    if (categoryRow) categoryRow.classList.add('visible');
+
+    // Subcategory row only appears when a specific category (not 'All') is active
+    if (subcategoryRow) {
+        if (categorySelected) {
+            subcategoryRow.classList.add('visible');
+        } else {
+            subcategoryRow.classList.remove('visible');
+        }
+    }
+
+    // GSM row only appears when a specific subcategory (not 'All') is active
+    if (gsmRow) {
+        if (categorySelected && subcategorySelected) {
+            gsmRow.classList.add('visible');
+        } else {
+            gsmRow.classList.remove('visible');
+        }
+    }
+}
+
+function selectCategory(cat, btn) {
+    currentCategory = cat;
+    // categorySelected = true only for a real category, not 'All'
+    categorySelected = (cat !== 'All');
+    // Whenever category changes, reset subcategory
+    currentSubcategory = 'All';
+    subcategorySelected = false;
+    currentGSM = 'all';
+    // Reset subcategory buttons to 'All'
+    document.querySelectorAll('.subcategory-btn').forEach(b => {
+        const onclickAttr = b.getAttribute('onclick') || '';
+        if (onclickAttr.includes("'All'")) {
             b.classList.add('active');
         } else {
             b.classList.remove('active');
         }
     });
-
+    // Reset GSM buttons to 'all'
+    document.querySelectorAll('.gsm-btn').forEach(b => {
+        const onclickAttr = b.getAttribute('onclick') || '';
+        if (onclickAttr.includes("'all'")) {
+            b.classList.add('active');
+        } else {
+            b.classList.remove('active');
+        }
+    });
+    document.querySelectorAll('.category-btn').forEach(b => {
+        const onclickAttr = b.getAttribute('onclick') || '';
+        if (onclickAttr.includes(`'${cat}'`)) {
+            b.classList.add('active');
+        } else {
+            b.classList.remove('active');
+        }
+    });
+    updateFilterVisibility();
     filterShop();
+    setTimeout(() => {
+        scrollToActiveButtonInContainer('#category-row-wrapper .filter-scroll-container', '.category-btn.active');
+    }, 100);
+}
+
+function selectSubcategory(subcat, btn) {
+    currentSubcategory = subcat;
+    // subcategorySelected = true only for a real subcategory, not 'All'
+    subcategorySelected = (subcat !== 'All');
+    // Reset GSM when subcategory changes
+    currentGSM = 'all';
+    document.querySelectorAll('.gsm-btn').forEach(b => {
+        const onclickAttr = b.getAttribute('onclick') || '';
+        if (onclickAttr.includes("'all'")) {
+            b.classList.add('active');
+        } else {
+            b.classList.remove('active');
+        }
+    });
+    document.querySelectorAll('.subcategory-btn').forEach(b => {
+        const onclickAttr = b.getAttribute('onclick') || '';
+        if (onclickAttr.includes(`'${subcat}'`)) {
+            b.classList.add('active');
+        } else {
+            b.classList.remove('active');
+        }
+    });
+    updateFilterVisibility();
+    filterShop();
+    setTimeout(() => {
+        scrollToActiveButtonInContainer('#subcategory-row-wrapper .filter-scroll-container', '.subcategory-btn.active');
+    }, 100);
+}
+
+function selectGSM(gsm, btn) {
+    currentGSM = gsm;
+    document.querySelectorAll('.gsm-btn').forEach(b => {
+        const onclickAttr = b.getAttribute('onclick') || '';
+        if (onclickAttr.includes(`'${gsm}'`)) {
+            b.classList.add('active');
+        } else {
+            b.classList.remove('active');
+        }
+    });
+    filterShop();
+    setTimeout(() => {
+        scrollToActiveButtonInContainer('#gsm-row-wrapper .filter-scroll-container', '.gsm-btn.active');
+    }, 100);
 }
 
 function filterShop() {
     let filtered = products;
 
-    // Filter by Subcategory (Regular Tee, Oversized Tee)
+    // 1. Filter by Category
+    if (currentCategory !== 'All') {
+        if (currentCategory === 'T-Shirts') {
+            filtered = filtered.filter(p => p.category.toLowerCase().includes('tee') || p.category.toLowerCase().includes('t-shirt') || p.category.toLowerCase().includes('waffle'));
+        }
+    }
+
+    // 2. Filter by Subcategory (Regular Tee, Oversized Tee)
     if (currentSubcategory !== 'All') {
         filtered = filtered.filter(p => p.category === currentSubcategory);
     }
 
-    // Filter by Search Query
+    // 3. Filter by GSM
+    if (currentGSM !== 'all') {
+        filtered = filtered.filter(p => p.gsm === currentGSM);
+    }
+
+    // 4. Filter by Search Query
     if (searchQuery !== '') {
         filtered = filtered.filter(p => {
             const name = p.name.toLowerCase();
@@ -647,10 +779,55 @@ function filterShop() {
 
 function filterProducts(category) {
     if (category === 'Regular Tee (Printed)' || category === 'Oversized Tee (Printed)') {
-        selectSubcategory(category, null);
+        // Set category first, then subcategory
+        currentCategory = 'T-Shirts';
+        categorySelected = true;
+        currentSubcategory = category;
+        subcategorySelected = true;
+        currentGSM = 'all';
+        // Update button states
+        document.querySelectorAll('.category-btn').forEach(b => {
+            b.classList.toggle('active', (b.getAttribute('onclick') || '').includes("'T-Shirts'"));
+        });
+        document.querySelectorAll('.subcategory-btn').forEach(b => {
+            b.classList.toggle('active', (b.getAttribute('onclick') || '').includes(`'${category}'`));
+        });
+        document.querySelectorAll('.gsm-btn').forEach(b => {
+            b.classList.toggle('active', (b.getAttribute('onclick') || '').includes("'all'"));
+        });
+    } else if (category === 'T-Shirts') {
+        currentCategory = 'T-Shirts';
+        categorySelected = true;
+        currentSubcategory = 'All';
+        subcategorySelected = false;
+        currentGSM = 'all';
+        document.querySelectorAll('.category-btn').forEach(b => {
+            b.classList.toggle('active', (b.getAttribute('onclick') || '').includes("'T-Shirts'"));
+        });
+        document.querySelectorAll('.subcategory-btn').forEach(b => {
+            b.classList.toggle('active', (b.getAttribute('onclick') || '').includes("'All'"));
+        });
+        document.querySelectorAll('.gsm-btn').forEach(b => {
+            b.classList.toggle('active', (b.getAttribute('onclick') || '').includes("'all'"));
+        });
     } else {
-        selectSubcategory('All', null);
+        currentCategory = 'All';
+        categorySelected = false;
+        currentSubcategory = 'All';
+        subcategorySelected = false;
+        currentGSM = 'all';
+        document.querySelectorAll('.category-btn').forEach(b => {
+            b.classList.toggle('active', (b.getAttribute('onclick') || '').includes("'All'"));
+        });
+        document.querySelectorAll('.subcategory-btn').forEach(b => {
+            b.classList.toggle('active', (b.getAttribute('onclick') || '').includes("'All'"));
+        });
+        document.querySelectorAll('.gsm-btn').forEach(b => {
+            b.classList.toggle('active', (b.getAttribute('onclick') || '').includes("'all'"));
+        });
     }
+    updateFilterVisibility();
+    filterShop();
 }
 
 

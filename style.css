@@ -2348,3 +2348,129 @@ nav.scrolled {
 .nd-notify-msg.error {
   color: #f87171;
 }
+
+/* ===== HORIZONTAL SCROLLING TABS ===== */
+.filter-scroll-wrapper {
+    position: relative;
+    width: 100%;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0 15px;
+    margin-bottom: 0;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    background: rgba(220, 20, 60, 0.02);
+    border-radius: 16px;
+    pointer-events: none;
+    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, padding 0.4s ease, margin-bottom 0.4s ease, border-color 0.4s ease;
+}
+
+.filter-scroll-wrapper.visible {
+    max-height: 100px;
+    opacity: 1;
+    padding: 8px 15px;
+    margin-bottom: 15px;
+    border-color: var(--border-light);
+    pointer-events: auto;
+}
+
+/* Fading gradients at edges of scrolling content */
+.filter-scroll-wrapper::before,
+.filter-scroll-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    pointer-events: none;
+    z-index: 5;
+    transition: opacity 0.3s ease;
+}
+
+.filter-scroll-wrapper::before {
+    left: 95px; /* offset after label */
+    background: linear-gradient(90deg, var(--primary-light), transparent);
+}
+
+.filter-scroll-wrapper::after {
+    right: 0;
+    background: linear-gradient(-90deg, var(--primary-light), transparent);
+}
+
+.filter-scroll-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding: 5px 10px;
+    width: 100%;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    scroll-behavior: smooth;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+
+.filter-scroll-container::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/Opera */
+}
+
+/* Premium Filter Buttons */
+.shop-filter-btn {
+    padding: 8px 18px;
+    border-radius: 50px;
+    border: 1.5px solid var(--border-color);
+    background: var(--surface);
+    color: var(--text-muted);
+    font-weight: 800;
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    flex-shrink: 0;
+}
+
+.shop-filter-btn:hover {
+    background: rgba(220, 20, 60, 0.05);
+    color: #DC143C;
+    border-color: #DC143C;
+}
+
+.shop-filter-btn.active {
+    background: #DC143C !important;
+    color: #FFFFFF !important;
+    border-color: #DC143C !important;
+    box-shadow: 0 5px 15px rgba(220, 20, 60, 0.2);
+}
+
+/* Header label for each filter row */
+.filter-row-label {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: var(--text-main);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    width: 90px;
+    min-width: 90px;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .filter-scroll-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        padding: 12px 10px;
+    }
+    .filter-row-label {
+        width: auto;
+        min-width: auto;
+        margin-left: 10px;
+    }
+    .filter-scroll-wrapper::before {
+        left: 0;
+    }
+}

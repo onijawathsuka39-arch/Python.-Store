@@ -65,22 +65,36 @@
             <i data-lucide="search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); width: 18px; height: 18px; pointer-events: none;"></i>
         </div>
 
-        <!-- Category Filters -->
-        <div class="category-filter"
-            style="display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
-            <button class="filter-btn active" id="btn-all" onclick="selectMainCat('All', this)">All T-Shirts</button>
-            <button class="filter-btn" id="btn-regular" onclick="selectMainCat('Regular Tee (Printed)', this)">Regular Tee (Printed)</button>
-            <button class="filter-btn" id="btn-oversized" onclick="selectMainCat('Oversized Tee (Printed)', this)">Oversized Tee (Printed)</button>
+        <!-- Category Filter Row -->
+        <div class="filter-scroll-wrapper visible animate-fade-up stagger-1" id="category-row-wrapper">
+            <span class="filter-row-label">Category:</span>
+            <div class="filter-scroll-container">
+                <button class="shop-filter-btn category-btn active" onclick="selectCategory('All', this)">All Categories</button>
+                <button class="shop-filter-btn category-btn" onclick="selectCategory('T-Shirts', this)">T-Shirts</button>
+            </div>
         </div>
 
-        <!-- GSM sub-category row — always visible -->
-        <div id="gsm-subcat-row" style="display: flex; justify-content: center; gap: 8px; margin-bottom: 35px; flex-wrap: wrap; align-items: center;">
-            <span style="font-size: 0.72rem; font-weight: 800; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase;">GSM :</span>
-            <button class="filter-btn gsm-sub active" id="gsm-all" onclick="selectGSM('all', this)">All</button>
-            <button class="filter-btn gsm-sub" id="gsm-220" onclick="selectGSM('220 GSM', this)">220 GSM</button>
-            <button class="filter-btn gsm-sub" id="gsm-190" onclick="selectGSM('190 GSM', this)">190 GSM</button>
-            <button class="filter-btn gsm-sub" id="gsm-240" onclick="selectGSM('240 GSM', this)">240 GSM</button>
+        <!-- Subcategory Filter Row -->
+        <div class="filter-scroll-wrapper animate-fade-up stagger-2" id="subcategory-row-wrapper">
+            <span class="filter-row-label">Type:</span>
+            <div class="filter-scroll-container">
+                <button class="shop-filter-btn subcategory-btn active" onclick="selectSubcategory('All', this)">All Subcategories</button>
+                <button class="shop-filter-btn subcategory-btn" onclick="selectSubcategory('Regular Tee (Printed)', this)">Regular Tee (Printed)</button>
+                <button class="shop-filter-btn subcategory-btn" onclick="selectSubcategory('Oversized Tee (Printed)', this)">Oversized Tee (Printed)</button>
+            </div>
         </div>
+
+        <!-- GSM Filter Row -->
+        <div class="filter-scroll-wrapper animate-fade-up stagger-3" id="gsm-row-wrapper">
+            <span class="filter-row-label">GSM:</span>
+            <div class="filter-scroll-container">
+                <button class="shop-filter-btn gsm-btn active" onclick="selectGSM('all', this)">All GSM</button>
+                <button class="shop-filter-btn gsm-btn" onclick="selectGSM('220 GSM', this)">220 GSM</button>
+                <button class="shop-filter-btn gsm-btn" onclick="selectGSM('190 GSM', this)">190 GSM</button>
+                <button class="shop-filter-btn gsm-btn" onclick="selectGSM('240 GSM', this)">240 GSM</button>
+            </div>
+        </div>
+
 
         <div class="product-grid" id="product-grid">
             <!-- Products will be here -->
@@ -157,60 +171,6 @@
     <script src="script.js"></script>
     <script>
         lucide.createIcons();
-
-        // ── GSM Sub-category filter logic ──────────────────────────
-        let activeMainCat = 'All';
-        let activeGSM = 'all';
-
-        function selectMainCat(cat, btn) {
-            activeMainCat = cat;
-            activeGSM = 'all'; // reset GSM on category change
-
-            // Update main filter buttons
-            document.querySelectorAll('.category-filter .filter-btn').forEach(b => b.classList.remove('active'));
-            if (btn) btn.classList.add('active');
-
-            // Reset GSM buttons to All
-            document.querySelectorAll('.gsm-sub').forEach(b => b.classList.remove('active'));
-            const gsmAllBtn = document.getElementById('gsm-all');
-            if (gsmAllBtn) gsmAllBtn.classList.add('active');
-
-            currentSubcategory = cat;
-            applyFilters();
-        }
-
-        function selectGSM(gsm, btn) {
-            activeGSM = gsm;
-            document.querySelectorAll('.gsm-sub').forEach(b => b.classList.remove('active'));
-            if (btn) btn.classList.add('active');
-            applyFilters();
-        }
-
-        function applyFilters() {
-            let filtered = products;
-
-            // Main category filter
-            if (activeMainCat !== 'All') {
-                filtered = filtered.filter(p => p.category === activeMainCat);
-            }
-
-            // GSM filter — applies to all categories
-            if (activeGSM !== 'all') {
-                filtered = filtered.filter(p => p.gsm === activeGSM);
-            }
-
-            // Search query
-            if (searchQuery !== '') {
-                filtered = filtered.filter(p =>
-                    p.name.toLowerCase().includes(searchQuery) ||
-                    (p.desc || '').toLowerCase().includes(searchQuery) ||
-                    (p.category || '').toLowerCase().includes(searchQuery)
-                );
-            }
-
-            displayProducts(filtered);
-        }
-        // ────────────────────────────────────────────────────────────
 
         function openSizeChart() {
             document.getElementById('sizeChartModal').classList.add('active');
