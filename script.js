@@ -891,53 +891,56 @@ if (typeof auth !== 'undefined' && auth) {
     });
 }
 
-function login(email, password) {
+function login(email, password, onError) {
     if (typeof auth === 'undefined' || !auth) {
-        alert('Firebase not initialized. Please configure firebase-config.js.');
+        if (onError) onError('Firebase configure කර නැත. firebase-config.js check කරන්න.');
         return;
     }
     auth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            db.collection('users').doc(user.uid).get().then((doc) => {
-                const userData = doc.exists ? doc.data() : { name: user.email.split('@')[0], email: user.email };
-                const loggedInUser = { uid: user.uid, name: userData.name, email: user.email };
-                localStorage.setItem('python_user', JSON.stringify(loggedInUser));
-                currentUser = loggedInUser;
-                window.location.href = 'profile.html';
-            });
+            // Save immediately from auth (fast) — Firestore sync happens in background via onAuthStateChanged
+            const quickUser = { uid: user.uid, name: user.displayName || user.email.split('@')[0], email: user.email };
+            localStorage.setItem('python_user', JSON.stringify(quickUser));
+            currentUser = quickUser;
+            // Redirect immediately — no Firestore wait
+            window.location.href = 'profile.html';
         })
         .catch((error) => {
-            alert(error.message);
+            let msg = 'Login failed. නැවත try කරන්න.';
+            if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') msg = 'Email හෝ Password වැරදියි.';
+            else if (error.code === 'auth/invalid-email') msg = 'Email format එක වැරදියි.';
+            else if (error.code === 'auth/too-many-requests') msg = 'ඉතා වාර ගණනක් try කළා. ටිකක් wait කරලා try කරන්න.';
+            if (onError) onError(msg); else alert(msg);
         });
 }
 
-function signup(name, email, password) {
+function signup(name, email, password, onError) {
     if (typeof auth === 'undefined' || !auth) {
-        alert('Firebase not initialized. Please configure firebase-config.js.');
+        if (onError) onError('Firebase configure කර නැත. firebase-config.js check කරන්න.');
         return;
     }
     auth.createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            const userData = { uid: user.uid, name: name, email: email };
-            db.collection('users').doc(user.uid).set(userData)
-                .then(() => {
-                    localStorage.setItem('python_user', JSON.stringify(userData));
-                    currentUser = userData;
-                    showNotification('Account created!');
-                    setTimeout(() => { window.location.href = 'profile.html'; }, 1000);
-                })
-                .catch((err) => {
-                    console.error("Firestore user creation error:", err);
-                    localStorage.setItem('python_user', JSON.stringify(userData));
-                    currentUser = userData;
-                    showNotification('Account created!');
-                    setTimeout(() => { window.location.href = 'profile.html'; }, 1000);
-                });
+            const userData = { uid: user.uid, name: name, email: email, createdAt: new Date().toISOString() };
+            // Save to localStorage immediately (fast redirect)
+            localStorage.setItem('python_user', JSON.stringify(userData));
+            currentUser = userData;
+            // Save to Firestore in background (don't wait for it)
+            if (typeof db !== 'undefined' && db) {
+                db.collection('users').doc(user.uid).set(userData)
+                    .catch(err => console.error('Firestore save error:', err));
+            }
+            // Redirect immediately
+            window.location.href = 'profile.html';
         })
         .catch((error) => {
-            alert(error.message);
+            let msg = 'Account create කිරීම අසාර්ථකයි.';
+            if (error.code === 'auth/email-already-in-use') msg = 'මෙම Email ලෙස දැනටමත් account තිබේ. Login කරන්න.';
+            else if (error.code === 'auth/invalid-email') msg = 'Email format එක වැරදියි.';
+            else if (error.code === 'auth/weak-password') msg = 'Password ශක්තිමත් නැත. අවම 6 characters.';
+            if (onError) onError(msg); else alert(msg);
         });
 }
 
