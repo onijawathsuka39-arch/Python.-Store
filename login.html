@@ -66,6 +66,9 @@
                         <i class="eye-closed" data-lucide="eye-off" style="display:none;"></i>
                     </button>
                 </div>
+                <div style="text-align: right; margin-top: 8px;">
+                    <a href="#" onclick="forgotPassword(); return false;" style="color: #c8a96e; text-decoration: none; font-size: 0.85rem;">Forgot Password? (මුරපදය අමතකද?)</a>
+                </div>
             </div>
             <div id="login-error" style="display:none; background:#fdf2f2; color:#9b1c1c; padding:10px 15px; border-radius:10px; font-size:0.88rem; margin-bottom:10px; border-left:4px solid #DC143C;"></div>
             <button id="login-btn" class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="doLogin()">Sign In</button>
@@ -91,12 +94,54 @@
         }
     }
 
+    // Forgot Password flow via Firebase
+    function forgotPassword() {
+        const email = document.getElementById('login-email').value.trim();
+        const errEl = document.getElementById('login-error');
+        errEl.style.display = 'none';
+        
+        if (!email) {
+            errEl.textContent = '⚠️ කරුණාකර මුලින්ම ඔබගේ Email ලිපිනය ඇතුළත් කරන්න.';
+            errEl.style.background = '#fdf2f2';
+            errEl.style.color = '#9b1c1c';
+            errEl.style.borderLeft = '4px solid #DC143C';
+            errEl.style.display = 'block';
+            return;
+        }
+
+        document.getElementById('auth-loading').style.display = 'flex';
+        auth.sendPasswordResetEmail(email).then(() => {
+            document.getElementById('auth-loading').style.display = 'none';
+            errEl.textContent = '✉️ මුරපදය නැවත සැකසීමේ සබැඳිය (Password reset link) ඔබගේ Email ලිපිනයට යවා ඇත. කරුණාකර ඔබගේ Inbox/Spam පරික්ෂා කරන්න.';
+            errEl.style.background = '#edfdfd';
+            errEl.style.color = '#008080';
+            errEl.style.borderLeft = '4px solid #008080';
+            errEl.style.display = 'block';
+        }).catch((error) => {
+            document.getElementById('auth-loading').style.display = 'none';
+            let errMsg = 'Email එක යැවීමේදී දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න.';
+            if (error.code === 'auth/user-not-found') {
+                errMsg = '⚠️ මෙම Email ලිපිනයෙන් ලියාපදිංචි වී ඇති ගිණුමක් සොයාගත නොහැක.';
+            } else if (error.code === 'auth/invalid-email') {
+                errMsg = '⚠️ ඇතුළත් කළ Email ලිපිනය වැරදියි.';
+            }
+            errEl.textContent = errMsg;
+            errEl.style.background = '#fdf2f2';
+            errEl.style.color = '#9b1c1c';
+            errEl.style.borderLeft = '4px solid #DC143C';
+            errEl.style.display = 'block';
+        });
+    }
+
     function doLogin() {
         const email = document.getElementById('login-email').value.trim();
         const pass  = document.getElementById('login-pass').value;
         const errEl = document.getElementById('login-error');
         const btn   = document.getElementById('login-btn');
         errEl.style.display = 'none';
+        errEl.style.background = '#fdf2f2';
+        errEl.style.color = '#9b1c1c';
+        errEl.style.borderLeft = '4px solid #DC143C';
         if (!email || !pass) { errEl.textContent = '⚠️ Email සහ Password ඇතුළත් කරන්න.'; errEl.style.display='block'; return; }
         document.getElementById('auth-loading').style.display = 'flex';
         btn.disabled = true;
