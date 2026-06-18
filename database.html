@@ -126,6 +126,8 @@
         .btn-cancel-o:hover{background:rgba(220,20,60,.22);}
         .btn-confirm-o{background:var(--green);border:none;color:#000;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:800;font-size:.82rem;font-family:inherit;transition:all .2s;}
         .btn-confirm-o:hover{opacity:.85;}
+        .btn-wa{background:#25D366;border:none;color:#fff;padding:8px 16px;border-radius:8px;cursor:pointer;font-weight:800;font-size:.82rem;font-family:inherit;transition:all .2s;display:inline-flex;align-items:center;gap:7px;text-decoration:none;}
+        .btn-wa:hover{background:#1ebe5d;box-shadow:0 4px 14px rgba(37,211,102,.35);}
 
         /* Modal */
         .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);z-index:9000;display:none;align-items:center;justify-content:center;padding:20px;}
@@ -274,7 +276,7 @@ service cloud.firestore {
             <div class="tbl-wrap">
                 <div id="waitlist-loading" class="empty"><div class="spinner"></div><p>Loading...</p></div>
                 <table class="dtable" id="waitlist-tbl" style="display:none;">
-                    <thead><tr><th>#</th><th>Name</th><th>Phone</th><th>Joined</th></tr></thead>
+                    <thead><tr><th>#</th><th>Name</th><th>Phone</th><th>Joined</th><th>Action</th></tr></thead>
                     <tbody id="waitlist-body"></tbody>
                 </table>
                 <div id="waitlist-empty" class="empty" style="display:none;"><div class="ico">🔔</div><p>No entries.</p></div>
@@ -446,6 +448,37 @@ function updateOrderStatus(docId, newStatus) {
         .catch(err => alert('Status update failed: ' + err.message));
 }
 
+// ── Build WhatsApp Invoice message ──
+function buildWaLink(o) {
+    const items = (o.items || []).map((it, idx) =>
+        `  ${idx+1}. ${it.name} (${it.size||'–'}) x${it.quantity||1} = Rs. ${((it.price||0)*(it.quantity||1)).toLocaleString()}`
+    ).join('\n');
+    const orderId = String(o.id || o._docId).slice(-8);
+    const msg =
+`🧾 *PYTHON STORE — Invoice*
+━━━━━━━━━━━━━━━━━━━━
+📦 Order ID : #${orderId}
+👤 Name     : ${o.userName || '–'}
+📱 Phone    : ${o.userPhone || '–'}
+📍 Address  : ${o.userAddress || '–'}
+📅 Date     : ${o.date || '–'}
+
+🛒 *Items Ordered:*
+${items}
+
+━━━━━━━━━━━━━━━━━━━━
+💰 *Grand Total: Rs. ${(o.total||0).toLocaleString()}.00*
+
+✅ Status: ${(o.status||'pending').toUpperCase()}
+
+Thank you for shopping at Python Store! 🙏`;
+    // Use customer's phone; strip non-digits, assume Sri Lanka +94
+    let phone = (o.userPhone || '').replace(/\D/g, '');
+    if (phone.startsWith('0')) phone = '94' + phone.slice(1);
+    if (!phone) phone = '94757218786'; // fallback to shop number
+    return 'https://wa.me/' + phone + '?text=' + encodeURIComponent(msg);
+}
+
 // ── Render orders as accordion ──
 function renderAccordionOrders(list) {
     if (list.length === 0) { ordersAccEmpty(); return; }
@@ -465,8 +498,9 @@ function renderAccordionOrders(list) {
             ? `<button class="btn-confirm-o" onclick="updateOrderStatus('${o._docId}','confirmed')">✓ Confirm Order</button>`
             : `<span style="color:var(--green);font-weight:800;">✅ Confirmed</span>`;
         const cancelBtn = status !== 'cancelled'
-            ? `<button class="btn-cancel-o" onclick="updateOrderStatus('${o._docId}','cancelled')">✕ Cancel Order</button>`
+            ? `<button class="btn-cancel-o" onclick="updateOrderStatus('${o._docId}','cancelled')">✕ Cancel</button>`
             : '';
+        const waLink = buildWaLink(o);
         return `
         <div class="acc-item">
             <div class="acc-row" onclick="toggleAccordion('${o._docId}')">
@@ -493,7 +527,13 @@ function renderAccordionOrders(list) {
                 </table>
                 <div class="acc-footer">
                     <div class="acc-total">Grand Total: Rs. ${(o.total||0).toLocaleString()}.00</div>
-                    <div class="acc-btns">${cancelBtn}${confirmBtn}</div>
+                    <div class="acc-btns">
+                        ${cancelBtn}${confirmBtn}
+                        <a class="btn-wa" href="${waLink}" target="_blank" rel="noopener">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                            WhatsApp Invoice
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>`;
@@ -678,7 +718,7 @@ function loadWaitlist() {
     showL('waitlist');
     db.collection('waitlist').get().then(snap => {
         const rows = [];
-        snap.forEach(doc => rows.push({ ...doc.data() }));
+        snap.forEach(doc => rows.push({ id: doc.id, ...doc.data() }));
         document.getElementById('cnt-waitlist').textContent   = rows.length;
         document.getElementById('s-waitlist').textContent     = rows.length;
         document.getElementById('badge-waitlist').textContent = rows.length + ' rows';
@@ -689,6 +729,9 @@ function loadWaitlist() {
                 <td><strong>${r.name || '–'}</strong></td>
                 <td>${r.phone || '–'}</td>
                 <td class="mono">${r.joinedAt ? new Date(r.joinedAt).toLocaleString() : '–'}</td>
+                <td>
+                    <button class="act-btn del" onclick="adminDeleteWaitlist('${r.id}', '${(r.name || '').replace(/'/g, "\\'")}')" style="background:#DC143C;color:#fff;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;">🗑️ Delete</button>
+                </td>
             </tr>`).join('');
         showT('waitlist');
     }).catch(() => {
@@ -742,6 +785,15 @@ function adminResetPassword(email) {
     auth.sendPasswordResetEmail(email)
         .then(() => showToast('📧 Reset email sent to ' + email + '!', 'blue'))
         .catch(e => alert('Reset failed: ' + e.message));
+}
+
+function adminDeleteWaitlist(docId, name) {
+    showDialog('🗑️', 'Delete from Waitlist?',
+        `"${name}" waitlist eken delete karannada?\nDelete kalamaa apahu join wenna puluwan.`,
+        '#DC143C',
+        () => db.collection('waitlist').doc(docId).delete()
+                .then(() => { showToast('🗑️ Deleted from Waitlist!', 'red'); loadAll(); })
+                .catch(e => alert('Delete failed: ' + e.message)));
 }
 
 // ─── Confirm Dialog ───

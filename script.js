@@ -1500,54 +1500,86 @@ function handleNewDropWaitlist() {
         return;
     }
 
-    // Save to localStorage waitlist
-    const waitlist = JSON.parse(localStorage.getItem('python_waitlist') || '[]');
-    const alreadyIn = waitlist.some(function(e) { return e.phone === phone; });
-    if (alreadyIn) {
-        msg.textContent = '✅ You are already on the waitlist!';
-        msg.classList.add('success');
-        return;
-    }
-    const waitlistEntry = { name: name, phone: phone, joinedAt: new Date().toISOString() };
-    waitlist.push(waitlistEntry);
-    localStorage.setItem('python_waitlist', JSON.stringify(waitlist));
-
-    if (typeof db !== 'undefined' && db) {
-        db.collection('waitlist').add(waitlistEntry).catch(e => {
-            console.error("Error saving to waitlist database:", e);
-            alert("⚠️ Error: Waitlist entry could not be saved to Firestore database. (Firestore Database Rules permission denied විය හැක. කරුණාකර rules update කරන්න).");
-        });
-    }
-
-    // Build WhatsApp message to admin
-    var waMessage =
-        '\uD83D\uDD14 *NEW DROP WAITLIST SIGNUP*\n\n' +
-        '\uD83D\uDC64 *Name:* ' + name + '\n' +
-        '\uD83D\uDCDE *Phone:* ' + phone + '\n' +
-        '\uD83D\uDD50 *Joined At:* ' + new Date().toLocaleString() + '\n\n' +
-        'Please add this customer to the New Drop waiting list. \uD83D\uDE4F';
-
-    var waUrl = 'https://wa.me/94757218786?text=' + encodeURIComponent(waMessage);
-
     // Disable button to prevent double-submit
     if (btn) { btn.disabled = true; btn.textContent = 'Joining...'; }
 
-    // Show success
-    msg.textContent = '\uD83C\uDF89 You\'re on the list! Opening WhatsApp\u2026';
-    msg.classList.add('success');
+    const waitlistEntry = { name: name, phone: phone, joinedAt: new Date().toISOString() };
 
-    // Clear inputs
-    if (nameInput)  nameInput.value  = '';
-    if (phoneInput) phoneInput.value = '';
-
-    // Open WhatsApp after brief delay
-    setTimeout(function() {
-        window.open(waUrl, '_blank');
+    if (typeof db !== 'undefined' && db) {
+        db.collection('waitlist').where('phone', '==', phone).get()
+            .then(snap => {
+                if (!snap.empty) {
+                    msg.textContent = '✅ You are already on the waitlist!';
+                    msg.classList.add('success');
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerHTML = '<i data-lucide="bell" style="width:16px;height:16px;"></i> Join Waitlist';
+                        if (window.lucide) lucide.createIcons();
+                    }
+                    return;
+                }
+                
+                db.collection('waitlist').add(waitlistEntry)
+                    .then(() => {
+                        msg.textContent = '🎉 You are successfully added to the waitlist!';
+                        msg.classList.add('success');
+                        
+                        // Clear inputs
+                        if (nameInput)  nameInput.value  = '';
+                        if (phoneInput) phoneInput.value = '';
+                        
+                        // Save to localStorage waitlist
+                        const waitlist = JSON.parse(localStorage.getItem('python_waitlist') || '[]');
+                        // Filter out old phone entry if any to clean local cache
+                        const filteredWaitlist = waitlist.filter(e => e.phone !== phone);
+                        filteredWaitlist.push(waitlistEntry);
+                        localStorage.setItem('python_waitlist', JSON.stringify(filteredWaitlist));
+                    })
+                    .catch(e => {
+                        console.error("Error saving to waitlist database:", e);
+                        msg.textContent = '⚠️ Error: Waitlist entry could not be saved to Firestore.';
+                        msg.classList.add('error');
+                    })
+                    .finally(() => {
+                        if (btn) {
+                            btn.disabled = false;
+                            btn.innerHTML = '<i data-lucide="bell" style="width:16px;height:16px;"></i> Join Waitlist';
+                            if (window.lucide) lucide.createIcons();
+                        }
+                    });
+            })
+            .catch(e => {
+                console.error("Error checking waitlist database:", e);
+                // Fallback to direct insertion if lookup fails
+                db.collection('waitlist').add(waitlistEntry)
+                    .then(() => {
+                        msg.textContent = '🎉 You are successfully added to the waitlist!';
+                        msg.classList.add('success');
+                        if (nameInput)  nameInput.value  = '';
+                        if (phoneInput) phoneInput.value = '';
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        msg.textContent = '⚠️ Error: Waitlist entry could not be saved.';
+                        msg.classList.add('error');
+                    })
+                    .finally(() => {
+                        if (btn) {
+                            btn.disabled = false;
+                            btn.innerHTML = '<i data-lucide="bell" style="width:16px;height:16px;"></i> Join Waitlist';
+                            if (window.lucide) lucide.createIcons();
+                        }
+                    });
+            });
+    } else {
+        // No firebase configuration loaded
+        msg.textContent = '⚠️ Database connection is not available.';
+        msg.classList.add('error');
         if (btn) {
             btn.disabled = false;
             btn.innerHTML = '<i data-lucide="bell" style="width:16px;height:16px;"></i> Join Waitlist';
             if (window.lucide) lucide.createIcons();
         }
-    }, 400);
+    }
 }
 
