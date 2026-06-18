@@ -110,7 +110,15 @@
         }
 
         document.getElementById('auth-loading').style.display = 'flex';
-        auth.sendPasswordResetEmail(email).then(() => {
+
+        // Configure redirection URL dynamically to reset-password.html
+        const resetUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1) + 'reset-password.html';
+        const actionCodeSettings = {
+            url: resetUrl,
+            handleCodeInApp: true
+        };
+
+        auth.sendPasswordResetEmail(email, actionCodeSettings).then(() => {
             document.getElementById('auth-loading').style.display = 'none';
             errEl.textContent = '✉️ මුරපදය නැවත සැකසීමේ සබැඳිය (Password reset link) ඔබගේ Email ලිපිනයට යවා ඇත. කරුණාකර ඔබගේ Inbox/Spam පරික්ෂා කරන්න.';
             errEl.style.background = '#edfdfd';

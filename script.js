@@ -879,9 +879,15 @@ if (typeof auth !== 'undefined' && auth) {
             db.collection('users').doc(user.uid).get().then(doc => {
                 if (doc.exists) {
                     const userData = doc.data();
-                    const syncedUser = { uid: user.uid, name: userData.name, email: user.email };
+                    const syncedUser = { uid: user.uid, name: userData.name, email: user.email, phone: userData.phone || '', address: userData.address || '' };
                     localStorage.setItem('python_user', JSON.stringify(syncedUser));
                     currentUser = syncedUser;
+                } else {
+                    // Auto-create Firestore doc for existing Auth users who signed up before Firestore was configured
+                    const autoData = { uid: user.uid, name: user.displayName || user.email.split('@')[0], email: user.email, phone: '', address: '', createdAt: new Date().toISOString() };
+                    db.collection('users').doc(user.uid).set(autoData).catch(err => console.warn('Auto user doc create failed:', err));
+                    localStorage.setItem('python_user', JSON.stringify(autoData));
+                    currentUser = autoData;
                 }
             }).catch(err => console.error("Error syncing user profile:", err));
         } else {
@@ -899,12 +905,34 @@ function login(email, password, onError) {
     auth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            // Save immediately from auth (fast) — Firestore sync happens in background via onAuthStateChanged
-            const quickUser = { uid: user.uid, name: user.displayName || user.email.split('@')[0], email: user.email };
-            localStorage.setItem('python_user', JSON.stringify(quickUser));
-            currentUser = quickUser;
-            // Redirect immediately — no Firestore wait
-            window.location.href = 'profile.html';
+            // Check Firestore for blocked status before allowing entry
+            if (typeof db !== 'undefined' && db) {
+                db.collection('users').doc(user.uid).get().then(doc => {
+                    if (doc.exists && doc.data().blocked === true) {
+                        // Sign them back out immediately
+                        auth.signOut();
+                        if (onError) onError('⛔ ඔබගේ account block කර ඇත. Admin හා සම්බන්ධ වන්න.');
+                        return;
+                    }
+                    const userData = doc.exists
+                        ? { uid: user.uid, name: doc.data().name, email: user.email, phone: doc.data().phone||'', address: doc.data().address||'' }
+                        : { uid: user.uid, name: user.displayName || user.email.split('@')[0], email: user.email };
+                    localStorage.setItem('python_user', JSON.stringify(userData));
+                    currentUser = userData;
+                    window.location.href = 'profile.html';
+                }).catch(() => {
+                    // Firestore unreachable — allow login anyway
+                    const quickUser = { uid: user.uid, name: user.displayName || user.email.split('@')[0], email: user.email };
+                    localStorage.setItem('python_user', JSON.stringify(quickUser));
+                    currentUser = quickUser;
+                    window.location.href = 'profile.html';
+                });
+            } else {
+                const quickUser = { uid: user.uid, name: user.displayName || user.email.split('@')[0], email: user.email };
+                localStorage.setItem('python_user', JSON.stringify(quickUser));
+                currentUser = quickUser;
+                window.location.href = 'profile.html';
+            }
         })
         .catch((error) => {
             let msg = 'Login failed. නැවත try කරන්න.';
@@ -915,7 +943,7 @@ function login(email, password, onError) {
         });
 }
 
-function signup(name, email, password, onError) {
+function signup(name, email, password, phone, address, onError) {
     if (typeof auth === 'undefined' || !auth) {
         if (onError) onError('Firebase configure කර නැත. firebase-config.js check කරන්න.');
         return;
@@ -923,17 +951,28 @@ function signup(name, email, password, onError) {
     auth.createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            const userData = { uid: user.uid, name: name, email: email, createdAt: new Date().toISOString() };
-            // Save to localStorage immediately (fast redirect)
-            localStorage.setItem('python_user', JSON.stringify(userData));
-            currentUser = userData;
-            // Save to Firestore in background (don't wait for it)
+            const userData = { uid: user.uid, name: name, email: email, phone: phone || '', address: address || '', createdAt: new Date().toISOString() };
             if (typeof db !== 'undefined' && db) {
                 db.collection('users').doc(user.uid).set(userData)
-                    .catch(err => console.error('Firestore save error:', err));
+                    .then(() => {
+                        localStorage.setItem('python_user', JSON.stringify(userData));
+                        currentUser = userData;
+                        window.location.href = 'profile.html';
+                    })
+                    .catch(err => {
+                        console.error('Firestore save error:', err);
+                        user.delete().then(() => {
+                            let msg = 'Database එකට දත්ත ඇතුලත් කිරීම අසාර්ථක විය. Firestore Rules -> read, write: if true ලෙස සකසා නැවත උත්සාහ කරන්න.';
+                            if (onError) onError(msg); else alert(msg);
+                        }).catch(() => {
+                            if (onError) onError('Database දෝෂයකි: ' + err.message); else alert('Database error: ' + err.message);
+                        });
+                    });
+            } else {
+                localStorage.setItem('python_user', JSON.stringify(userData));
+                currentUser = userData;
+                window.location.href = 'profile.html';
             }
-            // Redirect immediately
-            window.location.href = 'profile.html';
         })
         .catch((error) => {
             let msg = 'Account create කිරීම අසාර්ථකයි.';
@@ -1058,11 +1097,25 @@ function placeOrder() {
 
     const whatsappUrl = `https://wa.me/94757218786?text=${encodeURIComponent(message)}`;
 
-    const dbOrder = { id: orderID, date: now.toLocaleDateString(), items: [...cart], total: grandTotal, userEmail: currentUser ? currentUser.email : 'Guest', timestamp: (typeof firebase !== 'undefined' ? firebase.firestore.FieldValue.serverTimestamp() : new Date().toISOString()) };
+    const dbOrder = {
+        id: orderID,
+        date: now.toLocaleDateString(),
+        items: [...cart],
+        total: grandTotal,
+        userEmail: currentUser ? currentUser.email : 'Guest',
+        userName: currentUser ? currentUser.name : 'Guest',
+        userPhone: phone,
+        userAddress: `${address}, ${city}`,
+        status: 'pending',
+        timestamp: (typeof firebase !== 'undefined' ? firebase.firestore.FieldValue.serverTimestamp() : new Date().toISOString())
+    };
     orders.push(dbOrder);
     localStorage.setItem('python_orders', JSON.stringify(orders));
     if (typeof db !== 'undefined' && db) {
-        db.collection('orders').add(dbOrder).catch(e => console.error("Error saving order to database:", e));
+        db.collection('orders').add(dbOrder).catch(e => {
+            console.error("Error saving order to database:", e);
+            alert("⚠️ Error: Order could not be saved to Firestore. Firestore Rules update කරන්න (allow read, write: if true).");
+        });
     }
     localStorage.removeItem('python_free_delivery_active');
     const bar = document.getElementById('free-delivery-bar');
@@ -1118,18 +1171,25 @@ function loadProfile() {
                 if (ordersList.length === 0) {
                     historyEl.innerHTML = '<p style="color: var(--text-muted);">No orders found.</p>';
                 } else {
-                    historyEl.innerHTML = ordersList.map(o => `
+                    historyEl.innerHTML = ordersList.map(o => {
+                        const status = o.status || 'pending';
+                        const statusColor = status === 'confirmed' ? '#22c55e' : status === 'cancelled' ? '#ef4444' : '#f59e0b';
+                        const statusLabel = status === 'confirmed' ? '✅ Confirmed' : status === 'cancelled' ? '❌ Cancelled' : '🕐 Pending';
+                        return `
                         <div class="glass" style="padding: 20px; margin-bottom: 15px; text-align: left;">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
                                 <span style="font-weight: 800;">Order #${o.id.toString().slice(-6)}</span>
-                                <span style="color: var(--text-muted);">${o.date}</span>
+                                <div style="display:flex; gap:10px; align-items:center;">
+                                    <span style="background:${statusColor}22; color:${statusColor}; border:1px solid ${statusColor}44; padding:3px 10px; border-radius:20px; font-size:0.78rem; font-weight:700;">${statusLabel}</span>
+                                    <span style="color: var(--text-muted); font-size:0.85rem;">${o.date}</span>
+                                </div>
                             </div>
                             <div style="font-size: 0.9rem; margin-bottom: 10px;">
                                 ${o.items.map(i => `${i.name} (${i.size}, ${i.quantity}x)`).join(', ')}
                             </div>
                             <div style="font-weight: 800; color: #DC143C;">Total: Rs. ${o.total.toLocaleString()}.00</div>
-                        </div>
-                    `).join('');
+                        </div>`;
+                    }).join('');
                 }
             }
         };
@@ -1453,7 +1513,10 @@ function handleNewDropWaitlist() {
     localStorage.setItem('python_waitlist', JSON.stringify(waitlist));
 
     if (typeof db !== 'undefined' && db) {
-        db.collection('waitlist').add(waitlistEntry).catch(e => console.error("Error saving to waitlist database:", e));
+        db.collection('waitlist').add(waitlistEntry).catch(e => {
+            console.error("Error saving to waitlist database:", e);
+            alert("⚠️ Error: Waitlist entry could not be saved to Firestore database. (Firestore Database Rules permission denied විය හැක. කරුණාකර rules update කරන්න).");
+        });
     }
 
     // Build WhatsApp message to admin
