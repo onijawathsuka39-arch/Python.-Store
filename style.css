@@ -2474,3 +2474,63 @@ nav.scrolled {
         left: 0;
     }
 }
+
+/* Password Container & Eye Toggle Button */
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.password-container input {
+    padding-right: 50px !important;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-smooth);
+    z-index: 10;
+}
+
+.toggle-password:hover {
+    color: var(--accent-gold);
+    transform: scale(1.1);
+}
+
+/* Password Validation Green Stroke */
+.form-group input.password-valid {
+    border-color: #22c55e !important;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.4) !important;
+}
+
+/* Snake Loader Animation */
+.snake-body {
+    transform-origin: center;
+    stroke-dasharray: 251.2;
+    animation: snake-slither 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes snake-slither {
+    0% {
+        stroke-dashoffset: 200;
+        transform: rotate(0deg);
+    }
+    50% {
+        stroke-dashoffset: 120;
+        transform: rotate(180deg);
+    }
+    100% {
+        stroke-dashoffset: 200;
+        transform: rotate(360deg);
+    }
+}

@@ -33,11 +33,22 @@
     </nav>
 
     <!-- Loading Overlay -->
-    <div id="auth-loading" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:99999; flex-direction:column; align-items:center; justify-content:center; gap:18px;">
-        <div style="width:54px;height:54px;border:5px solid rgba(200,169,110,0.3);border-top:5px solid #c8a96e;border-radius:50%;animation:spin 0.7s linear infinite;"></div>
+    <div id="auth-loading" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:99999; flex-direction:column; align-items:center; justify-content:center; gap:18px; backdrop-filter: blur(8px);">
+        <div class="snake-loader-wrapper" style="position: relative; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+            <svg class="snake-svg" viewBox="0 0 100 100" style="width: 100%; height: 100%; filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.7)) drop-shadow(0 0 20px rgba(200, 169, 110, 0.4));">
+                <defs>
+                    <linearGradient id="snake-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#22c55e" />
+                        <stop offset="50%" stop-color="#c8a96e" />
+                        <stop offset="100%" stop-color="transparent" stop-opacity="0" />
+                    </linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="6" />
+                <circle class="snake-body" cx="50" cy="50" r="40" fill="none" stroke="url(#snake-gradient)" stroke-width="6" stroke-linecap="round" />
+            </svg>
+        </div>
         <p style="color:#fff;font-size:1.1rem;font-weight:700;letter-spacing:1px;">Please Wait...</p>
     </div>
-    <style>@keyframes spin{to{transform:rotate(360deg)}}</style>
 
     <main class="section" style="padding-top: 100px;">
         <div class="auth-form glass">
@@ -48,7 +59,13 @@
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter') doLogin()">
+                <div class="password-container">
+                    <input type="password" id="login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter') doLogin()">
+                    <button type="button" class="toggle-password" onclick="togglePass('login-pass', this)">
+                        <i class="eye-open" data-lucide="eye"></i>
+                        <i class="eye-closed" data-lucide="eye-off" style="display:none;"></i>
+                    </button>
+                </div>
             </div>
             <div id="login-error" style="display:none; background:#fdf2f2; color:#9b1c1c; padding:10px 15px; border-radius:10px; font-size:0.88rem; margin-bottom:10px; border-left:4px solid #DC143C;"></div>
             <button id="login-btn" class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="doLogin()">Sign In</button>
@@ -58,6 +75,22 @@
         </div>
     </main>
     <script>
+    // Toggle Password Visibility
+    function togglePass(inputId, btn) {
+        const input = document.getElementById(inputId);
+        const eyeOpen = btn.querySelector('.eye-open');
+        const eyeClosed = btn.querySelector('.eye-closed');
+        if (input.type === 'password') {
+            input.type = 'text';
+            eyeOpen.style.display = 'none';
+            eyeClosed.style.display = 'inline-block';
+        } else {
+            input.type = 'password';
+            eyeOpen.style.display = 'inline-block';
+            eyeClosed.style.display = 'none';
+        }
+    }
+
     function doLogin() {
         const email = document.getElementById('login-email').value.trim();
         const pass  = document.getElementById('login-pass').value;
