@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Bill - Python Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anta&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #DC143C;
+            --black: #000;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: #fff;
+            font-family: 'Anta', sans-serif;
+            color: #000;
+            padding: 40px;
+        }
+        .bill-container {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 2px solid #eee;
+            padding: 40px;
+            border-radius: 15px;
+        }
+        .bill-header {
+            text-align: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 30px;
+            margin-bottom: 30px;
+        }
+        .bill-header img {
+            height: 80px;
+            margin-bottom: 15px;
+        }
+        .bill-header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 5px;
+            font-weight: 900;
+        }
+        .bill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            font-size: 1rem;
+        }
+        .cust-details h3 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .order-details {
+            text-align: right;
+        }
+        .item-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .item-table th {
+            text-align: left;
+            background: #f9f9f9;
+            padding: 12px;
+            border-bottom: 2px solid #eee;
+        }
+        .item-table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #eee;
+        }
+        .item-box {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        /* Invoice T-shirt Preview */
+        .inv-preview {
+            position: relative;
+            width: 120px;
+            height: 140px;
+            background: transparent; /* No background box */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: visible;
+            flex-shrink: 0;
+        }
+        /* Invoice T-shirt Preview - PNG Style Masked */
+        .inv-t-base {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Apply mask to shape the background color */
+            -webkit-mask-image: url('https://i.ibb.co/NnQrQr7y/T-Shirt.png');
+            mask-image: url('https://i.ibb.co/NnQrQr7y/T-Shirt.png');
+            -webkit-mask-size: contain;
+            mask-size: contain;
+            -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+            -webkit-mask-position: center;
+            mask-position: center;
+        }
+        .inv-t-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            pointer-events: none;
+            mix-blend-mode: multiply;
+            position: relative;
+            z-index: 1;
+        }
+        .inv-sticker {
+            position: absolute;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+        .totals-box {
+            margin-left: auto;
+            width: 300px;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+        }
+        .total-row.final {
+            border-top: 2px solid #000;
+            margin-top: 10px;
+            padding-top: 15px;
+            font-weight: 900;
+            font-size: 1.4rem;
+            color: var(--primary);
+        }
+        .payment-method {
+            margin-top: 40px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 10px;
+            font-weight: 800;
+            text-align: center;
+        }
+        .btn-print {
+            display: block;
+            width: 200px;
+            margin: 40px auto 0;
+            padding: 15px;
+            background: #000;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .design-sheet {
+            margin-top: 50px;
+            padding: 30px;
+            background: #fff;
+            border: 2px solid #000;
+            border-radius: 20px;
+            page-break-before: always;
+        }
+        .design-sheet h3 {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+        .design-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        .design-card {
+            border: 1px solid #ddd;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            background: #fafafa;
+        }
+        .large-preview-box {
+            position: relative;
+            width: 250px;
+            height: 300px;
+            margin: 0 auto 20px auto;
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        @media print {
+            .btn-print { display: none; }
+            body { padding: 0; }
+            .bill-container { border: none; max-width: 100%; }
+            .design-sheet { border-width: 1px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bill-container">
+        <!-- Previous bill content -->
+        <div id="order-id-top" style="text-align: right; font-size: 0.8rem; font-weight: 800; margin-bottom: 5px; color: #777;">
+            ORDER #<span id="o-id-top"></span>
+        </div>
+        <div class="bill-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 25px;">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <img src="logo.png" alt="Logo" style="height: 50px;">
+                <h1 style="font-size: 1.8rem; letter-spacing: 3px; font-weight: 900; margin: 0;">PYTHON</h1>
+            </div>
+            <h2 style="font-size: 1.8rem; font-weight: 900; color: var(--primary); margin: 0;">INVOICE</h2>
+        </div>
+
+        <div class="bill-info">
+            <div class="cust-details">
+                <h3>Customer Details</h3>
+                <p><strong>Name:</strong> <span id="c-name">Loading...</span></p>
+                <p><strong>Address:</strong> <span id="c-address"></span></p>
+                <p><strong>Phone:</strong> <span id="c-phone"></span></p>
+            </div>
+            <div class="order-details">
+                <p><strong>Date:</strong> <span id="o-date"></span></p>
+                <p><strong>Time:</strong> <span id="o-time"></span></p>
+            </div>
+        </div>
+
+        <table class="item-table">
+            <thead>
+                <tr>
+                    <th>Item Description</th>
+                    <th style="text-align: center;">Qty</th>
+                    <th style="text-align: right;">Price</th>
+                </tr>
+            </thead>
+            <tbody id="items-list">
+                <!-- Items injected here -->
+            </tbody>
+        </table>
+
+        <div class="totals-box">
+            <div class="total-row">
+                <span>Items Total</span>
+                <span id="s-total">Rs. 0.00</span>
+            </div>
+            <div class="total-row">
+                <span>Delivery Fee</span>
+                <span id="d-fee">Rs. 350.00</span>
+            </div>
+            <div class="total-row final">
+                <span>Grand Total</span>
+                <span id="g-total">Rs. 0.00</span>
+            </div>
+        </div>
+
+        <div class="payment-method">
+            PAYMENT METHOD: <span id="p-method">CASH ON DELIVERY</span>
+        </div>
+    </div>
+
+    <!-- Production Design Sheet -->
+    <div id="production-sheet" class="design-sheet" style="display: none;">
+        <h3>Production Design Specifications</h3>
+        <div id="design-grid" class="design-grid"></div>
+    </div>
+
+    <button class="btn-print" onclick="window.print()">PRINT BILL</button>
+
+    <script>
+        function loadBill() {
+            const params = new URLSearchParams(window.location.search);
+            const raw = params.get('data');
+            if (!raw) return;
+
+            try {
+                const order = JSON.parse(decodeURIComponent(escape(atob(raw))));
+                
+                document.getElementById('o-id-top').innerText = order.id;
+                document.getElementById('o-date').innerText = order.date;
+                document.getElementById('o-time').innerText = order.time;
+                document.getElementById('c-name').innerText = order.name;
+                document.getElementById('c-address').innerText = order.address;
+                document.getElementById('c-phone').innerText = order.phone;
+
+                const list = document.getElementById('items-list');
+                const designGrid = document.getElementById('design-grid');
+                const productionSheet = document.getElementById('production-sheet');
+                let sub = 0;
+                let hasCustom = false;
+
+                const stickerMap = {
+                    'S1': 'https://i.ibb.co/gMrCJPnN/A3-1.png', 'S2': 'https://i.ibb.co/QFRLTykz/A3-2.png',
+                    'S3': 'https://i.ibb.co/S7f8ZfJs/A3-3.png', 'S4': 'https://i.ibb.co/tMccn0qh/A3-4.png',
+                    'S5': 'https://i.ibb.co/B5s9qhyX/A3-5.png', 'S6': 'https://i.ibb.co/bj43Hcks/A3-6.png',
+                    'S7': 'https://i.ibb.co/7B5DZmx/A3-7.png', 'S8': 'https://i.ibb.co/SXdG9PTc/A3-8.png',
+                    'S9': 'https://i.ibb.co/tp3krXPp/A3-9.png', 'S10': 'https://i.ibb.co/VY90dG3G/A3-10.png',
+                    'S11': 'https://i.ibb.co/1JQ00QMd/A3-11.png', 'S12': 'https://i.ibb.co/XkDb3jmB/Nike.png',
+                    'S13': 'https://i.ibb.co/gLS0w69Y/Python-BMW.png', 'S14': 'https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png',
+                    'S15': 'https://i.ibb.co/84sH5Qvb/Chat-GPT-Image-Apr-29-2026-10-06-33-PM.png',
+                    'S16': 'https://i.ibb.co/NdBPMyjn/Chat-GPT-Image-Apr-30-2026-02-22-11-PM.png',
+                    'S17': 'https://i.ibb.co/0VKQ1GX2/download-23.png',
+                    'S18': 'https://i.ibb.co/pvszmzQC/Whats-App-Image-2026-04-28-at-16-06-29-1.png',
+                    'S19': 'https://i.ibb.co/XfbrZJLh/Whats-App-Image-2026-04-28-at-16-06-31.png',
+                    'S20': 'https://i.ibb.co/8g3YLLRP/download-25.png',
+                    'S21': 'https://i.ibb.co/rf382jbv/download-26.png',
+                    'S22': 'https://i.ibb.co/gFXHwFCX/download-27.png',
+                    'S23': 'https://i.ibb.co/rGGMkwkb/Ford-Mustang-Built-to-Be-Legendary.png',
+                    'S24': 'https://i.ibb.co/Sw7MG9wS/Kids-The-Flintstones-Fred-And-Barney-Let-s-Rock-Png-Fred-And-Barney-The-Flintstones-Fred-Barney.png',
+                    'S25': 'https://i.ibb.co/MyV1gShG/download-28.png',
+                    'S26': 'https://i.ibb.co/k2V8LGH8/download-29.png',
+                    'S27': 'https://i.ibb.co/XfMfT2Pc/download-30.png',
+                    'S28': 'https://i.ibb.co/v9nFCm5/download-31.png',
+                    'S29': 'https://i.ibb.co/0jNxLvYv/Believe.png',
+                    'S30': 'https://i.ibb.co/jnJPTYN/download-34.png',
+                    'S31': 'https://i.ibb.co/prLnyfzg/download-35.png',
+                    'S32': 'https://i.ibb.co/WW2ZJCcC/download-36.png',
+                    'S33': 'https://i.ibb.co/35ZHqgy3/Chat-GPT-Image-May-20-2026-07-59-26-PM.png',
+                    'S34': 'https://i.ibb.co/YTcqN8B8/Chat-GPT-Image-May-20-2026-08-08-16-PM.png',
+                    'S35': 'https://i.ibb.co/Pv9K2vTz/Ford-Mustang-Built-to-Be-Legendary.png',
+                    'S36': 'https://i.ibb.co/4ZnJMRK2/Kids-The-Flintstones-Fred-And-Barney-Let-s-Rock-Png-Fred-And-Barney-The-Flintstones-Fred-Barney.png',
+                    'S37': 'https://i.ibb.co/2Ys8HnPd/Whats-App-Image-2026-05-20-at-17-27-58-1-copy.png',
+                    'S38': 'https://i.ibb.co/BHf6fLxr/Whats-App-Image-2026-05-20-at-17-27-59.png',
+                    'S39': 'https://i.ibb.co/zHGbqMn0/honor-design.png'
+                };
+
+                const colorNames = {
+                    '#ffffff': 'White',
+                    '#1a1a1a': 'Black',
+                    '#ff0000': 'Red',
+                    '#DC143C': 'Red',
+                    '#0000ff': 'Blue',
+                    '#008000': 'Green',
+                    '#ffff00': 'Yellow',
+                    '#808080': 'Gray',
+                    '#00f2ff': 'Light Blue',
+                    '#e100ff': 'Pink',
+                    '#1a2a4a': 'Midnight Blue',
+                    '#4a90e2': 'Sky Blue',
+                    '#f0f0f0': 'Off-White',
+                    '#0A0F1E': 'Dark Navy',
+                    '#333333': 'Grey',
+                    '#ff91a4': 'Salmon Pink',
+                    '#800000': 'Maroon',
+                    '#900056': 'Dark Pink'
+                };
+
+                const resolveStickerUrl = (u) => {
+                    const originalUrl = stickerMap[u] || u;
+                    const localHd = localStorage.getItem('hd_mapping_' + originalUrl);
+                    return localHd || originalUrl;
+                };
+
+                order.items.forEach(item => {
+                    const row = document.createElement('tr');
+                    const line = (item.price || 0) * (item.quantity || 1);
+                    sub += line;
+
+                    let previewHtml = `<img src="${item.image}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;">`;
+
+                    // ── Smart width resolver ──────────────────────────────────────
+                    // New orders store width as '29.09%' (% of canvas).
+                    // Old orders store it as '160px'. We handle both.
+                    const resolveWidth = (w, containerPx) => {
+                        if (!w) return containerPx * 0.29 + 'px';
+                        const ws = String(w);
+                        if (ws.endsWith('%')) return ws;           // native %, scales perfectly
+                        const px = parseFloat(ws) || 0;           // old px value
+                        return (px / 4) + 'px';                   // legacy fallback ÷4
+                    };
+                    // Large-preview container is 300px wide
+                    const resolveLargeWidth = (w) => {
+                        if (!w) return '87px';
+                        const ws = String(w);
+                        if (ws.endsWith('%')) return ws;
+                        const px = parseFloat(ws) || 0;
+                        return (px / 1.5) + 'px';
+                    };
+                    // ─────────────────────────────────────────────────────────────
+
+                    if (item.isCustom && item.customStickers) {
+                        hasCustom = true;
+                        const colorNameClean = (item.color || "").trim().toLowerCase();
+                        const bgColor = (item.color && item.color.startsWith('#')) ? item.color :
+                                       Object.keys(colorNames).find(key => colorNames[key].trim().toLowerCase() === colorNameClean) || '#ffffff';
+
+                        const isWaffle = item.name.includes('Waffle');
+                        let baseImgSrc = 'https://i.ibb.co/NnQrQr7y/T-Shirt.png';
+                        let baseStyles = `background-color: ${bgColor};`;
+                        let imgStyles = `mix-blend-mode: multiply;`;
+
+                        if (isWaffle) {
+                            const isBrown = bgColor === '#c4956a' || colorNameClean.includes('brown');
+                            baseImgSrc = isBrown ? 'https://i.ibb.co/RTGD6DPx/12.png' : 'https://i.ibb.co/cKzdSStx/23.png';
+                            baseStyles = 'background-color: transparent; -webkit-mask-image: none; mask-image: none;';
+                            imgStyles = 'mix-blend-mode: normal;';
+                        }
+
+                        previewHtml = `
+                            <div class="inv-preview">
+                                <div class="inv-t-base" style="${baseStyles}">
+                                    <img src="${baseImgSrc}" class="inv-t-img" style="${imgStyles}">
+                                    ${item.customStickers.map(s => {
+                                        const url = resolveStickerUrl(s.u);
+                                        const rot = s.r || 0;
+                                        const w = resolveWidth(s.w, 120);
+                                        return `<img src="${url}" class="inv-sticker" style="top: ${s.t}; left: ${s.l}; width: ${w}; transform: translate(-50%, -50%) rotate(${rot}deg);">`;
+                                    }).join('')}
+                                </div>
+                            </div>
+                        `;
+
+                        // Add to Production Grid
+                        const card = document.createElement('div');
+                        card.className = 'design-card';
+                        card.style.border = '2px solid #000';
+                        card.innerHTML = `
+                            <div class="large-preview-box" style="width: 300px; height: 350px;">
+                                <div class="inv-t-base" style="${baseStyles}">
+                                    <img src="${baseImgSrc}" class="inv-t-img" style="${imgStyles}">
+                                    ${item.customStickers.map(s => {
+                                        const url = resolveStickerUrl(s.u);
+                                        const rot = s.r || 0;
+                                        const w = resolveLargeWidth(s.w);
+                                        return `<img src="${url}" class="inv-sticker" style="top: ${s.t}; left: ${s.l}; width: ${w}; transform: translate(-50%, -50%) rotate(${rot}deg);">`;
+                                    }).join('')}
+                                </div>
+                            </div>
+                            <h2 style="margin: 0; font-weight: 900; color: var(--primary);">PRODUCTION SPEC</h2>
+                            <p style="font-size: 1.2rem; margin: 15px 0;">Fabric Size: <b style="background: #000; color: #fff; padding: 2px 10px; border-radius: 5px;">${item.size}</b> | Color: <b>${item.color}</b></p>
+                            
+                                <div style="text-align: left; background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #ddd;">
+                                    <h4 style="margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px;">Production Specifications:</h4>
+                                    
+                                    <!-- Price Breakdown Section -->
+                                    <div style="background: #fafafa; padding: 12px; border-radius: 10px; border: 1px solid #eee; margin-bottom: 20px;">
+                                        <p style="margin: 0 0 8px 0; font-weight: 800; font-size: 0.8rem; color: #666;">COST BREAKDOWN:</p>
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.85rem;">
+                                            <span>Base (${item.name.replace(' (Custom)', '')}):</span> <b>Rs. ${item.basePrice || 1300}.00 (220GSM)</b>
+                                        </div>
+                                        ${item.customStickers.map((s, idx) => {
+                                            const prices = { 'A2': 800, 'A3': 580, 'A4': 320, 'A5': 150, 'A6': 100 };
+                                            const p = s.p || prices[s.sz] || 0;
+                                            return `
+                                                <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.85rem;">
+                                                    <span>Sticker #${idx+1} (${s.sz}):</span> <b>Rs. ${p}.00</b>
+                                                </div>
+                                            `;
+                                        }).join('')}
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.85rem; border-top: 1px solid #eee; padding-top: 5px; margin-top: 5px;">
+                                            <span>Total Designs Price:</span> <b>Rs. ${item.customStickers.reduce((sum, s) => {
+                                                const prices = { 'A2': 800, 'A3': 580, 'A4': 320, 'A5': 150, 'A6': 100 };
+                                                return sum + (s.p || prices[s.sz] || 0);
+                                            }, 0).toLocaleString()}.00</b>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; border-top: 1px dashed #ccc; padding-top: 5px; margin-top: 5px; font-weight: 900; color: var(--primary);">
+                                            <span>Total Item Price:</span> <span>Rs. ${(item.price || 0).toLocaleString()}.00</span>
+                                        </div>
+                                    </div>
+
+                                    <div style="margin-bottom: 10px; display: flex; justify-content: space-between;">
+                                        <span>Fabric Size:</span> <b style="font-size: 1.1rem; color: var(--primary);">${item.size}</b>
+                                    </div>
+                                    <div style="margin-bottom: 15px; display: flex; justify-content: space-between;">
+                                        <span>Fabric Color:</span> <b>${item.color}</b>
+                                    </div>
+                                    <div style="border-top: 1px solid #eee; padding-top: 15px;">
+                                        <p style="font-weight: 800; margin-bottom: 12px; font-size: 0.85rem;">DESIGN FILES & SIZES:</p>
+                                        ${item.customStickers.map((s, idx) => {
+                                            const prices = { 'A2': 800, 'A3': 580, 'A4': 320, 'A5': 150, 'A6': 100 };
+                                            const p = s.p || prices[s.sz] || 0;
+                                            const resolvedUrl = resolveStickerUrl(s.u);
+                                            const fileExtension = resolvedUrl.startsWith('data:image/png') ? 'png' : 'jpeg';
+                                            return `
+                                                <div style="margin-bottom: 10px; display: flex; align-items: center; gap: 12px; background: #f9f9f9; padding: 10px; border-radius: 8px; border: 1px solid #f0f0f0;">
+                                                    <img src="${resolvedUrl}" style="width: 45px; height: 45px; object-fit: contain; background: #fff; border-radius: 4px; border: 1px solid #ddd;">
+                                                    <div style="flex: 1;">
+                                                        <p style="margin: 0; font-weight: 800; font-size: 0.85rem;">#${idx+1} - ${s.sz} Size Print</p>
+                                                        <p style="margin: 0; font-size: 0.75rem; color: #666;">Unit Price: Rs. ${p}.00</p>
+                                                        <p style="margin: 2px 0 0; font-size: 0.65rem; color: #DC143C; font-weight: 700;">⬇ Original HD quality file</p>
+                                                    </div>
+                                                    <a href="${resolvedUrl}" download="custom_sticker_${idx+1}.${fileExtension}" target="_blank" class="btn" style="padding: 5px 10px; font-size: 0.6rem; border-radius: 4px; background: #000; color: #fff; text-decoration: none;">SAVE HD</a>
+                                                </div>
+                                            `;
+                                        }).join('')}
+                                        
+                                        <!-- Pricing Reference Note -->
+                                        <div style="margin-top: 15px; padding: 10px; background: #fff; border: 1px dashed #ddd; border-radius: 8px; font-size: 0.7rem; color: #888;">
+                                            <span style="font-weight: 800; display: block; margin-bottom: 3px; color: #444;">PRINT PRICING REFERENCE:</span>
+                                            A2: Rs. 800 | A3: Rs. 580 | A4: Rs. 320 | A5: Rs. 150 | A6: Rs. 100
+                                        </div>
+                                    </div>
+                                </div>
+                        `;
+                        designGrid.appendChild(card);
+                    }
+
+                    row.innerHTML = `
+                        <td>
+                            <div class="item-box">
+                                ${previewHtml}
+                                <div>
+                                    <p style="font-weight: 800;">${item.name}</p>
+                                    <p style="font-size: 0.8rem; opacity: 0.6;">Size: ${item.size || 'N/A'} | Color: ${item.color}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="text-align: center; font-weight: 800;">${item.quantity}</td>
+                        <td style="text-align: right; font-weight: 800;">Rs. ${line.toLocaleString()}.00</td>
+                    `;
+                    list.appendChild(row);
+                });
+
+                if (hasCustom) productionSheet.style.display = 'block';
+
+                const delivery = (order.delivery !== undefined) ? order.delivery : 450;
+                document.getElementById('s-total').innerText = `Rs. ${sub.toLocaleString()}.00`;
+                document.getElementById('d-fee').innerText = delivery === 0 ? 'FREE' : `Rs. ${delivery.toLocaleString()}.00`;
+                document.getElementById('g-total').innerText = `Rs. ${(sub + delivery).toLocaleString()}.00`;
+
+            } catch (e) {
+                console.error(e);
+            }
+        }
+        window.onload = loadBill;
+    </script>
+</body>
+</html>

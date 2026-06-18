@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python | Premium T-Shirt Brand</title>
+  <link rel="icon" href="logo.png">
+  <link rel="stylesheet" href="style.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+  <nav id="navbar">
+    <a href="index.html" class="logo">
+      <img src="logo.png" alt="Python Logo">
+      <span>PYTHON</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="customize.html">Customize</a></li>
+      <li><a href="offers.html">Offers</a></li>
+    </ul>
+    <div class="nav-icons">
+      <a href="https://www.instagram.com/" target="_blank"><i data-lucide="instagram"></i></a>
+      <a href="https://www.facebook.com/" target="_blank"><i data-lucide="facebook"></i></a>
+      <a href="login.html"><i data-lucide="user"></i></a>
+      <a href="wishlist.html" style="position: relative; margin-right: 5px;">
+        <i data-lucide="heart"></i>
+        <span id="wishlist-count"
+          style="position: absolute; top: -10px; right: -10px; background: #DC143C; color: white; font-size: 10px; padding: 2px 5px; border-radius: 50%; font-weight: 800;">0</span>
+      </a>
+      <a href="cart.html" style="position: relative;">
+        <i data-lucide="shopping-cart"></i>
+        <span id="cart-count"
+          style="position: absolute; top: -10px; right: -10px; background: var(--accent-gold); color: white; font-size: 10px; padding: 2px 5px; border-radius: 50%; font-weight: 800;">0</span>
+      </a>
+      <a href="#" id="mobile-menu-btn"><i data-lucide="menu"></i></a>
+    </div>
+  </nav>
+  
+  <div class="menu-overlay" id="menu-overlay"></div>
+  <div class="mobile-menu" id="mobile-menu">
+    <div class="close-menu" id="close-menu"><i data-lucide="x"></i></div>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="customize.html">Customize</a>
+    <a href="offers.html">Offers</a>
+    <a href="wishlist.html">Wishlist</a>
+    <a href="profile.html">My Account</a>
+    <a href="cart.html">Cart</a>
+  </div>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+      </div>
+      <div class="hero-content">
+        <h1>Style That Speaks <span style="color: #DC143C;">Python</span></h1>
+        <p>Experience the ultimate comfort and premium design. Our T-shirts are crafted for the bold, the creative, and
+          the unique.</p>
+        <div class="hero-btns">
+          <a href="shop.html" class="btn btn-primary">Shop Now</a>
+          <a href="customize.html" class="btn btn-outline">Customize</a>
+        </div>
+
+        <div style="margin-top: 50px; display: flex; gap: 40px; justify-content: center;">
+          <div>
+            <h3 style="color: var(--primary-dark); font-size: 1.5rem;">5k+</h3>
+            <p style="font-size: 0.8rem; opacity: 0.6;">Happy Customers</p>
+          </div>
+          <div>
+            <h3 style="color: var(--primary-dark); font-size: 1.5rem;">50+</h3>
+            <p style="font-size: 0.8rem; opacity: 0.6;">Unique Designs</p>
+          </div>
+        </div>
+      </div>
+
+
+    </section>
+
+    <!-- This Month's Top Selling Section -->
+    <section class="section top-selling-section" style="background: rgba(220, 20, 60, 0.03); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); padding: 80px 10%;">
+      <div class="container" style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
+        <div class="section-title" style="text-align: center; margin-bottom: 40px;">
+          <span class="hero-tag" style="background: var(--accent-gold); color: #fff; border-color: var(--accent-gold);">Top Selling</span>
+          <h2>This Month's <span style="color: var(--accent-gold);">Most Popular</span></h2>
+          <p>The ultimate customer favorites, flying off the shelves</p>
+        </div>
+
+        <!-- Carousel Container -->
+        <div class="top-selling-carousel-container" 
+             id="top-selling-carousel"
+             onmouseenter="if(typeof topSellingSlideInterval !== 'undefined') clearInterval(topSellingSlideInterval);" 
+             onmouseleave="startTopSellingAutoScroll();">
+             
+            <!-- Card 1: Product ID 1 (Infinity Edition) -->
+            <div class="top-selling-card glass">
+              <!-- Product Image -->
+              <div class="top-selling-image-wrapper">
+                <span style="position: absolute; top: 15px; left: 15px; background: #DC143C; color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; z-index: 10; box-shadow: 0 4px 10px rgba(220, 20, 60, 0.3);">15% OFF</span>
+                <img id="top-selling-1-img" src="https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png" alt="Infinity Edition T-Shirt" style="width: 100%; height: auto; max-height: 320px; object-fit: contain; border-radius: 12px; transition: transform 0.5s ease;">
+                
+                <!-- Thumbnails -->
+                <div style="position: absolute; bottom: 15px; display: flex; gap: 8px; z-index: 10;">
+                  <img src="https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png" onclick="setTopSelling1Image('https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid var(--accent-gold); cursor: pointer; background: white;">
+                  <img src="https://i.ibb.co/NnswC8R5/Chat-GPT-Image-Apr-30-2026-12-01-14-PM.png" onclick="setTopSelling1Image('https://i.ibb.co/NnswC8R5/Chat-GPT-Image-Apr-30-2026-12-01-14-PM.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid transparent; cursor: pointer; background: white;">
+                </div>
+              </div>
+
+              <!-- Product Info inside the same card frame -->
+              <div class="top-selling-details">
+                <span style="color: var(--accent-gold); font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;">Regular Tee (Printed)</span>
+                <h3 style="font-size: 1.8rem; margin: 8px 0; color: var(--text-main);">Infinity Edition</h3>
+                
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                  <span style="font-size: 1.5rem; color: var(--accent-gold); font-weight: 800;">Rs. 1,600.00</span>
+                  <span style="text-decoration: line-through; color: var(--text-muted); font-size: 1rem;">Rs. 1,850.00</span>
+                </div>
+
+                <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-size: 0.9rem;">
+                  The Infinity Edition Regular Tee (Printed) by Python. Crafted with premium 220 GSM fabric for ultimate comfort and durability. Features our iconic branding.
+                </p>
+
+                <!-- Size Selector -->
+                <div style="margin-bottom: 25px;">
+                  <span style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-main);">SELECT SIZE:</span>
+                  <div style="display: flex; gap: 10px;" id="top-selling-1-sizes">
+                    <button onclick="selectTopSelling1Size('S')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--accent-gold); background: var(--accent-gold); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">S</button>
+                    <button onclick="selectTopSelling1Size('M')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">M</button>
+                    <button onclick="selectTopSelling1Size('L')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">L</button>
+                    <button onclick="selectTopSelling1Size('XL')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">XL</button>
+                  </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 25px;">
+                  <button onclick="addTopSelling1ToCart()" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px; padding: 12px 28px; font-weight: 800; text-transform: uppercase; border-radius: 50px; cursor: pointer; font-size: 0.85rem;">
+                    <i data-lucide="shopping-cart" style="width: 16px; height: 16px;"></i> Add to Cart
+                  </button>
+                  <button onclick="buyTopSelling1Now()" class="btn btn-outline" style="padding: 12px 24px; border-radius: 50px; font-weight: 800; border: 2px solid var(--primary-dark); text-transform: uppercase; cursor: pointer; font-size: 0.85rem;">
+                    Buy Now
+                  </button>
+                </div>
+                
+                <!-- Features list -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid var(--border-light); padding-top: 15px;">
+                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> 220 GSM Cotton
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> Premium Print
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: Product ID 5 (BMW Design) -->
+            <div class="top-selling-card glass">
+              <!-- Product Image -->
+              <div class="top-selling-image-wrapper">
+                <span style="position: absolute; top: 15px; left: 15px; background: #DC143C; color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; z-index: 10; box-shadow: 0 4px 10px rgba(220, 20, 60, 0.3);">15% OFF</span>
+                <img id="top-selling-5-img" src="https://i.ibb.co/gLS0w69Y/Python-BMW.png" alt="BMW Design T-Shirt" style="width: 100%; height: auto; max-height: 320px; object-fit: contain; border-radius: 12px; transition: transform 0.5s ease;">
+                
+                <!-- Thumbnails -->
+                <div style="position: absolute; bottom: 15px; display: flex; gap: 8px; z-index: 10;">
+                  <img src="https://i.ibb.co/gLS0w69Y/Python-BMW.png" onclick="setTopSelling5Image('https://i.ibb.co/gLS0w69Y/Python-BMW.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid var(--accent-gold); cursor: pointer; background: white;">
+                  <img src="https://i.ibb.co/m5mSZSSB/Chat-GPT-Image-Apr-30-2026-02-48-53-PM.png" onclick="setTopSelling5Image('https://i.ibb.co/m5mSZSSB/Chat-GPT-Image-Apr-30-2026-02-48-53-PM.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid transparent; cursor: pointer; background: white;">
+                </div>
+              </div>
+
+              <!-- Product Info inside the same card frame -->
+              <div class="top-selling-details">
+                <span style="color: var(--accent-gold); font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;">Regular Tee (Printed)</span>
+                <h3 style="font-size: 1.8rem; margin: 8px 0; color: var(--text-main);">BMW Design</h3>
+                
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                  <span style="font-size: 1.5rem; color: var(--accent-gold); font-weight: 800;">Rs. 1,600.00</span>
+                  <span style="text-decoration: line-through; color: var(--text-muted); font-size: 1rem;">Rs. 1,850.00</span>
+                </div>
+
+                <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-size: 0.9rem;">
+                  BMW Design Regular Tee (Printed) by Python. Iconic automotive styling paired with premium 220 GSM comfort. Features detailed M performance artwork.
+                </p>
+
+                <!-- Size Selector -->
+                <div style="margin-bottom: 25px;">
+                  <span style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-main);">SELECT SIZE:</span>
+                  <div style="display: flex; gap: 10px;" id="top-selling-5-sizes">
+                    <button onclick="selectTopSelling5Size('S')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--accent-gold); background: var(--accent-gold); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">S</button>
+                    <button onclick="selectTopSelling5Size('M')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">M</button>
+                    <button onclick="selectTopSelling5Size('L')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">L</button>
+                    <button onclick="selectTopSelling5Size('XL')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">XL</button>
+                  </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 25px;">
+                  <button onclick="addTopSelling5ToCart()" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px; padding: 12px 28px; font-weight: 800; text-transform: uppercase; border-radius: 50px; cursor: pointer; font-size: 0.85rem;">
+                    <i data-lucide="shopping-cart" style="width: 16px; height: 16px;"></i> Add to Cart
+                  </button>
+                  <button onclick="buyTopSelling5Now()" class="btn btn-outline" style="padding: 12px 24px; border-radius: 50px; font-weight: 800; border: 2px solid var(--primary-dark); text-transform: uppercase; cursor: pointer; font-size: 0.85rem;">
+                    Buy Now
+                  </button>
+                </div>
+                
+                <!-- Features list -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid var(--border-light); padding-top: 15px;">
+                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> 220 GSM Cotton
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> Premium Print
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3: Product ID 20 (Colour Elephant Design) -->
+            <div class="top-selling-card glass">
+              <!-- Product Image -->
+              <div class="top-selling-image-wrapper">
+                <span style="position: absolute; top: 15px; left: 15px; background: #DC143C; color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; z-index: 10; box-shadow: 0 4px 10px rgba(220, 20, 60, 0.3);">6% OFF</span>
+                <img id="top-selling-20-img" src="https://i.ibb.co/67CjtFx0/Python-Infinity.png" alt="Colour Elephant Design T-Shirt" style="width: 100%; height: auto; max-height: 320px; object-fit: contain; border-radius: 12px; transition: transform 0.5s ease;">
+                
+                <!-- Thumbnails -->
+                <div style="position: absolute; bottom: 15px; display: flex; gap: 8px; z-index: 10;">
+                  <img src="https://i.ibb.co/67CjtFx0/Python-Infinity.png" onclick="setTopSelling20Image('https://i.ibb.co/67CjtFx0/Python-Infinity.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid var(--accent-gold); cursor: pointer; background: white;">
+                  <img src="https://i.ibb.co/WWwpQsLR/Chat-GPT-Image-Jun-6-2026-10-02-04-PM.png" onclick="setTopSelling20Image('https://i.ibb.co/WWwpQsLR/Chat-GPT-Image-Jun-6-2026-10-02-04-PM.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid transparent; cursor: pointer; background: white;">
+                </div>
+              </div>
+
+              <!-- Product Info inside the same card frame -->
+              <div class="top-selling-details">
+                <span style="color: var(--accent-gold); font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;">Oversized Tee (Printed)</span>
+                <h3 style="font-size: 1.8rem; margin: 8px 0; color: var(--text-main);">Colour Elephant Design</h3>
+                
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                  <span style="font-size: 1.5rem; color: var(--accent-gold); font-weight: 800;">Rs. 1,790.00</span>
+                  <span style="text-decoration: line-through; color: var(--text-muted); font-size: 1rem;">Rs. 1,900.00</span>
+                </div>
+
+                <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-size: 0.9rem;">
+                  Colour Elephant Design Oversized Tee (Printed) by Python. Featuring a stunning elephant artwork graphic, crafted from premium 220 GSM fabric for ultimate comfort and design definition.
+                </p>
+
+                <!-- Size Selector -->
+                <div style="margin-bottom: 25px;">
+                  <span style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-main);">SELECT SIZE:</span>
+                  <div style="display: flex; gap: 10px;" id="top-selling-20-sizes">
+                    <button onclick="selectTopSelling20Size('S')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--accent-gold); background: var(--accent-gold); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">S</button>
+                    <button onclick="selectTopSelling20Size('M')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">M</button>
+                    <button onclick="selectTopSelling20Size('L')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">L</button>
+                    <button onclick="selectTopSelling20Size('XL')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">XL</button>
+                  </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 25px;">
+                  <button onclick="addTopSelling20ToCart()" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px; padding: 12px 28px; font-weight: 800; text-transform: uppercase; border-radius: 50px; cursor: pointer; font-size: 0.85rem;">
+                    <i data-lucide="shopping-cart" style="width: 16px; height: 16px;"></i> Add to Cart
+                  </button>
+                  <button onclick="buyTopSelling20Now()" class="btn btn-outline" style="padding: 12px 24px; border-radius: 50px; font-weight: 800; border: 2px solid var(--primary-dark); text-transform: uppercase; cursor: pointer; font-size: 0.85rem;">
+                    Buy Now
+                  </button>
+                </div>
+                
+                <!-- Features list -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid var(--border-light); padding-top: 15px;">
+                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> 220 GSM Cotton
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> Premium Print
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </div>
+
+        <!-- Indicator dots outside the track so they don't slide -->
+        <div class="top-selling-dots" style="display: flex; justify-content: center; gap: 8px; margin-top: 25px; width: 100%;">
+          <span class="top-selling-dot active" onclick="showTopSellingSlide(0)" style="width: 20px; height: 8px; border-radius: 4px; background: var(--accent-gold); cursor: pointer; transition: 0.3s; display: inline-block;"></span>
+          <span class="top-selling-dot" onclick="showTopSellingSlide(1)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); cursor: pointer; transition: 0.3s; display: inline-block;"></span>
+          <span class="top-selling-dot" onclick="showTopSellingSlide(2)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); cursor: pointer; transition: 0.3s; display: inline-block;"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="section">
+      <div class="section-title">
+        <h2>Featured <span style="color: var(--primary-dark);">Collection</span></h2>
+        <p>Hand-picked designs for your lifestyle</p>
+      </div>
+
+      <div class="product-grid" id="product-grid">
+        <!-- Products will be loaded from script.js -->
+      </div>
+
+      <div style="text-align: center; margin-top: 50px;">
+        <a href="shop.html" class="btn btn-outline">View All Products</a>
+      </div>
+    </section>
+
+    <!-- ===== NEW DROP COMING SOON SECTION ===== -->
+    <section class="new-drop-section" id="new-drop">
+      <div class="new-drop-bg-effects">
+        <div class="nd-orb nd-orb-1"></div>
+        <div class="nd-orb nd-orb-2"></div>
+        <div class="nd-orb nd-orb-3"></div>
+        <div class="nd-grid-lines"></div>
+      </div>
+
+      <div class="new-drop-inner">
+        <!-- Left: Teaser visual -->
+        <div class="nd-visual">
+          <div class="nd-shirt-wrapper">
+            <div class="nd-preview-circle">
+              <img src="https://i.ibb.co/Z9GSQjF/h1.png" class="nd-preview-img active" alt="Preview 1">
+              <img src="https://i.ibb.co/NdWNk7YV/h2.png" class="nd-preview-img" alt="Preview 2">
+              <img src="https://i.ibb.co/WvR5ggk7/h3.png" class="nd-preview-img" alt="Preview 3">
+              <img src="https://i.ibb.co/84cB946w/h4.png" class="nd-preview-img" alt="Preview 4">
+            </div>
+            <div class="nd-glow-ring"></div>
+            <div class="nd-glow-ring nd-glow-ring-2"></div>
+          </div>
+          <div class="nd-label-group">
+            <span class="nd-label-badge">
+              <span class="nd-badge-dot"></span>
+              EXCLUSIVE PREVIEW
+            </span>
+            <div class="nd-preview-dots">
+              <span class="nd-pdot active" onclick="setNewDropPreview(0)"></span>
+              <span class="nd-pdot" onclick="setNewDropPreview(1)"></span>
+              <span class="nd-pdot" onclick="setNewDropPreview(2)"></span>
+              <span class="nd-pdot" onclick="setNewDropPreview(3)"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Card content -->
+        <div class="nd-card glass">
+          <!-- Top row badges -->
+          <div class="nd-top-badges">
+            <span class="nd-tag-fire">🔥 Limited Edition</span>
+            <span class="nd-tag-new">NEW DROP</span>
+          </div>
+
+          <h2 class="nd-title">Something Big<br><span class="nd-title-accent">Is Coming</span></h2>
+          <p class="nd-subtitle">The next Python collection is being crafted with love. Be the first to know when it drops.</p>
+
+          <!-- Countdown Timer -->
+          <div class="nd-countdown" id="nd-countdown">
+            <div class="nd-time-block">
+              <span class="nd-time-num" id="nd-days">00</span>
+              <span class="nd-time-label">Days</span>
+            </div>
+            <div class="nd-time-sep">:</div>
+            <div class="nd-time-block">
+              <span class="nd-time-num" id="nd-hours">00</span>
+              <span class="nd-time-label">Hours</span>
+            </div>
+            <div class="nd-time-sep">:</div>
+            <div class="nd-time-block">
+              <span class="nd-time-num" id="nd-mins">00</span>
+              <span class="nd-time-label">Mins</span>
+            </div>
+            <div class="nd-time-sep">:</div>
+            <div class="nd-time-block">
+              <span class="nd-time-num" id="nd-secs">00</span>
+              <span class="nd-time-label">Secs</span>
+            </div>
+          </div>
+
+          <!-- Waitlist form -->
+          <div class="nd-waitlist-form" id="nd-waitlist-form">
+            <div class="nd-waitlist-fields">
+              <input type="text" id="nd-name-input" class="nd-field-input" placeholder="Your Name" autocomplete="name" />
+              <input type="tel" id="nd-phone-input" class="nd-field-input" placeholder="Phone Number (e.g. 0771234567)" autocomplete="tel" />
+            </div>
+            <button class="nd-notify-btn" onclick="handleNewDropWaitlist()" id="nd-notify-btn">
+              <i data-lucide="bell" style="width:16px;height:16px;"></i>
+              Join Waitlist
+            </button>
+          </div>
+          <p class="nd-notify-msg" id="nd-notify-msg"></p>
+
+          <!-- Stats row -->
+          <div class="nd-stats">
+            <div class="nd-stat">
+              <span class="nd-stat-num">500+</span>
+              <span class="nd-stat-label">Already Waiting</span>
+            </div>
+            <div class="nd-stat-divider"></div>
+            <div class="nd-stat">
+              <span class="nd-stat-num">1</span>
+              <span class="nd-stat-label">New Collection</span>
+            </div>
+            <div class="nd-stat-divider"></div>
+            <div class="nd-stat">
+              <span class="nd-stat-num">48h</span>
+              <span class="nd-stat-label">Early Access</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== END NEW DROP SECTION ===== -->
+
+    <section class="section" id="contact">
+      <div class="section-title" style="text-align: center; margin-bottom: 40px;">
+        <h2>Get In <span style="color: #DC143C;">Touch</span></h2>
+        <p>Reach out to us anytime</p>
+      </div>
+
+      <div class="contact-layout">
+        <!-- Left: Info & Form -->
+        <div class="contact-info-side">
+          <div class="social-circles-container">
+            <div class="social-circle-item">
+              <a href="https://www.instagram.com/roohiracollectionby?igsh=MWNnazN2NHF5YXNiMA==" target="_blank" class="contact-circle" style="background: #E1306C; color: black; box-shadow: 0 10px 20px rgba(225, 48, 108, 0.3);">
+                <i data-lucide="instagram" style="width: 28px; height: 28px; color: black;"></i>
+              </a>
+              <span>Instagram</span>
+            </div>
+
+            <div class="social-circle-item">
+              <a href="https://wa.me/94757218786" target="_blank" class="contact-circle" style="background: #25D366; color: black; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);">
+                <i data-lucide="message-circle" style="width: 28px; height: 28px; color: black;"></i>
+              </a>
+              <span>WhatsApp</span>
+            </div>
+
+            <div class="social-circle-item">
+              <a href="https://web.facebook.com/roohiraonline/" target="_blank" class="contact-circle" style="background: #1877F2; color: black; box-shadow: 0 10px 20px rgba(24, 119, 242, 0.3);">
+                <i data-lucide="facebook" style="width: 28px; height: 28px; color: black;"></i>
+              </a>
+              <span>Facebook</span>
+            </div>
+
+            <div class="social-circle-item">
+              <a href="tel:0757218786" class="contact-circle" style="background: #000; color: white; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);">
+                <i data-lucide="phone" style="width: 28px; height: 28px; color: white;"></i>
+              </a>
+              <span>Call Us</span>
+            </div>
+
+            <div class="social-circle-item">
+              <a href="mailto:pythonstore2008@gmail.com" onclick="openGmailCompose(event)" class="contact-circle" style="background: #EA4335; color: white; box-shadow: 0 10px 20px rgba(234, 67, 53, 0.3);">
+                <i data-lucide="mail" style="width: 28px; height: 28px; color: white;"></i>
+              </a>
+              <span>Gmail</span>
+            </div>
+          </div>
+
+          <!-- Email Contact Form -->
+          <div class="contact-form-card glass">
+            <h3>Send Message via Gmail</h3>
+            <p>Type your message below to send directly to pythonstore2008@gmail.com</p>
+            <div class="form-group">
+              <input type="text" id="email-subject" placeholder="Subject / මාතෘකාව" required>
+            </div>
+            <div class="form-group">
+              <textarea id="email-message" rows="4" placeholder="Your Message / ඔබේ පණිවිඩය..." required></textarea>
+            </div>
+            <button onclick="sendEmailViaGmail()" class="btn-email-submit" id="btn-email-submit">
+              <i data-lucide="mail" style="width: 16px; height: 16px; margin-right: 8px;"></i> Send via Gmail
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Location Map -->
+        <div class="contact-map-side">
+          <a href="https://www.google.com/maps/place/7%C2%B001'17.0%22N+79%C2%B057'55.5%22E/@7.0213983,79.9654133,19.86z/data=!4m4!3m3!8m2!3d7.0213983!4d79.9654133?hl=en&entry=ttu&g_ep=EgoyMDI2MDYwMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="location-card glass">
+            <div class="location-map-container" style="height: 250px;">
+              <iframe src="https://maps.google.com/maps?q=7.0213983,79.9654133&t=&z=16&ie=UTF8&iwloc=&output=embed" loading="lazy" title="Store Location Map"></iframe>
+              <div class="location-map-overlay">
+                <span class="location-map-btn"><i data-lucide="external-link" style="width: 14px; height: 14px; margin-right: 5px;"></i> Open Map</span>
+              </div>
+            </div>
+            <div class="location-info">
+              <div class="location-icon-wrapper">
+                <i data-lucide="map-pin" style="width: 20px; height: 20px;"></i>
+              </div>
+              <div class="location-details">
+                <h4>Our Location</h4>
+                <p>7°01'17.0"N 79°57'55.5"E - Click for directions</p>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4 style="color: var(--primary-dark); font-weight: 800;">PYTHON</h4>
+        <p>Elevate your style with our premium, high-quality t-shirt collections. Designed for those who appreciate
+          excellence.</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/roohiracollectionby?igsh=MWNnazN2NHF5YXNiMA==" target="_blank"><i data-lucide="instagram"></i></a>
+          <a href="https://web.facebook.com/roohiraonline/" target="_blank"><i data-lucide="facebook"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="shop.html">Shop All</a>
+        <a href="customize.html">Custom Design</a>
+        <a href="offers.html">Special Offers</a>
+        <a href="profile.html">My Account</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <p><i data-lucide="phone" style="width: 16px; margin-right: 10px;"></i> Call: 0757218786</p>
+        <p><i data-lucide="message-circle" style="width: 16px; margin-right: 10px;"></i> WhatsApp: 0757218786</p>
+        <p><i data-lucide="mail" style="width: 16px; margin-right: 10px;"></i> pythonstore2008@gmail.com</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Python T-Shirt Brand. All rights reserved.</p>
+      <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">Powered by Roohira Collection</p>
+    </div>
+  </footer>
+
+  <!-- Size Chart Modal -->
+  <div id="sizeChartModal" class="modal-overlay" onclick="closeSizeChart()" style="display:none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); align-items: center; justify-content: center;">
+      <div class="glass" style="max-width: 90%; max-height: 90%; position: relative; padding: 10px; background: white; border-radius: 20px;" onclick="event.stopPropagation()">
+          <span onclick="closeSizeChart()" style="position: absolute; right: -15px; top: -15px; background: #DC143C; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; box-shadow: 0 5px 15px rgba(220, 20, 60, 0.3);">&times;</span>
+          <img src="https://i.ibb.co/pvGrdQMD/Size-Chart-01.jpg" alt="Size Chart" style="width: 100%; height: auto; max-height: 80vh; border-radius: 15px; display: block;">
+      </div>
+  </div>
+
+  <style>
+      .product-card:hover .size-chart-card-btn { opacity: 1 !important; transform: translateY(0) !important; }
+      .size-chart-card-btn:hover { background: #000 !important; color: #fff !important; }
+      .modal-overlay.active { display: flex !important; }
+  </style>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="script.js"></script>
+  <script>
+    lucide.createIcons();
+    
+    function openSizeChart() {
+        document.getElementById('sizeChartModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeSizeChart() {
+        document.getElementById('sizeChartModal').classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Splitting hero text into words for premium drop animation
+        const heroTitle = document.querySelector('.hero-content h1');
+        const heroSubtitle = document.querySelector('.hero-content p');
+        const heroBtns = document.querySelector('.hero-content .hero-btns');
+        const heroStats = document.querySelector('.hero-content .hero-btns + div');
+
+        function wrapWords(element) {
+            if (!element) return;
+            const nodes = Array.from(element.childNodes);
+            nodes.forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    const text = node.textContent;
+                    const words = text.split(/(\s+)/);
+                    const fragment = document.createDocumentFragment();
+                    
+                    words.forEach(word => {
+                        if (word.trim().length > 0) {
+                            const span = document.createElement('span');
+                            span.className = 'word-drop';
+                            span.textContent = word;
+                            fragment.appendChild(span);
+                        } else {
+                            fragment.appendChild(document.createTextNode(word));
+                        }
+                    });
+                    node.parentNode.replaceChild(fragment, node);
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    wrapWords(node);
+                }
+            });
+        }
+
+        wrapWords(heroTitle);
+        wrapWords(heroSubtitle);
+
+        // Set sequential animation delays for all .word-drop spans
+        const titleWords = heroTitle ? heroTitle.querySelectorAll('.word-drop') : [];
+        const subtitleWords = heroSubtitle ? heroSubtitle.querySelectorAll('.word-drop') : [];
+        
+        let currentDelay = 0.1;
+        const delayStep = 0.08;
+
+        titleWords.forEach(word => {
+            word.style.animationDelay = `${currentDelay}s`;
+            currentDelay += delayStep;
+        });
+
+        currentDelay += 0.15; // smooth gap between title and subtitle starting
+
+        subtitleWords.forEach(word => {
+            word.style.animationDelay = `${currentDelay}s`;
+            currentDelay += delayStep * 0.7; // slightly faster delay for paragraph words
+        });
+
+        // Delay the buttons and stats to fade up after text completes dropping
+        if (heroBtns) {
+            heroBtns.style.animation = `fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards`;
+            heroBtns.style.animationDelay = `${currentDelay + 0.15}s`;
+        }
+        if (heroStats) {
+            heroStats.style.animation = `fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards`;
+            heroStats.style.animationDelay = `${currentDelay + 0.3}s`;
+        }
+
+        if (typeof displayProducts !== 'undefined' && typeof products !== 'undefined') {
+            displayProducts(products.slice(0, 4)); // Show first 4 on home
+        }
+
+        // Start Top Selling Carousel auto-scrolling
+        if (typeof startTopSellingAutoScroll === 'function') {
+            startTopSellingAutoScroll();
+        }
+
+        // Bind scroll listener for manual swipe / drag dot updates
+        const container = document.getElementById('top-selling-carousel');
+        if (container) {
+            container.addEventListener('scroll', () => {
+                const cardWidth = container.getBoundingClientRect().width;
+                if (cardWidth > 0) {
+                    const scrollPosition = container.scrollLeft;
+                    const index = Math.round(scrollPosition / cardWidth);
+                    if (index !== currentTopSellingSlide) {
+                        currentTopSellingSlide = index;
+                        updateTopSellingDots(index);
+                    }
+                }
+            });
+
+            // Mouse drag-to-scroll implementation
+            let isDown = false;
+            let startX;
+            let scrollLeftVal;
+
+            container.addEventListener('mousedown', (e) => {
+                isDown = true;
+                container.style.scrollBehavior = 'auto'; // Disable smooth snap scroll temporarily during drag
+                startX = e.pageX - container.offsetLeft;
+                scrollLeftVal = container.scrollLeft;
+                if (topSellingSlideInterval) clearInterval(topSellingSlideInterval);
+            });
+
+            container.addEventListener('mouseleave', () => {
+                if (isDown) {
+                    isDown = false;
+                    container.style.scrollBehavior = 'smooth';
+                    startTopSellingAutoScroll();
+                }
+            });
+
+            container.addEventListener('mouseup', () => {
+                if (isDown) {
+                    isDown = false;
+                    container.style.scrollBehavior = 'smooth';
+                    const cardWidth = container.getBoundingClientRect().width;
+                    const index = Math.round(container.scrollLeft / cardWidth);
+                    showTopSellingSlide(index);
+                    startTopSellingAutoScroll();
+                }
+            });
+
+            container.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - container.offsetLeft;
+                const walk = (x - startX) * 1.5; // speed multiplier
+                container.scrollLeft = scrollLeftVal - walk;
+            });
+        }
+    });
+
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        nav.classList.add('scrolled');
+      } else {
+        nav.classList.remove('scrolled');
+      }
+    });
+
+    // Top Selling Section Logic
+    let currentTopSellingSlide = 0;
+    let topSellingSlideInterval;
+
+    function updateTopSellingDots(index) {
+        document.querySelectorAll('.top-selling-dot').forEach((dot, idx) => {
+            if (idx === index) {
+                dot.classList.add('active');
+                dot.style.width = '20px';
+                dot.style.borderRadius = '4px';
+                dot.style.background = 'var(--accent-gold)';
+            } else {
+                dot.classList.remove('active');
+                dot.style.width = '8px';
+                dot.style.borderRadius = '50%';
+                dot.style.background = 'var(--text-muted)';
+            }
+        });
+    }
+
+    function showTopSellingSlide(index) {
+        currentTopSellingSlide = index;
+        const container = document.getElementById('top-selling-carousel');
+        if (container) {
+            const cardWidth = container.getBoundingClientRect().width;
+            container.scrollTo({
+                left: index * cardWidth,
+                behavior: 'smooth'
+            });
+        }
+        updateTopSellingDots(index);
+    }
+
+    function startTopSellingAutoScroll() {
+        if (topSellingSlideInterval) clearInterval(topSellingSlideInterval);
+        topSellingSlideInterval = setInterval(() => {
+            let nextSlide = (currentTopSellingSlide + 1) % 3;
+            showTopSellingSlide(nextSlide);
+        }, 5000);
+    }
+
+    // Product 1 (ID 1) Handlers
+    let selectedTopSelling1Size = 'S';
+    let selectedTopSelling1Image = 'https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png';
+
+    function setTopSelling1Image(src, element) {
+        document.getElementById('top-selling-1-img').src = src;
+        selectedTopSelling1Image = src;
+        
+        element.parentNode.querySelectorAll('.top-selling-thumbnail').forEach(thumb => {
+            thumb.style.border = '2px solid transparent';
+        });
+        element.style.border = '2px solid var(--accent-gold)';
+    }
+
+    function selectTopSelling1Size(size) {
+        selectedTopSelling1Size = size;
+        
+        document.querySelectorAll('#top-selling-1-sizes .size-select-btn').forEach(btn => {
+            if (btn.innerText === size) {
+                btn.style.background = 'var(--accent-gold)';
+                btn.style.color = 'white';
+                btn.style.borderColor = 'var(--accent-gold)';
+            } else {
+                btn.style.background = 'var(--surface)';
+                btn.style.color = 'var(--text-main)';
+                btn.style.borderColor = 'var(--border-color)';
+            }
+        });
+    }
+
+    function addTopSelling1ToCart() {
+        addToCart("Infinity Edition", 1600, selectedTopSelling1Image, selectedTopSelling1Size, '#ffffff');
+    }
+
+    function buyTopSelling1Now() {
+        addTopSelling1ToCart();
+        window.location.href = 'cart.html';
+    }
+
+    // Product 2 (ID 5) Handlers
+    let selectedTopSelling5Size = 'S';
+    let selectedTopSelling5Image = 'https://i.ibb.co/gLS0w69Y/Python-BMW.png';
+
+    function setTopSelling5Image(src, element) {
+        document.getElementById('top-selling-5-img').src = src;
+        selectedTopSelling5Image = src;
+        
+        element.parentNode.querySelectorAll('.top-selling-thumbnail').forEach(thumb => {
+            thumb.style.border = '2px solid transparent';
+        });
+        element.style.border = '2px solid var(--accent-gold)';
+    }
+
+    function selectTopSelling5Size(size) {
+        selectedTopSelling5Size = size;
+        
+        document.querySelectorAll('#top-selling-5-sizes .size-select-btn').forEach(btn => {
+            if (btn.innerText === size) {
+                btn.style.background = 'var(--accent-gold)';
+                btn.style.color = 'white';
+                btn.style.borderColor = 'var(--accent-gold)';
+            } else {
+                btn.style.background = 'var(--surface)';
+                btn.style.color = 'var(--text-main)';
+                btn.style.borderColor = 'var(--border-color)';
+            }
+        });
+    }
+
+    function addTopSelling5ToCart() {
+        addToCart("BMW Design", 1600, selectedTopSelling5Image, selectedTopSelling5Size, '#ffffff');
+    }
+
+    function buyTopSelling5Now() {
+        addTopSelling5ToCart();
+        window.location.href = 'cart.html';
+    }
+
+    // Product 3 (ID 20) Handlers
+    let selectedTopSelling20Size = 'S';
+    let selectedTopSelling20Image = 'https://i.ibb.co/67CjtFx0/Python-Infinity.png';
+
+    function setTopSelling20Image(src, element) {
+        document.getElementById('top-selling-20-img').src = src;
+        selectedTopSelling20Image = src;
+        
+        element.parentNode.querySelectorAll('.top-selling-thumbnail').forEach(thumb => {
+            thumb.style.border = '2px solid transparent';
+        });
+        element.style.border = '2px solid var(--accent-gold)';
+    }
+
+    function selectTopSelling20Size(size) {
+        selectedTopSelling20Size = size;
+        
+        document.querySelectorAll('#top-selling-20-sizes .size-select-btn').forEach(btn => {
+            if (btn.innerText === size) {
+                btn.style.background = 'var(--accent-gold)';
+                btn.style.color = 'white';
+                btn.style.borderColor = 'var(--accent-gold)';
+            } else {
+                btn.style.background = 'var(--surface)';
+                btn.style.color = 'var(--text-main)';
+                btn.style.borderColor = 'var(--border-color)';
+            }
+        });
+    }
+
+    function addTopSelling20ToCart() {
+        addToCart("Colour Elephant Design", 1790, selectedTopSelling20Image, selectedTopSelling20Size, '#ffffff');
+    }
+
+    function buyTopSelling20Now() {
+        addTopSelling20ToCart();
+        window.location.href = 'cart.html';
+    }
+  </script>
+
+  <!-- New Drop Countdown Script -->
+  <script>
+    // ── Countdown to drop date ──────────────────────────────────
+    // Set your drop date here (YYYY, MM-1, DD, HH, MM, SS)
+    const DROP_DATE = new Date(2026, 6, 15, 12, 0, 0); // 15 July 2026, 12:00
+
+    function updateNewDropCountdown() {
+      const now  = new Date();
+      const diff = DROP_DATE - now;
+      if (diff <= 0) {
+        document.getElementById('nd-countdown').innerHTML =
+          '<span style="color:var(--accent-gold);font-weight:800;font-size:1.4rem;letter-spacing:2px;">🎉 It\'s Live!</span>';
+        return;
+      }
+      const days  = Math.floor(diff / 86400000);
+      const hours = Math.floor((diff % 86400000) / 3600000);
+      const mins  = Math.floor((diff % 3600000)  / 60000);
+      const secs  = Math.floor((diff % 60000)    / 1000);
+
+      function pad(n) { return String(n).padStart(2, '0'); }
+      document.getElementById('nd-days').textContent  = pad(days);
+      document.getElementById('nd-hours').textContent = pad(hours);
+      document.getElementById('nd-mins').textContent  = pad(mins);
+      document.getElementById('nd-secs').textContent  = pad(secs);
+    }
+    updateNewDropCountdown();
+    setInterval(updateNewDropCountdown, 1000);
+
+    // ── New Drop Exclusive Preview Auto Slider ──────────────────
+    let currentNdSlide = 0;
+    const ndSlides = document.querySelectorAll('.nd-preview-img');
+    const ndDots = document.querySelectorAll('.nd-pdot');
+    let ndSlideInterval = setInterval(nextNewDropSlide, 3000);
+
+    function setNewDropPreview(index) {
+      clearInterval(ndSlideInterval);
+      showNewDropSlide(index);
+      ndSlideInterval = setInterval(nextNewDropSlide, 3000);
+    }
+
+    function showNewDropSlide(index) {
+      if (ndSlides.length === 0) return;
+      ndSlides.forEach((slide, i) => {
+        if (i === index) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+      ndDots.forEach((dot, i) => {
+        if (i === index) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+      currentNdSlide = index;
+    }
+
+    function nextNewDropSlide() {
+      let nextSlide = (currentNdSlide + 1) % ndSlides.length;
+      showNewDropSlide(nextSlide);
+    }
+
+    // ── Notify me handler ───────────────────────────────────────
+    function handleNewDropNotify() {
+      const input = document.getElementById('nd-email-input');
+      const msg   = document.getElementById('nd-notify-msg');
+      const btn   = document.getElementById('nd-notify-btn');
+      const email = input.value.trim();
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        msg.textContent = '⚠️ Please enter a valid email address.';
+        msg.style.color = '#DC143C';
+        return;
+      }
+      btn.disabled = true;
+      btn.innerHTML = '<i data-lucide="check" style="width:16px;height:16px;"></i> You\'re In!';
+      btn.style.background = '#25D366';
+      msg.textContent = '✅ You\'ll get an exclusive heads-up 48 h before the drop!';
+      msg.style.color = '#25D366';
+      input.value = '';
+      lucide.createIcons();
+    }
+
+    // Intersection observer to animate card on scroll
+    const ndCard = document.querySelector('.nd-card');
+    const ndVisual = document.querySelector('.nd-visual');
+    if (ndCard && ndVisual) {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('nd-visible');
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      obs.observe(ndCard);
+      obs.observe(ndVisual);
+    }
+
+    // ── Gmail Contact Option Helpers ───────────────────────────
+    function openGmailCompose(event) {
+      if (event) event.preventDefault();
+      const email = 'pythonstore2008@gmail.com';
+      const subject = encodeURIComponent('Inquiry to Python Store');
+      const body = encodeURIComponent('Hi Python Store,\n\n');
+      
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
+      const newWin = window.open(gmailUrl, '_blank');
+      
+      if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
+        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+      }
+    }
+
+    function sendEmailViaGmail() {
+      const subjectInput = document.getElementById('email-subject');
+      const messageInput = document.getElementById('email-message');
+      
+      const subjectVal = subjectInput ? subjectInput.value.trim() : '';
+      const messageVal = messageInput ? messageInput.value.trim() : '';
+      
+      if (!messageVal) {
+        alert('කරුණාකර පණිවිඩය ඇතුළත් කරන්න. (Please enter your message.)');
+        return;
+      }
+      
+      const email = 'pythonstore2008@gmail.com';
+      const subject = encodeURIComponent(subjectVal || 'Customer Message');
+      const body = encodeURIComponent(messageVal);
+      
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
+      const mailtoUrl = `mailto:${email}?subject=${subject}&body=${body}`;
+      
+      const isMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
+      
+      if (isMobile) {
+        window.location.href = mailtoUrl;
+      } else {
+        const newWin = window.open(gmailUrl, '_blank');
+        if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
+          window.location.href = mailtoUrl;
+        }
+      }
+      
+      // Clear inputs
+      if (subjectInput) subjectInput.value = '';
+      if (messageInput) messageInput.value = '';
+    }
+  </script>
+</body>
+
+</html>

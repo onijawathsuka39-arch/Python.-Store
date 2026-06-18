@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop | Python</title>
+    <link rel="icon" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <nav id="navbar">
+        <a href="index.html" class="logo">
+            <img src="logo.png" alt="Python Logo">
+            <span>PYTHON</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html" class="active">Shop</a></li>
+            <li><a href="customize.html">Customize</a></li>
+            <li><a href="offers.html">Offers</a></li>
+        </ul>
+        <div class="nav-icons">
+            <a href="https://www.instagram.com/" target="_blank"><i data-lucide="instagram"></i></a>
+            <a href="https://www.facebook.com/" target="_blank"><i data-lucide="facebook"></i></a>
+            <a href="profile.html"><i data-lucide="user"></i></a>
+            <a href="wishlist.html" style="position: relative; margin-right: 5px;">
+                <i data-lucide="heart"></i>
+                <span id="wishlist-count"
+                    style="position: absolute; top: -10px; right: -10px; background: #DC143C; color: white; font-size: 10px; padding: 2px 5px; border-radius: 50%; font-weight: 800;">0</span>
+            </a>
+            <a href="cart.html" style="position: relative;">
+                <i data-lucide="shopping-cart"></i>
+                <span id="cart-count"
+                    style="position: absolute; top: -10px; right: -10px; background: var(--accent-gold); color: white; font-size: 10px; padding: 2px 5px; border-radius: 50%; font-weight: 800;">0</span>
+            </a>
+            <a href="#" id="mobile-menu-btn"><i data-lucide="menu"></i></a>
+        </div>
+    </nav>
+
+    <div class="menu-overlay" id="menu-overlay"></div>
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="close-menu" id="close-menu"><i data-lucide="x"></i></div>
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="customize.html">Customize</a>
+        <a href="offers.html">Offers</a>
+        <a href="wishlist.html">Wishlist</a>
+        <a href="profile.html">My Account</a>
+        <a href="cart.html">Cart</a>
+    </div>
+
+    <main class="section" style="padding-top: 150px;">
+        <div class="section-title">
+            <h2>Our <span style="color: #ff0000;">Shop</span></h2>
+            <p>Browse through our exclusive T-shirt collection</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-container" style="max-width: 300px; margin: 0 0 30px auto; position: relative;">
+            <input type="text" id="shop-search" placeholder="Search (e.g. t-shirt, kids)..." oninput="handleSearch(this.value)"
+                style="width: 100%; padding: 12px 15px 12px 42px; border-radius: 50px; border: 1px solid var(--border-color); background: var(--surface); color: var(--primary-dark); font-size: 0.9rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05); outline: none; transition: var(--transition-smooth);">
+            <i data-lucide="search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); width: 18px; height: 18px; pointer-events: none;"></i>
+        </div>
+
+        <!-- Category Filter Row -->
+        <div class="filter-scroll-wrapper visible animate-fade-up stagger-1" id="category-row-wrapper">
+            <span class="filter-row-label">Category:</span>
+            <div class="filter-scroll-container">
+                <button class="shop-filter-btn category-btn active" onclick="selectCategory('All', this)">All Categories</button>
+                <button class="shop-filter-btn category-btn" onclick="selectCategory('T-Shirts', this)">T-Shirts</button>
+            </div>
+        </div>
+
+        <!-- Subcategory Filter Row -->
+        <div class="filter-scroll-wrapper animate-fade-up stagger-2" id="subcategory-row-wrapper">
+            <span class="filter-row-label">Type:</span>
+            <div class="filter-scroll-container">
+                <button class="shop-filter-btn subcategory-btn active" onclick="selectSubcategory('All', this)">All Subcategories</button>
+                <button class="shop-filter-btn subcategory-btn" onclick="selectSubcategory('Regular Tee (Printed)', this)">Regular Tee (Printed)</button>
+                <button class="shop-filter-btn subcategory-btn" onclick="selectSubcategory('Oversized Tee (Printed)', this)">Oversized Tee (Printed)</button>
+            </div>
+        </div>
+
+        <!-- GSM Filter Row -->
+        <div class="filter-scroll-wrapper animate-fade-up stagger-3" id="gsm-row-wrapper">
+            <span class="filter-row-label">GSM:</span>
+            <div class="filter-scroll-container">
+                <button class="shop-filter-btn gsm-btn active" onclick="selectGSM('all', this)">All GSM</button>
+                <button class="shop-filter-btn gsm-btn" onclick="selectGSM('220 GSM', this)">220 GSM</button>
+                <button class="shop-filter-btn gsm-btn" onclick="selectGSM('190 GSM', this)">190 GSM</button>
+                <button class="shop-filter-btn gsm-btn" onclick="selectGSM('240 GSM', this)">240 GSM</button>
+            </div>
+        </div>
+
+
+        <div class="product-grid" id="product-grid">
+            <!-- Products will be here -->
+        </div>
+    </main>
+
+
+
+    <!-- Size Chart Modal -->
+    <div id="sizeChartModal" class="modal-overlay" onclick="closeSizeChart()"
+        style="display:none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); align-items: center; justify-content: center;">
+        <div class="glass"
+            style="max-width: 90%; max-height: 90%; position: relative; padding: 10px; background: white; border-radius: 20px;"
+            onclick="event.stopPropagation()">
+            <span onclick="closeSizeChart()"
+                style="position: absolute; right: -15px; top: -15px; background: #DC143C; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; box-shadow: 0 5px 15px rgba(220, 20, 60, 0.3);">&times;</span>
+            <img src="https://i.ibb.co/pvGrdQMD/Size-Chart-01.jpg" alt="Size Chart"
+                style="width: 100%; height: auto; max-height: 80vh; border-radius: 15px; display: block;">
+        </div>
+    </div>
+
+    <style>
+        /* GSM sub-category buttons — outline only, no fill */
+        .gsm-sub {
+            padding: 5px 14px !important;
+            border-radius: 50px !important;
+            border: 1.5px solid #333 !important;
+            background: transparent !important;
+            color: var(--primary-dark) !important;
+            font-size: 0.75rem !important;
+            font-weight: 700 !important;
+            box-shadow: none !important;
+            transform: none !important;
+        }
+        .gsm-sub:hover {
+            border-color: #DC143C !important;
+            color: #DC143C !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            transform: none !important;
+        }
+        .gsm-sub.active {
+            border-color: #DC143C !important;
+            color: #DC143C !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            transform: none !important;
+        }
+
+        .product-card:hover .size-chart-card-btn {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        .size-chart-card-btn:hover {
+            background: #000 !important;
+            color: #fff !important;
+        }
+
+        .modal-overlay.active {
+            display: flex !important;
+        }
+
+        #shop-search:focus {
+            border-color: var(--accent-gold) !important;
+            box-shadow: 0 10px 25px rgba(220, 20, 60, 0.15) !important;
+        }
+    </style>
+
+    <footer class="footer">
+        <!-- Footer content -->
+    </footer>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+
+        function openSizeChart() {
+            document.getElementById('sizeChartModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeSizeChart() {
+            document.getElementById('sizeChartModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+</body>
+
+</html>

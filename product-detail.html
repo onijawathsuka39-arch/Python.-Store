@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | Python</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <nav id="navbar" class="scrolled">
+        <a href="index.html" class="logo">
+            <img src="logo.png" alt="Python Logo">
+            <span>PYTHON</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="customize.html">Customize</a></li>
+            <li><a href="offers.html">Offers</a></li>
+        </ul>
+        <div class="nav-icons">
+            <a href="login.html"><i data-lucide="user"></i></a>
+            <a href="cart.html" style="position: relative;">
+                <i data-lucide="shopping-cart"></i>
+                <span id="cart-count" style="position: absolute; top: -10px; right: -10px; background: var(--accent-gold); color: white; font-size: 10px; padding: 2px 5px; border-radius: 50%; font-weight: 800;">0</span>
+            </a>
+            <a href="#" id="mobile-menu-btn"><i data-lucide="menu"></i></a>
+        </div>
+    </nav>
+
+    <!-- Mobile Side Menu -->
+    <div class="menu-overlay" id="menu-overlay"></div>
+    <div class="mobile-menu" id="mobile-menu">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+            <div class="logo">
+                <img src="logo.png" alt="Python Logo" style="width: 30px;">
+                <span style="font-size: 1.2rem; font-weight: 900; letter-spacing: 2px; color: var(--primary-dark);">PYTHON</span>
+            </div>
+            <button id="close-menu" style="background: none; border: none; color: var(--primary-dark); cursor: pointer;">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 25px;"><a href="index.html" style="color: var(--primary-dark); text-decoration: none; font-size: 1.1rem; display: flex; align-items: center; gap: 15px;"><i data-lucide="home"></i> Home</a></li>
+            <li style="margin-bottom: 25px;"><a href="shop.html" style="color: var(--primary-dark); text-decoration: none; font-size: 1.1rem; display: flex; align-items: center; gap: 15px;"><i data-lucide="shopping-bag"></i> Shop</a></li>
+            <li style="margin-bottom: 25px;"><a href="customize.html" style="color: var(--primary-dark); text-decoration: none; font-size: 1.1rem; display: flex; align-items: center; gap: 15px;"><i data-lucide="edit-3"></i> Customize</a></li>
+            <li style="margin-bottom: 25px;"><a href="offers.html" style="color: var(--primary-dark); text-decoration: none; font-size: 1.1rem; display: flex; align-items: center; gap: 15px;"><i data-lucide="tag"></i> Offers</a></li>
+            <li style="margin-top: 50px;"><a href="login.html" style="color: var(--accent-gold); text-decoration: none; font-size: 1.1rem; display: flex; align-items: center; gap: 15px;"><i data-lucide="user"></i> My Account</a></li>
+        </ul>
+    </div>
+
+<main class="section" style="padding-top: 150px;">
+    <div class="detail-container">
+        <!-- Product Image Gallery Slider -->
+        <div class="gallery-card animate-fade-up stagger-1" id="gallery-container">
+            <div class="slider-container">
+                <div id="image-slider" style="display: flex; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); width: 100%;">
+                    <!-- Images will be injected here -->
+                </div>
+            </div>
+            
+            <!-- Navigation Buttons -->
+            <button id="prev-btn" class="slider-arrow" onclick="slideImage(-1)">
+                <i data-lucide="chevron-left"></i>
+            </button>
+            <button id="next-btn" class="slider-arrow" onclick="slideImage(1)">
+                <i data-lucide="chevron-right"></i>
+            </button>
+            
+            <!-- Pagination Dots -->
+            <div id="slider-dots" class="slider-pagination"></div>
+
+            <!-- Image Thumbnails (Previews) -->
+            <div id="image-thumbnails" class="gallery-thumbnails">
+                <!-- Thumbnails will be injected here -->
+            </div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="info-col animate-fade-up stagger-2">
+            <div>
+                <div class="category-tag">
+                    <i data-lucide="tag" style="width: 14px; height: 14px;"></i>
+                    <span id="detail-category-label">Category</span>
+                </div>
+                <h1 id="detail-name" class="detail-title">Product Name</h1>
+                <div class="detail-price-wrapper">
+                    <p id="detail-price" class="current-price">Rs. 0.00</p>
+                </div>
+            </div>
+            
+            <div class="glass" style="padding: 20px; border-radius: 20px; border: 1px solid var(--border-light); background: var(--surface);">
+                <p id="detail-desc" class="detail-desc-card">
+                    Premium quality T-shirt crafted with precision and care. Designed for comfort and style that lasts.
+                </p>
+            </div>
+
+            <div>
+                <div class="option-label">
+                    <span>Select Size</span>
+                    <span id="size-chart-link" onclick="openSizeChart()" style="color: var(--accent-gold); cursor: pointer; text-transform: none; font-size: 0.8rem; font-weight: 700; text-decoration: underline; display: flex; align-items: center; gap: 5px;">
+                        <i data-lucide="ruler" style="width: 14px;"></i> Size Chart
+                    </span>
+                </div>
+                <div class="size-chips" id="detail-sizes">
+                    <!-- Dynamic sizes -->
+                </div>
+            </div>
+
+            <div>
+                <h4 class="option-label">Select Color</h4>
+                <div class="color-dots" id="detail-colors">
+                    <!-- Dynamic colors -->
+                </div>
+            </div>
+
+            <div class="stock-urgency-wrapper" id="stock-urgency-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 700;">
+                    <span id="stock-urgency-text" style="color: #ff9f43; display: flex; align-items: center; gap: 6px;">
+                        <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #ff9f43; animation: pulseWidth 1.5s infinite;"></span>
+                        Selling Fast! Only a few left in stock
+                    </span>
+                    <span id="stock-count-display">Limited Stock</span>
+                </div>
+                <div class="stock-bar-bg">
+                    <div class="stock-bar-fill" id="stock-bar-fill-elem"></div>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+                <div>
+                    <h4 class="option-label" style="margin-bottom: 8px;">Quantity</h4>
+                    <div class="qty-selector">
+                        <button class="qty-btn" onclick="changeQty(-1)">-</button>
+                        <span id="detail-qty" class="qty-val">1</span>
+                        <button class="qty-btn" onclick="changeQty(1)">+</button>
+                    </div>
+                </div>
+                
+                <!-- Estimated Delivery Widget -->
+                <div class="delivery-widget" style="min-width: 260px;">
+                    <i data-lucide="truck" style="color: var(--accent-gold); width: 24px; height: 24px; flex-shrink: 0;"></i>
+                    <div>
+                        <h5 id="delivery-promo-title" style="font-size: 0.8rem; font-weight: 800; color: var(--text-main); margin-bottom: 2px;">FREE Delivery on 4+ Items</h5>
+                        <p id="est-delivery-date" style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Get it by next week</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Premium Specifications Grid -->
+            <div>
+                <h4 class="option-label" style="margin-bottom: 12px;">Specifications</h4>
+                <div class="specs-panel">
+                    <div class="spec-item">
+                        <div class="spec-icon">
+                            <i data-lucide="shirt"></i>
+                        </div>
+                        <div class="spec-details">
+                            <h5>Fabric Density</h5>
+                            <p id="detail-gsm">180 GSM</p>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-icon">
+                            <i data-lucide="shield-check"></i>
+                        </div>
+                        <div class="spec-details">
+                            <h5>Original Brand</h5>
+                            <p id="detail-brand">Python</p>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-icon">
+                            <i data-lucide="sparkles"></i>
+                        </div>
+                        <div class="spec-details">
+                            <h5>Print Tech</h5>
+                            <p>A3 DTF print</p>
+                        </div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-icon">
+                            <i data-lucide="repeat"></i>
+                        </div>
+                        <div class="spec-details">
+                            <h5>Easy Returns</h5>
+                            <p>7 Days Guarantee</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 15px; margin-top: 10px;">
+                <button id="add-to-cart-btn" class="btn btn-primary" style="flex: 1; padding: 18px; border-radius: 16px; font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 12px;" onclick="addCurrentToCart()">
+                    <i data-lucide="shopping-bag" style="width: 20px;"></i> Add to Cart
+                </button>
+                <button id="detail-wishlist-btn" onclick="toggleDetailWishlist()" 
+                        style="width: 60px; height: 58px; border-radius: 16px; background: var(--surface); border: 1px solid var(--border-color); color: var(--text-main); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition-smooth); box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                    <i data-lucide="heart" id="detail-wishlist-icon" style="width: 24px; height: 24px; transition: 0.3s;"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
+
+    <!-- Size Chart Modal -->
+    <div id="sizeChartModal" class="modal-overlay" onclick="closeSizeChart()" style="display:none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); align-items: center; justify-content: center;">
+        <div class="glass" style="max-width: 90%; max-height: 90%; position: relative; padding: 10px; background: var(--surface); border-radius: 20px; animation: modalZoom 0.3s cubic-bezier(0.16, 1, 0.3, 1);" onclick="event.stopPropagation()">
+            <span onclick="closeSizeChart()" style="position: absolute; right: -15px; top: -15px; background: #DC143C; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; box-shadow: 0 5px 15px rgba(220, 20, 60, 0.3);">&times;</span>
+            <img src="https://i.ibb.co/pvGrdQMD/Size-Chart-01.jpg" alt="Size Chart" style="width: 100%; height: auto; max-height: 80vh; border-radius: 15px; display: block;">
+        </div>
+    </div>
+
+    <style>
+        @keyframes modalZoom { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .modal-overlay.active { display: flex !important; }
+    </style>
+
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 Python. Powered by Roohira Collection</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const pid = urlParams.get('id') || '1';
+        const product = products.find(p => p.id === pid) || products[0];
+
+        let selectedSize = '';
+        let selectedColor = '';
+        let currentPrice = 0;
+        let currentOldPrice = 0;
+        let currentQty = 1;
+        let currentSlide = 0;
+        let autoScrollInterval = null;
+
+        if (product) {
+            if (product.category === 'Oversized Tee (Printed)' && !product.sizeChartImg) {
+                const scSection = document.getElementById('size-chart-link');
+                if (scSection) scSection.style.display = 'none';
+            }
+
+            document.getElementById('detail-name').innerText = product.name;
+            document.getElementById('detail-gsm').innerText = product.gsm || '180 GSM';
+            document.getElementById('detail-brand').innerText = product.brand || 'Python';
+            
+            const catLabel = document.getElementById('detail-category-label');
+            if (catLabel) {
+                catLabel.innerText = product.category || 'T-Shirt';
+            }
+            
+            // Image Slider & Thumbnails
+            const slider = document.getElementById('image-slider');
+            const dotsContainer = document.getElementById('slider-dots');
+            const thumbContainer = document.getElementById('image-thumbnails');
+            const images = product.images || [product.img];
+            
+            images.forEach((img, idx) => {
+                // Slider Image
+                const imgTag = document.createElement('img');
+                imgTag.src = img;
+                imgTag.style.width = '100%';
+                imgTag.style.flexShrink = '0';
+                imgTag.style.objectFit = 'contain';
+                imgTag.style.maxHeight = '500px';
+                imgTag.style.background = 'var(--surface)';
+                slider.appendChild(imgTag);
+                
+                // Dot
+                if (images.length > 1) {
+                    const dot = document.createElement('div');
+                    dot.className = `dot ${idx === 0 ? 'active' : ''}`;
+                    dot.onclick = () => goToSlide(idx);
+                    dotsContainer.appendChild(dot);
+                    
+                    // Thumbnail
+                    const thumb = document.createElement('img');
+                    thumb.src = img;
+                    thumb.className = `thumb ${idx === 0 ? 'active' : ''}`;
+                    thumb.onclick = () => goToSlide(idx);
+                    thumbContainer.appendChild(thumb);
+                }
+            });
+
+            if (images.length > 1) {
+                document.getElementById('prev-btn').style.display = 'flex';
+                document.getElementById('next-btn').style.display = 'flex';
+                startAutoScroll();
+            } else {
+                if (dotsContainer) dotsContainer.style.display = 'none';
+                if (thumbContainer) thumbContainer.style.display = 'none';
+                document.getElementById('prev-btn').style.display = 'none';
+                document.getElementById('next-btn').style.display = 'none';
+            }
+            
+            if (product.desc) document.getElementById('detail-desc').innerText = product.desc;
+            
+            // Sizes
+            const sizeContainer = document.getElementById('detail-sizes');
+            const sizes = product.sizes ? Object.keys(product.sizes) : ['Free'];
+
+            // Build a reverse map: size → color (if colorSizes exists)
+            const sizeToColor = {};
+            if (product.colorSizes) {
+                Object.entries(product.colorSizes).forEach(([col, sz]) => { sizeToColor[sz] = col; });
+            }
+
+            // Determine which sizes are actually available
+            const availableSizes = product.colorSizes
+                ? sizes.filter(s => sizeToColor[s])
+                : sizes;
+
+            selectedSize = availableSizes[0] || sizes[0];
+            const sizeData = product.sizes ? product.sizes[selectedSize] : { price: product.price, oldPrice: product.oldPrice };
+            currentPrice = typeof sizeData === 'object' ? sizeData.price : sizeData;
+            currentOldPrice = typeof sizeData === 'object' ? sizeData.oldPrice : product.oldPrice;
+
+            sizes.forEach(s => {
+                const btn = document.createElement('div');
+                const isUnavailable = product.colorSizes && !sizeToColor[s];
+
+                btn.className = `size-chip ${s === selectedSize ? 'active' : ''} ${isUnavailable ? 'out-of-stock-size' : ''}`;
+                btn.innerHTML = isUnavailable
+                    ? `${s} <span style="font-size:0.6rem;display:block;color:#e53935;">Out of Stock</span>`
+                    : s;
+
+                if (product.colorSizes) {
+                    // Size is ONLY controlled by color — make all size chips non-clickable
+                    btn.style.cssText += isUnavailable
+                        ? 'opacity:0.4;cursor:not-allowed;text-decoration:line-through;pointer-events:none;'
+                        : 'cursor:default;pointer-events:none;';
+                    btn.title = isUnavailable
+                        ? 'Out of Stock'
+                        : 'Select the matching color to choose this size';
+                } else {
+                    // Normal products — size chips are clickable
+                    if (isUnavailable) {
+                        btn.style.cssText = 'opacity:0.4;cursor:not-allowed;text-decoration:line-through;pointer-events:none;';
+                    } else {
+                        btn.onclick = () => selectSize(s, btn);
+                    }
+                }
+                sizeContainer.appendChild(btn);
+            });
+
+            // Colors
+            const colorContainer = document.getElementById('detail-colors');
+            selectedColor = product.colors ? product.colors[0] : 'Default';
+            if (product.colors) {
+                product.colors.forEach(c => {
+                    const btn = document.createElement('div');
+                    btn.className = `color-dot ${c === selectedColor ? 'active' : ''}`;
+                    btn.style.background = c;
+                    btn.title = (typeof colorNames !== 'undefined' && colorNames[c]) ? colorNames[c] : c;
+                    btn.onclick = () => selectColor(c, btn);
+                    colorContainer.appendChild(btn);
+                });
+            }
+
+            // If color→size linking exists, auto-trigger size from first color on load
+            if (product.colorSizes && product.colors && product.colors[0]) {
+                const initSize = product.colorSizes[product.colors[0]];
+                if (initSize) {
+                    const initSizeBtn = [...sizeContainer.querySelectorAll('.size-chip')].find(b => b.innerText.trim().startsWith(initSize));
+                    if (initSizeBtn) selectSize(initSize, initSizeBtn);
+                }
+            }
+
+            updatePriceDisplay();
+            setEstimatedDelivery();
+            initStockUrgency();
+
+            const addToCartBtn = document.getElementById('add-to-cart-btn');
+            if (product.stock === 0) {
+                addToCartBtn.innerHTML = '<i data-lucide="slash"></i> OUT OF STOCK';
+                addToCartBtn.disabled = true;
+                addToCartBtn.style.background = '#555';
+                addToCartBtn.style.opacity = '0.6';
+                addToCartBtn.style.cursor = 'not-allowed';
+                
+                // Hide stock urgency section if out of stock
+                const stockSection = document.getElementById('stock-urgency-section');
+                if (stockSection) stockSection.style.display = 'none';
+            }
+        }
+
+        // --- Slideshow Auto-scroll ---
+        function startAutoScroll() {
+            const images = product.images || [product.img];
+            if (images.length <= 1) return;
+            stopAutoScroll();
+            autoScrollInterval = setInterval(() => {
+                slideImage(1, true);
+            }, 4000); // cycle every 4 seconds
+        }
+
+        function stopAutoScroll() {
+            if (autoScrollInterval) {
+                clearInterval(autoScrollInterval);
+                autoScrollInterval = null;
+            }
+        }
+
+        function resetAutoScrollTimer() {
+            stopAutoScroll();
+            startAutoScroll();
+        }
+
+        // Pause slideshow on mouse enter, resume on leave
+        const galleryContainer = document.getElementById('gallery-container');
+        if (galleryContainer) {
+            galleryContainer.addEventListener('mouseenter', stopAutoScroll);
+            galleryContainer.addEventListener('mouseleave', startAutoScroll);
+        }
+
+        function slideImage(dir, isAuto = false) {
+            const images = product.images || [product.img];
+            currentSlide += dir;
+            if (currentSlide >= images.length) currentSlide = 0;
+            if (currentSlide < 0) currentSlide = images.length - 1;
+            updateSlider();
+            if (!isAuto) {
+                resetAutoScrollTimer();
+            }
+        }
+
+        function goToSlide(idx) {
+            currentSlide = idx;
+            updateSlider();
+            resetAutoScrollTimer();
+        }
+
+        function updateSlider() {
+            const slider = document.getElementById('image-slider');
+            if (slider) slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            const dots = document.querySelectorAll('.slider-pagination .dot');
+            dots.forEach((dot, idx) => {
+                idx === currentSlide ? dot.classList.add('active') : dot.classList.remove('active');
+            });
+
+            const thumbs = document.querySelectorAll('.gallery-thumbnails .thumb');
+            thumbs.forEach((thumb, idx) => {
+                idx === currentSlide ? thumb.classList.add('active') : thumb.classList.remove('active');
+            });
+        }
+
+        function selectSize(size, btn) {
+            selectedSize = size;
+            const sizeData = product.sizes ? product.sizes[size] : { price: product.price, oldPrice: product.oldPrice };
+            currentPrice = typeof sizeData === 'object' ? sizeData.price : sizeData;
+            currentOldPrice = typeof sizeData === 'object' ? sizeData.oldPrice : product.oldPrice;
+            
+            document.querySelectorAll('.size-chip').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updatePriceDisplay();
+
+            // If this product has per-size images, jump the slider to the matching image
+            if (product.sizeImages && product.sizeImages[size]) {
+                const images = product.images || [];
+                const targetUrl = product.sizeImages[size];
+                const idx = images.indexOf(targetUrl);
+                if (idx !== -1) {
+                    currentSlide = idx;
+                    updateSlider();
+                    resetAutoScrollTimer();
+                }
+            }
+        }
+
+        function selectColor(color, btn) {
+            selectedColor = color;
+            document.querySelectorAll('.color-dot').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // If this product links colors to sizes, auto-select the matching size
+            if (product.colorSizes && product.colorSizes[color]) {
+                const linkedSize = product.colorSizes[color];
+                const sizeContainer = document.getElementById('detail-sizes');
+                const sizeBtn = [...sizeContainer.querySelectorAll('.size-chip:not(.out-of-stock-size)')]
+                    .find(b => b.innerText.trim().startsWith(linkedSize));
+                if (sizeBtn) selectSize(linkedSize, sizeBtn);
+            }
+        }
+
+        function changeQty(delta) {
+            currentQty += delta;
+            if (currentQty < 1) currentQty = 1;
+            document.getElementById('detail-qty').innerText = currentQty;
+            updateDeliveryPromo();
+        }
+
+        function updatePriceDisplay() {
+            const priceEl = document.getElementById('detail-price');
+            let html = `Rs. ${currentPrice.toLocaleString()}.00`;
+            if (currentOldPrice) {
+                html += ` <span class="old-price">Rs. ${currentOldPrice.toLocaleString()}</span>`;
+            }
+            priceEl.innerHTML = html;
+        }
+
+        function addCurrentToCart() {
+            const images = product.images || [product.img];
+            addToCart(product.name, currentPrice, images[0], selectedSize, selectedColor, currentQty);
+        }
+
+        function openSizeChart() {
+            // Use product-specific size chart if available
+            const chartImg = document.querySelector('#sizeChartModal img');
+            if (chartImg && product.sizeChartImg) {
+                chartImg.src = product.sizeChartImg;
+            }
+            document.getElementById('sizeChartModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSizeChart() {
+            document.getElementById('sizeChartModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function setEstimatedDelivery() {
+            const deliveryDateEl = document.getElementById('est-delivery-date');
+            if (deliveryDateEl) {
+                const estDate = new Date();
+                estDate.setDate(estDate.getDate() + 3);
+                const options = { weekday: 'long', month: 'short', day: 'numeric' };
+                const formattedDate = estDate.toLocaleDateString('en-US', options);
+                deliveryDateEl.innerText = `Get it by ${formattedDate}`;
+            }
+        }
+
+        function initStockUrgency() {
+            const stockBar = document.getElementById('stock-bar-fill-elem');
+            const stockCountDisplay = document.getElementById('stock-count-display');
+            if (stockBar && stockCountDisplay) {
+                const pseudoStock = (parseInt(product.id) % 5) + 3; // 3 to 7 items left
+                stockCountDisplay.innerText = `${pseudoStock} items left!`;
+                const percentage = (pseudoStock / 10) * 100;
+                stockBar.style.width = `${percentage}%`;
+            }
+        }
+
+        function initWishlistState() {
+            const icon = document.getElementById('detail-wishlist-icon');
+            const btn = document.getElementById('detail-wishlist-btn');
+            if (icon && btn) {
+                if (isInWishlist(product.id)) {
+                    icon.setAttribute('fill', '#DC143C');
+                    icon.style.color = '#DC143C';
+                    btn.style.borderColor = '#DC143C';
+                    btn.style.background = 'rgba(220, 20, 60, 0.05)';
+                } else {
+                    icon.removeAttribute('fill');
+                    icon.style.color = 'var(--text-main)';
+                    btn.style.borderColor = 'var(--border-color)';
+                    btn.style.background = 'var(--surface)';
+                }
+            }
+        }
+
+        function toggleDetailWishlist() {
+            const added = toggleWishlist(product.id);
+            const icon = document.getElementById('detail-wishlist-icon');
+            const btn = document.getElementById('detail-wishlist-btn');
+            if (icon && btn) {
+                if (added) {
+                    icon.setAttribute('fill', '#DC143C');
+                    icon.style.color = '#DC143C';
+                    btn.style.borderColor = '#DC143C';
+                    btn.style.background = 'rgba(220, 20, 60, 0.05)';
+                    showNotification('Added to Wishlist!');
+                } else {
+                    icon.removeAttribute('fill');
+                    icon.style.color = 'var(--text-main)';
+                    btn.style.borderColor = 'var(--border-color)';
+                    btn.style.background = 'var(--surface)';
+                    showNotification('Removed from Wishlist!');
+                }
+            }
+        }
+
+        function updateDeliveryPromo() {
+            const promoTitle = document.getElementById('delivery-promo-title');
+            if (promoTitle) {
+                if (currentQty >= 4) {
+                    promoTitle.innerHTML = '<span style="color: #2e7d32; font-weight: 800; display: inline-flex; align-items: center; gap: 4px;"><i data-lucide="check-circle-2" style="width: 14px; height: 14px;"></i> FREE Delivery Unlocked!</span>';
+                } else {
+                    const diff = 4 - currentQty;
+                    promoTitle.innerHTML = `FREE Delivery on 4+ Items <span style="font-size: 0.7rem; color: var(--accent-gold); font-weight: 700;">(Add ${diff} more)</span>`;
+                }
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initWishlistState();
+            updateDeliveryPromo();
+        });
+    </script>
+</body>
+</html>
+</body>
+</html>
