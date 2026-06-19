@@ -22,6 +22,7 @@
       <li><a href="shop.html">Shop</a></li>
       <li><a href="customize.html">Customize</a></li>
       <li><a href="offers.html">Offers</a></li>
+      <li><a href="reviews.html">Reviews</a></li>
     </ul>
     <div class="nav-icons">
       <a href="https://www.instagram.com/" target="_blank"><i data-lucide="instagram"></i></a>
@@ -48,6 +49,7 @@
     <a href="shop.html">Shop</a>
     <a href="customize.html">Customize</a>
     <a href="offers.html">Offers</a>
+    <a href="reviews.html">Reviews</a>
     <a href="wishlist.html">Wishlist</a>
     <a href="profile.html">My Account</a>
     <a href="cart.html">Cart</a>
@@ -413,6 +415,57 @@
       </div>
     </section>
     <!-- ===== END NEW DROP SECTION ===== -->
+
+    <!-- ===== WRITE A REVIEW SECTION ===== -->
+    <section class="section" id="write-review-section" style="background: rgba(220, 20, 60, 0.02); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); padding: 80px 10%;">
+      <div class="container" style="max-width: 800px; margin: 0 auto;">
+        <div class="section-title" style="text-align: center; margin-bottom: 40px;">
+          <h2>Write a <span style="color: var(--accent-gold);">Customer Review</span></h2>
+          <p>Share your experience with our premium shirts. Your review will be synced instantly across all devices.</p>
+        </div>
+
+        <div class="write-review-card glass" style="padding: 40px; max-width: 600px; margin: 0 auto;">
+          <form class="review-form" id="home-review-form" onsubmit="submitHomeReview(event)">
+            <div class="form-group" style="margin-bottom: 20px;">
+              <label style="display: block; font-weight: 600; margin-bottom: 8px;">Your Rating</label>
+              <div class="star-rating-select" id="home-rating-selector" style="display: flex; gap: 8px; margin-bottom: 20px;">
+                <i class="star-icon" data-lucide="star" data-rating="1" onclick="setHomeRating(1)" onmouseenter="hoverHomeRating(1)" onmouseleave="clearHoverHomeRating()" style="font-size: 2rem; color: var(--text-muted); cursor: pointer; transition: 0.2s;"></i>
+                <i class="star-icon" data-lucide="star" data-rating="2" onclick="setHomeRating(2)" onmouseenter="hoverHomeRating(2)" onmouseleave="clearHoverHomeRating()" style="font-size: 2rem; color: var(--text-muted); cursor: pointer; transition: 0.2s;"></i>
+                <i class="star-icon" data-lucide="star" data-rating="3" onclick="setHomeRating(3)" onmouseenter="hoverHomeRating(3)" onmouseleave="clearHoverHomeRating()" style="font-size: 2rem; color: var(--text-muted); cursor: pointer; transition: 0.2s;"></i>
+                <i class="star-icon" data-lucide="star" data-rating="4" onclick="setHomeRating(4)" onmouseenter="hoverHomeRating(4)" onmouseleave="clearHoverHomeRating()" style="font-size: 2rem; color: var(--text-muted); cursor: pointer; transition: 0.2s;"></i>
+                <i class="star-icon" data-lucide="star" data-rating="5" onclick="setHomeRating(5)" onmouseenter="hoverHomeRating(5)" onmouseleave="clearHoverHomeRating()" style="font-size: 2rem; color: var(--text-muted); cursor: pointer; transition: 0.2s;"></i>
+              </div>
+              <input type="hidden" id="home-selected-rating" value="0">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+              <label for="home-reviewer-name" style="display: block; font-weight: 600; margin-bottom: 8px;">Your Name</label>
+              <input type="text" id="home-reviewer-name" placeholder="e.g. John Doe" required style="width: 100%; padding: 14px 18px; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); border-radius: 12px; outline: none; font-family: inherit; transition: var(--transition-smooth);">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px;">
+              <label for="home-reviewer-comment" style="display: block; font-weight: 600; margin-bottom: 8px;">Review Description</label>
+              <textarea id="home-reviewer-comment" rows="5" placeholder="Share your thoughts about our fabric quality, design, and sizing..." required style="width: 100%; padding: 14px 18px; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); border-radius: 12px; outline: none; font-family: inherit; transition: var(--transition-smooth);"></textarea>
+            </div>
+
+            <button type="submit" class="submit-review-btn" id="home-submit-btn" style="width: 100%; padding: 16px; background: var(--accent-gold); color: white; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: var(--transition-smooth); box-shadow: 0 10px 25px rgba(220, 20, 60, 0.2);">
+              <i data-lucide="send" style="width:16px;"></i> Submit Review
+            </button>
+
+            <div class="submit-success-msg" id="home-success-msg" style="margin-top: 15px; padding: 12px; background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 10px; text-align: center; font-size: 0.9rem; display: none; animation: fadeInUp 0.4s forwards;">
+              Your review was successfully submitted! Thank you.
+            </div>
+          </form>
+          
+          <div style="text-align: center; margin-top: 25px; border-top: 1px solid var(--border-light); padding-top: 20px;">
+            <a href="reviews.html" class="btn btn-outline" style="padding: 12px 24px; font-size: 0.85rem; border-radius: 50px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+              <i data-lucide="message-square" style="width: 16px; height: 16px;"></i> View All Customer Reviews
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== END WRITE A REVIEW SECTION ===== -->
 
     <section class="section" id="contact">
       <div class="section-title" style="text-align: center; margin-bottom: 40px;">
@@ -1011,6 +1064,161 @@
       // Clear inputs
       if (subjectInput) subjectInput.value = '';
       if (messageInput) messageInput.value = '';
+    }
+
+    // ── Customer Reviews Logic for Homepage ────────────────────
+    let homeCurrentRatingVal = 0;
+    let homeLoggedInEmail = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // Check auth state for homepage reviews autofill
+        if (typeof auth !== 'undefined' && auth) {
+            auth.onAuthStateChanged((user) => {
+                if (user) {
+                    homeLoggedInEmail = user.email;
+                    db.collection('users').doc(user.uid).get().then((doc) => {
+                        const nameInput = document.getElementById('home-reviewer-name');
+                        if (nameInput) {
+                            if (doc.exists && doc.data().name) {
+                                nameInput.value = doc.data().name;
+                            } else {
+                                nameInput.value = user.email.split('@')[0];
+                            }
+                        }
+                    }).catch(() => {
+                        const nameInput = document.getElementById('home-reviewer-name');
+                        if (nameInput) nameInput.value = user.email.split('@')[0];
+                    });
+                }
+            });
+        } else {
+            try {
+                const localUser = JSON.parse(localStorage.getItem('python_user'));
+                if (localUser && localUser.name) {
+                    const nameInput = document.getElementById('home-reviewer-name');
+                    if (nameInput) nameInput.value = localUser.name;
+                }
+            } catch(e) {}
+        }
+    });
+
+    function setHomeRating(rating) {
+        homeCurrentRatingVal = rating;
+        const selectedRatingInput = document.getElementById('home-selected-rating');
+        if (selectedRatingInput) selectedRatingInput.value = rating;
+        updateHomeStarClasses();
+    }
+
+    function hoverHomeRating(rating) {
+        const stars = document.querySelectorAll('#home-rating-selector .star-icon');
+        stars.forEach((star, index) => {
+            if (index < rating) {
+                star.classList.add('hovered');
+            } else {
+                star.classList.remove('hovered');
+            }
+        });
+    }
+
+    function clearHoverHomeRating() {
+        const stars = document.querySelectorAll('#home-rating-selector .star-icon');
+        stars.forEach((star) => {
+            star.classList.remove('hovered');
+        });
+        updateHomeStarClasses();
+    }
+
+    function updateHomeStarClasses() {
+        const stars = document.querySelectorAll('#home-rating-selector .star-icon');
+        stars.forEach((star, index) => {
+            if (index < homeCurrentRatingVal) {
+                star.classList.add('selected');
+                star.setAttribute('fill', 'currentColor');
+            } else {
+                star.classList.remove('selected');
+                star.removeAttribute('fill');
+            }
+        });
+    }
+
+    function getDeviceType() {
+        const width = window.innerWidth;
+        if (width < 768) {
+            return "Mobile Phone";
+        } else if (width < 1024) {
+            return "Tablet";
+        } else {
+            return "Desktop / Laptop";
+        }
+    }
+
+    function submitHomeReview(e) {
+        e.preventDefault();
+
+        const ratingInput = parseInt(document.getElementById('home-selected-rating').value);
+        const nameInput = document.getElementById('home-reviewer-name').value.trim();
+        const commentInput = document.getElementById('home-reviewer-comment').value.trim();
+        const submitBtn = document.getElementById('home-submit-btn');
+        const successMsg = document.getElementById('home-success-msg');
+
+        if (ratingInput === 0) {
+            alert('Please select a star rating / කරුණාකර තරු ශ්‍රේණිගත කිරීමක් තෝරන්න.');
+            return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="spinner" style="display:inline-block; width:16px; height:16px; border:2px solid #fff; border-top-color:transparent; border-radius:50%; animation:spin 1s linear infinite;"></i> Submitting...';
+
+        const reviewData = {
+            name: nameInput,
+            rating: ratingInput,
+            comment: commentInput,
+            timestamp: (typeof firebase !== 'undefined' ? firebase.firestore.FieldValue.serverTimestamp() : new Date().toISOString()),
+            email: homeLoggedInEmail || '',
+            device: getDeviceType()
+        };
+
+        if (typeof db !== 'undefined' && db) {
+            db.collection('reviews').add(reviewData)
+                .then(() => {
+                    handleHomeSuccessfulSubmit();
+                })
+                .catch((err) => {
+                    console.error("Firebase Firestore Error: ", err);
+                    saveHomeReviewLocally(reviewData);
+                    handleHomeSuccessfulSubmit();
+                });
+        } else {
+            saveHomeReviewLocally(reviewData);
+            handleHomeSuccessfulSubmit();
+        }
+    }
+
+    function saveHomeReviewLocally(review) {
+        let localReviews = [];
+        try {
+            localReviews = JSON.parse(localStorage.getItem('local_customer_reviews')) || [];
+        } catch(e) {}
+        review.timestampLocal = new Date().toISOString();
+        localReviews.push(review);
+        localStorage.setItem('local_customer_reviews', JSON.stringify(localReviews));
+    }
+
+    function handleHomeSuccessfulSubmit() {
+        const submitBtn = document.getElementById('home-submit-btn');
+        const successMsg = document.getElementById('home-success-msg');
+
+        document.getElementById('home-reviewer-comment').value = '';
+        setHomeRating(0);
+
+        successMsg.style.display = 'block';
+        setTimeout(() => {
+            successMsg.style.display = 'none';
+        }, 6000);
+
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i data-lucide="send" style="width:16px;"></i> Submit Review';
+        if (typeof lucide !== 'undefined') lucide.createIcons();
     }
   </script>
 </body>

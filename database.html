@@ -205,6 +205,9 @@
         <button class="nav-btn" onclick="showSection('waitlist')" id="btn-waitlist">
             <span>🔔</span> waitlist <span class="cnt" id="cnt-waitlist">0</span>
         </button>
+        <button class="nav-btn" onclick="showSection('reviews')" id="btn-reviews">
+            <span>⭐</span> reviews <span class="cnt" id="cnt-reviews">0</span>
+        </button>
         <hr class="sdiv">
         <div class="sidebar-label" style="margin-top:6px;">Status</div>
         <button class="nav-btn" onclick="showSection('pending')" id="btn-pending">
@@ -223,6 +226,7 @@
             <div class="stat o"><div class="lbl">Orders</div><div class="val" id="s-orders">–</div></div>
             <div class="stat p"><div class="lbl">Pending</div><div class="val" id="s-pending">–</div></div>
             <div class="stat w"><div class="lbl">Waitlist</div><div class="val" id="s-waitlist">–</div></div>
+            <div class="stat" style="border-color: var(--red);"><div class="lbl" style="color: var(--red);">Reviews</div><div class="val" id="s-reviews" style="color: var(--red);">–</div></div>
         </div>
 
         <!-- Rules Warning -->
@@ -282,6 +286,22 @@ service cloud.firestore {
                     <tbody id="waitlist-body"></tbody>
                 </table>
                 <div id="waitlist-empty" class="empty" style="display:none;"><div class="ico">🔔</div><p>No entries.</p></div>
+            </div>
+        </div>
+
+        <!-- ── REVIEWS ── -->
+        <div class="section" id="section-reviews">
+            <div class="sec-header">
+                <div class="sec-title">⭐ reviews <span class="badge" id="badge-reviews">0 rows</span></div>
+                <input class="search" placeholder="🔍 Search reviews..." oninput="filterTable('reviews-tbl',this.value)">
+            </div>
+            <div class="tbl-wrap">
+                <div id="reviews-loading" class="empty"><div class="spinner"></div><p>Loading reviews...</p></div>
+                <table class="dtable" id="reviews-tbl" style="display:none;">
+                    <thead><tr><th>#</th><th>Name</th><th>Rating</th><th>Comment</th><th>Device</th><th>Action</th></tr></thead>
+                    <tbody id="reviews-body"></tbody>
+                </table>
+                <div id="reviews-empty" class="empty" style="display:none;"><div class="ico">⭐</div><p>No reviews found.</p></div>
             </div>
         </div>
 
@@ -773,6 +793,43 @@ function loadWaitlist() {
     });
 }
 
+function loadReviews() {
+    showL('reviews');
+    db.collection('reviews').get().then(snap => {
+        const rows = [];
+        snap.forEach(doc => rows.push({ id: doc.id, ...doc.data() }));
+        // Sort reviews by timestamp (descending)
+        rows.sort((a, b) => {
+            const timeA = a.timestamp?.seconds || (a.timestamp ? new Date(a.timestamp).getTime() : 0);
+            const timeB = b.timestamp?.seconds || (b.timestamp ? new Date(b.timestamp).getTime() : 0);
+            return timeB - timeA;
+        });
+        document.getElementById('cnt-reviews').textContent   = rows.length;
+        document.getElementById('s-reviews').textContent     = rows.length;
+        document.getElementById('badge-reviews').textContent = rows.length + ' rows';
+        if (rows.length === 0) { showE('reviews'); return; }
+        document.getElementById('reviews-body').innerHTML = rows.map((r, i) => {
+            const ratingStars = '★'.repeat(r.rating || 5) + '☆'.repeat(5 - (r.rating || 5));
+            return `
+            <tr>
+                <td class="mono">${i+1}</td>
+                <td><strong>${r.name || 'Anonymous'}</strong></td>
+                <td><span style="color:var(--red); font-weight:800;">${ratingStars}</span></td>
+                <td title="${r.comment || ''}">${r.comment || '–'}</td>
+                <td>${r.device || '–'}</td>
+                <td>
+                    <button class="act-btn del" onclick="adminDeleteReview('${r.id}', '${(r.name || 'Anonymous').replace(/'/g, "\\'")}')" style="background:#DC143C;color:#fff;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;">🗑️ Delete</button>
+                </td>
+            </tr>`;
+        }).join('');
+        showT('reviews');
+    }).catch((err) => {
+        console.error("Error loading reviews: ", err);
+        document.getElementById('rules-warn').style.display = 'block';
+        showE('reviews');
+    });
+}
+
 // ── Load All ──
 function loadAll() {
     if (!db) {
@@ -783,7 +840,7 @@ function loadAll() {
     document.getElementById('auth-status').textContent = '🟢 Connected';
     document.getElementById('rules-warn').style.display = 'none';
     loadOrders();
-    setTimeout(() => { loadUsers(); loadWaitlist(); }, 500);
+    setTimeout(() => { loadUsers(); loadWaitlist(); loadReviews(); }, 500);
 }
 
 // ─── Admin Actions ───
@@ -835,6 +892,15 @@ function adminDeleteOrder(docId, orderId) {
         '#DC143C',
         () => db.collection('orders').doc(docId).delete()
                 .then(() => { showToast('🗑️ Order deleted!', 'red'); loadAll(); })
+                .catch(e => alert('Delete failed: ' + e.message)));
+}
+
+function adminDeleteReview(docId, name) {
+    showDialog('🗑️', 'Delete Review?',
+        `"${name}" ge review database eken delete karannada?`,
+        '#DC143C',
+        () => db.collection('reviews').doc(docId).delete()
+                .then(() => { showToast('🗑️ Review deleted!', 'red'); loadAll(); })
                 .catch(e => alert('Delete failed: ' + e.message)));
 }
 
