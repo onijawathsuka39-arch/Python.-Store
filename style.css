@@ -14,6 +14,8 @@
     --border-color: #e2e8f0;
     --border-light: #f1f5f9;
     --shadow-color: rgba(0, 0, 0, 0.05);
+    --menu-glass-bg: rgba(255, 255, 255, 0.72);
+    --menu-glass-border: rgba(220, 20, 60, 0.12);
 }
 
 [data-theme="dark"] {
@@ -27,6 +29,8 @@
     --border-color: rgba(255, 255, 255, 0.1);
     --border-light: rgba(255, 255, 255, 0.05);
     --shadow-color: rgba(0, 0, 0, 0.4);
+    --menu-glass-bg: rgba(10, 15, 30, 0.75);
+    --menu-glass-border: rgba(255, 255, 255, 0.08);
 }
 
 /* Fallback override for any remaining hardcoded inline dark colors in Dark Mode */
@@ -912,28 +916,71 @@ nav.scrolled {
     top: 0;
     right: -100%;
     width: 80%;
-    max-width: 300px;
+    max-width: 320px;
     height: 100vh;
-    background: var(--primary-light);
+    background: var(--menu-glass-bg);
+    backdrop-filter: blur(28px) saturate(190%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
     z-index: 2000;
-    transition: 0.4s ease;
-    padding: 80px 40px;
+    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 85px 24px 30px;
     display: flex;
     flex-direction: column;
-    gap: 30px;
-    border-left: 1px solid var(--glass-border);
-    box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+    gap: 10px;
+    border-left: 1px solid var(--menu-glass-border);
+    box-shadow: -15px 0 45px rgba(0,0,0,0.18), inset 1px 0 0 rgba(255, 255, 255, 0.12);
+    overflow-y: auto;
+}
+
+.mobile-menu::-webkit-scrollbar {
+    width: 4px;
+}
+.mobile-menu::-webkit-scrollbar-track {
+    background: transparent;
+}
+.mobile-menu::-webkit-scrollbar-thumb {
+    background: rgba(var(--accent-gold-rgb), 0.25);
+    border-radius: 10px;
 }
 
 .mobile-menu.active {
     right: 0;
 }
 
+.mobile-menu::before {
+    content: "PYTHON STORE";
+    font-family: 'Anta', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: var(--accent-gold);
+    border-bottom: 1.5px solid var(--menu-glass-border);
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    display: block;
+    opacity: 0.9;
+}
+
 .mobile-menu a {
     text-decoration: none;
-    color: var(--primary-dark);
-    font-size: 1.2rem;
-    font-weight: 600;
+    color: var(--text-main);
+    font-size: 0.92rem;
+    font-weight: 700;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.mobile-menu a:hover {
+    background: linear-gradient(135deg, rgba(var(--accent-gold-rgb), 0.08), rgba(var(--accent-gold-rgb), 0.01));
+    border-color: rgba(var(--accent-gold-rgb), 0.2);
+    color: var(--accent-gold) !important;
+    transform: translateX(4px);
+    box-shadow: 0 4px 15px rgba(var(--accent-gold-rgb), 0.05);
 }
 
 .mobile-menu .close-menu {
@@ -941,7 +988,24 @@ nav.scrolled {
     top: 20px;
     right: 20px;
     cursor: pointer;
-    color: var(--primary-dark);
+    color: var(--text-main);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--menu-glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.mobile-menu .close-menu:hover {
+    background: var(--accent-gold);
+    color: white !important;
+    border-color: var(--accent-gold);
+    transform: rotate(90deg) scale(1.05);
+    box-shadow: 0 4px 15px rgba(var(--accent-gold-rgb), 0.3);
 }
 
 .menu-overlay {

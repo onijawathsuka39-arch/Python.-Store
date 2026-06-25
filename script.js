@@ -889,10 +889,18 @@ if (typeof auth !== 'undefined' && auth) {
                     localStorage.setItem('python_user', JSON.stringify(autoData));
                     currentUser = autoData;
                 }
-            }).catch(err => console.error("Error syncing user profile:", err));
+                startNotificationListener();
+            }).catch(err => {
+                console.error("Error syncing user profile:", err);
+                startNotificationListener();
+            });
         } else {
             localStorage.removeItem('python_user');
             currentUser = null;
+            if (notificationListenerUnsubscribe) {
+                notificationListenerUnsubscribe();
+                notificationListenerUnsubscribe = null;
+            }
         }
     });
 }
@@ -1004,6 +1012,109 @@ function showNotification(message) {
     note.innerText = message;
     document.body.appendChild(note);
     setTimeout(() => { note.style.opacity = '0'; note.style.transition = '0.5s'; setTimeout(() => note.remove(), 500); }, 3000);
+}
+
+let notificationListenerUnsubscribe = null;
+
+function startNotificationListener() {
+    if (typeof db === 'undefined' || !db || !currentUser || !currentUser.email) return;
+    
+    if (notificationListenerUnsubscribe) {
+        notificationListenerUnsubscribe();
+    }
+    
+    notificationListenerUnsubscribe = db.collection('notifications')
+        .where('userEmail', '==', currentUser.email)
+        .where('read', '==', false)
+        .onSnapshot(snapshot => {
+            snapshot.docChanges().forEach(change => {
+                if (change.type === 'added') {
+                    const notif = change.doc.data();
+                    const docId = change.doc.id;
+                    
+                    showCustomerNotification(notif.message, notif.status);
+                    
+                    db.collection('notifications').doc(docId).update({ read: true })
+                        .catch(err => console.error("Error marking notification as read:", err));
+                }
+            });
+        }, err => {
+            console.error("Error in notification listener:", err);
+        });
+}
+
+function showCustomerNotification(message, status) {
+    // Play audio alert
+    try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (AudioContext) {
+            const ctx = new AudioContext();
+            const playTone = (freq, start, duration) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.frequency.setValueAtTime(freq, start);
+                gain.gain.setValueAtTime(0.2, start);
+                gain.gain.exponentialRampToValueAtTime(0.001, start + duration);
+                osc.start(start);
+                osc.stop(start + duration);
+            };
+            const now = ctx.currentTime;
+            if (status === 'confirmed') {
+                playTone(523.25, now, 0.15); // C5
+                playTone(659.25, now + 0.1, 0.3); // E5
+            } else {
+                playTone(392.00, now, 0.15); // G4
+                playTone(311.13, now + 0.1, 0.3); // D#4 (sad tone)
+            }
+        }
+    } catch (e) {
+        console.warn("Could not play customer notification sound:", e);
+    }
+
+    const note = document.createElement('div');
+    note.className = 'glass';
+    const borderLeftColor = status === 'confirmed' ? '#22c55e' : (status === 'cancelled' ? '#ef4444' : '#DC143C');
+    const titleEmoji = status === 'confirmed' ? '✅' : (status === 'cancelled' ? '❌' : '🔔');
+    
+    note.style.cssText = `
+        position: fixed; 
+        bottom: 24px; 
+        right: 24px; 
+        padding: 16px 24px; 
+        border-left: 4px solid ${borderLeftColor}; 
+        z-index: 10001; 
+        background: var(--surface, white);
+        color: var(--text-main, #000);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        border-radius: 12px;
+        font-family: inherit;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transform: translateY(20px);
+        opacity: 0;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
+    `;
+    
+    note.innerHTML = `
+        <span style="font-size: 1.2rem;">${titleEmoji}</span>
+        <div style="font-size: 0.9rem; font-weight: 700;">${message}</div>
+    `;
+    
+    document.body.appendChild(note);
+    
+    setTimeout(() => {
+        note.style.transform = 'translateY(0)';
+        note.style.opacity = '1';
+    }, 10);
+    
+    setTimeout(() => {
+        note.style.transform = 'translateY(-20px)';
+        note.style.opacity = '0';
+        setTimeout(() => note.remove(), 400);
+    }, 4500);
 }
 
 // --- Order System ---

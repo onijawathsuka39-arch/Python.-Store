@@ -34,14 +34,100 @@
         .layout{display:flex;min-height:calc(100vh - 57px);}
 
         /* Sidebar */
-        .sidebar{width:210px;min-width:210px;background:var(--surface);border-right:1px solid var(--border);padding:18px 0;}
-        .sidebar-label{font-size:.6rem;font-weight:700;letter-spacing:2px;color:var(--muted);padding:0 16px;margin-bottom:8px;text-transform:uppercase;}
-        .nav-btn{display:flex;align-items:center;gap:10px;padding:10px 16px;cursor:pointer;font-size:.86rem;font-weight:500;color:var(--muted);transition:all .2s;border:none;background:none;width:100%;text-align:left;font-family:inherit;}
-        .nav-btn:hover{background:var(--surface2);color:var(--text);}
-        .nav-btn.active{background:rgba(200,169,110,.12);color:var(--gold);border-left:3px solid var(--gold);}
-        .nav-btn .cnt{margin-left:auto;background:var(--surface2);border:1px solid var(--border);font-size:.65rem;padding:2px 7px;border-radius:10px;color:var(--muted);}
-        .nav-btn.active .cnt{background:rgba(200,169,110,.2);border-color:var(--gold);color:var(--gold);}
-        .sdiv{border:none;border-top:1px solid var(--border);margin:12px 0;}
+        .sidebar {
+            width: 220px;
+            min-width: 220px;
+            background: rgba(22, 27, 34, 0.45);
+            backdrop-filter: blur(20px) saturate(190%);
+            -webkit-backdrop-filter: blur(20px) saturate(190%);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 24px 12px;
+            position: sticky;
+            top: 57px;
+            height: calc(100vh - 57px);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+        }
+        .sidebar::-webkit-scrollbar-thumb:hover {
+            background: rgba(200, 169, 110, 0.3);
+        }
+        .sidebar-label {
+            font-size: 0.58rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--gold);
+            padding: 0 12px;
+            margin-bottom: 8px;
+            margin-top: 12px;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+        .sidebar-label:first-of-type {
+            margin-top: 0;
+        }
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            cursor: pointer;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.75);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-family: inherit;
+            border-radius: 10px;
+        }
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.06);
+            color: var(--text);
+            transform: translateX(2px);
+        }
+        .nav-btn.active {
+            background: linear-gradient(135deg, rgba(200, 169, 110, 0.16), rgba(200, 169, 110, 0.03));
+            color: var(--gold);
+            border: 1px solid rgba(200, 169, 110, 0.25);
+            border-left: 3px solid var(--gold);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            font-weight: 700;
+        }
+        .nav-btn .cnt {
+            margin-left: auto;
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.65rem;
+            padding: 2px 7px;
+            border-radius: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+        }
+        .nav-btn.active .cnt {
+            background: rgba(200, 169, 110, 0.2);
+            border-color: rgba(200, 169, 110, 0.4);
+            color: var(--gold);
+        }
+        .sdiv {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            margin: 16px 8px;
+        }
 
         /* Main */
         .main{flex:1;padding:22px;overflow:auto;}
@@ -466,7 +552,26 @@ function toggleAccordion(docId) {
 function updateOrderStatus(docId, newStatus) {
     if (!docId) return;
     db.collection('orders').doc(docId).update({ status: newStatus })
-        .then(() => { showToast(newStatus === 'confirmed' ? '✅ Order Confirmed!' : '✕ Order Cancelled', newStatus === 'confirmed' ? 'green' : 'red'); loadAll(); })
+        .then(() => {
+            showToast(newStatus === 'confirmed' ? '✅ Order Confirmed!' : '✕ Order Cancelled', newStatus === 'confirmed' ? 'green' : 'red');
+            
+            // Add notification to customer in Firestore
+            const order = allOrders.find(o => o._docId === docId);
+            if (order && order.userEmail && order.userEmail !== 'Guest') {
+                const orderIdShort = String(order.id || docId).slice(-8);
+                db.collection('notifications').add({
+                    userEmail: order.userEmail,
+                    message: `Your order #${orderIdShort} has been ${newStatus}!`,
+                    status: newStatus,
+                    read: false,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                }).catch(err => console.error("Error creating notification document:", err));
+            }
+            
+            // Note: loadAll() will be triggered by onSnapshot listener automatically for orders table,
+            // but we call loadUsers() / loadWaitlist() / loadReviews() to keep other tables in sync if needed.
+            setTimeout(() => { loadUsers(); loadWaitlist(); loadReviews(); }, 500);
+        })
         .catch(err => alert('Status update failed: ' + err.message));
 }
 
@@ -594,11 +699,63 @@ function renderAccordionOrders(list) {
 }
 
 // ── Load ORDERS ──
+let ordersListener = null;
+let initialOrdersLoad = true;
+
+function playNotificationSound() {
+    try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        
+        const playTone = (freq, start, duration) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            
+            osc.frequency.setValueAtTime(freq, start);
+            gain.gain.setValueAtTime(0.25, start);
+            gain.gain.exponentialRampToValueAtTime(0.001, start + duration);
+            
+            osc.start(start);
+            osc.stop(start + duration);
+        };
+        
+        const now = ctx.currentTime;
+        playTone(587.33, now, 0.15); // D5
+        playTone(880.00, now + 0.12, 0.4); // A5
+    } catch (e) {
+        console.warn("Could not play notification sound:", e);
+    }
+}
+
+function initBrowserNotifications() {
+    if ("Notification" in window && Notification.permission === "default") {
+        Notification.requestPermission();
+    }
+}
+
+function showBrowserNotification(title, body) {
+    if ("Notification" in window && Notification.permission === "granted") {
+        try {
+            new Notification(title, { body: body });
+        } catch (e) {
+            console.warn("Could not show system notification:", e);
+        }
+    }
+}
+
 function loadOrders() {
+    if (ordersListener) {
+        return; // Already listening, onSnapshot updates in real-time
+    }
     ordersAccLoading();
     showL('pending');
     showL('confirmed');
-    db.collection('orders').get().then(snap => {
+    initialOrdersLoad = true;
+    
+    ordersListener = db.collection('orders').onSnapshot(snap => {
         allOrders = [];
         snap.forEach(doc => allOrders.push({ _docId: doc.id, ...doc.data() }));
         allOrders.sort((a, b) => (b.timestamp?.seconds||0) - (a.timestamp?.seconds||0) || (b.date||'').localeCompare(a.date||''));
@@ -648,7 +805,23 @@ function loadOrders() {
                 </tr>`).join('');
             showT('confirmed');
         }
-    }).catch(err => {
+        
+        // Notify admin for new orders in real-time
+        if (!initialOrdersLoad) {
+            snap.docChanges().forEach(change => {
+                if (change.type === 'added') {
+                    const newOrder = change.doc.data();
+                    const orderIdShort = String(newOrder.id || change.doc.id).slice(-8);
+                    
+                    // Trigger sound, toast, and system notification
+                    playNotificationSound();
+                    showToast(`📦 New Order received: #${orderIdShort} from ${newOrder.userName || 'Guest'}!`, 'green');
+                    showBrowserNotification('New Order Received!', `Order #${orderIdShort} from ${newOrder.userName || 'Guest'} (Rs. ${(newOrder.total || 0).toLocaleString()})`);
+                }
+            });
+        }
+        initialOrdersLoad = false;
+    }, err => {
         console.error(err);
         document.getElementById('rules-warn').style.display = 'block';
         ordersAccEmpty();
@@ -955,6 +1128,7 @@ window.addEventListener('DOMContentLoaded', () => {
         document.getElementById('rules-warn').style.display = 'block';
         return;
     }
+    initBrowserNotifications();
     loadAll();
 });
 </script>
