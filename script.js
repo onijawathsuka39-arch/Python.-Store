@@ -372,6 +372,36 @@ const products = [
         },
         colors: ['#ffffff'], stock: 10,
         desc: 'Colour Elephant Design Oversized Tee (Printed) by Python. Featuring a stunning elephant artwork graphic, crafted from premium 220 GSM fabric for ultimate comfort and design definition.'
+    },
+    {
+        id: '21', name: 'Formula 1 Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/sJJ3LhPL/F1-Design.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1600, oldPrice: 1850 },
+            'M': { price: 1600, oldPrice: 1850 },
+            'L': { price: 1600, oldPrice: 1850 },
+            'XL': { price: 1600, oldPrice: 1850 }
+        },
+        colors: ['#ffffff'], stock: 10,
+        desc: 'Formula 1 Design Regular Tee (Printed) by Python. Iconic racing-inspired graphic, crafted from premium 220 GSM fabric for ultimate comfort and durability.'
+    },
+    {
+        id: '22', name: 'Monkey Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/2GCH9zF/monke-Design.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1600, oldPrice: 1850 },
+            'M': { price: 1600, oldPrice: 1850 },
+            'L': { price: 1600, oldPrice: 1850 },
+            'XL': { price: 1600, oldPrice: 1850 }
+        },
+        colors: ['#000000'], stock: 10,
+        desc: 'Monkey Design Regular Tee (Printed) by Python. Featuring a striking graphic aesthetic, crafted from premium 220 GSM fabric for ultimate comfort and durability.'
     }
 ];
 
