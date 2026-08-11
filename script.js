@@ -1184,23 +1184,6 @@ function showOrderSuccessModal(orderData, subtotal, deliveryFee, grandTotal, wha
     let modal = document.getElementById('order-success-modal');
     if (modal) modal.remove();
 
-    const itemsRowsHtml = orderData.items.map(item => `
-        <tr>
-            <td>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <img src="${item.image || 'T Shirt.png'}" class="order-item-img" alt="${item.name}" onerror="this.src='T Shirt.png'">
-                    <div>
-                        <strong style="color:#0f172a; font-size:0.95rem;">${item.name}</strong>
-                        <div style="font-size:0.75rem; color:#64748b;">${item.size} | ${item.color}</div>
-                    </div>
-                </div>
-            </td>
-            <td style="font-weight:600; color:#334155;">${item.quantity}</td>
-            <td style="color:#475569;">Rs. ${item.price.toLocaleString()}</td>
-            <td style="font-weight:700; color:#dc2626;">Rs. ${(item.price * item.quantity).toLocaleString()}</td>
-        </tr>
-    `).join('');
-
     modal = document.createElement('div');
     modal.id = 'order-success-modal';
     modal.className = 'order-success-modal-overlay active';
@@ -1213,7 +1196,7 @@ function showOrderSuccessModal(orderData, subtotal, deliveryFee, grandTotal, wha
                     </div>
                     <div>
                         <h2>Order <span>Placed Successfully!</span></h2>
-                        <p style="margin:0; font-size:0.85rem; color:#64748b;">Your order details have been saved successfully.</p>
+                        <p style="margin:0; font-size:0.85rem; color:#64748b;">Your order has been recorded successfully.</p>
                     </div>
                 </div>
                 <div class="order-id-badge">${orderData.id}</div>
@@ -1228,35 +1211,17 @@ function showOrderSuccessModal(orderData, subtotal, deliveryFee, grandTotal, wha
                         <div class="order-info-detail"><strong>Address:</strong> ${orderData.address}</div>
                     </div>
                     <div class="order-info-card">
-                        <h4><i data-lucide="calendar" style="width:16px;"></i> Order Timestamp</h4>
+                        <h4><i data-lucide="calendar" style="width:16px;"></i> Order Summary</h4>
                         <div class="order-info-detail"><strong>Order ID:</strong> ${orderData.id}</div>
-                        <div class="order-info-detail"><strong>Date:</strong> ${orderData.date}</div>
-                        <div class="order-info-detail"><strong>Time:</strong> ${orderData.time}</div>
-                    </div>
-                </div>
-
-                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px;">
-                    <h4 style="color:#dc2626; font-size:0.85rem; text-transform:uppercase; margin-bottom:12px; display:flex; align-items:center; gap:8px; font-weight:700;">
-                        <i data-lucide="shopping-bag" style="width:16px;"></i> Order Details
-                    </h4>
-                    <div style="overflow-x: auto;">
-                        <table class="order-items-table">
-                            <thead>
-                                <tr>
-                                    <th>Item Details</th>
-                                    <th>Qty</th>
-                                    <th>Price</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${itemsRowsHtml}
-                            </tbody>
-                        </table>
+                        <div class="order-info-detail"><strong>Date & Time:</strong> ${orderData.date} | ${orderData.time}</div>
+                        <div class="order-info-detail"><strong>Payment Method:</strong> Cash on Delivery</div>
                     </div>
                 </div>
 
                 <div class="order-price-summary">
+                    <h4 style="color:#dc2626; font-size:0.85rem; text-transform:uppercase; margin:0 0 10px 0; display:flex; align-items:center; gap:8px; font-weight:700;">
+                        <i data-lucide="credit-card" style="width:16px;"></i> Payment Details
+                    </h4>
                     <div class="order-price-row">
                         <span>Subtotal</span>
                         <span>Rs. ${subtotal.toLocaleString()}.00</span>
@@ -1264,6 +1229,10 @@ function showOrderSuccessModal(orderData, subtotal, deliveryFee, grandTotal, wha
                     <div class="order-price-row">
                         <span>Delivery Fee</span>
                         <span>${deliveryFee === 0 ? 'FREE' : 'Rs. ' + deliveryFee.toLocaleString() + '.00'}</span>
+                    </div>
+                    <div class="order-price-row">
+                        <span>Payment Method</span>
+                        <span>Cash on Delivery</span>
                     </div>
                     <div class="order-price-row total">
                         <span>Total Price</span>
@@ -1324,6 +1293,8 @@ function placeOrder() {
     const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
     const deliveryFee = itemCount > 3 ? 0 : 450;
 
+    const safeColorNames = typeof colorNames !== 'undefined' ? colorNames : {};
+
     // Prepare data for the E-Invoice
     const orderData = {
         id: orderID,
@@ -1339,7 +1310,7 @@ function placeOrder() {
                 price: item.price,
                 quantity: item.quantity,
                 size: item.size,
-                color: colorNames[item.color] || item.color,
+                color: safeColorNames[item.color] || item.color,
                 image: item.image || (p.images ? p.images[0] : ''),
                 isCustom: item.isCustom || (item.id && String(item.id).startsWith('custom-')) || false,
                 customStickers: item.customStickers || []
@@ -1370,11 +1341,12 @@ function placeOrder() {
     message += `📞 *Phone:* ${phone}\n`;
     message += `📍 *Address:* ${orderData.address}\n`;
     message += `📅 *Date:* ${orderData.date} | ${orderData.time}\n\n`;
+    message += `💳 *Payment Method:* Cash on Delivery\n\n`;
     message += `📦 *Items Ordered:*\n`;
 
     let subtotal = 0;
     cart.forEach((item) => {
-        const colorName = colorNames[item.color] || item.color;
+        const colorName = safeColorNames[item.color] || item.color;
         message += `• *${item.name}* (${item.size} | ${colorName})\n`;
         message += `  Qty: ${item.quantity} x Rs. ${item.price.toLocaleString()}\n`;
         subtotal += item.price * item.quantity;
@@ -1414,7 +1386,7 @@ function placeOrder() {
     if (bar) bar.remove();
     cart = []; saveCart();
 
-    // Show Red Loader first, then present the 1000px x 1000px success form
+    // Trigger Red Loading Page first, then show simplified clean modal
     showRedOrderLoader(() => {
         showOrderSuccessModal(orderData, subtotal, deliveryFee, grandTotal, whatsappUrl);
     });
