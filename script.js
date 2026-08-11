@@ -1150,12 +1150,168 @@ function showCustomerNotification(message, status) {
 // --- Order System ---
 let orders = JSON.parse(localStorage.getItem('python_orders')) || [];
 
+function showRedOrderLoader(callback) {
+    let loader = document.getElementById('red-order-loader');
+    if (!loader) {
+        loader = document.createElement('div');
+        loader.id = 'red-order-loader';
+        loader.className = 'red-loader-overlay';
+        loader.innerHTML = `
+            <div class="red-loader-content">
+                <div class="red-spinner-ring"></div>
+                <div class="red-loader-text">Placing <span>Your Order</span></div>
+                <div class="red-loader-subtext">Please wait while we process your details...</div>
+                <div class="red-progress-bar">
+                    <div class="red-progress-fill" id="red-loader-bar"></div>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(loader);
+    }
+    loader.classList.add('active');
+    const fillBar = document.getElementById('red-loader-bar');
+    if (fillBar) {
+        fillBar.style.width = '0%';
+        setTimeout(() => { fillBar.style.width = '100%'; }, 50);
+    }
+    setTimeout(() => {
+        loader.classList.remove('active');
+        if (callback) callback();
+    }, 2000);
+}
+
+function showOrderSuccessModal(orderData, subtotal, deliveryFee, grandTotal, whatsappUrl) {
+    let modal = document.getElementById('order-success-modal');
+    if (modal) modal.remove();
+
+    const itemsRowsHtml = orderData.items.map(item => `
+        <tr>
+            <td>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <img src="${item.image || 'T Shirt.png'}" class="order-item-img" alt="${item.name}" onerror="this.src='T Shirt.png'">
+                    <div>
+                        <strong style="color:#0f172a; font-size:0.95rem;">${item.name}</strong>
+                        <div style="font-size:0.75rem; color:#64748b;">${item.size} | ${item.color}</div>
+                    </div>
+                </div>
+            </td>
+            <td style="font-weight:600; color:#334155;">${item.quantity}</td>
+            <td style="color:#475569;">Rs. ${item.price.toLocaleString()}</td>
+            <td style="font-weight:700; color:#dc2626;">Rs. ${(item.price * item.quantity).toLocaleString()}</td>
+        </tr>
+    `).join('');
+
+    modal = document.createElement('div');
+    modal.id = 'order-success-modal';
+    modal.className = 'order-success-modal-overlay active';
+    modal.innerHTML = `
+        <div class="order-success-form">
+            <div class="order-success-header">
+                <div class="order-success-header-title">
+                    <div class="order-success-icon">
+                        <i data-lucide="check"></i>
+                    </div>
+                    <div>
+                        <h2>Order <span>Placed Successfully!</span></h2>
+                        <p style="margin:0; font-size:0.85rem; color:#64748b;">Your order details have been saved successfully.</p>
+                    </div>
+                </div>
+                <div class="order-id-badge">${orderData.id}</div>
+            </div>
+
+            <div class="order-success-body">
+                <div class="order-info-grid">
+                    <div class="order-info-card">
+                        <h4><i data-lucide="user" style="width:16px;"></i> Customer Details</h4>
+                        <div class="order-info-detail"><strong>Name:</strong> ${orderData.name}</div>
+                        <div class="order-info-detail"><strong>Phone:</strong> ${orderData.phone}</div>
+                        <div class="order-info-detail"><strong>Address:</strong> ${orderData.address}</div>
+                    </div>
+                    <div class="order-info-card">
+                        <h4><i data-lucide="calendar" style="width:16px;"></i> Order Timestamp</h4>
+                        <div class="order-info-detail"><strong>Order ID:</strong> ${orderData.id}</div>
+                        <div class="order-info-detail"><strong>Date:</strong> ${orderData.date}</div>
+                        <div class="order-info-detail"><strong>Time:</strong> ${orderData.time}</div>
+                    </div>
+                </div>
+
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 16px; padding: 20px;">
+                    <h4 style="color:#dc2626; font-size:0.85rem; text-transform:uppercase; margin-bottom:12px; display:flex; align-items:center; gap:8px; font-weight:700;">
+                        <i data-lucide="shopping-bag" style="width:16px;"></i> Order Details
+                    </h4>
+                    <div style="overflow-x: auto;">
+                        <table class="order-items-table">
+                            <thead>
+                                <tr>
+                                    <th>Item Details</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${itemsRowsHtml}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="order-price-summary">
+                    <div class="order-price-row">
+                        <span>Subtotal</span>
+                        <span>Rs. ${subtotal.toLocaleString()}.00</span>
+                    </div>
+                    <div class="order-price-row">
+                        <span>Delivery Fee</span>
+                        <span>${deliveryFee === 0 ? 'FREE' : 'Rs. ' + deliveryFee.toLocaleString() + '.00'}</span>
+                    </div>
+                    <div class="order-price-row total">
+                        <span>Total Price</span>
+                        <span>Rs. ${grandTotal.toLocaleString()}.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-success-footer">
+                <div class="whatsapp-prompt-box">
+                    <div class="whatsapp-prompt-text">
+                        <i data-lucide="message-circle"></i>
+                        Do you want to send WhatsApp message?
+                    </div>
+                    <a href="${whatsappUrl}" target="_blank" class="btn-whatsapp-send">
+                        <i data-lucide="send" style="width:16px;"></i> Send WhatsApp Message
+                    </a>
+                </div>
+
+                <div class="footer-actions-row">
+                    <a href="index.html" class="btn-home-go">
+                        <i data-lucide="home" style="width:18px;"></i> Go to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+}
+
 function placeOrder() {
     if (cart.length === 0) { alert('Your cart is empty!'); return; }
 
-    const address = document.getElementById('checkout-address')?.value || 'N/A';
-    const city = document.getElementById('checkout-city')?.value || 'N/A';
-    const phone = document.getElementById('checkout-phone')?.value || 'N/A';
+    const addressEl = document.getElementById('checkout-address');
+    const cityEl = document.getElementById('checkout-city');
+    const phoneEl = document.getElementById('checkout-phone');
+
+    const address = addressEl ? addressEl.value.trim() : '';
+    const city = cityEl ? cityEl.value.trim() : '';
+    const phone = phoneEl ? phoneEl.value.trim() : '';
+
+    if (!address || !city || !phone) {
+        alert('Please fill out your address, city, and phone number before completing the order!');
+        return;
+    }
 
     const now = new Date();
     const dateStr = `${now.getDate().toString().padStart(2, '0')}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getFullYear()}`;
@@ -1192,7 +1348,7 @@ function placeOrder() {
         delivery: deliveryFee
     };
 
-    // Encode order data for the URL (Safe for Unicode/Sinhala)
+    // Encode order data for the URL
     const jsonStr = JSON.stringify(orderData);
     const encodedData = btoa(unescape(encodeURIComponent(jsonStr)));
     
@@ -1200,17 +1356,13 @@ function placeOrder() {
     let whatsappBaseUrl = baseUrl;
     
     if (window.location.protocol === 'file:') {
-        // Construct local file path for local preview and testing so localStorage works
         baseUrl = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
         baseUrl = 'file:///' + baseUrl.replace(/^\/+/g, '');
-        
-        // Use production path for the WhatsApp shared link
         whatsappBaseUrl = 'https://onijawathsuka39-arch.github.io/Python.-Store/';
     } else {
         whatsappBaseUrl = baseUrl;
     }
     
-    const invoiceUrl = `${baseUrl}invoice.html?data=${encodeURIComponent(encodedData)}`;
     const whatsappInvoiceUrl = `${whatsappBaseUrl}invoice.html?data=${encodeURIComponent(encodedData)}`;
 
     let message = `🔴 *NEW ORDER CONFIRMATION: ${orderID}*\n\n`;
@@ -1255,7 +1407,6 @@ function placeOrder() {
     if (typeof db !== 'undefined' && db) {
         db.collection('orders').add(dbOrder).catch(e => {
             console.error("Error saving order to database:", e);
-            alert("⚠️ Error: Order could not be saved to Firestore. Firestore Rules update කරන්න (allow read, write: if true).");
         });
     }
     localStorage.removeItem('python_free_delivery_active');
@@ -1263,12 +1414,10 @@ function placeOrder() {
     if (bar) bar.remove();
     cart = []; saveCart();
 
-    // Open WhatsApp immediately to avoid popup blockers
-    window.open(whatsappUrl, '_blank');
-
-    showNotification('Order placed successfully! Redirecting...');
-
-    setTimeout(() => { window.location.href = invoiceUrl; }, 2000);
+    // Show Red Loader first, then present the 1000px x 1000px success form
+    showRedOrderLoader(() => {
+        showOrderSuccessModal(orderData, subtotal, deliveryFee, grandTotal, whatsappUrl);
+    });
 }
 
 function clearOrderHistory() {
