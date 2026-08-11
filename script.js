@@ -423,6 +423,17 @@ function updateCartCount() {
 }
 
 function addToCart(name, price, image = '', size = 'Free', color = 'Default', quantity = 1) {
+    // Block out-of-stock products from being added to cart
+    const product = products.find(p => p.name === name);
+    if (product) {
+        const stockMap = JSON.parse(localStorage.getItem('python_product_stock_map')) || {};
+        const deletedList = JSON.parse(localStorage.getItem('python_deleted_products')) || [];
+        const status = stockMap[product.id] || product.stockStatus || (product.stock === 0 ? 'out_of_stock' : 'in_stock');
+        if (status === 'out_of_stock' || deletedList.includes(product.id)) {
+            showNotification(`❌ ${name} is currently Out of Stock!`);
+            return;
+        }
+    }
     const existingItem = cart.find(item => item.name === name && item.size === size && item.color === color);
     if (existingItem) {
         existingItem.quantity += parseInt(quantity);
@@ -467,7 +478,10 @@ function displayProducts(filteredProducts) {
             discountBadge = `<span style="position: absolute; top: 15px; left: 15px; background: #DC143C; color: white; padding: 5px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; z-index: 10; box-shadow: 0 4px 10px rgba(220, 20, 60, 0.3);">${discountPercent}% OFF</span>`;
         }
 
-        const isOutOfStock = p.stock === 0;
+        const stockMap = JSON.parse(localStorage.getItem('python_product_stock_map')) || {};
+        const deletedList = JSON.parse(localStorage.getItem('python_deleted_products')) || [];
+        const stockStatus = stockMap[p.id] || p.stockStatus || (p.stock === 0 ? 'out_of_stock' : 'in_stock');
+        const isOutOfStock = stockStatus === 'out_of_stock' || deletedList.includes(p.id);
         const stockBadge = isOutOfStock
             ? `<span style="background: #fdf2f2; color: #9b1c1c; padding: 2px 8px; border-radius: 4px; font-size: 0.6rem; font-weight: 800; display: inline-block; margin-left: 8px; vertical-align: middle; border: 1px solid #fbd5d5;">OUT OF STOCK</span>`
             : `<span style="background: #f3faf7; color: #03543f; padding: 2px 8px; border-radius: 4px; font-size: 0.6rem; font-weight: 800; display: inline-block; margin-left: 8px; vertical-align: middle; border: 1px solid #def7ec;">IN STOCK</span>`;
@@ -1845,3 +1859,53 @@ function handleNewDropWaitlist() {
     }
 }
 
+// ── Sync Product Stock from Firestore/localStorage ──
+function syncProductsWithDatabase() {
+    const stockMap = JSON.parse(localStorage.getItem('python_product_stock_map')) || {};
+    const deletedList = JSON.parse(localStorage.getItem('python_deleted_products')) || [];
+
+    const applySync = () => {
+        products.forEach(p => {
+            if (deletedList.includes(p.id)) {
+                p.isDeleted = true;
+                p.stock = 0;
+                p.stockStatus = 'out_of_stock';
+            } else if (stockMap[p.id]) {
+                p.stockStatus = stockMap[p.id];
+                p.stock = stockMap[p.id] === 'out_of_stock' ? 0 : (p.stock || 10);
+            }
+        });
+    };
+
+    if (typeof db !== 'undefined' && db) {
+        db.collection('products').get().then(snapshot => {
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                if (data.status) stockMap[doc.id] = data.status;
+                if (data.isDeleted && !deletedList.includes(doc.id)) deletedList.push(doc.id);
+            });
+            localStorage.setItem('python_product_stock_map', JSON.stringify(stockMap));
+            localStorage.setItem('python_deleted_products', JSON.stringify(deletedList));
+            applySync();
+            // Re-render shop/product grids if present
+            if (typeof filterShop === 'function') {
+                filterShop();
+            } else if (typeof displayProducts === 'function') {
+                displayProducts(products.filter(p => !p.isDeleted));
+            }
+        }).catch(err => {
+            console.warn('Firestore stock sync failed, using localStorage:', err);
+            applySync();
+        });
+    } else {
+        applySync();
+    }
+}
+
+// Auto-sync on page load (runs after firebase is ready)
+document.addEventListener('DOMContentLoaded', () => {
+    // Small delay to allow firebase/db to initialize
+    setTimeout(() => {
+        if (typeof syncProductsWithDatabase === 'function') syncProductsWithDatabase();
+    }, 1200);
+});

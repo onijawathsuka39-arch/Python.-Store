@@ -291,6 +291,9 @@
         <button class="nav-btn" onclick="showSection('waitlist')" id="btn-waitlist">
             <span>🔔</span> waitlist <span class="cnt" id="cnt-waitlist">0</span>
         </button>
+        <button class="nav-btn" onclick="showSection('products')" id="btn-products">
+            <span>🏷️</span> products <span class="cnt" id="cnt-products">0</span>
+        </button>
         <button class="nav-btn" onclick="showSection('reviews')" id="btn-reviews">
             <span>⭐</span> reviews <span class="cnt" id="cnt-reviews">0</span>
         </button>
@@ -310,6 +313,7 @@
         <div class="stats">
             <div class="stat u"><div class="lbl">Users</div><div class="val" id="s-users">–</div></div>
             <div class="stat o"><div class="lbl">Orders</div><div class="val" id="s-orders">–</div></div>
+            <div class="stat" style="border-color: var(--gold);"><div class="lbl" style="color: var(--gold);">Products</div><div class="val" id="s-products" style="color: var(--gold);">–</div></div>
             <div class="stat p"><div class="lbl">Pending</div><div class="val" id="s-pending">–</div></div>
             <div class="stat w"><div class="lbl">Waitlist</div><div class="val" id="s-waitlist">–</div></div>
             <div class="stat" style="border-color: var(--red);"><div class="lbl" style="color: var(--red);">Reviews</div><div class="val" id="s-reviews" style="color: var(--red);">–</div></div>
@@ -326,6 +330,22 @@ service cloud.firestore {
     }
   }
 }</code>
+        </div>
+
+        <!-- ── PRODUCTS ── -->
+        <div class="section" id="section-products">
+            <div class="sec-header">
+                <div class="sec-title">🏷️ products <span class="badge" id="badge-products">0 rows</span></div>
+                <input class="search" placeholder="🔍 Search products..." oninput="filterTable('products-tbl',this.value)">
+            </div>
+            <div class="tbl-wrap">
+                <div id="products-loading" class="empty"><div class="spinner"></div><p>Loading products...</p></div>
+                <table class="dtable" id="products-tbl" style="display:none;">
+                    <thead><tr><th>Product ID</th><th>Product Name</th><th>Stock Status</th><th>Action</th></tr></thead>
+                    <tbody id="products-body"></tbody>
+                </table>
+                <div id="products-empty" class="empty" style="display:none;"><div class="ico">🏷️</div><p>No products found.</p></div>
+            </div>
         </div>
 
         <!-- ── ORDERS (Accordion) ── -->
@@ -463,6 +483,7 @@ service cloud.firestore {
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 <script src="firebase-config.js"></script>
+<script src="script.js"></script>
 <script>
 'use strict';
 let allOrders = [];
@@ -1003,6 +1024,135 @@ function loadReviews() {
     });
 }
 
+// ── Load PRODUCTS ──
+function loadProducts() {
+    showL('products');
+    const tbody = document.getElementById('products-body');
+    if (!tbody) return;
+
+    let stockMap = JSON.parse(localStorage.getItem('python_product_stock_map')) || {};
+    let deletedList = JSON.parse(localStorage.getItem('python_deleted_products')) || [];
+
+    const renderProductsTable = () => {
+        const activeProducts = (typeof products !== 'undefined' ? products : []).filter(p => !deletedList.includes(p.id));
+        const badge = document.getElementById('badge-products');
+        const cnt = document.getElementById('cnt-products');
+        const stat = document.getElementById('s-products');
+        if (badge) badge.innerText = activeProducts.length + ' rows';
+        if (cnt) cnt.innerText = activeProducts.length;
+        if (stat) stat.innerText = activeProducts.length;
+
+        if (activeProducts.length === 0) {
+            showE('products');
+            return;
+        }
+
+        showT('products');
+        tbody.innerHTML = activeProducts.map(p => {
+            const status = stockMap[p.id] || p.stockStatus || (p.stock === 0 ? 'out_of_stock' : 'in_stock');
+            const isOut = status === 'out_of_stock';
+            const statusBadge = isOut
+                ? `<span class="tag cancelled">OUT OF STOCK</span>`
+                : `<span class="tag confirmed">IN STOCK</span>`;
+
+            const toggleBtn = isOut
+                ? `<button class="confirm-btn" style="padding:4px 10px;font-size:.74rem;" onclick="adminToggleStock('${p.id}', 'in_stock')">✓ Set In Stock</button>`
+                : `<button class="tbtn" style="border-color:var(--amber);color:var(--amber);padding:4px 10px;font-size:.74rem;" onclick="adminToggleStock('${p.id}', 'out_of_stock')">⚡ Set Out of Stock</button>`;
+
+            const deleteBtn = `<button class="tbtn" style="border-color:var(--red);color:#ff6b6b;padding:4px 10px;font-size:.74rem;margin-left:6px;" onclick="adminDeleteProduct('${p.id}', '${(p.name||'').replace(/'/g, "\\'")}')">🗑️ Delete</button>`;
+
+            return `
+                <tr>
+                    <td class="mono" style="font-weight:700;color:var(--gold);">${p.id}</td>
+                    <td><strong>${p.name}</strong></td>
+                    <td>${statusBadge}</td>
+                    <td>${toggleBtn}${deleteBtn}</td>
+                </tr>
+            `;
+        }).join('');
+    };
+
+    if (typeof db !== 'undefined' && db) {
+        db.collection('products').get().then(snapshot => {
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                if (data.status) stockMap[doc.id] = data.status;
+                if (data.isDeleted && !deletedList.includes(doc.id)) deletedList.push(doc.id);
+            });
+            localStorage.setItem('python_product_stock_map', JSON.stringify(stockMap));
+            localStorage.setItem('python_deleted_products', JSON.stringify(deletedList));
+            renderProductsTable();
+        }).catch(err => {
+            console.error("Error loading products from Firestore:", err);
+            renderProductsTable();
+        });
+    } else {
+        renderProductsTable();
+    }
+}
+
+function adminToggleStock(productId, newStatus) {
+    let stockMap = JSON.parse(localStorage.getItem('python_product_stock_map')) || {};
+    stockMap[productId] = newStatus;
+    localStorage.setItem('python_product_stock_map', JSON.stringify(stockMap));
+
+    if (typeof products !== 'undefined') {
+        const p = products.find(item => item.id === productId);
+        if (p) {
+            p.stockStatus = newStatus;
+            p.stock = (newStatus === 'out_of_stock') ? 0 : 10;
+        }
+    }
+
+    if (typeof db !== 'undefined' && db) {
+        db.collection('products').doc(productId).set({
+            id: productId,
+            status: newStatus,
+            updatedAt: (typeof firebase !== 'undefined' && firebase.firestore ? firebase.firestore.FieldValue.serverTimestamp() : new Date().toISOString())
+        }, { merge: true }).then(() => {
+            showToast('✅ Product stock status updated to ' + newStatus.replace('_', ' ').toUpperCase(), 'green');
+            loadProducts();
+        }).catch(err => {
+            console.error("Error updating stock in Firestore:", err);
+            showToast('Stock updated locally', 'amber');
+            loadProducts();
+        });
+    } else {
+        showToast('Stock updated locally', 'amber');
+        loadProducts();
+    }
+}
+
+function adminDeleteProduct(productId, productName) {
+    showDialog('🗑️', 'Delete Product?',
+        `"${productName}" site catalog eken delete karannada?`,
+        '#DC143C',
+        () => {
+            let deletedList = JSON.parse(localStorage.getItem('python_deleted_products')) || [];
+            if (!deletedList.includes(productId)) deletedList.push(productId);
+            localStorage.setItem('python_deleted_products', JSON.stringify(deletedList));
+
+            if (typeof db !== 'undefined' && db) {
+                db.collection('products').doc(productId).set({
+                    id: productId,
+                    isDeleted: true,
+                    updatedAt: (typeof firebase !== 'undefined' && firebase.firestore ? firebase.firestore.FieldValue.serverTimestamp() : new Date().toISOString())
+                }, { merge: true }).then(() => {
+                    showToast('🗑️ Product deleted successfully!', 'red');
+                    loadProducts();
+                }).catch(err => {
+                    console.error("Error deleting product in Firestore:", err);
+                    showToast('Product deleted locally', 'red');
+                    loadProducts();
+                });
+            } else {
+                showToast('Product deleted locally', 'red');
+                loadProducts();
+            }
+        }
+    );
+}
+
 // ── Load All ──
 function loadAll() {
     if (!db) {
@@ -1013,7 +1163,7 @@ function loadAll() {
     document.getElementById('auth-status').textContent = '🟢 Connected';
     document.getElementById('rules-warn').style.display = 'none';
     loadOrders();
-    setTimeout(() => { loadUsers(); loadWaitlist(); loadReviews(); }, 500);
+    setTimeout(() => { loadUsers(); loadWaitlist(); loadReviews(); loadProducts(); }, 500);
 }
 
 // ─── Admin Actions ───
