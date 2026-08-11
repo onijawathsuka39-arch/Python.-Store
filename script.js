@@ -41,10 +41,10 @@ const products = [
         ],
         gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 1600, oldPrice: 1850 },
-            'M': { price: 1600, oldPrice: 1850 },
-            'L': { price: 1600, oldPrice: 1850 },
-            'XL': { price: 1600, oldPrice: 1850 }
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
         },
         colors: ['#ffffff'], stock: 10,
         desc: 'The Infinity Edition Regular Tee (Printed) by Python. Crafted with premium 220 GSM fabric for ultimate comfort and durability.'
@@ -57,10 +57,10 @@ const products = [
         ],
         gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 1600, oldPrice: 1850 },
-            'M': { price: 1600, oldPrice: 1850 },
-            'L': { price: 1600, oldPrice: 1850 },
-            'XL': { price: 1600, oldPrice: 1850 }
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
         },
         colors: ['#000000'], stock: 10,
         desc: 'Peace Design Regular Tee (Printed) by Python. Featuring a premium 220 GSM build for a sleek and meaningful streetwear look.'
@@ -73,10 +73,10 @@ const products = [
         ],
         gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 1600, oldPrice: 1850 },
-            'M': { price: 1600, oldPrice: 1850 },
-            'L': { price: 1600, oldPrice: 1850 },
-            'XL': { price: 1600, oldPrice: 1850 }
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
         },
         colors: ['#ffffff'], stock: 10,
         desc: 'Nike Design Regular Tee (Printed) by Python. A classic aesthetic combined with high-quality 220 GSM fabric for everyday premium style.'
@@ -91,10 +91,10 @@ const products = [
         ],
         gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 1600, oldPrice: 1850 },
-            'M': { price: 1600, oldPrice: 1850 },
-            'L': { price: 1600, oldPrice: 1850 },
-            'XL': { price: 1600, oldPrice: 1850 }
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
         },
         colors: ['#000000', '#ffffff'],
         desc: 'Stitch Design for Girls Regular Tee (Printed) by Python. Cute and stylish aesthetic combined with high-quality 220 GSM fabric for everyday premium style.'
@@ -107,10 +107,10 @@ const products = [
         ],
         gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 1600, oldPrice: 1850 },
-            'M': { price: 1600, oldPrice: 1850 },
-            'L': { price: 1600, oldPrice: 1850 },
-            'XL': { price: 1600, oldPrice: 1850 }
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
         },
         colors: ['#ffffff'],
         desc: 'BMW Design Regular Tee (Printed) by Python. Iconic automotive styling paired with premium 220 GSM comfort.'
@@ -123,10 +123,10 @@ const products = [
         ],
         gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 1600, oldPrice: 1850 },
-            'M': { price: 1600, oldPrice: 1850 },
-            'L': { price: 1600, oldPrice: 1850 },
-            'XL': { price: 1600, oldPrice: 1850 }
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
         },
         colors: ['#ffffff'],
         desc: 'Space Design Regular Tee (Printed) by Python. Explore the cosmos in style with this premium 220 GSM graphic tee.'
@@ -139,10 +139,10 @@ const products = [
         ],
         gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 1600, oldPrice: 1850 },
-            'M': { price: 1600, oldPrice: 1850 },
-            'L': { price: 1600, oldPrice: 1850 },
-            'XL': { price: 1600, oldPrice: 1850 }
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
         },
         colors: ['#000000'], stock: 10,
         desc: 'Air Jordan Design Regular Tee (Printed) by Python. Iconic basketball-inspired aesthetic meets premium 220 GSM comfort.'
@@ -203,10 +203,10 @@ const products = [
         ],
         gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 1600, oldPrice: 1850 },
-            'M': { price: 1600, oldPrice: 1850 },
-            'L': { price: 1600, oldPrice: 1850 },
-            'XL': { price: 1600, oldPrice: 1850 }
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
         },
         colors: ['#ffffff'], stock: 10,
         desc: 'GTR Design Regular Tee (Printed) by Python. Featuring an iconic Nissan GT-R Liberty Walk graphic on the back, crafted from premium 220 GSM fabric for ultimate comfort and durability.'
@@ -219,10 +219,10 @@ const products = [
         ],
         gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 1600, oldPrice: 1850 },
-            'M': { price: 1600, oldPrice: 1850 },
-            'L': { price: 1600, oldPrice: 1850 },
-            'XL': { price: 1600, oldPrice: 1850 }
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
         },
         colors: ['#ffffff'], stock: 10,
         desc: 'F30 M3 Design Regular Tee (Printed) by Python. Featuring an iconic BMW F30 M3 graphic on the back, crafted from premium 220 GSM fabric for ultimate comfort and durability.'
@@ -237,10 +237,10 @@ const products = [
         ],
         gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 1600, oldPrice: 1850 },
-            'M': { price: 1600, oldPrice: 1850 },
-            'L': { price: 1600, oldPrice: 1850 },
-            'XL': { price: 1600, oldPrice: 1850 }
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
         },
         colors: ['#000000', '#ffffff'], stock: 10,
         desc: 'Samurai Design Regular Tee (Printed) by Python. A premium 220 GSM streetwear t-shirt featuring a striking Japanese Samurai "Honor" design, available in both black and white.'
@@ -253,10 +253,10 @@ const products = [
         ],
         gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 1600, oldPrice: 1850 },
-            'M': { price: 1600, oldPrice: 1850 },
-            'L': { price: 1600, oldPrice: 1850 },
-            'XL': { price: 1600, oldPrice: 1850 }
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
         },
         colors: ['#ffffff'], stock: 10,
         desc: 'Mustang Design Regular Tee (Printed) by Python. Featuring an iconic Ford Mustang graphic, crafted from premium 220 GSM fabric for ultimate comfort and durability.'
@@ -269,10 +269,10 @@ const products = [
         ],
         gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 1600, oldPrice: 1850 },
-            'M': { price: 1600, oldPrice: 1850 },
-            'L': { price: 1600, oldPrice: 1850 },
-            'XL': { price: 1600, oldPrice: 1850 }
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
         },
         colors: ['#ffffff'], stock: 10,
         desc: 'Angel Design Regular Tee (Printed) by Python. Featuring a unique angelic graphic, crafted from premium 220 GSM fabric for ultimate comfort and durability.'
@@ -285,10 +285,10 @@ const products = [
         ],
         gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 1600, oldPrice: 1850 },
-            'M': { price: 1600, oldPrice: 1850 },
-            'L': { price: 1600, oldPrice: 1850 },
-            'XL': { price: 1600, oldPrice: 1850 }
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
         },
         colors: ['#ffffff'], stock: 10,
         desc: 'Rock Design Regular Tee (Printed) by Python. Featuring a striking rock-inspired graphic, crafted from premium 220 GSM fabric for ultimate comfort and durability.'
@@ -301,10 +301,10 @@ const products = [
         ],
         gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 1600, oldPrice: 1850 },
-            'M': { price: 1600, oldPrice: 1850 },
-            'L': { price: 1600, oldPrice: 1850 },
-            'XL': { price: 1600, oldPrice: 1850 }
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
         },
         colors: ['#ffffff'], stock: 10,
         desc: 'Never Give Up Design Regular Tee (Printed) by Python. Featuring a motivational graphic, crafted from premium 220 GSM fabric for ultimate comfort and durability.'
@@ -380,10 +380,10 @@ const products = [
         ],
         gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 1600, oldPrice: 1850 },
-            'M': { price: 1600, oldPrice: 1850 },
-            'L': { price: 1600, oldPrice: 1850 },
-            'XL': { price: 1600, oldPrice: 1850 }
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
         },
         colors: ['#ffffff'], stock: 10,
         desc: 'Formula 1 Design Regular Tee (Printed) by Python. Iconic racing-inspired graphic, crafted from premium 220 GSM fabric for ultimate comfort and durability.'
@@ -395,13 +395,148 @@ const products = [
         ],
         gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 1600, oldPrice: 1850 },
-            'M': { price: 1600, oldPrice: 1850 },
-            'L': { price: 1600, oldPrice: 1850 },
-            'XL': { price: 1600, oldPrice: 1850 }
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
         },
         colors: ['#000000'], stock: 10,
         desc: 'Monkey Design Regular Tee (Printed) by Python. Featuring a striking graphic aesthetic, crafted from premium 220 GSM fabric for ultimate comfort and durability.'
+    },
+    {
+        id: '23', name: 'Garfield Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/4ZZkgf5d/garfilde-tee.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
+        },
+        colors: ['#ffffff'], stock: 10,
+        desc: 'Garfield Design Regular Tee (Printed) by Python. Featuring a premium quality A3 DTF print on 220 GSM fabric for ultimate style and comfort.'
+    },
+    {
+        id: '24', name: 'Focus Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/0VvY5PhY/Focus-tee.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
+        },
+        colors: ['#ffffff'], stock: 10,
+        desc: 'Focus Design Regular Tee (Printed) by Python. Featuring a premium quality A3 DTF print on 220 GSM fabric for ultimate style and comfort.'
+    },
+    {
+        id: '25', name: 'Ducati Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/KpJygRTT/ducarti-tee.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
+        },
+        colors: ['#ffffff'], stock: 10,
+        desc: 'Ducati Design Regular Tee (Printed) by Python. Featuring a premium quality A3 DTF print on 220 GSM fabric for ultimate style and comfort.'
+    },
+    {
+        id: '26', name: 'Dodge Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/v4wJ8PMC/doger-tee.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
+        },
+        colors: ['#ffffff'], stock: 10,
+        desc: 'Dodge Design Regular Tee (Printed) by Python. Featuring a premium quality A3 DTF print on 220 GSM fabric for ultimate style and comfort.'
+    },
+    {
+        id: '27', name: 'Stitch Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/0RLVSK7c/stich-tee.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
+        },
+        colors: ['#ffffff'], stock: 10,
+        desc: 'Stitch Design Regular Tee (Printed) by Python. Featuring a premium quality A3 DTF print on 220 GSM fabric for ultimate style and comfort.'
+    },
+    {
+        id: '28', name: 'BMW Car Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/TqgwRzLD/BMW-tee-white.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
+        },
+        colors: ['#ffffff'], stock: 10,
+        desc: 'BMW Car Design Regular Tee (Printed) by Python. Featuring a premium quality A3 DTF print on 220 GSM fabric for ultimate style and comfort.'
+    },
+    {
+        id: '29', name: 'Snoopy Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/SCypGfW/snoopy-tee.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
+        },
+        colors: ['#000000'], stock: 10,
+        desc: 'Snoopy Design Regular Tee (Printed) by Python. Featuring a premium quality A3 DTF print on 220 GSM fabric for ultimate style and comfort.'
+    },
+    {
+        id: '30', name: 'Space Traveler Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/q3gcMMMM/Moon-tee.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
+        },
+        colors: ['#000000'], stock: 10,
+        desc: 'Space Traveler Design Regular Tee (Printed) by Python. Featuring a premium quality A3 DTF print on 220 GSM fabric for ultimate style and comfort.'
+    },
+    {
+        id: '31', name: 'Ferrari Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/VYc93p4f/Ferari-tee.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 1650, oldPrice: 1850 },
+            'M': { price: 1650, oldPrice: 1850 },
+            'L': { price: 1650, oldPrice: 1850 },
+            'XL': { price: 1650, oldPrice: 1850 }
+        },
+        colors: ['#000000'], stock: 10,
+        desc: 'Ferrari Design Regular Tee (Printed) by Python. Featuring a premium quality A3 DTF print on 220 GSM fabric for ultimate style and comfort.'
     }
 ];
 
