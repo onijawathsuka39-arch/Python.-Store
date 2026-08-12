@@ -1854,7 +1854,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const catParam = urlParams.get('category');
         catParam ? filterProducts(catParam) : filterProducts('All');
     }
-    if (window.location.pathname.includes('index.html') || window.location.pathname === '/') { displayProducts(products.slice(0, 4)); }
+    const _isIndexPage = !!document.getElementById('top-selling-carousel');
+    if (_isIndexPage) {
+        const featuredIds = ['26', '27', '30', '31'];
+        const featuredProducts = products.filter(p => featuredIds.includes(p.id));
+        displayProducts(featuredProducts);
+    }
     if ((window.location.pathname.includes('login.html') || window.location.pathname.includes('signup.html')) && currentUser) {
         window.location.href = 'profile.html';
     }
@@ -2023,7 +2028,11 @@ function syncProductsWithDatabase() {
             localStorage.setItem('python_deleted_products', JSON.stringify(deletedList));
             applySync();
             // Re-render shop/product grids if present
-            if (typeof filterShop === 'function') {
+            const isIdx = !!document.getElementById('top-selling-carousel');
+            if (isIdx) {
+                const featuredIds = ['26', '27', '30', '31'];
+                displayProducts(products.filter(p => featuredIds.includes(p.id) && !p.isDeleted));
+            } else if (typeof filterShop === 'function' && (window.location.pathname.includes('shop.html') || document.getElementById('category-row-wrapper'))) {
                 filterShop();
             } else if (typeof displayProducts === 'function') {
                 displayProducts(products.filter(p => !p.isDeleted));
