@@ -54,51 +54,52 @@
         <a href="cart.html">Cart</a>
     </div>
 
-    <!-- Ambient Floating Background Shapes -->
-    <div class="ambient-glow-wrapper">
-        <div class="ambient-orb orb-1"></div>
-        <div class="ambient-orb orb-2"></div>
-        <div class="ambient-orb orb-3"></div>
-    </div>
-
-    <main class="section" style="padding-top: 140px; min-height: 80vh; position: relative; z-index: 1;">
-        <div class="section-title" style="margin-bottom: 35px;">
-            <span class="modern-pill animate-fade-up stagger-1" style="margin-bottom: 15px;"><i data-lucide="tag"></i> Official Python Store</span>
-            <h2 class="animate-fade-up stagger-2" style="font-size: 2.8rem;">Explore Our <span style="background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Collection</span></h2>
-            <p class="animate-fade-up stagger-3" style="font-size: 1.05rem;">Heavyweight fabrics, iconic graphics, and tailored luxury cuts</p>
+    <main class="section" style="padding-top: 150px;">
+        <div class="section-title">
+            <h2>Our <span style="color: #ff0000;">Shop</span></h2>
+            <p>Browse through our exclusive T-shirt collection</p>
         </div>
 
-        <!-- Modern Shop Search & Filter Toolbar -->
-        <div class="shop-toolbar animate-fade-up stagger-3">
-            <div class="shop-top-bar">
-                <div class="shop-search-box">
-                    <i data-lucide="search"></i>
-                    <input type="text" id="shop-search" placeholder="Search by name, fit, style or GSM..." oninput="handleSearch(this.value)">
-                </div>
+        <!-- Search Bar -->
+        <div class="search-container" style="max-width: 300px; margin: 0 0 30px auto; position: relative;">
+            <input type="text" id="shop-search" placeholder="Search (e.g. t-shirt, kids)..." oninput="handleSearch(this.value)"
+                style="width: 100%; padding: 12px 15px 12px 42px; border-radius: 50px; border: 1px solid var(--border-color); background: var(--surface); color: var(--primary-dark); font-size: 0.9rem; box-shadow: 0 5px 15px rgba(0,0,0,0.05); outline: none; transition: var(--transition-smooth);">
+            <i data-lucide="search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); width: 18px; height: 18px; pointer-events: none;"></i>
+        </div>
 
-                <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
-                    <button onclick="openSizeChart()" class="btn btn-outline" style="padding: 10px 20px; font-size: 0.85rem; border-radius: 50px; display: inline-flex; align-items: center; gap: 8px;">
-                        <i data-lucide="ruler" style="width: 16px;"></i> Size Chart
-                    </button>
-                    <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); background: var(--primary-light); padding: 8px 16px; border-radius: 50px; border: 1px solid var(--border-color);">
-                        <i data-lucide="box" style="width: 14px; vertical-align: middle;"></i> 100% In Stock
-                    </div>
-                </div>
-            </div>
-
-            <!-- Filter Glass Rows: Categories Only -->
-            <div class="filter-glass-row" id="category-row-wrapper">
-                <span class="filter-label-badge"><i data-lucide="layers" style="width: 14px;"></i> Category</span>
-                <div class="filter-pills-list">
-                    <button class="filter-pill category-btn active" onclick="selectCategory('All', this)">All Items</button>
-                    <button class="filter-pill category-btn" onclick="selectCategory('Regular Tee (Printed)', this)">Regular Fit</button>
-                    <button class="filter-pill category-btn" onclick="selectCategory('Oversized Tee (Printed)', this)">Oversized Streetwear</button>
-                </div>
+        <!-- Category Filter Row -->
+        <div class="filter-scroll-wrapper visible animate-fade-up stagger-1" id="category-row-wrapper">
+            <span class="filter-row-label">Category:</span>
+            <div class="filter-scroll-container">
+                <button class="shop-filter-btn category-btn active" onclick="selectCategory('All', this)">All Categories</button>
+                <button class="shop-filter-btn category-btn" onclick="selectCategory('T-Shirts', this)">T-Shirts</button>
             </div>
         </div>
 
-        <div class="product-grid" id="product-grid" style="max-width: 1200px; margin: 0 auto;">
-            <!-- Products will be dynamically loaded here by script.js -->
+        <!-- Subcategory Filter Row -->
+        <div class="filter-scroll-wrapper animate-fade-up stagger-2" id="subcategory-row-wrapper">
+            <span class="filter-row-label">Type:</span>
+            <div class="filter-scroll-container">
+                <button class="shop-filter-btn subcategory-btn active" onclick="selectSubcategory('All', this)">All Subcategories</button>
+                <button class="shop-filter-btn subcategory-btn" onclick="selectSubcategory('Regular Tee (Printed)', this)">Regular Tee (Printed)</button>
+                <button class="shop-filter-btn subcategory-btn" onclick="selectSubcategory('Oversized Tee (Printed)', this)">Oversized Tee (Printed)</button>
+            </div>
+        </div>
+
+        <!-- GSM Filter Row -->
+        <div class="filter-scroll-wrapper animate-fade-up stagger-3" id="gsm-row-wrapper">
+            <span class="filter-row-label">GSM:</span>
+            <div class="filter-scroll-container">
+                <button class="shop-filter-btn gsm-btn active" onclick="selectGSM('all', this)">All GSM</button>
+                <button class="shop-filter-btn gsm-btn" onclick="selectGSM('220 GSM', this)">220 GSM</button>
+                <button class="shop-filter-btn gsm-btn" onclick="selectGSM('190 GSM', this)">190 GSM</button>
+                <button class="shop-filter-btn gsm-btn" onclick="selectGSM('240 GSM', this)">240 GSM</button>
+            </div>
+        </div>
+
+
+        <div class="product-grid" id="product-grid">
+            <!-- Products will be here -->
         </div>
     </main>
 
@@ -186,24 +187,6 @@
             document.getElementById('sizeChartModal').classList.remove('active');
             document.body.style.overflow = 'auto';
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const cat = urlParams.get('cat') || urlParams.get('category');
-            if (cat === 'regular') {
-                selectCategory('Regular Tee (Printed)');
-            } else if (cat === 'oversized') {
-                selectCategory('Oversized Tee (Printed)');
-            } else if (cat) {
-                selectCategory(cat);
-            } else {
-                if (typeof filterShop === 'function') {
-                    filterShop();
-                } else if (typeof displayProducts === 'function' && typeof products !== 'undefined') {
-                    displayProducts(products);
-                }
-            }
-        });
     </script>
 </body>
 
