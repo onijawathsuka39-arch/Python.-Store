@@ -660,7 +660,7 @@ function displayProducts(filteredProducts) {
                 </div>
             </div>
             ${isOutOfStock ? '' : `
-            <div class="add-to-cart" onclick="event.stopPropagation(); addToCart('${p.name}', ${displayPrice}, '${p.images[0]}')">
+            <div class="add-to-cart" onclick="event.stopPropagation(); addToCartById('${p.id}')">
                 <i data-lucide="plus"></i>
             </div>
             `}
@@ -672,6 +672,15 @@ function displayProducts(filteredProducts) {
         </div>`;
     });
     if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function addToCartById(productId) {
+    const p = products.find(prod => prod.id === productId);
+    if (!p) return;
+    const hasSizes = p.sizes && typeof p.sizes === 'object';
+    const displayPrice = hasSizes ? Object.values(p.sizes)[0].price : p.price;
+    const img = (p.images && p.images.length > 0) ? p.images[0] : (p.img || '');
+    addToCart(p.name, displayPrice, img);
 }
 
 let hoverIntervals = {};
@@ -776,30 +785,6 @@ function updateFilterVisibility() {
 
 function selectCategory(cat, btn) {
     currentCategory = cat;
-    // categorySelected = true only for a real category, not 'All'
-    categorySelected = (cat !== 'All');
-    // Whenever category changes, reset subcategory
-    currentSubcategory = 'All';
-    subcategorySelected = false;
-    currentGSM = 'all';
-    // Reset subcategory buttons to 'All'
-    document.querySelectorAll('.subcategory-btn').forEach(b => {
-        const onclickAttr = b.getAttribute('onclick') || '';
-        if (onclickAttr.includes("'All'")) {
-            b.classList.add('active');
-        } else {
-            b.classList.remove('active');
-        }
-    });
-    // Reset GSM buttons to 'all'
-    document.querySelectorAll('.gsm-btn').forEach(b => {
-        const onclickAttr = b.getAttribute('onclick') || '';
-        if (onclickAttr.includes("'all'")) {
-            b.classList.add('active');
-        } else {
-            b.classList.remove('active');
-        }
-    });
     document.querySelectorAll('.category-btn').forEach(b => {
         const onclickAttr = b.getAttribute('onclick') || '';
         if (onclickAttr.includes(`'${cat}'`)) {
@@ -808,56 +793,7 @@ function selectCategory(cat, btn) {
             b.classList.remove('active');
         }
     });
-    updateFilterVisibility();
     filterShop();
-    setTimeout(() => {
-        scrollToActiveButtonInContainer('#category-row-wrapper .filter-scroll-container', '.category-btn.active');
-    }, 100);
-}
-
-function selectSubcategory(subcat, btn) {
-    currentSubcategory = subcat;
-    // subcategorySelected = true only for a real subcategory, not 'All'
-    subcategorySelected = (subcat !== 'All');
-    // Reset GSM when subcategory changes
-    currentGSM = 'all';
-    document.querySelectorAll('.gsm-btn').forEach(b => {
-        const onclickAttr = b.getAttribute('onclick') || '';
-        if (onclickAttr.includes("'all'")) {
-            b.classList.add('active');
-        } else {
-            b.classList.remove('active');
-        }
-    });
-    document.querySelectorAll('.subcategory-btn').forEach(b => {
-        const onclickAttr = b.getAttribute('onclick') || '';
-        if (onclickAttr.includes(`'${subcat}'`)) {
-            b.classList.add('active');
-        } else {
-            b.classList.remove('active');
-        }
-    });
-    updateFilterVisibility();
-    filterShop();
-    setTimeout(() => {
-        scrollToActiveButtonInContainer('#subcategory-row-wrapper .filter-scroll-container', '.subcategory-btn.active');
-    }, 100);
-}
-
-function selectGSM(gsm, btn) {
-    currentGSM = gsm;
-    document.querySelectorAll('.gsm-btn').forEach(b => {
-        const onclickAttr = b.getAttribute('onclick') || '';
-        if (onclickAttr.includes(`'${gsm}'`)) {
-            b.classList.add('active');
-        } else {
-            b.classList.remove('active');
-        }
-    });
-    filterShop();
-    setTimeout(() => {
-        scrollToActiveButtonInContainer('#gsm-row-wrapper .filter-scroll-container', '.gsm-btn.active');
-    }, 100);
 }
 
 function filterShop() {
@@ -865,14 +801,7 @@ function filterShop() {
 
     // 1. Filter by Category
     if (currentCategory !== 'All') {
-        if (currentCategory === 'T-Shirts') {
-            filtered = filtered.filter(p => p.category.toLowerCase().includes('tee') || p.category.toLowerCase().includes('t-shirt') || p.category.toLowerCase().includes('waffle'));
-        }
-    }
-
-    // 2. Filter by Subcategory (Regular Tee, Oversized Tee)
-    if (currentSubcategory !== 'All') {
-        filtered = filtered.filter(p => p.category === currentSubcategory);
+        filtered = filtered.filter(p => p.category === currentCategory);
     }
 
     // 3. Filter by GSM
@@ -1501,10 +1430,40 @@ function placeOrder() {
         subtotal += item.price * item.quantity;
     });
 
-    const grandTotal = subtotal + deliveryFee;
+    // Check if points are applied
+    let redeemedPoints = 0;
+    let pointsDiscount = 0;
+    const isPointsApplied = window.sessionStorage.getItem('python_apply_points') === 'true';
+
+    if (isPointsApplied && currentUser) {
+        // Calculate points available
+        const userOrders = orders.filter(o => o.userEmail === currentUser.email);
+        const totalSpent = userOrders.reduce((sum, o) => sum + (o.total || 0), 0);
+        const pastRedeemed = userOrders.reduce((sum, o) => sum + (o.redeemedPoints || 0), 0);
+        const availPts = Math.max(0, (Math.floor(totalSpent / 1750) * 20) - pastRedeemed);
+        
+        if (availPts >= 20) {
+            redeemedPoints = availPts;
+            pointsDiscount = Math.floor(redeemedPoints / 20) * 10;
+            orderData.redeemedPoints = redeemedPoints;
+            orderData.pointsDiscount = pointsDiscount;
+        }
+    }
+
+    const grandTotal = Math.max(0, subtotal + deliveryFee - pointsDiscount);
+    orderData.grandTotal = grandTotal;
+
     message += `\n💵 *Subtotal:* Rs. ${subtotal.toLocaleString()}.00\n`;
     message += `🚚 *Delivery Fee:* ${deliveryFee === 0 ? 'FREE' : 'Rs. ' + deliveryFee.toLocaleString() + '.00'}\n`;
+    if (pointsDiscount > 0) {
+        message += `🎁 *Club Points Redeemed:* ${redeemedPoints} Points (-Rs. ${pointsDiscount.toLocaleString()}.00)\n`;
+    }
     message += `💰 *Grand Total: Rs. ${grandTotal.toLocaleString()}.00*\n\n`;
+
+    // Re-encode updated orderData with discount info
+    const updatedJsonStr = JSON.stringify(orderData);
+    const updatedEncodedData = btoa(unescape(encodeURIComponent(updatedJsonStr)));
+    const whatsappInvoiceUrl = `${whatsappBaseUrl}invoice.html?data=${encodeURIComponent(updatedEncodedData)}`;
 
     message += `📄 *View E-Invoice:* ${whatsappInvoiceUrl}\n\n`;
     message += `Thank you for shopping with Python Store!`;
@@ -1516,6 +1475,10 @@ function placeOrder() {
         date: now.toLocaleDateString(),
         items: [...cart],
         total: grandTotal,
+        subtotal: subtotal,
+        deliveryFee: deliveryFee,
+        redeemedPoints: redeemedPoints,
+        pointsDiscount: pointsDiscount,
         userEmail: currentUser ? currentUser.email : 'Guest',
         userName: currentUser ? currentUser.name : 'Guest',
         userPhone: phone,
@@ -1531,6 +1494,7 @@ function placeOrder() {
         });
     }
     localStorage.removeItem('python_free_delivery_active');
+    window.sessionStorage.removeItem('python_apply_points');
     const bar = document.getElementById('free-delivery-bar');
     if (bar) bar.remove();
     cart = []; saveCart();
@@ -1570,14 +1534,54 @@ function loadProfile() {
     const emailEl = document.getElementById('profile-email');
     const initialEl = document.getElementById('profile-initial');
     const orderCountEl = document.getElementById('order-count');
+    const wishlistCountEl = document.getElementById('profile-wishlist-count');
+    const cartCountEl = document.getElementById('profile-cart-count');
+    const clubPointsEl = document.getElementById('profile-club-points');
+    const pointsValEl = document.getElementById('profile-points-value');
     const historyEl = document.getElementById('order-history');
+
+    // Update wishlist and cart counts immediately
+    const currentWishlist = JSON.parse(localStorage.getItem('python_wishlist')) || [];
+    const currentCart = JSON.parse(localStorage.getItem('python_cart')) || [];
+    const cartTotalQty = currentCart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+
+    if (wishlistCountEl) wishlistCountEl.innerText = currentWishlist.length;
+    if (cartCountEl) cartCountEl.innerText = cartTotalQty;
+
     if (currentUser) {
         if (nameEl) nameEl.innerText = currentUser.name;
         if (emailEl) emailEl.innerText = currentUser.email;
         if (initialEl) initialEl.innerText = currentUser.name.charAt(0).toUpperCase();
 
-        const renderOrdersList = (ordersList) => {
+        const renderOrdersAndPoints = (ordersList) => {
             if (orderCountEl) orderCountEl.innerText = ordersList.length;
+            
+            // Calculate Points: 20 points for every Rs. 1750 in total spent, minus any points redeemed
+            const totalSpent = ordersList.reduce((sum, o) => sum + (o.total || 0), 0);
+            const totalRedeemedPoints = ordersList.reduce((sum, o) => sum + (o.redeemedPoints || 0), 0);
+            const earnedPoints = Math.floor(totalSpent / 1750) * 20;
+            let currentPoints = Math.max(0, earnedPoints - totalRedeemedPoints);
+            
+            // Allow override from user profile doc if available
+            if (currentUser.clubPoints !== undefined && currentUser.clubPoints !== null) {
+                currentPoints = currentUser.clubPoints;
+            }
+
+            const pointsRupeeValue = Math.floor(currentPoints / 20) * 10;
+
+            if (clubPointsEl) clubPointsEl.innerText = currentPoints.toLocaleString();
+            if (pointsValEl) pointsValEl.innerText = `(= Rs. ${pointsRupeeValue.toLocaleString()}.00 discount)`;
+
+            // Sync points back to user document in Firestore
+            if (typeof db !== 'undefined' && db && currentUser.uid) {
+                db.collection('users').doc(currentUser.uid).set({
+                    clubPoints: currentPoints,
+                    pointsValue: pointsRupeeValue,
+                    totalOrders: ordersList.length,
+                    totalSpent: totalSpent
+                }, { merge: true }).catch(err => console.warn('Could not sync user points to firestore:', err));
+            }
+
             if (historyEl) {
                 if (ordersList.length === 0) {
                     historyEl.innerHTML = '<p style="color: var(--text-muted);">No orders found.</p>';
@@ -1586,6 +1590,7 @@ function loadProfile() {
                         const status = o.status || 'pending';
                         const statusColor = status === 'confirmed' ? '#22c55e' : status === 'cancelled' ? '#ef4444' : '#f59e0b';
                         const statusLabel = status === 'confirmed' ? '✅ Confirmed' : status === 'cancelled' ? '❌ Cancelled' : '🕐 Pending';
+                        const redeemedBadge = o.redeemedPoints ? `<span style="font-size:0.75rem; color:#2ed573; font-weight:700; margin-left: 8px;">(Used ${o.redeemedPoints} Points: -Rs. ${(o.pointsDiscount||0).toLocaleString()})</span>` : '';
                         return `
                         <div class="glass" style="padding: 20px; margin-bottom: 15px; text-align: left;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 8px;">
@@ -1596,9 +1601,9 @@ function loadProfile() {
                                 </div>
                             </div>
                             <div style="font-size: 0.9rem; margin-bottom: 10px;">
-                                ${o.items.map(i => `${i.name} (${i.size}, ${i.quantity}x)`).join(', ')}
+                                ${(o.items || []).map(i => `${i.name} (${i.size}, ${i.quantity}x)`).join(', ')}
                             </div>
-                            <div style="font-weight: 800; color: #DC143C;">Total: Rs. ${o.total.toLocaleString()}.00</div>
+                            <div style="font-weight: 800; color: #DC143C;">Total: Rs. ${(o.total||0).toLocaleString()}.00 ${redeemedBadge}</div>
                         </div>`;
                     }).join('');
                 }
@@ -1614,21 +1619,22 @@ function loadProfile() {
                     querySnapshot.forEach((doc) => {
                         dbOrders.push(doc.data());
                     });
-                    // Sort descending by date/timestamp
                     dbOrders.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-                    renderOrdersList(dbOrders);
+                    renderOrdersAndPoints(dbOrders);
                 })
                 .catch((err) => {
                     console.error("Error fetching orders from Firestore:", err);
                     const userOrders = orders.filter(o => o.userEmail === currentUser.email);
-                    renderOrdersList(userOrders.reverse());
+                    renderOrdersAndPoints(userOrders.reverse());
                 });
         } else {
             const userOrders = orders.filter(o => o.userEmail === currentUser.email);
-            renderOrdersList(userOrders.reverse());
+            renderOrdersAndPoints(userOrders.reverse());
         }
     } else {
-        if (window.location.pathname.includes('profile.html')) { window.location.href = 'login.html'; }
+        if (orderCountEl) orderCountEl.innerText = '0';
+        if (clubPointsEl) clubPointsEl.innerText = '0';
+        if (pointsValEl) pointsValEl.innerText = '(= Rs. 0.00)';
     }
 }
 
@@ -1851,14 +1857,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.location.pathname.includes('wishlist.html')) { renderWishlist(); }
     if (window.location.pathname.includes('shop.html')) {
         const urlParams = new URLSearchParams(window.location.search);
-        const catParam = urlParams.get('category');
-        catParam ? filterProducts(catParam) : filterProducts('All');
+        const catParam = urlParams.get('category') || urlParams.get('cat');
+        if (catParam === 'regular') {
+            selectCategory('Regular Tee (Printed)');
+        } else if (catParam === 'oversized') {
+            selectCategory('Oversized Tee (Printed)');
+        } else if (catParam) {
+            selectCategory(catParam);
+        } else {
+            filterShop();
+        }
     }
-    const _isIndexPage = !!document.getElementById('top-selling-carousel');
-    if (_isIndexPage) {
+    const _isIndexPage = !!document.getElementById('top-selling-carousel') || !!document.getElementById('product-grid');
+    if (_isIndexPage && !window.location.pathname.includes('shop.html')) {
         const featuredIds = ['26', '27', '30', '31'];
         const featuredProducts = products.filter(p => featuredIds.includes(p.id));
-        displayProducts(featuredProducts);
+        displayProducts(featuredProducts.length > 0 ? featuredProducts : products.slice(0, 4));
     }
     if ((window.location.pathname.includes('login.html') || window.location.pathname.includes('signup.html')) && currentUser) {
         window.location.href = 'profile.html';

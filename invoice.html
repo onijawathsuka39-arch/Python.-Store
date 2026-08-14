@@ -256,6 +256,10 @@
                 <span>Delivery Fee</span>
                 <span id="d-fee">Rs. 350.00</span>
             </div>
+            <div class="total-row" id="inv-discount-row" style="display: none; color: #2e7d32; font-weight: 700;">
+                <span>Points Discount (<span id="inv-points-count">0</span> Pts)</span>
+                <span id="inv-discount-val">-Rs. 0.00</span>
+            </div>
             <div class="total-row final">
                 <span>Grand Total</span>
                 <span id="g-total">Rs. 0.00</span>
@@ -522,9 +526,25 @@
                 if (hasCustom) productionSheet.style.display = 'block';
 
                 const delivery = (order.delivery !== undefined) ? order.delivery : 450;
+                const pointsDiscount = order.pointsDiscount || 0;
+                const redeemedPoints = order.redeemedPoints || 0;
+
                 document.getElementById('s-total').innerText = `Rs. ${sub.toLocaleString()}.00`;
                 document.getElementById('d-fee').innerText = delivery === 0 ? 'FREE' : `Rs. ${delivery.toLocaleString()}.00`;
-                document.getElementById('g-total').innerText = `Rs. ${(sub + delivery).toLocaleString()}.00`;
+                
+                const discRow = document.getElementById('inv-discount-row');
+                const ptsCount = document.getElementById('inv-points-count');
+                const discVal = document.getElementById('inv-discount-val');
+                if (pointsDiscount > 0 && discRow && ptsCount && discVal) {
+                    ptsCount.innerText = redeemedPoints;
+                    discVal.innerText = `-Rs. ${pointsDiscount.toLocaleString()}.00`;
+                    discRow.style.display = 'flex';
+                } else if (discRow) {
+                    discRow.style.display = 'none';
+                }
+
+                const finalGrand = Math.max(0, sub + delivery - pointsDiscount);
+                document.getElementById('g-total').innerText = `Rs. ${finalGrand.toLocaleString()}.00`;
 
             } catch (e) {
                 console.error(e);

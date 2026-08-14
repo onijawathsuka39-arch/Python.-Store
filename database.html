@@ -371,7 +371,7 @@ service cloud.firestore {
                 <div id="users-loading" class="empty"><div class="spinner"></div><p>Loading users...</p></div>
                 <table class="dtable" id="users-tbl" style="display:none;">
                     <thead><tr>
-                        <th>#</th><th>Name</th><th>Email</th><th>Phone</th><th>Status</th><th>Orders</th><th>View</th>
+                        <th>#</th><th>Name</th><th>Email</th><th>Phone</th><th>Status</th><th>Orders</th><th>Club Points</th><th>View</th>
                     </tr></thead>
                     <tbody id="users-body"></tbody>
                 </table>
@@ -699,7 +699,10 @@ function renderAccordionOrders(list) {
                     <tbody>${itemRows}</tbody>
                 </table>
                 <div class="acc-footer">
-                    <div class="acc-total">Grand Total: Rs. ${(o.total||0).toLocaleString()}.00</div>
+                    <div class="acc-total">
+                        Grand Total: Rs. ${(o.total||0).toLocaleString()}.00
+                        ${o.redeemedPoints ? `<span style="display:block; font-size:0.75rem; color:var(--green); font-weight:700; margin-top:3px;">🎁 Used ${o.redeemedPoints} Club Pts (-Rs. ${(o.pointsDiscount||0).toLocaleString()}.00)</span>` : ''}
+                    </div>
                     <div class="acc-btns">
                         ${cancelBtn}${confirmBtn}
                         <a class="btn-invoice" href="${invoiceLink}" target="_blank" rel="noopener">
@@ -864,6 +867,14 @@ function loadUsers() {
         document.getElementById('users-body').innerHTML = allUsers.map((u, i) => {
             const uOrders = allOrders.filter(o => o.userEmail === u.email);
             const blocked = u.blocked === true;
+            
+            // Calculate live points for user from orders
+            const totalSpent = uOrders.reduce((sum, o) => sum + (o.total || 0), 0);
+            const redeemedPts = uOrders.reduce((sum, o) => sum + (o.redeemedPoints || 0), 0);
+            const calcPts = Math.max(0, (Math.floor(totalSpent / 1750) * 20) - redeemedPts);
+            const pts = (u.clubPoints !== undefined && u.clubPoints !== null) ? u.clubPoints : calcPts;
+            const ptsVal = Math.floor(pts / 20) * 10;
+
             return `<tr>
                 <td class="mono">${i+1}</td>
                 <td><strong>${u.name || '–'}</strong></td>
@@ -873,6 +884,7 @@ function loadUsers() {
                     ? '<span class="blocked-badge">⛔ BLOCKED</span>'
                     : '<span class="active-badge">✅ ACTIVE</span>'}</td>
                 <td><span class="badge">${uOrders.length}</span></td>
+                <td><span style="color:var(--green);font-weight:800;font-size:0.85rem;">${pts} Pts</span> <span style="font-size:0.72rem;color:var(--muted);">(Rs. ${ptsVal})</span></td>
                 <td><button class="view-btn" onclick="openUserModal('${u._docId}')">View</button></td>
             </tr>`;
         }).join('');
@@ -891,6 +903,12 @@ function openUserModal(docId) {
     const uOrders = allOrders.filter(o => o.userEmail === user.email);
     const blocked = user.blocked === true;
 
+    const totalSpent = uOrders.reduce((sum, o) => sum + (o.total || 0), 0);
+    const redeemedPts = uOrders.reduce((sum, o) => sum + (o.redeemedPoints || 0), 0);
+    const calcPts = Math.max(0, (Math.floor(totalSpent / 1750) * 20) - redeemedPts);
+    const pts = (user.clubPoints !== undefined && user.clubPoints !== null) ? user.clubPoints : calcPts;
+    const ptsVal = Math.floor(pts / 20) * 10;
+
     document.getElementById('modal-u-title').innerHTML =
         `👤 ${user.name || 'User'} <span style="font-size:.75rem;color:var(--muted)">— ${user.email}</span>`;
 
@@ -899,6 +917,8 @@ function openUserModal(docId) {
         <div class="detail-item"><div class="lbl">Email</div><div class="val">${user.email || '–'}</div></div>
         <div class="detail-item"><div class="lbl">Phone</div><div class="val">${user.phone || '–'}</div></div>
         <div class="detail-item"><div class="lbl">Joined</div><div class="val">${user.createdAt ? new Date(user.createdAt).toLocaleDateString() : '–'}</div></div>
+        <div class="detail-item"><div class="lbl">Python Club Points</div><div class="val" style="color:var(--green);font-weight:800;">${pts} Points <span style="font-size:0.75rem;color:var(--gold);font-weight:700;">(= Rs. ${ptsVal}.00 value)</span></div></div>
+        <div class="detail-item"><div class="lbl">Total Orders</div><div class="val">${uOrders.length} Orders</div></div>
         <div class="detail-item" style="grid-column:1/-1;"><div class="lbl">Address</div><div class="val">${user.address || '–'}</div></div>
         <div class="detail-item" style="grid-column:1/-1;"><div class="lbl">Account Status</div><div class="val">
             ${blocked
@@ -1158,12 +1178,16 @@ function loadAll() {
     if (!db) {
         document.getElementById('auth-status').textContent = '❌ Firebase error';
         document.getElementById('rules-warn').style.display = 'block';
+        loadProducts();
         return;
     }
     document.getElementById('auth-status').textContent = '🟢 Connected';
     document.getElementById('rules-warn').style.display = 'none';
     loadOrders();
-    setTimeout(() => { loadUsers(); loadWaitlist(); loadReviews(); loadProducts(); }, 500);
+    loadUsers();
+    loadWaitlist();
+    loadReviews();
+    loadProducts();
 }
 
 // ─── Admin Actions ───
