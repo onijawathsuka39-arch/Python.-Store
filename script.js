@@ -625,22 +625,30 @@ function displayProducts(filteredProducts) {
         const wished = isInWishlist(p.id);
         const heartColor = wished ? 'color: #DC143C;' : 'color: var(--text-main);';
 
+        // Extract available size keys safely (supports object or array)
+        const sizeKeys = Array.isArray(p.sizes)
+            ? p.sizes
+            : (p.sizes && typeof p.sizes === 'object' ? Object.keys(p.sizes) : ['S','M','L','XL']);
+
         grid.innerHTML += `
         <div class="product-card glass ${isOutOfStock ? 'out-of-stock' : ''}" 
              onclick="window.location.href='product-detail.html?id=${p.id}'" 
              onmouseenter="startHoverSlide('${p.id}', this.querySelector('.card-slider'))"
              onmouseleave="stopHoverSlide('${p.id}', this.querySelector('.card-slider'))"
-             style="cursor: pointer; animation: fadeIn 0.5s ease forwards; overflow: hidden; display: flex; flex-direction: column; position: relative; ${isOutOfStock ? 'opacity: 0.7;' : ''}">
-            <div class="product-image" style="overflow: hidden; position: relative; width: 100%; aspect-ratio: 1/1; border-radius: 15px;">
+             style="cursor: pointer; animation: fadeIn 0.4s ease forwards; overflow: hidden; display: flex; flex-direction: column; position: relative; border-radius: 22px; border: 1px solid var(--border-color); background: var(--surface); padding: 14px; transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 4px 20px rgba(0,0,0,0.04); ${isOutOfStock ? 'opacity: 0.7;' : ''}">
+            
+            <div class="product-image" style="overflow: hidden; position: relative; width: 100%; aspect-ratio: 1/1; border-radius: 16px; background: var(--primary-light); border: 1px solid var(--border-light); margin-bottom: 0;">
                 ${discountBadge}
-                <!-- Wishlist Toggle overlay -->
+                
+                <!-- Wishlist Toggle Button -->
                 <div class="wishlist-overlay-btn" onclick="event.stopPropagation(); handleCardWishlistToggle('${p.id}', this)" 
-                     style="position: absolute; top: 15px; right: 15px; background: var(--surface); border: 1px solid var(--border-color); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 12; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.1);"
+                     style="position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.92); backdrop-filter: blur(8px); border: 1px solid var(--border-color); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 12; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.08);"
                      title="Add to Wishlist">
-                    <i data-lucide="heart" style="width: 18px; height: 18px; ${heartColor}" ${wished ? 'fill="#DC143C"' : ''}></i>
+                    <i data-lucide="heart" style="width: 17px; height: 17px; ${heartColor}" ${wished ? 'fill="#DC143C"' : ''}></i>
                 </div>
+
                 <div class="card-slider" style="display: flex; transition: transform 0.5s ease; height: 100%; width: 100%;">
-                    ${p.images.map(img => `<img src="${img}" style="width: 100%; flex-shrink: 0; height: 100%; object-fit: cover;">`).join('')}
+                    ${p.images.map(img => `<img src="${img}" style="width: 100%; flex-shrink: 0; height: 100%; object-fit: cover; border-radius: 16px;">`).join('')}
                 </div>
                 ${p.images.length > 1 ? `
                 <div class="card-slider-indicators">
@@ -648,27 +656,43 @@ function displayProducts(filteredProducts) {
                 </div>
                 ` : ''}
             </div>
-            <div class="product-info">
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px;">
-                    <span style="font-size: 0.7rem; color: #DC143C; font-weight: 800;">${p.category || ''}</span>
-                    ${stockBadge}
+
+            <div class="product-info" style="padding: 14px 4px 4px; display: flex; flex-direction: column; flex: 1; justify-content: space-between;">
+                <div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+                        <span style="font-size: 0.7rem; color: #DC143C; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">${p.category || ''}</span>
+                        ${stockBadge}
+                    </div>
+
+                    <h3 style="margin: 0 0 8px 0; font-size: 1.05rem; font-weight: 800; color: var(--text-main); line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${p.name}</h3>
+
+                    <!-- Available Sizes Display -->
+                    <div style="display: flex; gap: 4px; margin-bottom: 14px; flex-wrap: wrap;">
+                        ${sizeKeys.map(s => `<span style="font-size: 0.65rem; font-weight: 700; color: var(--text-muted); background: var(--primary-light); padding: 2px 7px; border-radius: 6px; border: 1px solid var(--border-color);">${s}</span>`).join('')}
+                    </div>
                 </div>
-                <h3 style="margin-top: 0;">${p.name}</h3>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <p class="price">Rs. ${displayPrice.toLocaleString()}.00</p>
-                    ${displayOldPrice ? `<p style="text-decoration: line-through; color: var(--text-muted); font-size: 0.8rem;">Rs. ${displayOldPrice.toLocaleString()}</p>` : ''}
+
+                <div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                        <div style="display: flex; align-items: baseline; gap: 8px;">
+                            <span style="font-size: 1.2rem; font-weight: 900; color: #DC143C;">Rs. ${displayPrice.toLocaleString()}.00</span>
+                            ${displayOldPrice ? `<span style="text-decoration: line-through; color: var(--text-muted); font-size: 0.8rem;">Rs. ${displayOldPrice.toLocaleString()}</span>` : ''}
+                        </div>
+                    </div>
+
+                    ${isOutOfStock ? `
+                    <button class="btn btn-outline" disabled style="width: 100%; padding: 10px; border-radius: 50px; font-size: 0.8rem; opacity: 0.6; cursor: not-allowed; font-weight: 700;">
+                        Out of Stock
+                    </button>
+                    ` : `
+                    <button onclick="event.stopPropagation(); addToCart('${p.name}', ${displayPrice}, '${p.images[0]}')" 
+                            class="btn btn-primary" 
+                            style="width: 100%; padding: 10px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 14px rgba(220,20,60,0.25);">
+                        <i data-lucide="shopping-cart" style="width: 15px; height: 15px;"></i> Add to Cart
+                    </button>
+                    `}
                 </div>
             </div>
-            ${isOutOfStock ? '' : `
-            <div class="add-to-cart" onclick="event.stopPropagation(); addToCart('${p.name}', ${displayPrice}, '${p.images[0]}')">
-                <i data-lucide="plus"></i>
-            </div>
-            `}
-            ${(p.category === 'Oversized Tee (Printed)' && !p.sizeChartImg) || isOutOfStock ? '' : `
-            <div class="size-chart-card-btn" onclick="event.stopPropagation(); openSizeChart()" title="Size Chart" style="position: absolute; bottom: 20px; right: 75px; width: 45px; height: 45px; border-radius: 50%; background: #fff; border: 1px solid #ddd; color: #000; display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(20px); transition: 0.3s; cursor: pointer; z-index: 10;">
-                <i data-lucide="ruler" style="width: 20px; height: 20px;"></i>
-            </div>
-            `}
         </div>`;
     });
     if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -720,6 +744,7 @@ function stopHoverSlide(productId, sliderElement) {
 let currentCategory = 'All';
 let currentSubcategory = 'All';
 let currentGSM = 'all';
+let currentSizeFilter = 'All';
 let searchQuery = '';
 
 // true only when a *specific* (non-All) value is chosen
@@ -728,6 +753,19 @@ let subcategorySelected = false;
 
 function handleSearch(val) {
     searchQuery = val.trim().toLowerCase();
+    filterShop();
+}
+
+function selectSizeFilter(size, btn) {
+    currentSizeFilter = size;
+    document.querySelectorAll('.size-filter-btn').forEach(b => {
+        const attr = b.getAttribute('onclick') || '';
+        if (attr.includes(`'${size}'`)) {
+            b.classList.add('active');
+        } else {
+            b.classList.remove('active');
+        }
+    });
     filterShop();
 }
 
@@ -875,12 +913,25 @@ function filterShop() {
         filtered = filtered.filter(p => p.category === currentSubcategory);
     }
 
-    // 3. Filter by GSM
+    // 3. Filter by Category (direct match for selectCategory which sets currentCategory to actual subcategory name)
+    if (currentCategory !== 'All' && currentCategory !== 'T-Shirts') {
+        filtered = filtered.filter(p => p.category === currentCategory);
+    }
+
+    // 4. Filter by GSM
     if (currentGSM !== 'all') {
         filtered = filtered.filter(p => p.gsm === currentGSM);
     }
 
-    // 4. Filter by Search Query
+    // 5. Filter by Size
+    if (currentSizeFilter !== 'All') {
+        filtered = filtered.filter(p => {
+            const sizes = p.sizes || [];
+            return sizes.some(s => s.toUpperCase() === currentSizeFilter.toUpperCase());
+        });
+    }
+
+    // 6. Filter by Search Query
     if (searchQuery !== '') {
         filtered = filtered.filter(p => {
             const name = p.name.toLowerCase();
@@ -1019,10 +1070,11 @@ function renderCart() {
         if (totalElement) totalElement.innerText = 'Rs. 0.00';
         return;
     }
-    let html = '', total = 0;
+    let html = '', total = 0, totalQty = 0;
     cart.forEach((item, index) => {
         const itemTotal = item.price * item.quantity;
         total += itemTotal;
+        totalQty += item.quantity;
         html += `
             <div class="cart-item glass" style="display: flex; justify-content: space-between; align-items: center; padding: 20px; margin-bottom: 15px;">
                 <div style="display: flex; align-items: center; gap: 20px;">
@@ -1043,8 +1095,44 @@ function renderCart() {
                 </div>
             </div>`;
     });
-    cartContainer.innerHTML = html;
+
+    const freeDeliveryItemThreshold = 4;
+    const progressPercent = Math.min(100, (totalQty / freeDeliveryItemThreshold) * 100);
+    const itemsNeeded = freeDeliveryItemThreshold - totalQty;
+    
+    let deliveryMessage = '';
+    if (itemsNeeded > 0) {
+        deliveryMessage = `Add <strong>${itemsNeeded} more item(s)</strong> to get <strong>FREE delivery</strong>!`;
+    } else {
+        deliveryMessage = `🎉 Congrats! You have unlocked <strong>FREE delivery</strong> (4+ Items)!`;
+    }
+
+    const progressColor = itemsNeeded <= 0 ? '#22c55e' : 'var(--text-main)';
+    const progressBarHtml = `<div class="glass" style="padding: 15px 20px; margin-bottom: 20px; border: 1px solid var(--border-color); background: var(--surface); border-radius: 16px;">
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 8px; color: var(--text-main);">
+            <span>${deliveryMessage}</span>
+            <span style="font-weight: 800; color: ${progressColor};">${Math.round(progressPercent)}%</span>
+        </div>
+        <div style="width: 100%; height: 8px; background: var(--primary-light); border-radius: 10px; overflow: hidden;">
+            <div style="width: ${progressPercent}%; height: 100%; background: linear-gradient(90deg, #ff5238, #ff1e38); transition: width 0.4s ease; border-radius: 10px;"></div>
+        </div>
+    </div>`;
+
+    cartContainer.innerHTML = progressBarHtml + html;
     if (totalElement) totalElement.innerText = `Rs. ${total.toLocaleString()}.00`;
+    
+    const shippingEl = document.getElementById('cart-shipping') || document.querySelector('.cart-summary div:nth-child(2) span:last-child');
+    if (shippingEl) {
+        shippingEl.innerText = totalQty >= 4 ? 'FREE' : 'Rs. 500.00';
+        if (totalQty >= 4) {
+            shippingEl.style.color = '#22c55e';
+            shippingEl.style.fontWeight = '800';
+        } else {
+            shippingEl.style.color = 'var(--text-main)';
+            shippingEl.style.fontWeight = '700';
+        }
+    }
+    
     lucide.createIcons();
 }
 
@@ -1418,13 +1506,20 @@ function showOrderSuccessModal(orderData, subtotal, deliveryFee, grandTotal, wha
 function placeOrder() {
     if (cart.length === 0) { alert('Your cart is empty!'); return; }
 
+    const nameEl = document.getElementById('checkout-name');
     const addressEl = document.getElementById('checkout-address');
     const cityEl = document.getElementById('checkout-city');
+    const districtEl = document.getElementById('checkout-district');
     const phoneEl = document.getElementById('checkout-phone');
+    const notesEl = document.getElementById('checkout-notes');
 
+    const customerName = nameEl && nameEl.value.trim() ? nameEl.value.trim() : (currentUser ? currentUser.name : 'Guest');
     const address = addressEl ? addressEl.value.trim() : '';
     const city = cityEl ? cityEl.value.trim() : '';
+    const district = districtEl ? districtEl.value.trim() : '';
+    const fullAddress = district ? `${address}, ${city} (${district})` : `${address}, ${city}`;
     const phone = phoneEl ? phoneEl.value.trim() : '';
+    const notes = notesEl ? notesEl.value.trim() : '';
 
     if (!address || !city || !phone) {
         alert('Please fill out your address, city, and phone number before completing the order!');
@@ -1438,18 +1533,33 @@ function placeOrder() {
     const totalOrdersCount = (orders.length + 1).toString().padStart(3, '0');
     const orderID = `ORD-PS-${dateStr}${totalOrdersCount}`;
 
-    // Calculate dynamic delivery fee
-    const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
-    const deliveryFee = itemCount > 3 ? 0 : 450;
+    // Calculate subtotal and item count from cart
+    let subtotal = 0;
+    let itemCount = 0;
+    cart.forEach(item => { 
+        subtotal += item.price * item.quantity;
+        itemCount += item.quantity;
+    });
+
+    // Calculate dynamic delivery fee: FREE for 4+ items, else Rs. 500
+    const deliveryFee = itemCount >= 4 ? 0 : 500;
 
     const safeColorNames = typeof colorNames !== 'undefined' ? colorNames : {};
+
+    // Retrieve points redemption details from checkout interface
+    const redeemedPoints = window.checkoutPointsRedeemed || 0;
+    const pointsDiscount = window.checkoutPointsDiscount || 0;
+
+    // Calculate points earned from this purchase: 20 points per 1750 Rs in bill price
+    const pointsEarned = Math.floor(subtotal / 1750) * 20;
 
     // Prepare data for the E-Invoice
     const orderData = {
         id: orderID,
-        name: currentUser ? currentUser.name : 'Guest',
+        name: customerName,
         phone: phone,
-        address: `${address}, ${city}`,
+        address: fullAddress,
+        notes: notes,
         date: now.toLocaleDateString(),
         time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         items: cart.map(item => {
@@ -1465,7 +1575,10 @@ function placeOrder() {
                 customStickers: item.customStickers || []
             };
         }),
-        delivery: deliveryFee
+        delivery: deliveryFee,
+        redeemedPoints: redeemedPoints,
+        pointsDiscount: pointsDiscount,
+        pointsEarned: pointsEarned
     };
 
     // Encode order data for the URL
@@ -1489,21 +1602,26 @@ function placeOrder() {
     message += `👤 *Customer:* ${orderData.name}\n`;
     message += `📞 *Phone:* ${phone}\n`;
     message += `📍 *Address:* ${orderData.address}\n`;
+    if (notes) {
+        message += `📝 *Notes:* ${notes}\n`;
+    }
     message += `📅 *Date:* ${orderData.date} | ${orderData.time}\n\n`;
     message += `💳 *Payment Method:* Cash on Delivery\n\n`;
     message += `📦 *Items Ordered:*\n`;
 
-    let subtotal = 0;
     cart.forEach((item) => {
         const colorName = safeColorNames[item.color] || item.color;
         message += `• *${item.name}* (${item.size} | ${colorName})\n`;
         message += `  Qty: ${item.quantity} x Rs. ${item.price.toLocaleString()}\n`;
-        subtotal += item.price * item.quantity;
     });
 
-    const grandTotal = subtotal + deliveryFee;
+    const grandTotal = Math.max(0, subtotal + deliveryFee - pointsDiscount);
     message += `\n💵 *Subtotal:* Rs. ${subtotal.toLocaleString()}.00\n`;
     message += `🚚 *Delivery Fee:* ${deliveryFee === 0 ? 'FREE' : 'Rs. ' + deliveryFee.toLocaleString() + '.00'}\n`;
+    if (pointsDiscount > 0) {
+        message += `🎁 *Club Points Redeemed:* -${redeemedPoints} pts (-Rs. ${pointsDiscount.toLocaleString()}.00)\n`;
+    }
+    message += `✨ *Points Earned:* +${pointsEarned} pts\n`;
     message += `💰 *Grand Total: Rs. ${grandTotal.toLocaleString()}.00*\n\n`;
 
     message += `📄 *View E-Invoice:* ${whatsappInvoiceUrl}\n\n`;
@@ -1516,19 +1634,46 @@ function placeOrder() {
         date: now.toLocaleDateString(),
         items: [...cart],
         total: grandTotal,
+        subtotal: subtotal,
+        delivery: deliveryFee,
+        redeemedPoints: redeemedPoints,
+        pointsDiscount: pointsDiscount,
+        pointsEarned: pointsEarned,
         userEmail: currentUser ? currentUser.email : 'Guest',
-        userName: currentUser ? currentUser.name : 'Guest',
+        userName: customerName,
         userPhone: phone,
-        userAddress: `${address}, ${city}`,
+        userAddress: fullAddress,
+        notes: notes,
         status: 'pending',
         timestamp: (typeof firebase !== 'undefined' ? firebase.firestore.FieldValue.serverTimestamp() : new Date().toISOString())
     };
     orders.push(dbOrder);
     localStorage.setItem('python_orders', JSON.stringify(orders));
-    if (typeof db !== 'undefined' && db) {
+
+    if (typeof db !== 'undefined' && db && currentUser) {
+        // Save order document
         db.collection('orders').add(dbOrder).catch(e => {
             console.error("Error saving order to database:", e);
         });
+
+        // Update user's points balance in firestore: user.clubPoints = currentPoints - redeemed + earned
+        db.collection('users').doc(currentUser.uid).get().then(doc => {
+            let currentPoints = doc.exists && doc.data().clubPoints !== undefined ? doc.data().clubPoints : 0;
+            let nextPoints = Math.max(0, currentPoints - redeemedPoints + pointsEarned);
+            db.collection('users').doc(currentUser.uid).update({
+                clubPoints: nextPoints
+            }).then(() => {
+                if (currentUser) {
+                    currentUser.clubPoints = nextPoints;
+                    localStorage.setItem('python_user', JSON.stringify(currentUser));
+                }
+            }).catch(e => console.error("Error updating user club points:", e));
+        });
+    } else if (currentUser) {
+        let currentPoints = currentUser.clubPoints || 0;
+        let nextPoints = Math.max(0, currentPoints - redeemedPoints + pointsEarned);
+        currentUser.clubPoints = nextPoints;
+        localStorage.setItem('python_user', JSON.stringify(currentUser));
     }
     localStorage.removeItem('python_free_delivery_active');
     const bar = document.getElementById('free-delivery-bar');

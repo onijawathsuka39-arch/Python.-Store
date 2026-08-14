@@ -50,13 +50,14 @@
         </ul>
     </div>
 
-<main class="section" style="padding-top: 150px;">
+<main class="section" style="padding-top: 130px; min-height: 85vh; background: var(--primary-light);">
     <div class="detail-container">
         <!-- Product Image Gallery Slider -->
-        <div class="gallery-card animate-fade-up stagger-1" id="gallery-container">
-            <div class="slider-container">
+        <div class="gallery-card animate-fade-up stagger-1" id="gallery-container" style="background: var(--surface); border: 1px solid var(--border-color); border-radius: 28px; padding: 18px; box-shadow: 0 10px 40px rgba(0,0,0,0.06); position: relative;">
+            
+            <div class="slider-container" style="border-radius: 20px; overflow: hidden; background: var(--primary-light); border: 1px solid var(--border-light);">
                 <div id="image-slider" style="display: flex; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); width: 100%;">
-                    <!-- Images will be injected here -->
+                    <!-- Images injected dynamically -->
                 </div>
             </div>
             
@@ -72,34 +73,41 @@
             <div id="slider-dots" class="slider-pagination"></div>
 
             <!-- Image Thumbnails (Previews) -->
-            <div id="image-thumbnails" class="gallery-thumbnails">
-                <!-- Thumbnails will be injected here -->
+            <div id="image-thumbnails" class="gallery-thumbnails" style="margin-top: 16px;">
+                <!-- Thumbnails injected dynamically -->
             </div>
         </div>
 
-        <!-- Product Details -->
-        <div class="info-col animate-fade-up stagger-2">
+        <!-- Product Details Info Column -->
+        <div class="info-col animate-fade-up stagger-2" style="display: flex; flex-direction: column; gap: 20px;">
+            
             <div>
-                <div class="category-tag">
-                    <i data-lucide="tag" style="width: 14px; height: 14px;"></i>
+                <!-- Category Pill -->
+                <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(220, 20, 60, 0.08); border: 1.5px solid rgba(220, 20, 60, 0.22); color: #DC143C; font-weight: 800; font-size: 0.78rem; padding: 5px 14px; border-radius: 50px; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;">
+                    <i data-lucide="tag" style="width: 13px; height: 13px;"></i>
                     <span id="detail-category-label">Category</span>
                 </div>
-                <h1 id="detail-name" class="detail-title">Product Name</h1>
-                <div class="detail-price-wrapper">
-                    <p id="detail-price" class="current-price">Rs. 0.00</p>
+
+                <h1 id="detail-name" style="font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 900; line-height: 1.2; color: var(--text-main); margin-bottom: 12px;">Product Name</h1>
+                
+                <!-- Price Display -->
+                <div class="detail-price-wrapper" style="display: flex; align-items: baseline; gap: 12px;">
+                    <p id="detail-price" style="font-size: 2.2rem; font-weight: 900; color: #DC143C; margin: 0;">Rs. 0.00</p>
                 </div>
             </div>
             
-            <div class="glass" style="padding: 20px; border-radius: 20px; border: 1px solid var(--border-light); background: var(--surface);">
-                <p id="detail-desc" class="detail-desc-card">
+            <!-- Description Card -->
+            <div style="padding: 18px 22px; border-radius: 20px; border: 1px solid var(--border-color); background: var(--surface); box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+                <p id="detail-desc" style="line-height: 1.7; color: var(--text-muted); font-size: 0.95rem; margin: 0;">
                     Premium quality T-shirt crafted with precision and care. Designed for comfort and style that lasts.
                 </p>
             </div>
 
+            <!-- Size Selector -->
             <div>
-                <div class="option-label">
-                    <span>Select Size</span>
-                    <span id="size-chart-link" onclick="openSizeChart()" style="color: var(--accent-gold); cursor: pointer; text-transform: none; font-size: 0.8rem; font-weight: 700; text-decoration: underline; display: flex; align-items: center; gap: 5px;">
+                <div class="option-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                    <span style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text-main);">Select Size</span>
+                    <span id="size-chart-link" onclick="openSizeChart()" style="color: #DC143C; cursor: pointer; text-transform: none; font-size: 0.8rem; font-weight: 700; display: flex; align-items: center; gap: 5px;">
                         <i data-lucide="ruler" style="width: 14px;"></i> Size Chart
                     </span>
                 </div>
@@ -108,98 +116,105 @@
                 </div>
             </div>
 
+            <!-- Color Selector -->
             <div>
-                <h4 class="option-label">Select Color</h4>
+                <h4 style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text-main); margin-bottom: 10px;">Select Color</h4>
                 <div class="color-dots" id="detail-colors">
                     <!-- Dynamic colors -->
                 </div>
             </div>
 
-            <div class="stock-urgency-wrapper" id="stock-urgency-section">
-                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; font-weight: 700;">
-                    <span id="stock-urgency-text" style="color: #ff9f43; display: flex; align-items: center; gap: 6px;">
-                        <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #ff9f43; animation: pulseWidth 1.5s infinite;"></span>
+            <!-- Stock Urgency Section -->
+            <div class="stock-urgency-wrapper" id="stock-urgency-section" style="background: rgba(255,159,67,0.06); border: 1px solid rgba(255,159,67,0.25); padding: 14px 18px; border-radius: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.83rem; font-weight: 700;">
+                    <span id="stock-urgency-text" style="color: #e67e22; display: flex; align-items: center; gap: 7px;">
+                        <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #e67e22; animation: pulse 1.5s infinite;"></span>
                         Selling Fast! Only a few left in stock
                     </span>
-                    <span id="stock-count-display">Limited Stock</span>
+                    <span id="stock-count-display" style="color: var(--text-main); font-weight: 800;">Limited Stock</span>
                 </div>
-                <div class="stock-bar-bg">
-                    <div class="stock-bar-fill" id="stock-bar-fill-elem"></div>
+                <div class="stock-bar-bg" style="width: 100%; height: 6px; background: rgba(0,0,0,0.08); border-radius: 10px; margin-top: 8px; overflow: hidden;">
+                    <div class="stock-bar-fill" id="stock-bar-fill-elem" style="height: 100%; background: linear-gradient(90deg, #ff9f43, #e67e22); border-radius: 10px; transition: width 0.4s ease;"></div>
                 </div>
             </div>
 
-            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+            <!-- Quantity & Delivery Widget -->
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; background: var(--surface); border: 1px solid var(--border-color); padding: 16px 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
                 <div>
-                    <h4 class="option-label" style="margin-bottom: 8px;">Quantity</h4>
-                    <div class="qty-selector">
-                        <button class="qty-btn" onclick="changeQty(-1)">-</button>
-                        <span id="detail-qty" class="qty-val">1</span>
-                        <button class="qty-btn" onclick="changeQty(1)">+</button>
+                    <h4 style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text-main); margin-bottom: 8px;">Quantity</h4>
+                    <div class="qty-selector" style="display: flex; align-items: center; gap: 14px; background: var(--primary-light); border: 1px solid var(--border-color); padding: 6px 14px; border-radius: 50px;">
+                        <button class="qty-btn" onclick="changeQty(-1)" style="background: var(--surface); border: 1px solid var(--border-color); color: var(--text-main); width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-weight: 800; font-size: 1rem; display: flex; align-items: center; justify-content: center;">-</button>
+                        <span id="detail-qty" class="qty-val" style="font-weight: 900; font-size: 1.05rem; min-width: 20px; text-align: center; color: var(--text-main);">1</span>
+                        <button class="qty-btn" onclick="changeQty(1)" style="background: var(--surface); border: 1px solid var(--border-color); color: var(--text-main); width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-weight: 800; font-size: 1rem; display: flex; align-items: center; justify-content: center;">+</button>
                     </div>
                 </div>
                 
                 <!-- Estimated Delivery Widget -->
-                <div class="delivery-widget" style="min-width: 260px;">
-                    <i data-lucide="truck" style="color: var(--accent-gold); width: 24px; height: 24px; flex-shrink: 0;"></i>
+                <div class="delivery-widget" style="display: flex; align-items: center; gap: 12px;">
+                    <div style="width: 42px; height: 42px; border-radius: 12px; background: rgba(220, 20, 60, 0.08); border: 1px solid rgba(220, 20, 60, 0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i data-lucide="truck" style="color: #DC143C; width: 22px; height: 22px;"></i>
+                    </div>
                     <div>
-                        <h5 id="delivery-promo-title" style="font-size: 0.8rem; font-weight: 800; color: var(--text-main); margin-bottom: 2px;">FREE Delivery on 4+ Items</h5>
+                        <h5 id="delivery-promo-title" style="font-size: 0.82rem; font-weight: 800; color: var(--text-main); margin-bottom: 2px;">FREE Delivery on 4+ Items</h5>
                         <p id="est-delivery-date" style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Get it by next week</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Premium Specifications Grid -->
+            <!-- Specifications Grid -->
             <div>
-                <h4 class="option-label" style="margin-bottom: 12px;">Specifications</h4>
-                <div class="specs-panel">
-                    <div class="spec-item">
-                        <div class="spec-icon">
-                            <i data-lucide="shirt"></i>
+                <h4 style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text-main); margin-bottom: 10px;">Specifications</h4>
+                <div class="specs-panel" style="background: var(--surface); border: 1px solid var(--border-color); border-radius: 20px; padding: 18px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+                    <div class="spec-item" style="display: flex; align-items: center; gap: 12px;">
+                        <div class="spec-icon" style="width: 38px; height: 38px; border-radius: 12px; background: rgba(220,20,60,0.08); border: 1px solid rgba(220,20,60,0.18); display: flex; align-items: center; justify-content: center; color: #DC143C; flex-shrink: 0;">
+                            <i data-lucide="shirt" style="width: 18px; height: 18px;"></i>
                         </div>
                         <div class="spec-details">
-                            <h5>Fabric Density</h5>
-                            <p id="detail-gsm">180 GSM</p>
+                            <h5 style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; margin: 0;">Fabric Density</h5>
+                            <p id="detail-gsm" style="font-size: 0.85rem; font-weight: 800; color: var(--text-main); margin: 2px 0 0;">220 GSM</p>
                         </div>
                     </div>
-                    <div class="spec-item">
-                        <div class="spec-icon">
-                            <i data-lucide="shield-check"></i>
+                    <div class="spec-item" style="display: flex; align-items: center; gap: 12px;">
+                        <div class="spec-icon" style="width: 38px; height: 38px; border-radius: 12px; background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); display: flex; align-items: center; justify-content: center; color: #22c55e; flex-shrink: 0;">
+                            <i data-lucide="shield-check" style="width: 18px; height: 18px;"></i>
                         </div>
                         <div class="spec-details">
-                            <h5>Original Brand</h5>
-                            <p id="detail-brand">Python</p>
+                            <h5 style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; margin: 0;">Original Brand</h5>
+                            <p id="detail-brand" style="font-size: 0.85rem; font-weight: 800; color: var(--text-main); margin: 2px 0 0;">Python</p>
                         </div>
                     </div>
-                    <div class="spec-item">
-                        <div class="spec-icon">
-                            <i data-lucide="sparkles"></i>
+                    <div class="spec-item" style="display: flex; align-items: center; gap: 12px;">
+                        <div class="spec-icon" style="width: 38px; height: 38px; border-radius: 12px; background: rgba(0,122,255,0.08); border: 1px solid rgba(0,122,255,0.2); display: flex; align-items: center; justify-content: center; color: #007aff; flex-shrink: 0;">
+                            <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
                         </div>
                         <div class="spec-details">
-                            <h5>Print Tech</h5>
-                            <p>A3 DTF print</p>
+                            <h5 style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; margin: 0;">Print Tech</h5>
+                            <p style="font-size: 0.85rem; font-weight: 800; color: var(--text-main); margin: 2px 0 0;">A3 DTF Print</p>
                         </div>
                     </div>
-                    <div class="spec-item">
-                        <div class="spec-icon">
-                            <i data-lucide="repeat"></i>
+                    <div class="spec-item" style="display: flex; align-items: center; gap: 12px;">
+                        <div class="spec-icon" style="width: 38px; height: 38px; border-radius: 12px; background: rgba(255,149,0,0.08); border: 1px solid rgba(255,149,0,0.2); display: flex; align-items: center; justify-content: center; color: #ff9500; flex-shrink: 0;">
+                            <i data-lucide="repeat" style="width: 18px; height: 18px;"></i>
                         </div>
                         <div class="spec-details">
-                            <h5>Easy Returns</h5>
-                            <p>7 Days Guarantee</p>
+                            <h5 style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; margin: 0;">Easy Returns</h5>
+                            <p style="font-size: 0.85rem; font-weight: 800; color: var(--text-main); margin: 2px 0 0;">7-Day Exchange</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div style="display: flex; gap: 15px; margin-top: 10px;">
-                <button id="add-to-cart-btn" class="btn btn-primary" style="flex: 1; padding: 18px; border-radius: 16px; font-weight: 800; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; gap: 12px;" onclick="addCurrentToCart()">
+            <!-- Action Buttons Row -->
+            <div style="display: flex; gap: 14px; margin-top: 6px;">
+                <button id="add-to-cart-btn" class="btn btn-primary" style="flex: 1; padding: 16px; border-radius: 50px; font-weight: 900; font-size: 1.05rem; display: flex; align-items: center; justify-content: center; gap: 10px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 6px 20px rgba(220, 20, 60, 0.3);" onclick="addCurrentToCart()">
                     <i data-lucide="shopping-bag" style="width: 20px;"></i> Add to Cart
                 </button>
                 <button id="detail-wishlist-btn" onclick="toggleDetailWishlist()" 
-                        style="width: 60px; height: 58px; border-radius: 16px; background: var(--surface); border: 1px solid var(--border-color); color: var(--text-main); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition-smooth); box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-                    <i data-lucide="heart" id="detail-wishlist-icon" style="width: 24px; height: 24px; transition: 0.3s;"></i>
+                        style="width: 54px; height: 54px; border-radius: 50%; background: var(--surface); border: 1.5px solid var(--border-color); color: var(--text-main); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.05); flex-shrink: 0;">
+                    <i data-lucide="heart" id="detail-wishlist-icon" style="width: 22px; height: 22px; transition: 0.3s;"></i>
                 </button>
             </div>
+
         </div>
     </div>
 </main>

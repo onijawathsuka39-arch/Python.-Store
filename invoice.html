@@ -227,6 +227,7 @@
                 <p><strong>Name:</strong> <span id="c-name">Loading...</span></p>
                 <p><strong>Address:</strong> <span id="c-address"></span></p>
                 <p><strong>Phone:</strong> <span id="c-phone"></span></p>
+                <p id="c-notes-wrap" style="display: none;"><strong>Order Note:</strong> <span id="c-notes" style="color: #DC143C; font-style: italic; font-weight: 600;"></span></p>
             </div>
             <div class="order-details">
                 <p><strong>Date:</strong> <span id="o-date"></span></p>
@@ -254,7 +255,15 @@
             </div>
             <div class="total-row">
                 <span>Delivery Fee</span>
-                <span id="d-fee">Rs. 350.00</span>
+                <span id="d-fee">Rs. 500.00</span>
+            </div>
+            <div class="total-row" id="points-discount-row" style="display: none; color: #DC143C; font-weight: 700;">
+                <span>Club Points Discount (<span id="p-redeemed">0</span> pts)</span>
+                <span id="p-discount">-Rs. 0.00</span>
+            </div>
+            <div class="total-row" id="points-earned-row" style="display: none; color: #ff9500; font-weight: 700; font-size: 0.9rem;">
+                <span>Club Points Earned</span>
+                <span id="p-earned">+0 pts</span>
             </div>
             <div class="total-row final">
                 <span>Grand Total</span>
@@ -519,12 +528,44 @@
                     list.appendChild(row);
                 });
 
+                if (order.notes && order.notes.trim()) {
+                    const notesWrap = document.getElementById('c-notes-wrap');
+                    const notesEl = document.getElementById('c-notes');
+                    if (notesWrap && notesEl) {
+                        notesEl.innerText = order.notes;
+                        notesWrap.style.display = 'block';
+                    }
+                }
+
                 if (hasCustom) productionSheet.style.display = 'block';
 
-                const delivery = (order.delivery !== undefined) ? order.delivery : 450;
+                const delivery = (order.delivery !== undefined) ? order.delivery : 500;
+                const pointsDiscount = (order.pointsDiscount !== undefined) ? order.pointsDiscount : 0;
+                const redeemedPoints = (order.redeemedPoints !== undefined) ? order.redeemedPoints : 0;
+                const pointsEarned = (order.pointsEarned !== undefined) ? order.pointsEarned : 0;
+
                 document.getElementById('s-total').innerText = `Rs. ${sub.toLocaleString()}.00`;
                 document.getElementById('d-fee').innerText = delivery === 0 ? 'FREE' : `Rs. ${delivery.toLocaleString()}.00`;
-                document.getElementById('g-total').innerText = `Rs. ${(sub + delivery).toLocaleString()}.00`;
+
+                if (pointsDiscount > 0) {
+                    const discountRow = document.getElementById('points-discount-row');
+                    if (discountRow) {
+                        discountRow.style.display = 'flex';
+                        document.getElementById('p-redeemed').innerText = redeemedPoints;
+                        document.getElementById('p-discount').innerText = `-Rs. ${pointsDiscount.toLocaleString()}.00`;
+                    }
+                }
+
+                if (pointsEarned > 0) {
+                    const earnedRow = document.getElementById('points-earned-row');
+                    if (earnedRow) {
+                        earnedRow.style.display = 'flex';
+                        document.getElementById('p-earned').innerText = `+${pointsEarned} pts`;
+                    }
+                }
+
+                const grandTotal = Math.max(0, sub + delivery - pointsDiscount);
+                document.getElementById('g-total').innerText = `Rs. ${grandTotal.toLocaleString()}.00`;
 
             } catch (e) {
                 console.error(e);

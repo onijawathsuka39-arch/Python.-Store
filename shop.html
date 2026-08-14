@@ -67,40 +67,38 @@
                 <i data-lucide="tag" style="width: 14px;"></i> Official Python Store
             </span>
             <h2 style="font-size: 2.8rem; font-weight: 900; margin-bottom: 10px; color: var(--text-main);">
-                Explore Our <span style="background: linear-gradient(135deg, #ff1e38 0%, #ff5238 50%, #dc143c 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Collection</span>
+                Explore Our <span style="color: #DC143C;">Collection</span>
             </h2>
             <p style="font-size: 1.05rem; color: var(--text-muted);">Heavyweight fabrics, iconic graphics, and tailored luxury cuts</p>
         </div>
 
         <!-- Modern Shop Search & Filter Toolbar -->
-        <div class="shop-toolbar" style="max-width: 1200px; margin: 0 auto 30px; display: flex; flex-direction: column; gap: 20px;">
-            <div class="shop-top-bar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; background: var(--surface); padding: 16px 24px; border-radius: 20px; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
-                <div class="shop-search-box" style="position: relative; flex: 1; min-width: 260px; max-width: 450px;">
-                    <i data-lucide="search" style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); width: 18px; height: 18px;"></i>
-                    <input type="text" id="shop-search" placeholder="Search by name, fit, style or GSM..." oninput="handleSearch(this.value)" style="width: 100%; padding: 12px 18px 12px 45px; border-radius: 50px; border: 1.5px solid var(--border-color); background: var(--primary-light); color: var(--text-main); font-size: 0.95rem; outline: none;">
-                </div>
+        <div class="shop-toolbar" style="max-width: 1200px; margin: 0 auto 30px; display: flex; flex-direction: column; gap: 12px;">
 
-                <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
-                    <button onclick="openSizeChart()" class="btn btn-outline" style="padding: 10px 20px; font-size: 0.85rem; border-radius: 50px; display: inline-flex; align-items: center; gap: 8px;">
-                        <i data-lucide="ruler" style="width: 16px;"></i> Size Chart
-                    </button>
-                    <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted); background: var(--primary-light); padding: 8px 16px; border-radius: 50px; border: 1px solid var(--border-color);">
-                        <i data-lucide="box" style="width: 14px; vertical-align: middle;"></i> 100% In Stock
+            <!-- Search Bar Row -->
+            <div class="shop-top-bar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; background: var(--surface); padding: 14px 20px; border-radius: 18px; border: 1px solid var(--border-color); box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <div class="shop-search-box" style="position: relative; flex: 1; min-width: 220px;">
+                    <i data-lucide="search" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); width: 16px; height: 16px;"></i>
+                    <input type="text" id="shop-search" placeholder="Search products, styles, designs..." oninput="handleSearch(this.value)" style="width: 100%; padding: 11px 18px 11px 42px; border-radius: 50px; border: 1.5px solid var(--border-color); background: var(--primary-light); color: var(--text-main); font-size: 0.9rem; outline: none; transition: border-color 0.3s, box-shadow 0.3s; font-family: 'Anta', sans-serif;">
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
+                    <div style="font-size: 0.78rem; font-weight: 700; color: #22c55e; background: rgba(34,197,94,0.08); padding: 8px 14px; border-radius: 50px; border: 1px solid rgba(34,197,94,0.25); display: flex; align-items: center; gap: 5px; white-space: nowrap;">
+                        <i data-lucide="check-circle" style="width: 13px;"></i> 100% In Stock
                     </div>
                 </div>
             </div>
 
-            <!-- Filter Glass Rows: Categories Only -->
-            <div class="filter-glass-row" id="category-row-wrapper" style="display: flex; align-items: center; gap: 15px; padding: 12px 20px; background: var(--surface); border-radius: 16px; border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); flex-wrap: wrap;">
-                <span class="filter-label-badge" style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-gold); display: flex; align-items: center; gap: 6px; min-width: 100px;">
-                    <i data-lucide="layers" style="width: 14px;"></i> Category
-                </span>
-                <div class="filter-pills-list" style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <button class="filter-pill category-btn active" onclick="selectCategory('All', this)">All Items</button>
+            <!-- Category Filter Row -->
+            <div class="filter-glass-row" id="category-row-wrapper" style="display: flex; align-items: center; gap: 12px; padding: 10px 18px; background: var(--surface); border-radius: 14px; border: 1px solid var(--border-color); box-shadow: 0 3px 10px rgba(0,0,0,0.04); flex-wrap: wrap;">
+                <span style="font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-gold); white-space: nowrap; flex-shrink: 0;">Category</span>
+                <div class="filter-pills-list" style="display: flex; gap: 7px; flex-wrap: wrap;">
+                    <button class="filter-pill category-btn active" onclick="selectCategory('All', this)">All</button>
                     <button class="filter-pill category-btn" onclick="selectCategory('Regular Tee (Printed)', this)">Regular Fit</button>
-                    <button class="filter-pill category-btn" onclick="selectCategory('Oversized Tee (Printed)', this)">Oversized Streetwear</button>
+                    <button class="filter-pill category-btn" onclick="selectCategory('Oversized Tee (Printed)', this)">Oversized</button>
+                    <button class="filter-pill category-btn" onclick="selectCategory('Waffle Tee', this)">Waffle</button>
                 </div>
             </div>
+
         </div>
 
         <div class="product-grid" id="product-grid" style="max-width: 1200px; margin: 0 auto;">

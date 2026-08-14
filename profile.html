@@ -51,38 +51,76 @@
         <a href="cart.html">Cart</a>
     </div>
 
-    <main class="section" style="padding-top: 150px;">
-        <div id="profile-content" style="max-width: 800px; margin: 0 auto;">
-            <div class="glass" style="padding: 40px; text-align: center;">
-                <div style="width: 100px; height: 100px; background: var(--accent-gold); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; color: #0A0F1E; font-size: 3rem; font-weight: 800;"
-                    id="profile-initial">
-                    U
-                </div>
-                <h2 id="profile-name">User Name</h2>
-                <p id="profile-email" style="color: var(--text-muted);">email@example.com</p>
+    <main class="section" style="padding-top: 140px; min-height: 80vh; background: var(--primary-light);">
+        <div id="profile-content" style="max-width: 860px; margin: 0 auto; padding: 0 16px;">
+            
+            <!-- Profile Card -->
+            <div style="background: var(--surface); border: 1px solid var(--border-color); border-radius: 28px; padding: 45px 40px 40px; text-align: center; box-shadow: 0 8px 30px rgba(0,0,0,0.06); margin-bottom: 24px; position: relative; overflow: hidden;">
+                <!-- Decorative background gradient -->
+                <div style="position: absolute; top: 0; left: 0; right: 0; height: 90px; background: linear-gradient(135deg, rgba(220,20,60,0.07) 0%, rgba(255,30,56,0.04) 100%); border-radius: 28px 28px 0 0;"></div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px;">
-                    <div class="glass" style="padding: 20px; cursor: pointer;" onclick="window.location.href='order-history.html'">
-                        <h3 style="color: var(--accent-gold);" id="order-count">0</h3>
-                        <p>Total Orders (View History)</p>
-                    </div>
-                    <div class="glass" style="padding: 20px; cursor: pointer;" onclick="window.location.href='wishlist.html'">
-                        <h3 style="color: var(--accent-gold);" id="profile-wishlist-count">0</h3>
-                        <p>Wishlist</p>
+                <!-- Avatar -->
+                <div style="position: relative; z-index: 2;">
+                    <div style="width: 90px; height: 90px; background: linear-gradient(135deg, #ff1e38, #DC143C); border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 2.4rem; font-weight: 900; box-shadow: 0 8px 24px rgba(220,20,60,0.35);" id="profile-initial">U</div>
+                    <h2 id="profile-name" style="font-size: 1.6rem; font-weight: 900; color: var(--text-main); margin-bottom: 4px;">User Name</h2>
+                    <p id="profile-email" style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 14px;">email@example.com</p>
+
+                    <div style="display: inline-flex; align-items: center; gap: 7px; background: rgba(220,20,60,0.07); border: 1.5px solid rgba(220,20,60,0.22); color: #DC143C; font-weight: 800; font-size: 0.78rem; padding: 5px 15px; border-radius: 50px;">
+                        <i data-lucide="award" style="width: 13px; height: 13px;"></i> Python Club Member
                     </div>
                 </div>
-
-                <div style="margin-top: 40px;">
-                    <a href="order-history.html" class="btn btn-primary" style="text-decoration:none; display:flex; align-items:center; justify-content:center; gap:8px;">
-                        <i data-lucide="package" style="width:18px;"></i> View Detailed Order History
-                    </a>
-                </div>
-
-                <button class="btn btn-outline" style="margin-top: 40px; width: 100%;" onclick="logout()">Sign
-                    Out</button>
             </div>
+
+            <!-- Stats Grid -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 24px;">
+                
+                <div class="profile-stat-card" onclick="window.location.href='order-history.html'">
+                    <div class="profile-stat-icon" style="background: rgba(220,20,60,0.1);">
+                        <i data-lucide="package" style="color: #DC143C; width: 22px; height: 22px;"></i>
+                    </div>
+                    <div class="profile-stat-num" id="order-count">0</div>
+                    <div class="profile-stat-label">Total Orders</div>
+                </div>
+
+                <div class="profile-stat-card" onclick="window.location.href='wishlist.html'">
+                    <div class="profile-stat-icon" style="background: rgba(255, 59, 48, 0.1);">
+                        <i data-lucide="heart" style="color: #ff3b30; width: 22px; height: 22px;"></i>
+                    </div>
+                    <div class="profile-stat-num" id="profile-wishlist-count">0</div>
+                    <div class="profile-stat-label">Saved Wishlist</div>
+                </div>
+
+                <div class="profile-stat-card" onclick="window.location.href='cart.html'">
+                    <div class="profile-stat-icon" style="background: rgba(0, 122, 255, 0.1);">
+                        <i data-lucide="shopping-cart" style="color: #007aff; width: 22px; height: 22px;"></i>
+                    </div>
+                    <div class="profile-stat-num" id="profile-cart-count">0</div>
+                    <div class="profile-stat-label">Cart Items</div>
+                </div>
+
+                <div class="profile-stat-card" style="border-color: rgba(255,149,0,0.3); background: rgba(255,149,0,0.04);">
+                    <div class="profile-stat-icon" style="background: rgba(255,149,0,0.12);">
+                        <i data-lucide="award" style="color: #ff9500; width: 22px; height: 22px;"></i>
+                    </div>
+                    <div class="profile-stat-num" id="profile-points-count" style="color: #ff9500;">0</div>
+                    <div class="profile-stat-label" id="profile-points-value">Python Club Points</div>
+                </div>
+
+            </div>
+
+            <!-- Quick Actions -->
+            <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+                <a href="order-history.html" class="btn btn-primary" style="text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 9px; flex: 1; min-width: 180px; padding: 15px 24px; border-radius: 16px; font-weight: 800; font-size: 0.95rem;">
+                    <i data-lucide="history" style="width: 18px;"></i> Order History
+                </a>
+                <button class="btn btn-outline" style="flex: 1; min-width: 180px; padding: 15px 24px; border-radius: 16px; font-weight: 800; font-size: 0.95rem;" onclick="logout()">
+                    <i data-lucide="log-out" style="width: 18px; margin-right: 8px;"></i> Sign Out
+                </button>
+            </div>
+
         </div>
     </main>
+
 
     <footer class="footer">
         <div class="footer-bottom">
@@ -116,6 +154,16 @@
                     // Set dynamic wishlist length
                     const wl = JSON.parse(localStorage.getItem('python_wishlist')) || [];
                     document.getElementById('profile-wishlist-count').innerText = wl.length;
+                    // Set dynamic cart length
+                    const cartItems = JSON.parse(localStorage.getItem('python_cart')) || [];
+                    document.getElementById('profile-cart-count').innerText = cartItems.reduce((acc, curr) => acc + (curr.quantity || 1), 0);
+                    
+                    // Show points
+                    const points = doc.exists && doc.data().clubPoints !== undefined ? doc.data().clubPoints : 0;
+                    const pointsVal = (points / 20 * 10).toFixed(0);
+                    document.getElementById('profile-points-count').innerText = points;
+                    document.getElementById('profile-points-value').innerText = `${points} pts = Rs. ${pointsVal}`;
+
                     // Load orders
                     if (typeof loadProfile === 'function') loadProfile();
                 });
@@ -133,6 +181,12 @@
                 document.getElementById('profile-initial').innerText = user.name.charAt(0).toUpperCase();
                 const wl = JSON.parse(localStorage.getItem('python_wishlist')) || [];
                 document.getElementById('profile-wishlist-count').innerText = wl.length;
+                const cartItems = JSON.parse(localStorage.getItem('python_cart')) || [];
+                document.getElementById('profile-cart-count').innerText = cartItems.reduce((acc, curr) => acc + (curr.quantity || 1), 0);
+                const points = user.clubPoints || 0;
+                const pointsVal = (points / 20 * 10).toFixed(0);
+                document.getElementById('profile-points-count').innerText = points;
+                document.getElementById('profile-points-value').innerText = `${points} pts = Rs. ${pointsVal}`;
             });
         }
     </script>

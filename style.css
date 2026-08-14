@@ -181,14 +181,15 @@ nav.scrolled {
 
 /* Hero Section - Fixed overlap */
 .hero {
-    height: 100vh;
+    min-height: 85vh;
+    height: auto;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 120px 10% 0;
+    padding: 130px 5% 60px;
     position: relative;
     overflow: hidden;
     background: var(--primary-light);
@@ -1339,43 +1340,45 @@ nav.scrolled {
 
 .size-chips {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     flex-wrap: wrap;
 }
 
 .size-chip {
-    padding: 12px 24px;
+    padding: 10px 22px;
     border: 1.5px solid var(--border-color);
-    border-radius: 12px;
+    border-radius: 50px;
     cursor: pointer;
     background: var(--surface);
     color: var(--text-main);
     font-weight: 700;
-    font-size: 0.95rem;
-    transition: var(--transition-smooth);
+    font-size: 0.9rem;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 65px;
+    min-width: 60px;
     user-select: none;
+    font-family: 'Anta', sans-serif;
 }
 
 .size-chip:hover {
-    border-color: var(--accent-gold);
+    border-color: #DC143C;
     transform: translateY(-2px);
-    color: var(--accent-gold);
+    color: #DC143C;
 }
 
 .size-chip.active {
-    background: var(--accent-gold);
+    background: linear-gradient(135deg, #ff1e38 0%, #DC143C 100%);
     color: #FFFFFF;
-    border-color: var(--accent-gold);
-    box-shadow: 0 8px 20px rgba(220, 20, 60, 0.2);
+    border-color: #DC143C;
+    box-shadow: 0 6px 18px rgba(220, 20, 60, 0.3);
+    transform: translateY(-2px);
 }
 
 .color-dots {
     display: flex;
-    gap: 15px;
+    gap: 14px;
 }
 
 .color-dot {
@@ -1384,9 +1387,9 @@ nav.scrolled {
     border-radius: 50%;
     cursor: pointer;
     position: relative;
-    transition: var(--transition-smooth);
+    transition: all 0.25s ease;
     border: 3px solid var(--surface);
-    box-shadow: 0 0 0 1px var(--border-color);
+    box-shadow: 0 0 0 1.5px var(--border-color);
 }
 
 .color-dot:hover {
@@ -1394,8 +1397,8 @@ nav.scrolled {
 }
 
 .color-dot.active {
-    transform: scale(1.15);
-    box-shadow: 0 0 0 2px var(--accent-gold);
+    transform: scale(1.18);
+    box-shadow: 0 0 0 2.5px #DC143C;
 }
 
 /* Action Rows */
@@ -3640,3 +3643,261 @@ nav.scrolled {
         justify-content: center;
     }
 }
+
+/* ===== SHOP — Filter Pills & Category Buttons ===== */
+.filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 14px;
+    border-radius: 50px;
+    border: 1.5px solid var(--border-color);
+    background: var(--surface);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    font-family: 'Anta', sans-serif;
+    letter-spacing: 0.2px;
+}
+
+.filter-pill:hover {
+    border-color: #DC143C;
+    color: #DC143C;
+    background: rgba(220, 20, 60, 0.04);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(220, 20, 60, 0.12);
+}
+
+.filter-pill.active,
+.filter-pill.category-btn.active {
+    background: linear-gradient(135deg, #ff1e38 0%, #DC143C 100%);
+    border-color: #DC143C;
+    color: #ffffff;
+    box-shadow: 0 6px 18px rgba(220, 20, 60, 0.3);
+    transform: translateY(-2px);
+}
+
+.filter-pill.category-btn {
+    padding: 6px 16px;
+    font-size: 0.8rem;
+}
+
+/* Shop Search Input Focus Ring */
+#shop-search:focus {
+    border-color: #DC143C !important;
+    box-shadow: 0 0 0 3px rgba(220, 20, 60, 0.12) !important;
+}
+
+/* ===== PROFILE PAGE — Premium Redesign ===== */
+.profile-stat-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border-color);
+    border-radius: 20px;
+    padding: 22px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+}
+
+.profile-stat-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(220, 20, 60, 0.1);
+    border-color: rgba(220, 20, 60, 0.3);
+}
+
+.profile-stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+}
+
+.profile-stat-num {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--text-main);
+    line-height: 1;
+}
+
+.profile-stat-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* ===== ORDER HISTORY — Light Theme Override ===== */
+.order-card {
+    background: var(--surface) !important;
+    border: 1px solid var(--border-color) !important;
+    border-radius: 18px !important;
+    margin-bottom: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04) !important;
+}
+
+.order-card:hover {
+    border-color: rgba(220, 20, 60, 0.25) !important;
+    box-shadow: 0 10px 30px rgba(220, 20, 60, 0.07) !important;
+}
+
+.order-header {
+    background: var(--surface) !important;
+    color: var(--text-main) !important;
+}
+
+.order-body {
+    background: var(--primary-light) !important;
+    border-top: 1px solid var(--border-light) !important;
+    color: var(--text-main) !important;
+}
+
+.order-id-badge {
+    background: rgba(220, 20, 60, 0.08) !important;
+    color: #DC143C !important;
+    border: 1px solid rgba(220, 20, 60, 0.2) !important;
+}
+
+.order-items-table th {
+    background: var(--primary-light) !important;
+    color: var(--text-muted) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+}
+
+.order-items-table td {
+    border-bottom: 1px solid var(--border-light) !important;
+    color: var(--text-main) !important;
+}
+
+.oh-back-btn {
+    background: var(--surface) !important;
+    border: 1.5px solid var(--border-color) !important;
+    color: var(--text-main) !important;
+}
+
+.oh-back-btn:hover {
+    background: #DC143C !important;
+    border-color: #DC143C !important;
+    color: #fff !important;
+}
+
+/* ===== HOME PAGE — Mobile Responsive Improvements ===== */
+@media (max-width: 768px) {
+    .hero {
+        padding: 130px 6% 60px;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .hero-content h1 {
+        font-size: 2.4rem !important;
+        line-height: 1.2;
+    }
+
+    .hero-content p {
+        font-size: 0.95rem !important;
+    }
+
+    .hero-btns {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .hero-btns a {
+        width: 100%;
+        text-align: center;
+    }
+
+    .top-selling-carousel-container {
+        flex-direction: column !important;
+    }
+
+    .top-selling-card {
+        width: 100% !important;
+        min-width: unset !important;
+        max-width: 100% !important;
+    }
+
+    .top-selling-details h3 {
+        font-size: 1.4rem !important;
+    }
+
+    .shop-toolbar {
+        padding: 0 10px;
+    }
+
+    .shop-top-bar {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+
+    .shop-search-box {
+        max-width: 100% !important;
+    }
+
+    .filter-glass-row {
+        overflow-x: auto;
+        flex-wrap: nowrap !important;
+        padding-bottom: 5px;
+    }
+
+    .filter-pills-list {
+        flex-wrap: nowrap !important;
+        overflow-x: auto;
+        padding-bottom: 4px;
+    }
+
+    .filter-pill {
+        flex-shrink: 0;
+    }
+
+    .contact-layout {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .profile-stat-card {
+        padding: 16px 12px;
+    }
+
+    .profile-stat-num {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 1.9rem !important;
+    }
+
+    .section-title h2 {
+        font-size: 1.8rem !important;
+    }
+}
+
+/* ===== LUXURY PRODUCT CARD STYLING ===== */
+.product-card {
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.product-card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 16px 40px rgba(220, 20, 60, 0.12) !important;
+    border-color: rgba(220, 20, 60, 0.35) !important;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.06) !important;
+}
+
