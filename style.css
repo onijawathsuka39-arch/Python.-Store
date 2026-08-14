@@ -3810,13 +3810,38 @@ nav.scrolled {
     }
 
     .hero-btns {
-        flex-direction: column;
-        gap: 12px;
+        flex-direction: column !important;
+        gap: 12px !important;
+        width: 100% !important;
+        max-width: 320px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
     }
 
     .hero-btns a {
-        width: 100%;
-        text-align: center;
+        width: 100% !important;
+        justify-content: center !important;
+        text-align: center !important;
+        display: inline-flex !important;
+        align-items: center !important;
+    }
+
+    /* Checkout Page Mobile Fit & 1-Column Stacking */
+    .checkout-grid {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+
+    .checkout-form {
+        padding: 20px 16px !important;
+        border-radius: 20px !important;
+    }
+
+    .form-row-2col {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
     }
 
     .top-selling-carousel-container {

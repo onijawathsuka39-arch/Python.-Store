@@ -126,11 +126,10 @@
           <p>The ultimate customer favorites, flying off the shelves</p>
         </div>
 
-        <!-- Carousel Container -->
         <div class="top-selling-carousel-container" 
              id="top-selling-carousel"
-             onmouseenter="if(typeof topSellingSlideInterval !== 'undefined') clearInterval(topSellingSlideInterval);" 
-             onmouseleave="startTopSellingAutoScroll();">
+             onmouseenter="pauseTopSellingAutoScroll()" 
+             onmouseleave="startTopSellingAutoScroll()">
              
             <!-- Card 1: Product ID 28 (BMW Car Design) -->
             <div class="top-selling-card glass">
@@ -687,7 +686,7 @@
 
     // Top Selling Section Logic
     let currentTopSellingSlide = 0;
-    let topSellingSlideInterval;
+    let topSellingSlideInterval = null;
 
     function updateTopSellingDots(index) {
         document.querySelectorAll('.top-selling-dot').forEach((dot, idx) => {
@@ -709,7 +708,7 @@
         currentTopSellingSlide = index;
         const container = document.getElementById('top-selling-carousel');
         if (container) {
-            const cardWidth = container.getBoundingClientRect().width;
+            const cardWidth = container.clientWidth || container.getBoundingClientRect().width;
             container.scrollTo({
                 left: index * cardWidth,
                 behavior: 'smooth'
@@ -723,7 +722,14 @@
         topSellingSlideInterval = setInterval(() => {
             let nextSlide = (currentTopSellingSlide + 1) % 3;
             showTopSellingSlide(nextSlide);
-        }, 5000);
+        }, 3500);
+    }
+
+    function pauseTopSellingAutoScroll() {
+        if (topSellingSlideInterval) {
+            clearInterval(topSellingSlideInterval);
+            topSellingSlideInterval = null;
+        }
     }
 
     // Product 1 (ID 1) Handlers
