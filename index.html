@@ -131,7 +131,67 @@
              onmouseenter="pauseTopSellingAutoScroll()" 
              onmouseleave="startTopSellingAutoScroll()">
              
-            <!-- Card 1: Product ID 28 (BMW Car Design) -->
+            <!-- Card 1: Product ID 32 (Tree Design) - This Month's Most Popular -->
+            <div class="top-selling-card glass">
+              <!-- Product Image -->
+              <div class="top-selling-image-wrapper">
+                <span style="position: absolute; top: 15px; left: 15px; background: linear-gradient(135deg, #FF6B35, #DC143C); color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; z-index: 10; box-shadow: 0 4px 10px rgba(220, 20, 60, 0.4); display: flex; align-items: center; gap: 5px;"><span style="width: 6px; height: 6px; background: white; border-radius: 50%; animation: pulse 1.5s infinite;"></span> 🔥 Most Popular</span>
+                <img id="top-selling-32-img" src="https://i.ibb.co/TBTBMfpL/python-tree-design.png" alt="Tree Design T-Shirt" style="width: 100%; height: auto; max-height: 320px; object-fit: contain; border-radius: 12px; transition: transform 0.5s ease;">
+                
+                <!-- Thumbnails -->
+                <div style="position: absolute; bottom: 15px; display: flex; gap: 8px; z-index: 10;">
+                  <img src="https://i.ibb.co/TBTBMfpL/python-tree-design.png" onclick="setTopSelling32Image('https://i.ibb.co/TBTBMfpL/python-tree-design.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid var(--accent-gold); cursor: pointer; background: white;">
+                  <img src="https://i.ibb.co/FbD0CR5s/Chat-GPT-Image-Aug-19-2026-12-58-27-AM.png" onclick="setTopSelling32Image('https://i.ibb.co/FbD0CR5s/Chat-GPT-Image-Aug-19-2026-12-58-27-AM.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid transparent; cursor: pointer; background: white;">
+                </div>
+              </div>
+
+              <!-- Product Info inside the same card frame -->
+              <div class="top-selling-details">
+                <span style="color: var(--accent-gold); font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;">Regular Tee (Printed)</span>
+                <h3 style="font-size: 1.8rem; margin: 8px 0; color: var(--text-main);">Tree Design</h3>
+                
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
+                  <span style="font-size: 1.5rem; color: var(--accent-gold); font-weight: 800;">Rs. 2,200.00</span>
+                </div>
+
+                <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-size: 0.9rem;">
+                  Tree Design Regular Tee (Printed) by Python. Featuring a premium A2 DTF print on 220 GSM fabric — bold, nature-inspired artwork that stands out.
+                </p>
+
+                <!-- Size Selector -->
+                <div style="margin-bottom: 25px;">
+                  <span style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-main);">SELECT SIZE:</span>
+                  <div style="display: flex; gap: 10px;" id="top-selling-32-sizes">
+                    <button onclick="selectTopSelling32Size('S')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--accent-gold); background: var(--accent-gold); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">S</button>
+                    <button onclick="selectTopSelling32Size('M')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">M</button>
+                    <button onclick="selectTopSelling32Size('L')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">L</button>
+                    <button onclick="selectTopSelling32Size('XL')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">XL</button>
+                  </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 25px;">
+                  <button onclick="addTopSelling32ToCart()" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px; padding: 12px 28px; font-weight: 800; text-transform: uppercase; border-radius: 50px; cursor: pointer; font-size: 0.85rem;">
+                    <i data-lucide="shopping-cart" style="width: 16px; height: 16px;"></i> Add to Cart
+                  </button>
+                  <button onclick="buyTopSelling32Now()" class="btn btn-outline" style="padding: 12px 24px; border-radius: 50px; font-weight: 800; border: 2px solid var(--primary-dark); text-transform: uppercase; cursor: pointer; font-size: 0.85rem;">
+                    Buy Now
+                  </button>
+                </div>
+                
+                <!-- Features list -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid var(--border-light); padding-top: 15px;">
+                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> 220 GSM Cotton
+                  </div>
+                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> A2 DTF Print
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: Product ID 28 (BMW Car Design) -->
             <div class="top-selling-card glass">
               <!-- Product Image -->
               <div class="top-selling-image-wrapper">
@@ -319,6 +379,7 @@
           <span class="top-selling-dot active" onclick="showTopSellingSlide(0)" style="width: 20px; height: 8px; border-radius: 4px; background: var(--accent-gold); cursor: pointer; transition: 0.3s; display: inline-block;"></span>
           <span class="top-selling-dot" onclick="showTopSellingSlide(1)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); cursor: pointer; transition: 0.3s; display: inline-block;"></span>
           <span class="top-selling-dot" onclick="showTopSellingSlide(2)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); cursor: pointer; transition: 0.3s; display: inline-block;"></span>
+          <span class="top-selling-dot" onclick="showTopSellingSlide(3)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); cursor: pointer; transition: 0.3s; display: inline-block;"></span>
         </div>
       </div>
     </section>
@@ -720,7 +781,7 @@
     function startTopSellingAutoScroll() {
         if (topSellingSlideInterval) clearInterval(topSellingSlideInterval);
         topSellingSlideInterval = setInterval(() => {
-            let nextSlide = (currentTopSellingSlide + 1) % 3;
+            let nextSlide = (currentTopSellingSlide + 1) % 4;
             showTopSellingSlide(nextSlide);
         }, 3500);
     }
@@ -732,7 +793,45 @@
         }
     }
 
-    // Product 1 (ID 1) Handlers
+    // Product 0 (ID 32) Handlers - Tree Design (Most Popular)
+    let selectedTopSelling32Size = 'S';
+    let selectedTopSelling32Image = 'https://i.ibb.co/TBTBMfpL/python-tree-design.png';
+
+    function setTopSelling32Image(src, element) {
+        document.getElementById('top-selling-32-img').src = src;
+        selectedTopSelling32Image = src;
+        
+        element.parentNode.querySelectorAll('.top-selling-thumbnail').forEach(thumb => {
+            thumb.style.border = '2px solid transparent';
+        });
+        element.style.border = '2px solid var(--accent-gold)';
+    }
+
+    function selectTopSelling32Size(size) {
+        selectedTopSelling32Size = size;
+        
+        document.querySelectorAll('#top-selling-32-sizes .size-select-btn').forEach(btn => {
+            if (btn.innerText === size) {
+                btn.style.background = 'var(--accent-gold)';
+                btn.style.color = 'white';
+                btn.style.borderColor = 'var(--accent-gold)';
+            } else {
+                btn.style.background = 'var(--surface)';
+                btn.style.color = 'var(--text-main)';
+                btn.style.borderColor = 'var(--border-color)';
+            }
+        });
+    }
+
+    function addTopSelling32ToCart() {
+        addToCart("Tree Design", 2200, selectedTopSelling32Image, selectedTopSelling32Size, '#ffffff');
+    }
+
+    function buyTopSelling32Now() {
+        addTopSelling32ToCart();
+        window.location.href = 'cart.html';
+    }
+
     // Product 1 (ID 28) Handlers
     let selectedTopSelling28Size = 'S';
     let selectedTopSelling28Image = 'https://i.ibb.co/TqgwRzLD/BMW-tee-white.png';

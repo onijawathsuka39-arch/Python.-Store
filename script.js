@@ -537,6 +537,24 @@ const products = [
         },
         colors: ['#000000'], stock: 10,
         desc: 'Ferrari Design Regular Tee (Printed) by Python. Featuring a premium quality A3 DTF print on 220 GSM fabric for ultimate style and comfort.'
+    },
+    {
+        id: '32', name: 'Tree Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        images: [
+            'https://i.ibb.co/TBTBMfpL/python-tree-design.png',
+            'https://i.ibb.co/FbD0CR5s/Chat-GPT-Image-Aug-19-2026-12-58-27-AM.png'
+        ],
+        gsm: '220 GSM', brand: 'Python',
+        sizes: {
+            'S': { price: 2200, oldPrice: null },
+            'M': { price: 2200, oldPrice: null },
+            'L': { price: 2200, oldPrice: null },
+            'XL': { price: 2200, oldPrice: null }
+        },
+        colors: ['#ffffff'], stock: 10,
+        badge: 'Most Popular This Month',
+        printTech: 'A2 DTF Print',
+        desc: 'Tree Design Regular Tee (Printed) by Python. Featuring a premium A2 DTF print on 220 GSM fabric — bold, nature-inspired artwork that stands out.'
     }
 ];
 
@@ -2040,6 +2058,15 @@ function handleNewDropWaitlist() {
     const phoneInput = document.getElementById('nd-phone-input');
     const btn        = document.getElementById('nd-notify-btn');
     const msg        = document.getElementById('nd-notify-msg');
+
+    // Dynamic UI Update logic for product details
+    const product = products.find(p => p.id === new URLSearchParams(window.location.search).get('id'));
+    if (product) {
+        const brandEl = document.getElementById('detail-brand');
+        if (brandEl) brandEl.innerText = product.brand || 'Python';
+        const printTechEl = document.getElementById('detail-print-tech');
+        if (printTechEl) printTechEl.innerText = product.printTech || 'A3 DTF Print';
+    }
 
     const name  = nameInput  ? nameInput.value.trim()  : '';
     const phone = phoneInput ? phoneInput.value.trim() : '';

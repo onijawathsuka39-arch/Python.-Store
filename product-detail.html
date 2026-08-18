@@ -189,7 +189,7 @@
                         </div>
                         <div class="spec-details">
                             <h5 style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; margin: 0;">Print Tech</h5>
-                            <p style="font-size: 0.85rem; font-weight: 800; color: var(--text-main); margin: 2px 0 0;">A3 DTF Print</p>
+                            <p id="detail-print-tech" style="font-size: 0.85rem; font-weight: 800; color: var(--text-main); margin: 2px 0 0;">A3 DTF Print</p>
                         </div>
                     </div>
                     <div class="spec-item" style="display: flex; align-items: center; gap: 12px;">
@@ -268,7 +268,10 @@
             document.getElementById('detail-name').innerText = product.name;
             document.getElementById('detail-gsm').innerText = product.gsm || '180 GSM';
             document.getElementById('detail-brand').innerText = product.brand || 'Python';
+            const printTechEl = document.getElementById('detail-print-tech');
+            if (printTechEl) printTechEl.innerText = product.printTech || 'A3 DTF Print';
             
+
             const catLabel = document.getElementById('detail-category-label');
             if (catLabel) {
                 catLabel.innerText = product.category || 'T-Shirt';
