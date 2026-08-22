@@ -326,7 +326,7 @@ const products = [
         sizeChartImg: 'https://i.ibb.co/0RVd9brV/Size-Chart-Waffle-240-GSM-OZ-T-Shirts-01.jpg',
         gsm: '240 GSM', brand: 'Python',
         sizes: {
-            'M':  { price: 1450, oldPrice: 1500 },
+            'M': { price: 1450, oldPrice: 1500 },
             'XL': { price: 1450, oldPrice: 1500 }
         },
         colors: ['#c4956a', '#f5e6c8'], stock: 10,
@@ -351,7 +351,7 @@ const products = [
         sizeChartImg: 'https://i.ibb.co/0RVd9brV/Size-Chart-Waffle-240-GSM-OZ-T-Shirts-01.jpg',
         gsm: '240 GSM', brand: 'Python',
         sizes: {
-            'M':  { price: 1850, oldPrice: null },
+            'M': { price: 1850, oldPrice: null },
             'XL': { price: 1850, oldPrice: null }
         },
         colors: ['#c4956a', '#f5e6c8'], stock: 10,
@@ -546,10 +546,10 @@ const products = [
         ],
         gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 2200, oldPrice: null },
+            'S': { price: 2100, oldPrice: null },
             'M': { price: 2200, oldPrice: null },
-            'L': { price: 2200, oldPrice: null },
-            'XL': { price: 2200, oldPrice: null }
+            'L': { price: 2500, oldPrice: null },
+            'XL': { price: 2500, oldPrice: null }
         },
         colors: ['#ffffff'], stock: 10,
         badge: 'Most Popular This Month',
@@ -612,7 +612,7 @@ function updateQuantity(index, delta) {
 function saveCart() {
     localStorage.setItem('python_cart', JSON.stringify(cart));
     updateCartCount();
-    if(typeof updateFreeDeliveryBar === 'function') updateFreeDeliveryBar();
+    if (typeof updateFreeDeliveryBar === 'function') updateFreeDeliveryBar();
 }
 
 function displayProducts(filteredProducts) {
@@ -620,9 +620,9 @@ function displayProducts(filteredProducts) {
     if (!grid) return;
     grid.innerHTML = '';
     filteredProducts.forEach((p) => {
-        const hasSizes = p.sizes && typeof p.sizes === 'object';
-        const displayPrice = hasSizes ? Object.values(p.sizes)[0].price : p.price;
-        const displayOldPrice = hasSizes ? Object.values(p.sizes)[0].oldPrice : p.oldPrice;
+        const firstSizeVal = (p.sizes && typeof p.sizes === 'object' && Object.values(p.sizes).length > 0) ? Object.values(p.sizes)[0] : null;
+        const displayPrice = (typeof p.newPrice === 'number') ? p.newPrice : (typeof p.price === 'number' ? p.price : (firstSizeVal ? firstSizeVal.price : 1650));
+        const displayOldPrice = (typeof p.oldPrice === 'number') ? p.oldPrice : (firstSizeVal ? firstSizeVal.oldPrice : null);
 
         // Calculate discount percentage
         let discountBadge = '';
@@ -646,7 +646,10 @@ function displayProducts(filteredProducts) {
         // Extract available size keys safely (supports object or array)
         const sizeKeys = Array.isArray(p.sizes)
             ? p.sizes
-            : (p.sizes && typeof p.sizes === 'object' ? Object.keys(p.sizes) : ['S','M','L','XL']);
+            : (p.sizes && typeof p.sizes === 'object' ? Object.keys(p.sizes) : ['S', 'M', 'L', 'XL']);
+
+        const pImages = (Array.isArray(p.images) && p.images.length > 0) ? p.images : (p.img ? [p.img] : ['logo.png']);
+        const primaryImage = pImages[0] || 'logo.png';
 
         grid.innerHTML += `
         <div class="product-card glass ${isOutOfStock ? 'out-of-stock' : ''}" 
@@ -666,11 +669,11 @@ function displayProducts(filteredProducts) {
                 </div>
 
                 <div class="card-slider" style="display: flex; transition: transform 0.5s ease; height: 100%; width: 100%;">
-                    ${p.images.map(img => `<img src="${img}" style="width: 100%; flex-shrink: 0; height: 100%; object-fit: cover; border-radius: 16px;">`).join('')}
+                    ${pImages.map(img => `<img src="${img}" style="width: 100%; flex-shrink: 0; height: 100%; object-fit: cover; border-radius: 16px;">`).join('')}
                 </div>
-                ${p.images.length > 1 ? `
+                ${pImages.length > 1 ? `
                 <div class="card-slider-indicators">
-                    ${p.images.map((_, idx) => `<div class="card-slider-indicator-dot ${idx === 0 ? 'active' : ''}"></div>`).join('')}
+                    ${pImages.map((_, idx) => `<div class="card-slider-indicator-dot ${idx === 0 ? 'active' : ''}"></div>`).join('')}
                 </div>
                 ` : ''}
             </div>
@@ -703,7 +706,7 @@ function displayProducts(filteredProducts) {
                         Out of Stock
                     </button>
                     ` : `
-                    <button onclick="event.stopPropagation(); addToCart('${p.name}', ${displayPrice}, '${p.images[0]}')" 
+                    <button onclick="event.stopPropagation(); addToCart('${p.name}', ${displayPrice}, '${primaryImage}')" 
                             class="btn btn-primary" 
                             style="width: 100%; padding: 10px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 14px rgba(220,20,60,0.25);">
                         <i data-lucide="shopping-cart" style="width: 15px; height: 15px;"></i> Add to Cart
@@ -729,7 +732,7 @@ function startHoverSlide(productId, sliderElement) {
     hoverIntervals[productId] = setInterval(() => {
         currentIdx = (currentIdx + 1) % p.images.length;
         sliderElement.style.transform = `translateX(-${currentIdx * 100}%)`;
-        
+
         dots.forEach((dot, idx) => {
             if (idx === currentIdx) {
                 dot.classList.add('active');
@@ -746,7 +749,7 @@ function stopHoverSlide(productId, sliderElement) {
         delete hoverIntervals[productId];
     }
     sliderElement.style.transform = 'translateX(0)';
-    
+
     const container = sliderElement.parentElement;
     const dots = container.querySelectorAll('.card-slider-indicator-dot');
     dots.forEach((dot, idx) => {
@@ -792,11 +795,11 @@ function scrollToActiveButtonInContainer(containerSelector, activeSelector) {
     if (!container) return;
     const activeBtn = container.querySelector(activeSelector);
     if (!activeBtn) return;
-    
+
     const containerWidth = container.getBoundingClientRect().width;
     const btnWidth = activeBtn.getBoundingClientRect().width;
     const btnLeft = activeBtn.offsetLeft;
-    
+
     container.scrollTo({
         left: btnLeft - (containerWidth / 2) + (btnWidth / 2),
         behavior: 'smooth'
@@ -1117,7 +1120,7 @@ function renderCart() {
     const freeDeliveryItemThreshold = 4;
     const progressPercent = Math.min(100, (totalQty / freeDeliveryItemThreshold) * 100);
     const itemsNeeded = freeDeliveryItemThreshold - totalQty;
-    
+
     let deliveryMessage = '';
     if (itemsNeeded > 0) {
         deliveryMessage = `Add <strong>${itemsNeeded} more item(s)</strong> to get <strong>FREE delivery</strong>!`;
@@ -1138,7 +1141,7 @@ function renderCart() {
 
     cartContainer.innerHTML = progressBarHtml + html;
     if (totalElement) totalElement.innerText = `Rs. ${total.toLocaleString()}.00`;
-    
+
     const shippingEl = document.getElementById('cart-shipping') || document.querySelector('.cart-summary div:nth-child(2) span:last-child');
     if (shippingEl) {
         shippingEl.innerText = totalQty >= 4 ? 'FREE' : 'Rs. 500.00';
@@ -1150,7 +1153,7 @@ function renderCart() {
             shippingEl.style.fontWeight = '700';
         }
     }
-    
+
     lucide.createIcons();
 }
 
@@ -1195,39 +1198,94 @@ function login(email, password, onError) {
         if (onError) onError('Firebase configure කර නැත. firebase-config.js check කරන්න.');
         return;
     }
-    auth.signInWithEmailAndPassword(email, password)
+
+    // Direct Admin credential support (Admin / admin123)
+    const normalizedEmail = (email.trim().toLowerCase() === 'admin') ? 'admin@pythonstore.lk' : email.trim();
+
+    auth.signInWithEmailAndPassword(normalizedEmail, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            // Check Firestore for blocked status before allowing entry
+            // Check Firestore for user profile & role
             if (typeof db !== 'undefined' && db) {
                 db.collection('users').doc(user.uid).get().then(doc => {
                     if (doc.exists && doc.data().blocked === true) {
-                        // Sign them back out immediately
                         auth.signOut();
                         if (onError) onError('⛔ ඔබගේ account block කර ඇත. Admin හා සම්බන්ධ වන්න.');
                         return;
                     }
+                    
+                    const role = (doc.exists && doc.data().role) ? doc.data().role : ((normalizedEmail === 'admin@pythonstore.lk') ? 'admin' : 'customer');
+                    
+                    // If this is the admin account, ensure role is saved as admin in Firestore
+                    if (normalizedEmail === 'admin@pythonstore.lk' && (!doc.exists || doc.data().role !== 'admin')) {
+                        db.collection('users').doc(user.uid).set({
+                            uid: user.uid,
+                            name: 'Admin',
+                            email: normalizedEmail,
+                            role: 'admin'
+                        }, { merge: true }).catch(console.error);
+                    }
+
                     const userData = doc.exists
-                        ? { uid: user.uid, name: doc.data().name, email: user.email, phone: doc.data().phone||'', address: doc.data().address||'' }
-                        : { uid: user.uid, name: user.displayName || user.email.split('@')[0], email: user.email };
+                        ? { uid: user.uid, name: doc.data().name, email: user.email, role: role, phone: doc.data().phone || '', address: doc.data().address || '' }
+                        : { uid: user.uid, name: (role === 'admin' ? 'Admin' : (user.displayName || user.email.split('@')[0])), email: user.email, role: role };
+                    
                     localStorage.setItem('python_user', JSON.stringify(userData));
                     currentUser = userData;
-                    window.location.href = 'profile.html';
+
+                    // If admin, redirect directly to database.html
+                    if (role === 'admin' || normalizedEmail === 'admin@pythonstore.lk') {
+                        window.location.href = 'database.html';
+                    } else {
+                        window.location.href = 'profile.html';
+                    }
                 }).catch(() => {
-                    // Firestore unreachable — allow login anyway
-                    const quickUser = { uid: user.uid, name: user.displayName || user.email.split('@')[0], email: user.email };
+                    const quickUser = { uid: user.uid, name: (normalizedEmail === 'admin@pythonstore.lk' ? 'Admin' : (user.displayName || user.email.split('@')[0])), email: user.email, role: (normalizedEmail === 'admin@pythonstore.lk' ? 'admin' : 'customer') };
                     localStorage.setItem('python_user', JSON.stringify(quickUser));
                     currentUser = quickUser;
-                    window.location.href = 'profile.html';
+                    if (normalizedEmail === 'admin@pythonstore.lk') {
+                        window.location.href = 'database.html';
+                    } else {
+                        window.location.href = 'profile.html';
+                    }
                 });
             } else {
-                const quickUser = { uid: user.uid, name: user.displayName || user.email.split('@')[0], email: user.email };
+                const quickUser = { uid: user.uid, name: (normalizedEmail === 'admin@pythonstore.lk' ? 'Admin' : (user.displayName || user.email.split('@')[0])), email: user.email, role: (normalizedEmail === 'admin@pythonstore.lk' ? 'admin' : 'customer') };
                 localStorage.setItem('python_user', JSON.stringify(quickUser));
                 currentUser = quickUser;
-                window.location.href = 'profile.html';
+                if (normalizedEmail === 'admin@pythonstore.lk') {
+                    window.location.href = 'database.html';
+                } else {
+                    window.location.href = 'profile.html';
+                }
             }
         })
         .catch((error) => {
+            // If the admin user doesn't exist in Firebase Auth yet, automatically create it on first Admin / admin123 login
+            if (normalizedEmail === 'admin@pythonstore.lk' && password === 'admin123' && (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential')) {
+                auth.createUserWithEmailAndPassword('admin@pythonstore.lk', 'admin123')
+                    .then((newUserCred) => {
+                        const newAdmin = newUserCred.user;
+                        const adminDoc = {
+                            uid: newAdmin.uid,
+                            name: 'Admin',
+                            email: 'admin@pythonstore.lk',
+                            role: 'admin',
+                            createdAt: new Date().toISOString()
+                        };
+                        if (typeof db !== 'undefined' && db) {
+                            db.collection('users').doc(newAdmin.uid).set(adminDoc).catch(console.error);
+                        }
+                        localStorage.setItem('python_user', JSON.stringify(adminDoc));
+                        currentUser = adminDoc;
+                        window.location.href = 'database.html';
+                    })
+                    .catch((createErr) => {
+                        if (onError) onError('Admin sign-in error: ' + createErr.message);
+                    });
+                return;
+            }
+
             let msg = 'Login failed. නැවත try කරන්න.';
             if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') msg = 'Email හෝ Password වැරදියි.';
             else if (error.code === 'auth/invalid-email') msg = 'Email format එක වැරදියි.';
@@ -1303,11 +1361,11 @@ let notificationListenerUnsubscribe = null;
 
 function startNotificationListener() {
     if (typeof db === 'undefined' || !db || !currentUser || !currentUser.email) return;
-    
+
     if (notificationListenerUnsubscribe) {
         notificationListenerUnsubscribe();
     }
-    
+
     notificationListenerUnsubscribe = db.collection('notifications')
         .where('userEmail', '==', currentUser.email)
         .where('read', '==', false)
@@ -1316,9 +1374,9 @@ function startNotificationListener() {
                 if (change.type === 'added') {
                     const notif = change.doc.data();
                     const docId = change.doc.id;
-                    
+
                     showCustomerNotification(notif.message, notif.status);
-                    
+
                     db.collection('notifications').doc(docId).update({ read: true })
                         .catch(err => console.error("Error marking notification as read:", err));
                 }
@@ -1362,7 +1420,7 @@ function showCustomerNotification(message, status) {
     note.className = 'glass';
     const borderLeftColor = status === 'confirmed' ? '#22c55e' : (status === 'cancelled' ? '#ef4444' : '#DC143C');
     const titleEmoji = status === 'confirmed' ? '✅' : (status === 'cancelled' ? '❌' : '🔔');
-    
+
     note.style.cssText = `
         position: fixed; 
         bottom: 24px; 
@@ -1382,19 +1440,19 @@ function showCustomerNotification(message, status) {
         opacity: 0;
         transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s;
     `;
-    
+
     note.innerHTML = `
         <span style="font-size: 1.2rem;">${titleEmoji}</span>
         <div style="font-size: 0.9rem; font-weight: 700;">${message}</div>
     `;
-    
+
     document.body.appendChild(note);
-    
+
     setTimeout(() => {
         note.style.transform = 'translateY(0)';
         note.style.opacity = '1';
     }, 10);
-    
+
     setTimeout(() => {
         note.style.transform = 'translateY(-20px)';
         note.style.opacity = '0';
@@ -1554,7 +1612,7 @@ function placeOrder() {
     // Calculate subtotal and item count from cart
     let subtotal = 0;
     let itemCount = 0;
-    cart.forEach(item => { 
+    cart.forEach(item => {
         subtotal += item.price * item.quantity;
         itemCount += item.quantity;
     });
@@ -1602,10 +1660,10 @@ function placeOrder() {
     // Encode order data for the URL
     const jsonStr = JSON.stringify(orderData);
     const encodedData = btoa(unescape(encodeURIComponent(jsonStr)));
-    
+
     let baseUrl = window.location.protocol + '//' + window.location.host + window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
     let whatsappBaseUrl = baseUrl;
-    
+
     if (window.location.protocol === 'file:') {
         baseUrl = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
         baseUrl = 'file:///' + baseUrl.replace(/^\/+/g, '');
@@ -1613,7 +1671,7 @@ function placeOrder() {
     } else {
         whatsappBaseUrl = baseUrl;
     }
-    
+
     const whatsappInvoiceUrl = `${whatsappBaseUrl}invoice.html?data=${encodeURIComponent(encodedData)}`;
 
     let message = `🔴 *NEW ORDER CONFIRMATION: ${orderID}*\n\n`;
@@ -1883,7 +1941,7 @@ function initFreeDeliveryBar() {
         localStorage.setItem('python_free_delivery_active', 'true');
         window.history.replaceState({}, document.title, 'shop.html');
     }
-    
+
     const isActive = localStorage.getItem('python_free_delivery_active') === 'true';
     if (isShopPage && isActive) {
         if (!document.getElementById('free-delivery-bar')) {
@@ -1910,7 +1968,7 @@ function initFreeDeliveryBar() {
                 gap: 10px;
             `;
             document.body.appendChild(bar);
-            
+
             if (!document.getElementById('promo-animations')) {
                 const style = document.createElement('style');
                 style.id = 'promo-animations';
@@ -1934,9 +1992,9 @@ function initFreeDeliveryBar() {
 function updateFreeDeliveryBar() {
     const bar = document.getElementById('free-delivery-bar');
     if (!bar) return;
-    
+
     const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
-    
+
     if (itemCount >= 4) {
         bar.innerHTML = '🎉 <span style="font-weight: 800; letter-spacing: 1px;">Congratulations! You have unlocked FREE DELIVERY!</span> 🚚';
         bar.style.animation = 'celebrate 1s ease 3, pop 0.5s ease-out';
@@ -1969,7 +2027,7 @@ function toggleWishlist(productId) {
     }
     localStorage.setItem('python_wishlist', JSON.stringify(wishlist));
     updateWishlistCount();
-    
+
     // Refresh display if we are on the wishlist page
     if (window.location.pathname.includes('wishlist.html')) {
         renderWishlist();
@@ -2012,7 +2070,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.location.pathname.includes('cart.html')) { renderCart(); }
     if (window.location.pathname.includes('profile.html')) { loadProfile(); }
     if (window.location.pathname.includes('wishlist.html')) { renderWishlist(); }
-    if (window.location.pathname.includes('shop.html')) {
+    if (window.location.pathname.includes('shop.html') || document.getElementById('category-row-wrapper') || (document.getElementById('product-grid') && !document.getElementById('top-selling-carousel'))) {
         const urlParams = new URLSearchParams(window.location.search);
         const catParam = urlParams.get('category');
         catParam ? filterProducts(catParam) : filterProducts('All');
@@ -2045,7 +2103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.addEventListener('click', closeHandler);
         if (closeBtn) closeBtn.addEventListener('click', closeHandler);
     }
-    
+
     // Initialize Free Delivery Promo Bar if needed
     if (typeof initFreeDeliveryBar === 'function') {
         initFreeDeliveryBar();
@@ -2054,10 +2112,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ===== NEW DROP WAITLIST =====
 function handleNewDropWaitlist() {
-    const nameInput  = document.getElementById('nd-name-input');
+    const nameInput = document.getElementById('nd-name-input');
     const phoneInput = document.getElementById('nd-phone-input');
-    const btn        = document.getElementById('nd-notify-btn');
-    const msg        = document.getElementById('nd-notify-msg');
+    const btn = document.getElementById('nd-notify-btn');
+    const msg = document.getElementById('nd-notify-msg');
 
     // Dynamic UI Update logic for product details
     const product = products.find(p => p.id === new URLSearchParams(window.location.search).get('id'));
@@ -2068,7 +2126,7 @@ function handleNewDropWaitlist() {
         if (printTechEl) printTechEl.innerText = product.printTech || 'A3 DTF Print';
     }
 
-    const name  = nameInput  ? nameInput.value.trim()  : '';
+    const name = nameInput ? nameInput.value.trim() : '';
     const phone = phoneInput ? phoneInput.value.trim() : '';
 
     // Reset message
@@ -2106,16 +2164,16 @@ function handleNewDropWaitlist() {
                     }
                     return;
                 }
-                
+
                 db.collection('waitlist').add(waitlistEntry)
                     .then(() => {
                         msg.textContent = '🎉 You are successfully added to the waitlist!';
                         msg.classList.add('success');
-                        
+
                         // Clear inputs
-                        if (nameInput)  nameInput.value  = '';
+                        if (nameInput) nameInput.value = '';
                         if (phoneInput) phoneInput.value = '';
-                        
+
                         // Save to localStorage waitlist
                         const waitlist = JSON.parse(localStorage.getItem('python_waitlist') || '[]');
                         // Filter out old phone entry if any to clean local cache
@@ -2143,7 +2201,7 @@ function handleNewDropWaitlist() {
                     .then(() => {
                         msg.textContent = '🎉 You are successfully added to the waitlist!';
                         msg.classList.add('success');
-                        if (nameInput)  nameInput.value  = '';
+                        if (nameInput) nameInput.value = '';
                         if (phoneInput) phoneInput.value = '';
                     })
                     .catch(err => {
@@ -2218,10 +2276,116 @@ function syncProductsWithDatabase() {
     }
 }
 
-// Auto-sync on page load (runs after firebase is ready)
+// ── Load and merge Firestore products into local array ──
+function loadFirestoreProductsIntoArray() {
+    if (typeof db === 'undefined' || !db) return;
+
+    db.collection('products').get().then(snapshot => {
+        if (snapshot.empty) return;
+
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            if (!data || data.isDeleted) return;
+
+            // Check if product exists in memory array
+            const exists = products.find(p => String(p.id) === String(doc.id) || String(p.id) === String(data.id));
+            if (exists) {
+                // Update existing product with latest Firestore edits (name, price, stock, images, category)
+                if (data.name) exists.name = data.name;
+                if (typeof data.newPrice === 'number') exists.price = data.newPrice;
+                if (typeof data.newPrice === 'number') exists.newPrice = data.newPrice;
+                if (typeof data.oldPrice !== 'undefined') exists.oldPrice = data.oldPrice;
+                if (data.categoryName) exists.category = data.categoryName;
+                if (data.brand) exists.brand = data.brand;
+                if (data.images && data.images.length > 0) exists.images = data.images;
+                if (data.description) exists.desc = data.description;
+                if (data.status) exists.status = data.status;
+                exists.stockStatus = data.status === 'out_of_stock' ? 'out_of_stock' : 'in_stock';
+                exists.stock = data.status === 'out_of_stock' ? 0 : 10;
+                
+                // Update sizes with new price
+                if (Array.isArray(data.sizes) && data.sizes.length > 0) {
+                    exists.sizes = {};
+                    data.sizes.forEach(sz => {
+                        exists.sizes[sz] = { price: data.newPrice, oldPrice: data.oldPrice };
+                    });
+                } else if (exists.sizes && typeof exists.sizes === 'object') {
+                    Object.keys(exists.sizes).forEach(sz => {
+                        exists.sizes[sz].price = data.newPrice;
+                        exists.sizes[sz].oldPrice = data.oldPrice;
+                    });
+                }
+
+                if (data.colors) {
+                    exists.colors = data.colors.map(c => c.hex);
+                    exists.colorsObj = data.colors;
+                }
+                return;
+            }
+
+            if (data.status === 'draft' || data.status === 'hidden') return;
+
+            // Map Firestore schema → storefront schema
+            const mapped = {
+                id: data.id || doc.id,
+                name: data.name || 'Untitled Product',
+                category: data.categoryName || 'T-Shirts',
+                categoryId: data.categoryId || 'tshirts',
+                sections: data.sections || ['Mens', 'Womens', 'Unisexs'],
+                images: data.images || (data.mainImage ? [data.mainImage] : []),
+                gsm: (() => {
+                    if (!data.specifications) return '220 GSM';
+                    const gsmSpec = data.specifications.find(s => s.key && s.key.toUpperCase().includes('GSM'));
+                    return gsmSpec ? gsmSpec.value : '220 GSM';
+                })(),
+                brand: data.brand || 'Python',
+                sizes: {},
+                colors: data.colors ? data.colors.map(c => c.hex) : ['#000000'],
+                colorsObj: data.colors || [],
+                desc: data.description || data.shortDescription || '',
+                isMostPopular: data.isMostPopular || false,
+                isNew: data.isNew || false,
+                stockStatus: data.status === 'out_of_stock' ? 'out_of_stock' : 'in_stock',
+                stock: data.status === 'out_of_stock' ? 0 : 10,
+                status: data.status || 'published',
+                specifications: data.specifications || [],
+                price: data.newPrice,
+                newPrice: data.newPrice,
+                oldPrice: data.oldPrice
+            };
+
+            // Map flat sizes array → object structure
+            if (Array.isArray(data.sizes)) {
+                data.sizes.forEach(sz => {
+                    mapped.sizes[sz] = { price: data.newPrice, oldPrice: data.oldPrice };
+                });
+            } else if (data.sizes && typeof data.sizes === 'object') {
+                mapped.sizes = data.sizes;
+            } else {
+                mapped.sizes = { 'Free': { price: data.newPrice, oldPrice: data.oldPrice } };
+            }
+
+            products.push(mapped);
+        });
+
+        // Re-render grids after merge
+        const isIdx = !!document.getElementById('top-selling-carousel');
+        if (isIdx && typeof displayProducts === 'function') {
+            const featuredIds = ['26', '27', '30', '31'];
+            displayProducts(products.filter(p => featuredIds.includes(p.id) && !p.isDeleted));
+        } else if (typeof filterShop === 'function' && (window.location.pathname.includes('shop.html') || document.getElementById('category-row-wrapper'))) {
+            filterShop();
+        } else if (typeof displayProducts === 'function') {
+            displayProducts(products.filter(p => !p.isDeleted));
+        }
+
+    }).catch(err => {
+        console.warn('Could not load Firestore products:', err);
+    });
+}
+
+// Auto-sync immediately on page load
 document.addEventListener('DOMContentLoaded', () => {
-    // Small delay to allow firebase/db to initialize
-    setTimeout(() => {
-        if (typeof syncProductsWithDatabase === 'function') syncProductsWithDatabase();
-    }, 1200);
+    if (typeof syncProductsWithDatabase === 'function') syncProductsWithDatabase();
+    if (typeof loadFirestoreProductsIntoArray === 'function') loadFirestoreProductsIntoArray();
 });

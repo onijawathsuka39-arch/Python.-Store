@@ -1,0 +1,52 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if requesting user is an admin
+    function isAdmin() {
+      return request.auth != null && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Products: Public read for storefront, Admin write for management
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Categories: Public read for storefront, Admin write
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Users: Users can read/write their own document, Admins can read/manage all
+    match /users/{userId} {
+      allow read, write: if request.auth != null && (request.auth.uid == userId || isAdmin());
+    }
+
+    // Orders: Anyone can create (including guest checkout), Users can read their own, Admins full access
+    match /orders/{orderId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin() || (request.auth != null && resource.data.userId == request.auth.uid);
+    }
+
+    // Reviews: Public read, Authenticated or anonymous create, Admin delete
+    match /reviews/{reviewId} {
+      allow read, create: if true;
+      allow update, delete: if isAdmin();
+    }
+
+    // Waitlist: Public create, Admin full access
+    match /waitlist/{waitlistId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Notifications: Users read their own notifications, Admin or system write
+    match /notifications/{notificationId} {
+      allow read: if request.auth != null && (resource.data.userEmail == request.auth.token.email || isAdmin());
+      allow write: if true;
+    }
+  }
+}
