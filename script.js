@@ -620,9 +620,9 @@ function displayProducts(filteredProducts) {
     if (!grid) return;
     grid.innerHTML = '';
     filteredProducts.forEach((p) => {
-        const firstSizeVal = (p.sizes && typeof p.sizes === 'object' && Object.values(p.sizes).length > 0) ? Object.values(p.sizes)[0] : null;
-        const displayPrice = (typeof p.newPrice === 'number') ? p.newPrice : (typeof p.price === 'number' ? p.price : (firstSizeVal ? firstSizeVal.price : 1650));
-        const displayOldPrice = (typeof p.oldPrice === 'number') ? p.oldPrice : (firstSizeVal ? firstSizeVal.oldPrice : null);
+        const hasSizes = p.sizes && typeof p.sizes === 'object';
+        const displayPrice = hasSizes ? Object.values(p.sizes)[0].price : p.price;
+        const displayOldPrice = hasSizes ? Object.values(p.sizes)[0].oldPrice : p.oldPrice;
 
         // Calculate discount percentage
         let discountBadge = '';
@@ -648,9 +648,6 @@ function displayProducts(filteredProducts) {
             ? p.sizes
             : (p.sizes && typeof p.sizes === 'object' ? Object.keys(p.sizes) : ['S', 'M', 'L', 'XL']);
 
-        const pImages = (Array.isArray(p.images) && p.images.length > 0) ? p.images : (p.img ? [p.img] : ['logo.png']);
-        const primaryImage = pImages[0] || 'logo.png';
-
         grid.innerHTML += `
         <div class="product-card glass ${isOutOfStock ? 'out-of-stock' : ''}" 
              onclick="window.location.href='product-detail.html?id=${p.id}'" 
@@ -669,11 +666,11 @@ function displayProducts(filteredProducts) {
                 </div>
 
                 <div class="card-slider" style="display: flex; transition: transform 0.5s ease; height: 100%; width: 100%;">
-                    ${pImages.map(img => `<img src="${img}" style="width: 100%; flex-shrink: 0; height: 100%; object-fit: cover; border-radius: 16px;">`).join('')}
+                    ${p.images.map(img => `<img src="${img}" style="width: 100%; flex-shrink: 0; height: 100%; object-fit: cover; border-radius: 16px;">`).join('')}
                 </div>
-                ${pImages.length > 1 ? `
+                ${p.images.length > 1 ? `
                 <div class="card-slider-indicators">
-                    ${pImages.map((_, idx) => `<div class="card-slider-indicator-dot ${idx === 0 ? 'active' : ''}"></div>`).join('')}
+                    ${p.images.map((_, idx) => `<div class="card-slider-indicator-dot ${idx === 0 ? 'active' : ''}"></div>`).join('')}
                 </div>
                 ` : ''}
             </div>
@@ -706,7 +703,7 @@ function displayProducts(filteredProducts) {
                         Out of Stock
                     </button>
                     ` : `
-                    <button onclick="event.stopPropagation(); addToCart('${p.name}', ${displayPrice}, '${primaryImage}')" 
+                    <button onclick="event.stopPropagation(); addToCart('${p.name}', ${displayPrice}, '${p.images[0]}')" 
                             class="btn btn-primary" 
                             style="width: 100%; padding: 10px; border-radius: 50px; font-size: 0.82rem; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.5px; box-shadow: 0 4px 14px rgba(220,20,60,0.25);">
                         <i data-lucide="shopping-cart" style="width: 15px; height: 15px;"></i> Add to Cart
@@ -1198,94 +1195,39 @@ function login(email, password, onError) {
         if (onError) onError('Firebase configure කර නැත. firebase-config.js check කරන්න.');
         return;
     }
-
-    // Direct Admin credential support (Admin / admin123)
-    const normalizedEmail = (email.trim().toLowerCase() === 'admin') ? 'admin@pythonstore.lk' : email.trim();
-
-    auth.signInWithEmailAndPassword(normalizedEmail, password)
+    auth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            // Check Firestore for user profile & role
+            // Check Firestore for blocked status before allowing entry
             if (typeof db !== 'undefined' && db) {
                 db.collection('users').doc(user.uid).get().then(doc => {
                     if (doc.exists && doc.data().blocked === true) {
+                        // Sign them back out immediately
                         auth.signOut();
                         if (onError) onError('⛔ ඔබගේ account block කර ඇත. Admin හා සම්බන්ධ වන්න.');
                         return;
                     }
-                    
-                    const role = (doc.exists && doc.data().role) ? doc.data().role : ((normalizedEmail === 'admin@pythonstore.lk') ? 'admin' : 'customer');
-                    
-                    // If this is the admin account, ensure role is saved as admin in Firestore
-                    if (normalizedEmail === 'admin@pythonstore.lk' && (!doc.exists || doc.data().role !== 'admin')) {
-                        db.collection('users').doc(user.uid).set({
-                            uid: user.uid,
-                            name: 'Admin',
-                            email: normalizedEmail,
-                            role: 'admin'
-                        }, { merge: true }).catch(console.error);
-                    }
-
                     const userData = doc.exists
-                        ? { uid: user.uid, name: doc.data().name, email: user.email, role: role, phone: doc.data().phone || '', address: doc.data().address || '' }
-                        : { uid: user.uid, name: (role === 'admin' ? 'Admin' : (user.displayName || user.email.split('@')[0])), email: user.email, role: role };
-                    
+                        ? { uid: user.uid, name: doc.data().name, email: user.email, phone: doc.data().phone || '', address: doc.data().address || '' }
+                        : { uid: user.uid, name: user.displayName || user.email.split('@')[0], email: user.email };
                     localStorage.setItem('python_user', JSON.stringify(userData));
                     currentUser = userData;
-
-                    // If admin, redirect directly to database.html
-                    if (role === 'admin' || normalizedEmail === 'admin@pythonstore.lk') {
-                        window.location.href = 'database.html';
-                    } else {
-                        window.location.href = 'profile.html';
-                    }
+                    window.location.href = 'profile.html';
                 }).catch(() => {
-                    const quickUser = { uid: user.uid, name: (normalizedEmail === 'admin@pythonstore.lk' ? 'Admin' : (user.displayName || user.email.split('@')[0])), email: user.email, role: (normalizedEmail === 'admin@pythonstore.lk' ? 'admin' : 'customer') };
+                    // Firestore unreachable — allow login anyway
+                    const quickUser = { uid: user.uid, name: user.displayName || user.email.split('@')[0], email: user.email };
                     localStorage.setItem('python_user', JSON.stringify(quickUser));
                     currentUser = quickUser;
-                    if (normalizedEmail === 'admin@pythonstore.lk') {
-                        window.location.href = 'database.html';
-                    } else {
-                        window.location.href = 'profile.html';
-                    }
+                    window.location.href = 'profile.html';
                 });
             } else {
-                const quickUser = { uid: user.uid, name: (normalizedEmail === 'admin@pythonstore.lk' ? 'Admin' : (user.displayName || user.email.split('@')[0])), email: user.email, role: (normalizedEmail === 'admin@pythonstore.lk' ? 'admin' : 'customer') };
+                const quickUser = { uid: user.uid, name: user.displayName || user.email.split('@')[0], email: user.email };
                 localStorage.setItem('python_user', JSON.stringify(quickUser));
                 currentUser = quickUser;
-                if (normalizedEmail === 'admin@pythonstore.lk') {
-                    window.location.href = 'database.html';
-                } else {
-                    window.location.href = 'profile.html';
-                }
+                window.location.href = 'profile.html';
             }
         })
         .catch((error) => {
-            // If the admin user doesn't exist in Firebase Auth yet, automatically create it on first Admin / admin123 login
-            if (normalizedEmail === 'admin@pythonstore.lk' && password === 'admin123' && (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential')) {
-                auth.createUserWithEmailAndPassword('admin@pythonstore.lk', 'admin123')
-                    .then((newUserCred) => {
-                        const newAdmin = newUserCred.user;
-                        const adminDoc = {
-                            uid: newAdmin.uid,
-                            name: 'Admin',
-                            email: 'admin@pythonstore.lk',
-                            role: 'admin',
-                            createdAt: new Date().toISOString()
-                        };
-                        if (typeof db !== 'undefined' && db) {
-                            db.collection('users').doc(newAdmin.uid).set(adminDoc).catch(console.error);
-                        }
-                        localStorage.setItem('python_user', JSON.stringify(adminDoc));
-                        currentUser = adminDoc;
-                        window.location.href = 'database.html';
-                    })
-                    .catch((createErr) => {
-                        if (onError) onError('Admin sign-in error: ' + createErr.message);
-                    });
-                return;
-            }
-
             let msg = 'Login failed. නැවත try කරන්න.';
             if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') msg = 'Email හෝ Password වැරදියි.';
             else if (error.code === 'auth/invalid-email') msg = 'Email format එක වැරදියි.';
@@ -2070,7 +2012,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.location.pathname.includes('cart.html')) { renderCart(); }
     if (window.location.pathname.includes('profile.html')) { loadProfile(); }
     if (window.location.pathname.includes('wishlist.html')) { renderWishlist(); }
-    if (window.location.pathname.includes('shop.html') || document.getElementById('category-row-wrapper') || (document.getElementById('product-grid') && !document.getElementById('top-selling-carousel'))) {
+    if (window.location.pathname.includes('shop.html')) {
         const urlParams = new URLSearchParams(window.location.search);
         const catParam = urlParams.get('category');
         catParam ? filterProducts(catParam) : filterProducts('All');
@@ -2276,116 +2218,10 @@ function syncProductsWithDatabase() {
     }
 }
 
-// ── Load and merge Firestore products into local array ──
-function loadFirestoreProductsIntoArray() {
-    if (typeof db === 'undefined' || !db) return;
-
-    db.collection('products').get().then(snapshot => {
-        if (snapshot.empty) return;
-
-        snapshot.forEach(doc => {
-            const data = doc.data();
-            if (!data || data.isDeleted) return;
-
-            // Check if product exists in memory array
-            const exists = products.find(p => String(p.id) === String(doc.id) || String(p.id) === String(data.id));
-            if (exists) {
-                // Update existing product with latest Firestore edits (name, price, stock, images, category)
-                if (data.name) exists.name = data.name;
-                if (typeof data.newPrice === 'number') exists.price = data.newPrice;
-                if (typeof data.newPrice === 'number') exists.newPrice = data.newPrice;
-                if (typeof data.oldPrice !== 'undefined') exists.oldPrice = data.oldPrice;
-                if (data.categoryName) exists.category = data.categoryName;
-                if (data.brand) exists.brand = data.brand;
-                if (data.images && data.images.length > 0) exists.images = data.images;
-                if (data.description) exists.desc = data.description;
-                if (data.status) exists.status = data.status;
-                exists.stockStatus = data.status === 'out_of_stock' ? 'out_of_stock' : 'in_stock';
-                exists.stock = data.status === 'out_of_stock' ? 0 : 10;
-                
-                // Update sizes with new price
-                if (Array.isArray(data.sizes) && data.sizes.length > 0) {
-                    exists.sizes = {};
-                    data.sizes.forEach(sz => {
-                        exists.sizes[sz] = { price: data.newPrice, oldPrice: data.oldPrice };
-                    });
-                } else if (exists.sizes && typeof exists.sizes === 'object') {
-                    Object.keys(exists.sizes).forEach(sz => {
-                        exists.sizes[sz].price = data.newPrice;
-                        exists.sizes[sz].oldPrice = data.oldPrice;
-                    });
-                }
-
-                if (data.colors) {
-                    exists.colors = data.colors.map(c => c.hex);
-                    exists.colorsObj = data.colors;
-                }
-                return;
-            }
-
-            if (data.status === 'draft' || data.status === 'hidden') return;
-
-            // Map Firestore schema → storefront schema
-            const mapped = {
-                id: data.id || doc.id,
-                name: data.name || 'Untitled Product',
-                category: data.categoryName || 'T-Shirts',
-                categoryId: data.categoryId || 'tshirts',
-                sections: data.sections || ['Mens', 'Womens', 'Unisexs'],
-                images: data.images || (data.mainImage ? [data.mainImage] : []),
-                gsm: (() => {
-                    if (!data.specifications) return '220 GSM';
-                    const gsmSpec = data.specifications.find(s => s.key && s.key.toUpperCase().includes('GSM'));
-                    return gsmSpec ? gsmSpec.value : '220 GSM';
-                })(),
-                brand: data.brand || 'Python',
-                sizes: {},
-                colors: data.colors ? data.colors.map(c => c.hex) : ['#000000'],
-                colorsObj: data.colors || [],
-                desc: data.description || data.shortDescription || '',
-                isMostPopular: data.isMostPopular || false,
-                isNew: data.isNew || false,
-                stockStatus: data.status === 'out_of_stock' ? 'out_of_stock' : 'in_stock',
-                stock: data.status === 'out_of_stock' ? 0 : 10,
-                status: data.status || 'published',
-                specifications: data.specifications || [],
-                price: data.newPrice,
-                newPrice: data.newPrice,
-                oldPrice: data.oldPrice
-            };
-
-            // Map flat sizes array → object structure
-            if (Array.isArray(data.sizes)) {
-                data.sizes.forEach(sz => {
-                    mapped.sizes[sz] = { price: data.newPrice, oldPrice: data.oldPrice };
-                });
-            } else if (data.sizes && typeof data.sizes === 'object') {
-                mapped.sizes = data.sizes;
-            } else {
-                mapped.sizes = { 'Free': { price: data.newPrice, oldPrice: data.oldPrice } };
-            }
-
-            products.push(mapped);
-        });
-
-        // Re-render grids after merge
-        const isIdx = !!document.getElementById('top-selling-carousel');
-        if (isIdx && typeof displayProducts === 'function') {
-            const featuredIds = ['26', '27', '30', '31'];
-            displayProducts(products.filter(p => featuredIds.includes(p.id) && !p.isDeleted));
-        } else if (typeof filterShop === 'function' && (window.location.pathname.includes('shop.html') || document.getElementById('category-row-wrapper'))) {
-            filterShop();
-        } else if (typeof displayProducts === 'function') {
-            displayProducts(products.filter(p => !p.isDeleted));
-        }
-
-    }).catch(err => {
-        console.warn('Could not load Firestore products:', err);
-    });
-}
-
-// Auto-sync immediately on page load
+// Auto-sync on page load (runs after firebase is ready)
 document.addEventListener('DOMContentLoaded', () => {
-    if (typeof syncProductsWithDatabase === 'function') syncProductsWithDatabase();
-    if (typeof loadFirestoreProductsIntoArray === 'function') loadFirestoreProductsIntoArray();
+    // Small delay to allow firebase/db to initialize
+    setTimeout(() => {
+        if (typeof syncProductsWithDatabase === 'function') syncProductsWithDatabase();
+    }, 1200);
 });
