@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Python | Premium T-Shirt Brand</title>
+  <title>PYTHON — Luxury Streetwear & Heavyweight T-Shirts</title>
+  <meta name="description" content="Official PYTHON store. Sri Lanka's premium streetwear brand featuring 220 GSM heavyweight cotton, custom DTF prints, oversized tees, and luxury fashion essentials.">
   <link rel="icon" href="logo.png">
   <link rel="stylesheet" href="style.css">
   <!-- Lucide Icons -->
@@ -12,516 +13,853 @@
 </head>
 
 <body>
+  <!-- Top Announcement Bar -->
+  <div class="announcement-bar">
+    <span class="dot"></span>
+    <span>FREE ISLANDWIDE DELIVERY ON 4+ ITEMS</span>
+    <span style="opacity: 0.3;">•</span>
+    <span>EASY 7-DAY EXCHANGE</span>
+    <span style="opacity: 0.3;">•</span>
+    <span>220 GSM HEAVYWEIGHT COTTON</span>
+  </div>
+
+  <!-- Floating Streetwear Navbar -->
   <nav id="navbar">
     <a href="index.html" class="logo">
       <img src="logo.png" alt="Python Logo">
       <span>PYTHON</span>
     </a>
+
     <ul class="nav-links">
-      <li><a href="index.html" class="active">Home</a></li>
-      <li><a href="shop.html">Shop</a></li>
-      <li><a href="customize.html">Customize</a></li>
-      <li><a href="offers.html">Offers</a></li>
-      <li><a href="reviews.html">Reviews</a></li>
+      <li><a href="#new-drop">NEW DROP</a></li>
+      <li><a href="shop.html">SHOP</a></li>
+      <li><a href="#collections">COLLECTIONS</a></li>
+      <li><a href="customize.html">CUSTOM</a></li>
+      <li><a href="offers.html">OFFERS</a></li>
     </ul>
+
     <div class="nav-icons">
-      <a href="https://www.instagram.com/" target="_blank"><i data-lucide="instagram"></i></a>
-      <a href="https://www.facebook.com/" target="_blank"><i data-lucide="facebook"></i></a>
-      <a href="login.html"><i data-lucide="user"></i></a>
-      <a href="wishlist.html" style="position: relative; margin-right: 5px;">
-        <i data-lucide="heart"></i>
-        <span id="wishlist-count"
-          style="position: absolute; top: -10px; right: -10px; background: #DC143C; color: white; font-size: 10px; padding: 2px 5px; border-radius: 50%; font-weight: 800;">0</span>
+      <!-- Search Overlay Trigger -->
+      <button class="nav-icon-btn" onclick="openSearchModal()" title="Search Products" aria-label="Search">
+        <i data-lucide="search" style="width: 17px; height: 17px;"></i>
+      </button>
+
+      <!-- Theme Toggle (Dark / Light) -->
+      <button class="nav-icon-btn theme-toggle-btn" onclick="toggleTheme()" title="Toggle Theme" aria-label="Toggle Theme">
+        <i data-lucide="sun" class="sun-icon" style="width: 17px; height: 17px;"></i>
+        <i data-lucide="moon" class="moon-icon" style="width: 17px; height: 17px; display: none;"></i>
+      </button>
+
+      <!-- Account Link -->
+      <a href="login.html" class="nav-icon-btn" title="Account" aria-label="My Account">
+        <i data-lucide="user" style="width: 17px; height: 17px;"></i>
       </a>
-      <a href="cart.html" style="position: relative;">
-        <i data-lucide="shopping-cart"></i>
-        <span id="cart-count"
-          style="position: absolute; top: -10px; right: -10px; background: var(--accent-gold); color: white; font-size: 10px; padding: 2px 5px; border-radius: 50%; font-weight: 800;">0</span>
+
+      <!-- Wishlist with Live Counter -->
+      <a href="wishlist.html" class="nav-icon-btn" title="Wishlist" aria-label="Wishlist">
+        <i data-lucide="heart" style="width: 17px; height: 17px;"></i>
+        <span id="wishlist-count" class="nav-badge">0</span>
       </a>
-      <a href="#" id="mobile-menu-btn"><i data-lucide="menu"></i></a>
+
+      <!-- Cart with Live Counter -->
+      <a href="cart.html" class="nav-icon-btn" title="Cart" aria-label="Cart">
+        <i data-lucide="shopping-bag" style="width: 17px; height: 17px;"></i>
+        <span id="cart-count" class="nav-badge">0</span>
+      </a>
+
+      <!-- Mobile Menu Toggle Button -->
+      <button class="nav-icon-btn" id="mobile-menu-btn" aria-label="Open Menu">
+        <i data-lucide="menu" style="width: 19px; height: 19px;"></i>
+      </button>
     </div>
   </nav>
-  
+
+  <!-- Mobile Fullscreen Drawer Menu -->
   <div class="menu-overlay" id="menu-overlay"></div>
   <div class="mobile-menu" id="mobile-menu">
-    <div class="close-menu" id="close-menu"><i data-lucide="x"></i></div>
-    <a href="index.html">Home</a>
-    <a href="shop.html">Shop</a>
-    <a href="customize.html">Customize</a>
-    <a href="offers.html">Offers</a>
-    <a href="reviews.html">Reviews</a>
-    <a href="wishlist.html">Wishlist</a>
-    <a href="profile.html">My Account</a>
-    <a href="cart.html">Cart</a>
+    <div class="close-menu" id="close-menu" aria-label="Close Menu">
+      <i data-lucide="x" style="width: 22px; height: 22px;"></i>
+    </div>
+    <a href="index.html"><span><span class="menu-num">01</span> HOME</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
+    <a href="#new-drop"><span><span class="menu-num">02</span> NEW DROP</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
+    <a href="shop.html"><span><span class="menu-num">03</span> SHOP ALL</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
+    <a href="#collections"><span><span class="menu-num">04</span> COLLECTIONS</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
+    <a href="customize.html"><span><span class="menu-num">05</span> CUSTOMIZE</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
+    <a href="offers.html"><span><span class="menu-num">06</span> OFFERS</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
+    <a href="reviews.html"><span><span class="menu-num">07</span> REVIEWS</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
+    <a href="wishlist.html"><span><span class="menu-num">08</span> WISHLIST</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
+    <a href="profile.html"><span><span class="menu-num">09</span> MY ACCOUNT</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
+    <a href="cart.html"><span><span class="menu-num">10</span> CART</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
   </div>
 
   <main>
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="bg-blobs">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-      </div>
-      <div class="hero-content">
+    <!-- ================================================================
+         1. HERO SECTION: EDITORIAL SPLIT SCREEN (90vh)
+         ================================================================ -->
+    <section class="hero-split-section">
+      <div class="hero-split-grid">
+        <!-- Hero Left Column -->
+        <div class="hero-left-col">
+          <div class="hero-pill-badge">
+            <span class="dot"></span>
+            PYTHON / NEW SEASON 2026
+          </div>
 
-        <!-- Floating Badge -->
-        <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(220,20,60,0.08); border: 1.5px solid rgba(220,20,60,0.2); color: #DC143C; font-weight: 800; font-size: 0.78rem; padding: 6px 16px; border-radius: 50px; margin-bottom: 20px; animation: fadeInUp 0.6s ease;">
-          <span style="width: 7px; height: 7px; background: #DC143C; border-radius: 50%; animation: pulse 1.5s infinite;"></span>
-          Sri Lanka's Premium Python Streetwear
+          <h1 class="hero-massive-title">
+            WEAR<br>
+            YOUR<br>
+            <span class="highlight-red">ATTITUDE.</span>
+          </h1>
+
+          <p class="hero-desc">
+            Heavyweight 220 GSM combed cotton. Engineered cuts, bespoke high-definition graphic prints, and uncompromised streetwear comfort built for Sri Lanka.
+          </p>
+
+          <div class="hero-actions-row">
+            <a href="#new-drop" class="btn-streetwear-primary">
+              <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i> SHOP NEW DROP
+            </a>
+            <a href="#collections" class="hero-secondary-link">
+              EXPLORE COLLECTION <i data-lucide="arrow-up-right" style="width: 16px; height: 16px;"></i>
+            </a>
+          </div>
+
+          <!-- Quick Metrics Strip -->
+          <div class="hero-metrics-strip">
+            <div class="hero-metric-item">
+              <h4>5K+</h4>
+              <p>Customers</p>
+            </div>
+            <div class="hero-metrics-divider"></div>
+            <div class="hero-metric-item">
+              <h4>220</h4>
+              <p>GSM Cotton</p>
+            </div>
+            <div class="hero-metrics-divider"></div>
+            <div class="hero-metric-item">
+              <h4>7-DAY</h4>
+              <p>Exchange</p>
+            </div>
+          </div>
         </div>
 
-        <h1 style="font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 900; line-height: 1.2; margin-bottom: 20px; color: var(--text-main);">
-          Style That Speaks<br>
-          <span style="color: #DC143C; display: inline-block; font-size: clamp(3rem, 7.5vw, 5rem); font-weight: 900; letter-spacing: 3px; text-transform: uppercase; margin-top: 6px;">PYTHON</span>
-        </h1>
+        <!-- Hero Right Column (Dominant Product Showcase) -->
+        <div class="hero-right-col">
+          <div class="hero-vertical-tag">
+            220 GSM PREMIUM COTTON • HEAVYWEIGHT
+          </div>
 
-        <p style="font-size: clamp(0.95rem, 2vw, 1.1rem); color: var(--text-muted); max-width: 540px; margin: 0 auto 28px; line-height: 1.7;">
-          Experience the ultimate comfort and premium design. Our T-shirts are crafted for the bold, the creative, and the unique.
+          <div class="hero-circular-badge">
+            <span>NEW</span>
+            <span>DROP</span>
+          </div>
+
+          <div class="hero-product-stage">
+            <img src="https://i.ibb.co/TBTBMfpL/python-tree-design.png" alt="Python Hero Edition Tree Design T-Shirt" class="hero-main-img" id="hero-main-img">
+            
+            <div class="hero-floating-spec">
+              <div>
+                <div class="hero-spec-title">Tree Design Edition</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">Regular Fit • A2 DTF Print</div>
+              </div>
+              <div class="hero-spec-price">Rs. 2,200</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================================================================
+         2. THE NEW DROP: HORIZONTAL SHOWCASE SECTION
+         ================================================================ -->
+    <section class="streetwear-section" id="new-drop">
+      <div class="section-head-editorial">
+        <div>
+          <span class="section-tag-small">EXCLUSIVE RELEASE</span>
+          <h2 class="section-title-editorial">THE NEW DROP</h2>
+        </div>
+        <p class="section-sub-editorial">
+          Built for people who don't follow the crowd. Limited production runs crafted with high-density DTF graphics and custom dyed silhouettes.
         </p>
-
-        <div class="hero-btns" style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 36px;">
-          <a href="shop.html" class="btn btn-primary" style="padding: 14px 32px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px;">
-            <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i> Shop Now
-          </a>
-          <a href="customize.html" class="btn btn-outline" style="padding: 14px 28px; border-radius: 50px; font-weight: 800; font-size: 0.95rem; display: inline-flex; align-items: center; gap: 8px;">
-            <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i> Customize
-          </a>
-        </div>
-
-        <!-- Stats Row -->
-        <div style="display: flex; gap: 28px; justify-content: center; align-items: center; flex-wrap: wrap; margin-bottom: 28px;">
-          <div style="text-align: center;">
-            <h3 style="color: #DC143C; font-size: 1.7rem; font-weight: 900; margin: 0;">5k+</h3>
-            <p style="font-size: 0.78rem; color: var(--text-muted); font-weight: 700; margin: 2px 0 0;">Happy Customers</p>
-          </div>
-          <div style="width: 1px; height: 30px; background: var(--border-color);"></div>
-          <div style="text-align: center;">
-            <h3 style="color: #DC143C; font-size: 1.7rem; font-weight: 900; margin: 0;">50+</h3>
-            <p style="font-size: 0.78rem; color: var(--text-muted); font-weight: 700; margin: 2px 0 0;">Unique Designs</p>
-          </div>
-          <div style="width: 1px; height: 30px; background: var(--border-color);"></div>
-          <div style="text-align: center;">
-            <h3 style="color: #DC143C; font-size: 1.7rem; font-weight: 900; margin: 0;">220</h3>
-            <p style="font-size: 0.78rem; color: var(--text-muted); font-weight: 700; margin: 2px 0 0;">GSM Premium</p>
-          </div>
-        </div>
-
-        <!-- Trust Strip -->
-        <div style="display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; padding: 12px 22px; background: var(--surface); border: 1px solid var(--border-color); border-radius: 50px; font-size: 0.78rem; font-weight: 700; color: var(--text-muted); box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
-          <span style="display: flex; align-items: center; gap: 5px;"><i data-lucide="shield-check" style="width: 14px; color: #22c55e;"></i> 100% Premium Fabric</span>
-          <span style="width: 4px; height: 4px; border-radius: 50%; background: var(--border-color);"></span>
-          <span style="display: flex; align-items: center; gap: 5px;"><i data-lucide="refresh-cw" style="width: 14px; color: #007aff;"></i> 7-Day Exchange</span>
-          <span style="width: 4px; height: 4px; border-radius: 50%; background: var(--border-color);"></span>
-          <span style="display: flex; align-items: center; gap: 5px;"><i data-lucide="message-circle" style="width: 14px; color: #25D366;"></i> 24/7 WhatsApp</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- This Month's Top Selling Section -->
-    <section class="section top-selling-section" style="background: rgba(220, 20, 60, 0.03); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); padding: 80px 10%;">
-      <div class="container" style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
-        <div class="section-title" style="text-align: center; margin-bottom: 40px;">
-          <span class="hero-tag" style="background: var(--accent-gold); color: #fff; border-color: var(--accent-gold);">Top Selling</span>
-          <h2>This Month's <span style="color: var(--accent-gold);">Most Popular</span></h2>
-          <p>The ultimate customer favorites, flying off the shelves</p>
-        </div>
-
-        <div class="top-selling-carousel-container" 
-             id="top-selling-carousel"
-             onmouseenter="pauseTopSellingAutoScroll()" 
-             onmouseleave="startTopSellingAutoScroll()">
-             
-            <!-- Card 1: Product ID 32 (Tree Design) - This Month's Most Popular -->
-            <div class="top-selling-card glass">
-              <!-- Product Image -->
-              <div class="top-selling-image-wrapper">
-                <span style="position: absolute; top: 15px; left: 15px; background: linear-gradient(135deg, #FF6B35, #DC143C); color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; z-index: 10; box-shadow: 0 4px 10px rgba(220, 20, 60, 0.4); display: flex; align-items: center; gap: 5px;"><span style="width: 6px; height: 6px; background: white; border-radius: 50%; animation: pulse 1.5s infinite;"></span> 🔥 Most Popular</span>
-                <img id="top-selling-32-img" src="https://i.ibb.co/TBTBMfpL/python-tree-design.png" alt="Tree Design T-Shirt" style="width: 100%; height: auto; max-height: 320px; object-fit: contain; border-radius: 12px; transition: transform 0.5s ease;">
-                
-                <!-- Thumbnails -->
-                <div style="position: absolute; bottom: 15px; display: flex; gap: 8px; z-index: 10;">
-                  <img src="https://i.ibb.co/TBTBMfpL/python-tree-design.png" onclick="setTopSelling32Image('https://i.ibb.co/TBTBMfpL/python-tree-design.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid var(--accent-gold); cursor: pointer; background: white;">
-                  <img src="https://i.ibb.co/FbD0CR5s/Chat-GPT-Image-Aug-19-2026-12-58-27-AM.png" onclick="setTopSelling32Image('https://i.ibb.co/FbD0CR5s/Chat-GPT-Image-Aug-19-2026-12-58-27-AM.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid transparent; cursor: pointer; background: white;">
-                </div>
-              </div>
-
-              <!-- Product Info inside the same card frame -->
-              <div class="top-selling-details">
-                <span style="color: var(--accent-gold); font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;">Regular Tee (Printed)</span>
-                <h3 style="font-size: 1.8rem; margin: 8px 0; color: var(--text-main);">Tree Design</h3>
-                
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
-                  <span style="font-size: 1.5rem; color: var(--accent-gold); font-weight: 800;">Rs. 2,200.00</span>
-                </div>
-
-                <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-size: 0.9rem;">
-                  Tree Design Regular Tee (Printed) by Python. Featuring a premium A2 DTF print on 220 GSM fabric — bold, nature-inspired artwork that stands out.
-                </p>
-
-                <!-- Size Selector -->
-                <div style="margin-bottom: 25px;">
-                  <span style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-main);">SELECT SIZE:</span>
-                  <div style="display: flex; gap: 10px;" id="top-selling-32-sizes">
-                    <button onclick="selectTopSelling32Size('S')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--accent-gold); background: var(--accent-gold); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">S</button>
-                    <button onclick="selectTopSelling32Size('M')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">M</button>
-                    <button onclick="selectTopSelling32Size('L')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">L</button>
-                    <button onclick="selectTopSelling32Size('XL')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">XL</button>
-                  </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 25px;">
-                  <button onclick="addTopSelling32ToCart()" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px; padding: 12px 28px; font-weight: 800; text-transform: uppercase; border-radius: 50px; cursor: pointer; font-size: 0.85rem;">
-                    <i data-lucide="shopping-cart" style="width: 16px; height: 16px;"></i> Add to Cart
-                  </button>
-                  <button onclick="buyTopSelling32Now()" class="btn btn-outline" style="padding: 12px 24px; border-radius: 50px; font-weight: 800; border: 2px solid var(--primary-dark); text-transform: uppercase; cursor: pointer; font-size: 0.85rem;">
-                    Buy Now
-                  </button>
-                </div>
-                
-                <!-- Features list -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid var(--border-light); padding-top: 15px;">
-                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
-                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> 220 GSM Cotton
-                  </div>
-                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
-                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> A2 DTF Print
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 2: Product ID 28 (BMW Car Design) -->
-            <div class="top-selling-card glass">
-              <!-- Product Image -->
-              <div class="top-selling-image-wrapper">
-                <span style="position: absolute; top: 15px; left: 15px; background: #DC143C; color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; z-index: 10; box-shadow: 0 4px 10px rgba(220, 20, 60, 0.3);">11% OFF</span>
-                <img id="top-selling-28-img" src="https://i.ibb.co/TqgwRzLD/BMW-tee-white.png" alt="BMW Car Design T-Shirt" style="width: 100%; height: auto; max-height: 320px; object-fit: contain; border-radius: 12px; transition: transform 0.5s ease;">
-                
-                <!-- Thumbnails -->
-                <div style="position: absolute; bottom: 15px; display: flex; gap: 8px; z-index: 10;">
-                  <img src="https://i.ibb.co/TqgwRzLD/BMW-tee-white.png" onclick="setTopSelling28Image('https://i.ibb.co/TqgwRzLD/BMW-tee-white.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid var(--accent-gold); cursor: pointer; background: white;">
-                </div>
-              </div>
-
-              <!-- Product Info inside the same card frame -->
-              <div class="top-selling-details">
-                <span style="color: var(--accent-gold); font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;">Regular Tee (Printed)</span>
-                <h3 style="font-size: 1.8rem; margin: 8px 0; color: var(--text-main);">BMW Car Design</h3>
-                
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
-                  <span style="font-size: 1.5rem; color: var(--accent-gold); font-weight: 800;">Rs. 1,650.00</span>
-                  <span style="text-decoration: line-through; color: var(--text-muted); font-size: 1rem;">Rs. 1,850.00</span>
-                </div>
-
-                <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-size: 0.9rem;">
-                  BMW Car Design Regular Tee (Printed) by Python. Featuring a premium quality A3 DTF print on 220 GSM fabric for ultimate style and comfort.
-                </p>
-
-                <!-- Size Selector -->
-                <div style="margin-bottom: 25px;">
-                  <span style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-main);">SELECT SIZE:</span>
-                  <div style="display: flex; gap: 10px;" id="top-selling-28-sizes">
-                    <button onclick="selectTopSelling28Size('S')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--accent-gold); background: var(--accent-gold); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">S</button>
-                    <button onclick="selectTopSelling28Size('M')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">M</button>
-                    <button onclick="selectTopSelling28Size('L')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">L</button>
-                    <button onclick="selectTopSelling28Size('XL')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">XL</button>
-                  </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 25px;">
-                  <button onclick="addTopSelling28ToCart()" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px; padding: 12px 28px; font-weight: 800; text-transform: uppercase; border-radius: 50px; cursor: pointer; font-size: 0.85rem;">
-                    <i data-lucide="shopping-cart" style="width: 16px; height: 16px;"></i> Add to Cart
-                  </button>
-                  <button onclick="buyTopSelling28Now()" class="btn btn-outline" style="padding: 12px 24px; border-radius: 50px; font-weight: 800; border: 2px solid var(--primary-dark); text-transform: uppercase; cursor: pointer; font-size: 0.85rem;">
-                    Buy Now
-                  </button>
-                </div>
-                
-                <!-- Features list -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid var(--border-light); padding-top: 15px;">
-                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
-                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> 220 GSM Cotton
-                  </div>
-                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
-                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> Premium Print
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 2: Product ID 31 (Ferrari Design) -->
-            <div class="top-selling-card glass">
-              <!-- Product Image -->
-              <div class="top-selling-image-wrapper">
-                <span style="position: absolute; top: 15px; left: 15px; background: #DC143C; color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; z-index: 10; box-shadow: 0 4px 10px rgba(220, 20, 60, 0.3);">11% OFF</span>
-                <img id="top-selling-31-img" src="https://i.ibb.co/VYc93p4f/Ferari-tee.png" alt="Ferrari Design T-Shirt" style="width: 100%; height: auto; max-height: 320px; object-fit: contain; border-radius: 12px; transition: transform 0.5s ease;">
-                
-                <!-- Thumbnails -->
-                <div style="position: absolute; bottom: 15px; display: flex; gap: 8px; z-index: 10;">
-                  <img src="https://i.ibb.co/VYc93p4f/Ferari-tee.png" onclick="setTopSelling31Image('https://i.ibb.co/VYc93p4f/Ferari-tee.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid var(--accent-gold); cursor: pointer; background: white;">
-                </div>
-              </div>
-
-              <!-- Product Info inside the same card frame -->
-              <div class="top-selling-details">
-                <span style="color: var(--accent-gold); font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;">Regular Tee (Printed)</span>
-                <h3 style="font-size: 1.8rem; margin: 8px 0; color: var(--text-main);">Ferrari Design</h3>
-                
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
-                  <span style="font-size: 1.5rem; color: var(--accent-gold); font-weight: 800;">Rs. 1,650.00</span>
-                  <span style="text-decoration: line-through; color: var(--text-muted); font-size: 1rem;">Rs. 1,850.00</span>
-                </div>
-
-                <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-size: 0.9rem;">
-                  Ferrari Design Regular Tee (Printed) by Python. Featuring a premium quality A3 DTF print on 220 GSM fabric for ultimate style and comfort.
-                </p>
-
-                <!-- Size Selector -->
-                <div style="margin-bottom: 25px;">
-                  <span style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-main);">SELECT SIZE:</span>
-                  <div style="display: flex; gap: 10px;" id="top-selling-31-sizes">
-                    <button onclick="selectTopSelling31Size('S')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--accent-gold); background: var(--accent-gold); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">S</button>
-                    <button onclick="selectTopSelling31Size('M')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">M</button>
-                    <button onclick="selectTopSelling31Size('L')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">L</button>
-                    <button onclick="selectTopSelling31Size('XL')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">XL</button>
-                  </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 25px;">
-                  <button onclick="addTopSelling31ToCart()" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px; padding: 12px 28px; font-weight: 800; text-transform: uppercase; border-radius: 50px; cursor: pointer; font-size: 0.85rem;">
-                    <i data-lucide="shopping-cart" style="width: 16px; height: 16px;"></i> Add to Cart
-                  </button>
-                  <button onclick="buyTopSelling31Now()" class="btn btn-outline" style="padding: 12px 24px; border-radius: 50px; font-weight: 800; border: 2px solid var(--primary-dark); text-transform: uppercase; cursor: pointer; font-size: 0.85rem;">
-                    Buy Now
-                  </button>
-                </div>
-                
-                <!-- Features list -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid var(--border-light); padding-top: 15px;">
-                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
-                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> 220 GSM Cotton
-                  </div>
-                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
-                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> Premium Print
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 3: Product ID 20 (Colour Elephant Design) -->
-            <div class="top-selling-card glass">
-              <!-- Product Image -->
-              <div class="top-selling-image-wrapper">
-                <span style="position: absolute; top: 15px; left: 15px; background: #DC143C; color: white; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: 800; z-index: 10; box-shadow: 0 4px 10px rgba(220, 20, 60, 0.3);">6% OFF</span>
-                <img id="top-selling-20-img" src="https://i.ibb.co/67CjtFx0/Python-Infinity.png" alt="Colour Elephant Design T-Shirt" style="width: 100%; height: auto; max-height: 320px; object-fit: contain; border-radius: 12px; transition: transform 0.5s ease;">
-                
-                <!-- Thumbnails -->
-                <div style="position: absolute; bottom: 15px; display: flex; gap: 8px; z-index: 10;">
-                  <img src="https://i.ibb.co/67CjtFx0/Python-Infinity.png" onclick="setTopSelling20Image('https://i.ibb.co/67CjtFx0/Python-Infinity.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid var(--accent-gold); cursor: pointer; background: white;">
-                  <img src="https://i.ibb.co/WWwpQsLR/Chat-GPT-Image-Jun-6-2026-10-02-04-PM.png" onclick="setTopSelling20Image('https://i.ibb.co/WWwpQsLR/Chat-GPT-Image-Jun-6-2026-10-02-04-PM.png', this)" class="top-selling-thumbnail" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 2px solid transparent; cursor: pointer; background: white;">
-                </div>
-              </div>
-
-              <!-- Product Info inside the same card frame -->
-              <div class="top-selling-details">
-                <span style="color: var(--accent-gold); font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;">Oversized Tee (Printed)</span>
-                <h3 style="font-size: 1.8rem; margin: 8px 0; color: var(--text-main);">Colour Elephant Design</h3>
-                
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 15px;">
-                  <span style="font-size: 1.5rem; color: var(--accent-gold); font-weight: 800;">Rs. 1,790.00</span>
-                  <span style="text-decoration: line-through; color: var(--text-muted); font-size: 1rem;">Rs. 1,900.00</span>
-                </div>
-
-                <p style="color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; font-size: 0.9rem;">
-                  Colour Elephant Design Oversized Tee (Printed) by Python. Featuring a stunning elephant artwork graphic, crafted from premium 220 GSM fabric for ultimate comfort and design definition.
-                </p>
-
-                <!-- Size Selector -->
-                <div style="margin-bottom: 25px;">
-                  <span style="display: block; font-weight: 600; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-main);">SELECT SIZE:</span>
-                  <div style="display: flex; gap: 10px;" id="top-selling-20-sizes">
-                    <button onclick="selectTopSelling20Size('S')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--accent-gold); background: var(--accent-gold); color: white; font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">S</button>
-                    <button onclick="selectTopSelling20Size('M')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">M</button>
-                    <button onclick="selectTopSelling20Size('L')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">L</button>
-                    <button onclick="selectTopSelling20Size('XL')" class="size-select-btn" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); font-weight: bold; cursor: pointer; transition: 0.3s; font-size: 0.85rem;">XL</button>
-                  </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 25px;">
-                  <button onclick="addTopSelling20ToCart()" class="btn btn-primary" style="display: flex; align-items: center; gap: 8px; padding: 12px 28px; font-weight: 800; text-transform: uppercase; border-radius: 50px; cursor: pointer; font-size: 0.85rem;">
-                    <i data-lucide="shopping-cart" style="width: 16px; height: 16px;"></i> Add to Cart
-                  </button>
-                  <button onclick="buyTopSelling20Now()" class="btn btn-outline" style="padding: 12px 24px; border-radius: 50px; font-weight: 800; border: 2px solid var(--primary-dark); text-transform: uppercase; cursor: pointer; font-size: 0.85rem;">
-                    Buy Now
-                  </button>
-                </div>
-                
-                <!-- Features list -->
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; border-top: 1px solid var(--border-light); padding-top: 15px;">
-                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
-                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> 220 GSM Cotton
-                  </div>
-                  <div style="display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
-                    <i data-lucide="check-circle" style="color: #25D366; width: 15px;"></i> Premium Print
-                  </div>
-                </div>
-              </div>
-            </div>
-
-        </div>
-
-        <!-- Indicator dots outside the track so they don't slide -->
-        <div class="top-selling-dots" style="display: flex; justify-content: center; gap: 8px; margin-top: 25px; width: 100%;">
-          <span class="top-selling-dot active" onclick="showTopSellingSlide(0)" style="width: 20px; height: 8px; border-radius: 4px; background: var(--accent-gold); cursor: pointer; transition: 0.3s; display: inline-block;"></span>
-          <span class="top-selling-dot" onclick="showTopSellingSlide(1)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); cursor: pointer; transition: 0.3s; display: inline-block;"></span>
-          <span class="top-selling-dot" onclick="showTopSellingSlide(2)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); cursor: pointer; transition: 0.3s; display: inline-block;"></span>
-          <span class="top-selling-dot" onclick="showTopSellingSlide(3)" style="width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); cursor: pointer; transition: 0.3s; display: inline-block;"></span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Featured Products -->
-    <section class="section">
-      <div class="section-title">
-        <h2>Featured <span style="color: var(--primary-dark);">Collection</span></h2>
-        <p>Hand-picked designs for your lifestyle</p>
       </div>
 
-      <div class="product-grid" id="product-grid">
-        <!-- Products will be loaded from script.js -->
-      </div>
-
-      <div style="text-align: center; margin-top: 50px;">
-        <a href="shop.html" class="btn btn-outline">View All Products</a>
+      <div class="new-drop-scroll-wrapper" id="new-drop-grid">
+        <!-- Rendered dynamically by script.js with rich product cards -->
       </div>
     </section>
 
 
+    <!-- ================================================================
+         3. COLLECTIONS SECTION: ASYMMETRICAL 4-TILE VISUAL GRID
+         ================================================================ -->
+    <section class="streetwear-section" id="collections">
+      <div class="section-head-editorial">
+        <div>
+          <span class="section-tag-small">CURATED ESSENTIALS</span>
+          <h2 class="section-title-editorial">SHOP BY COLLECTION</h2>
+        </div>
+        <a href="shop.html" class="hero-secondary-link">VIEW ALL PIECES <i data-lucide="arrow-right" style="width: 16px;"></i></a>
+      </div>
 
-    <!-- ===== WRITE A REVIEW SECTION ===== -->
-    <section class="section" id="write-review-section" style="background: rgba(220, 20, 60, 0.02); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); padding: 80px 10%;">
-      <div class="container" style="max-width: 800px; margin: 0 auto;">
-        <div class="section-title" style="text-align: center; margin-bottom: 40px;">
-          <h2>Write a <span style="color: var(--accent-gold);">Customer Review</span></h2>
-          <p>Share your experience with our premium shirts. Your review will be synced instantly across all devices.</p>
+      <div class="collections-asym-grid">
+        <!-- Tile 1: Signature Tees (Tall Left Feature with Product ID 3 - Nike Design) -->
+        <a href="product-detail.html?id=3" class="collection-tile tile-large">
+          <img src="https://i.ibb.co/XkDb3jmB/Nike.png" alt="Signature Nike Design Tee" class="collection-bg-img">
+          <div class="collection-overlay-grad"></div>
+          <div class="collection-content">
+            <span class="collection-tag">COLLECTION 01</span>
+            <h3 class="collection-title">SIGNATURE TEES</h3>
+            <p style="font-size: 0.85rem; color: #D1D5DB;">Minimalist statements and timeless heavyweight silhouettes.</p>
+            <span class="collection-explore-btn">EXPLORE COLLECTION →</span>
+          </div>
+        </a>
+
+        <!-- Tile 2: Oversized Fit (with Product ID 20 - Colour Elephant Design) -->
+        <a href="product-detail.html?id=20" class="collection-tile">
+          <img src="https://i.ibb.co/67CjtFx0/Python-Infinity.png" alt="Oversized Fit Elephant Collection" class="collection-bg-img">
+          <div class="collection-overlay-grad"></div>
+          <div class="collection-content">
+            <span class="collection-tag">COLLECTION 02</span>
+            <h3 class="collection-title">OVERSIZED</h3>
+            <span class="collection-explore-btn">EXPLORE COLLECTION →</span>
+          </div>
+        </a>
+
+        <!-- Tile 3: Motorsport & Racing (ID 31 - Ferrari) -->
+        <a href="product-detail.html?id=31" class="collection-tile">
+          <img src="https://i.ibb.co/VYc93p4f/Ferari-tee.png" alt="Motorsport Collection" class="collection-bg-img">
+          <div class="collection-overlay-grad"></div>
+          <div class="collection-content">
+            <span class="collection-tag">COLLECTION 03</span>
+            <h3 class="collection-title">MOTORSPORT</h3>
+            <span class="collection-explore-btn">EXPLORE COLLECTION →</span>
+          </div>
+        </a>
+
+        <!-- Tile 4: Graphic Art (ID 32 - Tree Design) -->
+        <a href="product-detail.html?id=32" class="collection-tile">
+          <img src="https://i.ibb.co/TBTBMfpL/python-tree-design.png" alt="Graphic Art Collection" class="collection-bg-img">
+          <div class="collection-overlay-grad"></div>
+          <div class="collection-content">
+            <span class="collection-tag">COLLECTION 04</span>
+            <h3 class="collection-title">GRAPHIC ART</h3>
+            <span class="collection-explore-btn">EXPLORE COLLECTION →</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+
+    <!-- ================================================================
+         4. STYLE EDITORIAL SECTION: "MORE THAN A T-SHIRT" (THE CRAFTSMANSHIP ID 25 - Ducati Design)
+         ================================================================ -->
+    <section class="streetwear-section">
+      <div class="editorial-story-grid">
+        <div class="editorial-story-imgbox">
+          <img src="https://i.ibb.co/KpJygRTT/ducarti-tee.png" alt="Ducati Design Python Craftsmanship">
+          <div style="position: absolute; bottom: 20px; left: 20px; background: rgba(11, 13, 18, 0.85); backdrop-filter: blur(8px); padding: 8px 16px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); font-size: 0.75rem; font-family: var(--font-heading); color: var(--accent-red); font-weight: 800;">
+            220 GSM HEAVYWEIGHT COTTON
+          </div>
         </div>
 
-        <div class="write-review-card glass" style="padding: 40px; max-width: 600px; margin: 0 auto;">
-          <form class="review-form" id="home-review-form" onsubmit="submitHomeReview(event)">
-            <div class="form-group" style="margin-bottom: 20px;">
-              <label style="display: block; font-weight: 600; margin-bottom: 8px;">Your Rating</label>
-              <div class="star-rating-select" id="home-rating-selector" style="display: flex; gap: 8px; margin-bottom: 20px;">
-                <i class="star-icon" data-lucide="star" data-rating="1" onclick="setHomeRating(1)" onmouseenter="hoverHomeRating(1)" onmouseleave="clearHoverHomeRating()" style="font-size: 2rem; color: var(--text-muted); cursor: pointer; transition: 0.2s;"></i>
-                <i class="star-icon" data-lucide="star" data-rating="2" onclick="setHomeRating(2)" onmouseenter="hoverHomeRating(2)" onmouseleave="clearHoverHomeRating()" style="font-size: 2rem; color: var(--text-muted); cursor: pointer; transition: 0.2s;"></i>
-                <i class="star-icon" data-lucide="star" data-rating="3" onclick="setHomeRating(3)" onmouseenter="hoverHomeRating(3)" onmouseleave="clearHoverHomeRating()" style="font-size: 2rem; color: var(--text-muted); cursor: pointer; transition: 0.2s;"></i>
-                <i class="star-icon" data-lucide="star" data-rating="4" onclick="setHomeRating(4)" onmouseenter="hoverHomeRating(4)" onmouseleave="clearHoverHomeRating()" style="font-size: 2rem; color: var(--text-muted); cursor: pointer; transition: 0.2s;"></i>
-                <i class="star-icon" data-lucide="star" data-rating="5" onclick="setHomeRating(5)" onmouseenter="hoverHomeRating(5)" onmouseleave="clearHoverHomeRating()" style="font-size: 2rem; color: var(--text-muted); cursor: pointer; transition: 0.2s;"></i>
-              </div>
-              <input type="hidden" id="home-selected-rating" value="0">
-            </div>
+        <div class="editorial-story-content">
+          <span class="section-tag-small">THE CRAFTSMANSHIP</span>
+          <h2 class="section-title-editorial">MORE THAN A T-SHIRT.</h2>
+          <p style="font-size: 1.05rem; color: var(--text-pure); font-weight: 700;">
+            Premium fabric. Powerful prints. Everyday comfort.
+          </p>
+          <p style="color: var(--text-muted); line-height: 1.7; font-size: 0.95rem;">
+            Every Python piece is engineered to resist fading, maintain structured shoulder drop, and withstand rigorous daily wear while feeling exceptionally soft on the skin.
+          </p>
 
-            <div class="form-group" style="margin-bottom: 20px;">
-              <label for="home-reviewer-name" style="display: block; font-weight: 600; margin-bottom: 8px;">Your Name</label>
-              <input type="text" id="home-reviewer-name" placeholder="e.g. John Doe" required style="width: 100%; padding: 14px 18px; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); border-radius: 12px; outline: none; font-family: inherit; transition: var(--transition-smooth);">
+          <div class="editorial-feature-blocks">
+            <div class="feature-block-item">
+              <i data-lucide="layers"></i>
+              <span>220 GSM Cotton</span>
             </div>
-
-            <div class="form-group" style="margin-bottom: 20px;">
-              <label for="home-reviewer-comment" style="display: block; font-weight: 600; margin-bottom: 8px;">Review Description</label>
-              <textarea id="home-reviewer-comment" rows="5" placeholder="Share your thoughts about our fabric quality, design, and sizing..." required style="width: 100%; padding: 14px 18px; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); border-radius: 12px; outline: none; font-family: inherit; transition: var(--transition-smooth);"></textarea>
+            <div class="feature-block-item">
+              <i data-lucide="printer"></i>
+              <span>Premium DTF Printing</span>
             </div>
-
-            <button type="submit" class="submit-review-btn" id="home-submit-btn" style="width: 100%; padding: 16px; background: var(--accent-gold); color: white; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: var(--transition-smooth); box-shadow: 0 10px 25px rgba(220, 20, 60, 0.2);">
-              <i data-lucide="send" style="width:16px;"></i> Submit Review
-            </button>
-
-            <div class="submit-success-msg" id="home-success-msg" style="margin-top: 15px; padding: 12px; background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 10px; text-align: center; font-size: 0.9rem; display: none; animation: fadeInUp 0.4s forwards;">
-              Your review was successfully submitted! Thank you.
+            <div class="feature-block-item">
+              <i data-lucide="shield-check"></i>
+              <span>Long-lasting Prints</span>
             </div>
-          </form>
-          
-          <div style="text-align: center; margin-top: 25px; border-top: 1px solid var(--border-light); padding-top: 20px;">
-            <a href="reviews.html" class="btn btn-outline" style="padding: 12px 24px; font-size: 0.85rem; border-radius: 50px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
-              <i data-lucide="message-square" style="width: 16px; height: 16px;"></i> View All Customer Reviews
+            <div class="feature-block-item">
+              <i data-lucide="feather"></i>
+              <span>Comfort Fit</span>
+            </div>
+            <div class="feature-block-item">
+              <i data-lucide="refresh-cw"></i>
+              <span>7-Day Exchange</span>
+            </div>
+            <div class="feature-block-item">
+              <i data-lucide="truck"></i>
+              <span>Islandwide Delivery</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 10px;">
+            <a href="product-detail.html?id=25" class="btn-streetwear-primary" style="padding: 14px 28px;">
+              VIEW DUCATI CRAFT <i data-lucide="arrow-right" style="width: 16px;"></i>
             </a>
           </div>
         </div>
       </div>
     </section>
-    <!-- ===== END WRITE A REVIEW SECTION ===== -->
 
-    <section class="section" id="contact">
-      <div class="section-title" style="text-align: center; margin-bottom: 40px;">
-        <h2>Get In <span style="color: #DC143C;">Touch</span></h2>
-        <p>Reach out to us anytime</p>
+
+    <!-- ================================================================
+         5. CUSTOM DESIGN SECTION: "MAKE IT YOURS" CTA
+         ================================================================ -->
+    <section class="streetwear-section">
+      <div class="customizer-cta-grid">
+        <div>
+          <span class="section-tag-small">BESPOKE PRINTING</span>
+          <h2 class="section-title-editorial">MAKE IT YOURS.</h2>
+          <p style="font-size: 1.05rem; color: var(--text-muted); margin: 16px 0 28px; line-height: 1.7;">
+            Turn your vision into a high-end streetwear garment that feels completely yours. Select your fit, position your custom artwork, pick custom fabric shades, and order directly on WhatsApp.
+          </p>
+
+          <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+            <a href="customize.html" class="btn-streetwear-primary">
+              <i data-lucide="palette" style="width: 18px;"></i> START CUSTOM ORDER
+            </a>
+            <a href="customize.html" class="hero-secondary-link" style="align-self: center;">
+              UPLOAD DESIGN →
+            </a>
+          </div>
+        </div>
+
+        <div class="mini-customizer-preview">
+          <div class="mini-tshirt-layer">
+            <img src="https://i.ibb.co/4w34h3hZ/Python-Infinity-w.png" alt="Customizer Front Mockup" id="mini-custom-tee">
+            <div class="mini-custom-badge">YOUR ARTWORK HERE</div>
+          </div>
+          
+          <div class="mini-controls-row">
+            <div class="mini-swatch active" style="background: #FFFFFF;" title="White"></div>
+            <div class="mini-swatch" style="background: #000000;" title="Black"></div>
+            <div class="mini-swatch" style="background: #111827;" title="Navy"></div>
+            <div class="mini-swatch" style="background: #800000;" title="Maroon"></div>
+          </div>
+          
+          <div style="margin-top: 14px; font-family: var(--font-heading); font-size: 0.72rem; color: var(--text-muted); letter-spacing: 1px;">
+            SIZE SELECTOR • S / M / L / XL AVAILABLE
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================================================================
+         6. BEST SELLERS: "TRENDING NOW" ASYMMETRICAL SECTION (1 + 3)
+         ================================================================ -->
+    <section class="streetwear-section">
+      <div class="section-head-editorial">
+        <div>
+          <span class="section-tag-small">MOST WANTED</span>
+          <h2 class="section-title-editorial">TRENDING NOW</h2>
+        </div>
+        <p class="section-sub-editorial">
+          Our verified high-demand editions flying out the studio this week.
+        </p>
+      </div>
+
+      <div class="trending-grid-layout">
+        <!-- Big Featured Left Item (Rank 01) -->
+        <div class="trending-featured-card">
+          <span class="trending-rank-badge">01</span>
+          
+          <div class="card-img-box" style="height: 100%;">
+            <img src="https://i.ibb.co/TBTBMfpL/python-tree-design.png" alt="Tree Design">
+            <span class="discount-chip" style="position: absolute; top: 12px; left: 12px;">🔥 MOST WANTED</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; justify-content: space-between; height: 100%;">
+            <div>
+              <span class="card-category-label">Regular Tee (Printed)</span>
+              <h3 style="font-family: var(--font-heading); font-size: 1.5rem; font-weight: 900; color: var(--text-pure); margin: 6px 0 10px;">Tree Design Edition</h3>
+              <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px;">
+                Featuring a premium A2 DTF print on 220 GSM heavyweight cotton. Bold nature-inspired artwork.
+              </p>
+              <div class="card-price-row" style="margin-bottom: 20px;">
+                <span class="card-current-price" style="font-size: 1.4rem;">Rs. 2,200.00</span>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+              <button onclick="addToCart('Tree Design', 2200, 'https://i.ibb.co/TBTBMfpL/python-tree-design.png', 'M', '#ffffff')" class="btn-streetwear-primary" style="flex: 1; padding: 12px; font-size: 0.8rem; justify-content: center;">
+                <i data-lucide="shopping-bag" style="width: 16px;"></i> ADD TO CART
+              </button>
+              <button onclick="openProductQuickView('32')" class="btn-card-quickview" style="flex: 0 0 44px; padding: 0;">
+                <i data-lucide="eye" style="width: 18px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Smaller Stacked Right Items (Rank 02, 03, 04) -->
+        <div class="trending-side-list">
+          <!-- Rank 02: BMW Car Design -->
+          <div class="trending-mini-card" onclick="openProductQuickView('28')">
+            <span class="trending-mini-num">02</span>
+            <div class="trending-mini-thumb">
+              <img src="https://i.ibb.co/TqgwRzLD/BMW-tee-white.png" alt="BMW Car Design">
+            </div>
+            <div style="flex: 1;">
+              <span class="card-category-label">Motorsport</span>
+              <h4 style="font-family: var(--font-heading); font-size: 1rem; font-weight: 800; color: var(--text-pure);">BMW Car Design</h4>
+              <div style="display: flex; gap: 8px; align-items: baseline; margin-top: 4px;">
+                <span style="font-family: var(--font-heading); font-weight: 900; color: var(--text-pure);">Rs. 1,650</span>
+                <span style="font-size: 0.78rem; text-decoration: line-through; color: var(--text-dim);">Rs. 1,850</span>
+              </div>
+            </div>
+            <button onclick="event.stopPropagation(); addToCart('BMW Car Design', 1650, 'https://i.ibb.co/TqgwRzLD/BMW-tee-white.png', 'M', '#ffffff')" class="btn-card-addcart">
+              <i data-lucide="plus" style="width: 18px;"></i>
+            </button>
+          </div>
+
+          <!-- Rank 03: Ferrari Design -->
+          <div class="trending-mini-card" onclick="openProductQuickView('31')">
+            <span class="trending-mini-num">03</span>
+            <div class="trending-mini-thumb">
+              <img src="https://i.ibb.co/VYc93p4f/Ferari-tee.png" alt="Ferrari Design">
+            </div>
+            <div style="flex: 1;">
+              <span class="card-category-label">Motorsport</span>
+              <h4 style="font-family: var(--font-heading); font-size: 1rem; font-weight: 800; color: var(--text-pure);">Ferrari Design</h4>
+              <div style="display: flex; gap: 8px; align-items: baseline; margin-top: 4px;">
+                <span style="font-family: var(--font-heading); font-weight: 900; color: var(--text-pure);">Rs. 1,650</span>
+                <span style="font-size: 0.78rem; text-decoration: line-through; color: var(--text-dim);">Rs. 1,850</span>
+              </div>
+            </div>
+            <button onclick="event.stopPropagation(); addToCart('Ferrari Design', 1650, 'https://i.ibb.co/VYc93p4f/Ferari-tee.png', 'M', '#000000')" class="btn-card-addcart">
+              <i data-lucide="plus" style="width: 18px;"></i>
+            </button>
+          </div>
+
+          <!-- Rank 04: Colour Elephant Design -->
+          <div class="trending-mini-card" onclick="openProductQuickView('20')">
+            <span class="trending-mini-num">04</span>
+            <div class="trending-mini-thumb">
+              <img src="https://i.ibb.co/67CjtFx0/Python-Infinity.png" alt="Colour Elephant Design">
+            </div>
+            <div style="flex: 1;">
+              <span class="card-category-label">Oversized</span>
+              <h4 style="font-family: var(--font-heading); font-size: 1rem; font-weight: 800; color: var(--text-pure);">Elephant Artwork</h4>
+              <div style="display: flex; gap: 8px; align-items: baseline; margin-top: 4px;">
+                <span style="font-family: var(--font-heading); font-weight: 900; color: var(--text-pure);">Rs. 1,790</span>
+                <span style="font-size: 0.78rem; text-decoration: line-through; color: var(--text-dim);">Rs. 1,900</span>
+              </div>
+            </div>
+            <button onclick="event.stopPropagation(); addToCart('Colour Elephant Design', 1790, 'https://i.ibb.co/67CjtFx0/Python-Infinity.png', 'M', '#ffffff')" class="btn-card-addcart">
+              <i data-lucide="plus" style="width: 18px;"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================================================================
+         7. CATEGORY EXPLORER: "FIND YOUR FIT"
+         ================================================================ -->
+    <section class="streetwear-section">
+      <div class="section-head-editorial">
+        <div>
+          <span class="section-tag-small">FIT GUIDE</span>
+          <h2 class="section-title-editorial">FIND YOUR FIT</h2>
+        </div>
+        <button onclick="openSizeChart()" class="hero-secondary-link" style="background: none; border: none; cursor: pointer;">
+          VIEW SIZE CHART <i data-lucide="ruler" style="width: 16px;"></i>
+        </button>
+      </div>
+
+      <div class="fit-category-grid">
+        <a href="shop.html?category=Regular+Tee+(Printed)" class="fit-card-item">
+          <div class="fit-icon-circle"><i data-lucide="shirt"></i></div>
+          <span class="fit-title">REGULAR FIT</span>
+          <p style="font-size: 0.78rem; color: var(--text-muted);">Standard tailored cut with structured neckband.</p>
+        </a>
+
+        <a href="shop.html?category=Oversized+Tee+(Printed)" class="fit-card-item">
+          <div class="fit-icon-circle"><i data-lucide="maximize"></i></div>
+          <span class="fit-title">OVERSIZED FIT</span>
+          <p style="font-size: 0.78rem; color: var(--text-muted);">Drop-shoulder relaxed drape for modern street style.</p>
+        </a>
+
+        <a href="shop.html" class="fit-card-item">
+          <div class="fit-icon-circle"><i data-lucide="image"></i></div>
+          <span class="fit-title">GRAPHIC TEE</span>
+          <p style="font-size: 0.78rem; color: var(--text-muted);">High-definition A2 and A3 bespoke printworks.</p>
+        </a>
+
+        <a href="shop.html" class="fit-card-item">
+          <div class="fit-icon-circle"><i data-lucide="layers"></i></div>
+          <span class="fit-title">WAFFLE TEE</span>
+          <p style="font-size: 0.78rem; color: var(--text-muted);">240 GSM tactile waffle texture knitwear.</p>
+        </a>
+
+        <a href="#new-drop" class="fit-card-item">
+          <div class="fit-icon-circle"><i data-lucide="zap"></i></div>
+          <span class="fit-title">LIMITED DROP</span>
+          <p style="font-size: 0.78rem; color: var(--text-muted);">Ultra-limited releases crafted in small batches.</p>
+        </a>
+      </div>
+    </section>
+
+
+    <!-- ================================================================
+         8. PROMOTIONAL OFFERS BANNER & CONFIGURABLE COUNTDOWN
+         ================================================================ -->
+    <section class="streetwear-section">
+      <div class="offers-editorial-banner">
+        <div>
+          <span class="section-tag-small">SPECIAL CAMPAIGN</span>
+          <h2 class="section-title-editorial" style="margin: 8px 0 12px;">LIMITED TIME. LIMITED STOCK.</h2>
+          <p style="font-size: 1.05rem; color: var(--text-pure); font-weight: 700;">
+            Up to 20% OFF selected streetwear designs.
+          </p>
+
+          <!-- Dynamic Configurable Countdown Timer -->
+          <div class="countdown-clock-row" id="countdown-timer">
+            <div class="countdown-box">
+              <span class="countdown-num" id="cd-days">02</span>
+              <span class="countdown-lbl">DAYS</span>
+            </div>
+            <div class="countdown-box">
+              <span class="countdown-num" id="cd-hours">14</span>
+              <span class="countdown-lbl">HOURS</span>
+            </div>
+            <div class="countdown-box">
+              <span class="countdown-num" id="cd-mins">45</span>
+              <span class="countdown-lbl">MINS</span>
+            </div>
+            <div class="countdown-box">
+              <span class="countdown-num" id="cd-secs">30</span>
+              <span class="countdown-lbl">SECS</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <a href="offers.html" class="btn-streetwear-primary">
+            <i data-lucide="tag" style="width: 16px;"></i> SHOP OFFERS
+          </a>
+          <a href="shop.html" class="hero-secondary-link" style="justify-content: center;">
+            VIEW ALL DEALS →
+          </a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================================================================
+         9. SOCIAL PROOF TRUST STRIP
+         ================================================================ -->
+    <div class="trust-strip-luxury">
+      <div class="trust-strip-inner">
+        <div class="trust-item">
+          <h3>5K+</h3>
+          <p>Happy Customers</p>
+        </div>
+        <div class="trust-item">
+          <h3>50+</h3>
+          <p>Unique Designs</p>
+        </div>
+        <div class="trust-item">
+          <h3>220 GSM</h3>
+          <p>Heavyweight Cotton</p>
+        </div>
+        <div class="trust-item">
+          <h3>7-DAY</h3>
+          <p>Easy Exchange</p>
+        </div>
+        <div class="trust-item">
+          <h3>ISLANDWIDE</h3>
+          <p>Fast Delivery</p>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ================================================================
+         10. REVIEWS & RATINGS MODERN SPLIT + TESTIMONIALS
+         ================================================================ -->
+    <section class="streetwear-section" id="reviews-section">
+      <div class="section-head-editorial">
+        <div>
+          <span class="section-tag-small">COMMUNITY VERIFIED</span>
+          <h2 class="section-title-editorial">CUSTOMER REVIEWS</h2>
+        </div>
+        <a href="reviews.html" class="hero-secondary-link">ALL REVIEWS (4.9 / 5.0) →</a>
+      </div>
+
+      <div class="reviews-modern-grid">
+        <!-- Left: Overall Rating Card -->
+        <div class="review-summary-card">
+          <div class="score-display-big">4.9 <span style="font-size: 1.8rem; color: var(--text-dim);">/ 5.0</span></div>
+          <div class="stars-row-gold">
+            <i data-lucide="star" style="fill: #FFB800;"></i>
+            <i data-lucide="star" style="fill: #FFB800;"></i>
+            <i data-lucide="star" style="fill: #FFB800;"></i>
+            <i data-lucide="star" style="fill: #FFB800;"></i>
+            <i data-lucide="star" style="fill: #FFB800;"></i>
+          </div>
+          <h4 style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--text-pure); margin-bottom: 8px;">
+            Trusted by Thousands Across Sri Lanka
+          </h4>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6;">
+            100% authentic feedback from verified streetwear enthusiasts enjoying our heavyweight 220 GSM fabric and durable prints.
+          </p>
+        </div>
+
+        <!-- Right: Modern Review Submission Form -->
+        <div class="review-form-card">
+          <h3 style="font-family: var(--font-heading); font-size: 1.2rem; color: var(--text-pure); margin-bottom: 20px; text-transform: uppercase;">
+            Share Your Experience
+          </h3>
+
+          <form id="home-review-form" onsubmit="submitHomeReview(event)" style="display: flex; flex-direction: column; gap: 16px;">
+            <div>
+              <label style="display: block; font-size: 0.78rem; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;">Your Rating</label>
+              <div id="home-rating-selector" style="display: flex; gap: 10px; color: #5A6275; cursor: pointer;">
+                <i class="star-icon" data-lucide="star" onclick="setHomeRating(1)" onmouseenter="hoverHomeRating(1)" onmouseleave="clearHoverHomeRating()" style="width: 24px; height: 24px;"></i>
+                <i class="star-icon" data-lucide="star" onclick="setHomeRating(2)" onmouseenter="hoverHomeRating(2)" onmouseleave="clearHoverHomeRating()" style="width: 24px; height: 24px;"></i>
+                <i class="star-icon" data-lucide="star" onclick="setHomeRating(3)" onmouseenter="hoverHomeRating(3)" onmouseleave="clearHoverHomeRating()" style="width: 24px; height: 24px;"></i>
+                <i class="star-icon" data-lucide="star" onclick="setHomeRating(4)" onmouseenter="hoverHomeRating(4)" onmouseleave="clearHoverHomeRating()" style="width: 24px; height: 24px;"></i>
+                <i class="star-icon" data-lucide="star" onclick="setHomeRating(5)" onmouseenter="hoverHomeRating(5)" onmouseleave="clearHoverHomeRating()" style="width: 24px; height: 24px;"></i>
+              </div>
+              <input type="hidden" id="home-selected-rating" value="0">
+            </div>
+
+            <div>
+              <label for="home-reviewer-name" style="display: block; font-size: 0.78rem; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;">Your Name</label>
+              <input type="text" id="home-reviewer-name" class="input-dark-editorial" placeholder="e.g. Kasun Perera" required>
+            </div>
+
+            <div>
+              <label for="home-reviewer-comment" style="display: block; font-size: 0.78rem; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;">Review Message</label>
+              <textarea id="home-reviewer-comment" rows="3" class="input-dark-editorial" placeholder="Describe the GSM fabric quality, fit, and print definition..." required></textarea>
+            </div>
+
+            <button type="submit" id="home-submit-btn" class="btn-streetwear-primary" style="width: 100%; justify-content: center;">
+              <i data-lucide="send" style="width: 16px;"></i> SUBMIT REVIEW
+            </button>
+
+            <div id="home-success-msg" style="display: none; padding: 12px; border-radius: 6px; background: rgba(34, 197, 94, 0.15); border: 1px solid #22c55e; color: #22c55e; font-size: 0.85rem; text-align: center; font-weight: 700;">
+              ✓ Review submitted and synced with Firebase database!
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Testimonial Cards Showcase -->
+      <div class="testimonial-feed-grid">
+        <div class="testimonial-card-item">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="stars-row-gold" style="margin-bottom: 0;">
+              <i data-lucide="star" style="width: 15px; fill: #FFB800;"></i>
+              <i data-lucide="star" style="width: 15px; fill: #FFB800;"></i>
+              <i data-lucide="star" style="width: 15px; fill: #FFB800;"></i>
+              <i data-lucide="star" style="width: 15px; fill: #FFB800;"></i>
+              <i data-lucide="star" style="width: 15px; fill: #FFB800;"></i>
+            </div>
+            <span style="font-size: 0.7rem; color: #22c55e; font-weight: 800; background: rgba(34,197,94,0.1); padding: 3px 8px; border-radius: 4px;">✓ VERIFIED BUYER</span>
+          </div>
+          <p style="font-size: 0.92rem; color: var(--text-pure); line-height: 1.6;">
+            "The 220 GSM cotton is truly heavyweight. The Tree Design DTF print has zero cracking even after 6 washes. Hands down the best streetwear brand in SL."
+          </p>
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim);">
+            <strong style="color: var(--text-muted);">Dineth Fernando</strong>
+            <span>Colombo</span>
+          </div>
+        </div>
+
+        <div class="testimonial-card-item">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="stars-row-gold" style="margin-bottom: 0;">
+              <i data-lucide="star" style="width: 15px; fill: #FFB800;"></i>
+              <i data-lucide="star" style="width: 15px; fill: #FFB800;"></i>
+              <i data-lucide="star" style="width: 15px; fill: #FFB800;"></i>
+              <i data-lucide="star" style="width: 15px; fill: #FFB800;"></i>
+              <i data-lucide="star" style="width: 15px; fill: #FFB800;"></i>
+            </div>
+            <span style="font-size: 0.7rem; color: #22c55e; font-weight: 800; background: rgba(34,197,94,0.1); padding: 3px 8px; border-radius: 4px;">✓ VERIFIED BUYER</span>
+          </div>
+          <p style="font-size: 0.92rem; color: var(--text-pure); line-height: 1.6;">
+            "Got the BMW and Ferrari motorsport tees. Super clean neckline, doesn't stretch out. Delivered to Kandy within 2 days with islandwide cash on delivery!"
+          </p>
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim);">
+            <strong style="color: var(--text-muted);">Ravindu Wickramasinghe</strong>
+            <span>Kandy</span>
+          </div>
+        </div>
+
+        <div class="testimonial-card-item">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="stars-row-gold" style="margin-bottom: 0;">
+              <i data-lucide="star" style="width: 15px; fill: #FFB800;"></i>
+              <i data-lucide="star" style="width: 15px; fill: #FFB800;"></i>
+              <i data-lucide="star" style="width: 15px; fill: #FFB800;"></i>
+              <i data-lucide="star" style="width: 15px; fill: #FFB800;"></i>
+              <i data-lucide="star" style="width: 15px; fill: #FFB800;"></i>
+            </div>
+            <span style="font-size: 0.7rem; color: #22c55e; font-weight: 800; background: rgba(34,197,94,0.1); padding: 3px 8px; border-radius: 4px;">✓ VERIFIED BUYER</span>
+          </div>
+          <p style="font-size: 0.92rem; color: var(--text-pure); line-height: 1.6;">
+            "Customized an oversized tee with my custom studio logo. WhatsApp support was instant and quality exceeded international brands. Highly recommended!"
+          </p>
+          <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim);">
+            <strong style="color: var(--text-muted);">Shenal Alwis</strong>
+            <span>Galle</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ================================================================
+         11. INSTAGRAM / SOCIAL SECTION: 6-IMAGE EDITORIAL GRID
+         ================================================================ -->
+    <section class="streetwear-section">
+      <div class="section-head-editorial">
+        <div>
+          <span class="section-tag-small">@PYTHONSTORE</span>
+          <h2 class="section-title-editorial">FOLLOW THE PYTHON MOVEMENT</h2>
+        </div>
+        <a href="https://www.instagram.com/roohiracollectionby?igsh=MWNnazN2NHF5YXNiMA==" target="_blank" class="hero-secondary-link">
+          VISIT INSTAGRAM <i data-lucide="external-link" style="width: 16px;"></i>
+        </a>
+      </div>
+
+      <div class="insta-editorial-grid">
+        <a href="https://www.instagram.com/roohiracollectionby?igsh=MWNnazN2NHF5YXNiMA==" target="_blank" class="insta-tile-link">
+          <img src="https://i.ibb.co/jmXL8K9/GTR-Design.png" alt="Python Streetwear Gram 1">
+          <div class="insta-hover-overlay">
+            <i data-lucide="instagram" style="width: 28px; height: 28px;"></i>
+            <span style="font-family: var(--font-heading); font-size: 0.75rem; font-weight: 800;">VIEW POST</span>
+          </div>
+        </a>
+
+        <a href="https://www.instagram.com/roohiracollectionby?igsh=MWNnazN2NHF5YXNiMA==" target="_blank" class="insta-tile-link">
+          <img src="https://i.ibb.co/35YkhXRs/honor-black-design.png" alt="Python Streetwear Gram 2">
+          <div class="insta-hover-overlay">
+            <i data-lucide="instagram" style="width: 28px; height: 28px;"></i>
+            <span style="font-family: var(--font-heading); font-size: 0.75rem; font-weight: 800;">VIEW POST</span>
+          </div>
+        </a>
+
+        <a href="https://www.instagram.com/roohiracollectionby?igsh=MWNnazN2NHF5YXNiMA==" target="_blank" class="insta-tile-link">
+          <img src="https://i.ibb.co/q3gcMMMM/Moon-tee.png" alt="Python Streetwear Gram 3">
+          <div class="insta-hover-overlay">
+            <i data-lucide="instagram" style="width: 28px; height: 28px;"></i>
+            <span style="font-family: var(--font-heading); font-size: 0.75rem; font-weight: 800;">VIEW POST</span>
+          </div>
+        </a>
+
+        <a href="https://www.instagram.com/roohiracollectionby?igsh=MWNnazN2NHF5YXNiMA==" target="_blank" class="insta-tile-link">
+          <img src="https://i.ibb.co/VYc93p4f/Ferari-tee.png" alt="Python Streetwear Gram 4">
+          <div class="insta-hover-overlay">
+            <i data-lucide="instagram" style="width: 28px; height: 28px;"></i>
+            <span style="font-family: var(--font-heading); font-size: 0.75rem; font-weight: 800;">VIEW POST</span>
+          </div>
+        </a>
+
+        <a href="https://www.instagram.com/roohiracollectionby?igsh=MWNnazN2NHF5YXNiMA==" target="_blank" class="insta-tile-link">
+          <img src="https://i.ibb.co/TqgwRzLD/BMW-tee-white.png" alt="Python Streetwear Gram 5">
+          <div class="insta-hover-overlay">
+            <i data-lucide="instagram" style="width: 28px; height: 28px;"></i>
+            <span style="font-family: var(--font-heading); font-size: 0.75rem; font-weight: 800;">VIEW POST</span>
+          </div>
+        </a>
+
+        <a href="https://www.instagram.com/roohiracollectionby?igsh=MWNnazN2NHF5YXNiMA==" target="_blank" class="insta-tile-link">
+          <img src="https://i.ibb.co/TBTBMfpL/python-tree-design.png" alt="Python Streetwear Gram 6">
+          <div class="insta-hover-overlay">
+            <i data-lucide="instagram" style="width: 28px; height: 28px;"></i>
+            <span style="font-family: var(--font-heading); font-size: 0.75rem; font-weight: 800;">VIEW POST</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+
+    <!-- ================================================================
+         12. CONTACT SECTION: DARK EDITORIAL & MAP
+         ================================================================ -->
+    <section class="streetwear-section" id="contact">
+      <div class="section-head-editorial">
+        <div>
+          <span class="section-tag-small">DIRECT INQUIRIES</span>
+          <h2 class="section-title-editorial">LET'S TALK.</h2>
+        </div>
+        <p class="section-sub-editorial">
+          Customer care, bulk merchandise orders, bespoke prints, and sizing assistance.
+        </p>
       </div>
 
       <div class="contact-layout">
-        <!-- Left: Info & Form -->
+        <!-- Left: Quick Direct Channels & Gmail form -->
         <div class="contact-info-side">
-          <div class="social-circles-container">
-            <div class="social-circle-item">
-              <a href="https://www.instagram.com/roohiracollectionby?igsh=MWNnazN2NHF5YXNiMA==" target="_blank" class="contact-circle" style="background: #E1306C; color: black; box-shadow: 0 10px 20px rgba(225, 48, 108, 0.3);">
-                <i data-lucide="instagram" style="width: 28px; height: 28px; color: black;"></i>
-              </a>
-              <span>Instagram</span>
-            </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px;">
+            <a href="https://wa.me/94757218786" target="_blank" class="glass" style="padding: 16px; display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-pure);">
+              <i data-lucide="message-circle" style="color: #25D366;"></i>
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">WHATSAPP</div>
+                <div style="font-weight: 800; font-size: 0.85rem;">075 721 8786</div>
+              </div>
+            </a>
 
-            <div class="social-circle-item">
-              <a href="https://wa.me/94757218786" target="_blank" class="contact-circle" style="background: #25D366; color: black; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);">
-                <i data-lucide="message-circle" style="width: 28px; height: 28px; color: black;"></i>
-              </a>
-              <span>WhatsApp</span>
-            </div>
+            <a href="tel:0757218786" class="glass" style="padding: 16px; display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-pure);">
+              <i data-lucide="phone" style="color: var(--accent-red);"></i>
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">HOTLINE</div>
+                <div style="font-weight: 800; font-size: 0.85rem;">Call Direct</div>
+              </div>
+            </a>
 
-            <div class="social-circle-item">
-              <a href="https://web.facebook.com/roohiraonline/" target="_blank" class="contact-circle" style="background: #1877F2; color: black; box-shadow: 0 10px 20px rgba(24, 119, 242, 0.3);">
-                <i data-lucide="facebook" style="width: 28px; height: 28px; color: black;"></i>
-              </a>
-              <span>Facebook</span>
-            </div>
+            <a href="https://www.instagram.com/roohiracollectionby?igsh=MWNnazN2NHF5YXNiMA==" target="_blank" class="glass" style="padding: 16px; display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-pure);">
+              <i data-lucide="instagram" style="color: #E1306C;"></i>
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">INSTAGRAM</div>
+                <div style="font-weight: 800; font-size: 0.85rem;">DM Us</div>
+              </div>
+            </a>
 
-            <div class="social-circle-item">
-              <a href="tel:0757218786" class="contact-circle" style="background: #000; color: white; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);">
-                <i data-lucide="phone" style="width: 28px; height: 28px; color: white;"></i>
-              </a>
-              <span>Call Us</span>
-            </div>
-
-            <div class="social-circle-item">
-              <a href="mailto:pythonstore2008@gmail.com" onclick="openGmailCompose(event)" class="contact-circle" style="background: #EA4335; color: white; box-shadow: 0 10px 20px rgba(234, 67, 53, 0.3);">
-                <i data-lucide="mail" style="width: 28px; height: 28px; color: white;"></i>
-              </a>
-              <span>Gmail</span>
-            </div>
+            <a href="https://web.facebook.com/roohiraonline/" target="_blank" class="glass" style="padding: 16px; display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text-pure);">
+              <i data-lucide="facebook" style="color: #1877F2;"></i>
+              <div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">FACEBOOK</div>
+                <div style="font-weight: 800; font-size: 0.85rem;">Official Page</div>
+              </div>
+            </a>
           </div>
 
           <!-- Email Contact Form -->
           <div class="contact-form-card glass">
-            <h3>Send Message via Gmail</h3>
-            <p>Type your message below to send directly to pythonstore2008@gmail.com</p>
+            <h3 style="font-family: var(--font-heading); font-size: 1.1rem; text-transform: uppercase;">Direct Gmail Inquiry</h3>
             <div class="form-group">
-              <input type="text" id="email-subject" placeholder="Subject / මාතෘකාව" required>
+              <input type="text" id="email-subject" class="input-dark-editorial" placeholder="Subject / මාතෘකාව" required>
             </div>
             <div class="form-group">
-              <textarea id="email-message" rows="4" placeholder="Your Message / ඔබේ පණිවිඩය..." required></textarea>
+              <textarea id="email-message" rows="3" class="input-dark-editorial" placeholder="Your Message / ඔබේ පණිවිඩය..." required></textarea>
             </div>
-            <button onclick="sendEmailViaGmail()" class="btn-email-submit" id="btn-email-submit">
-              <i data-lucide="mail" style="width: 16px; height: 16px; margin-right: 8px;"></i> Send via Gmail
+            <button onclick="sendEmailViaGmail()" class="btn-streetwear-primary" style="padding: 12px 24px; font-size: 0.82rem;">
+              <i data-lucide="mail" style="width: 16px;"></i> SEND VIA GMAIL
             </button>
           </div>
         </div>
 
-        <!-- Right: Location Map -->
+        <!-- Right: Map Card -->
         <div class="contact-map-side">
-          <a href="https://www.google.com/maps/place/7%C2%B001'17.0%22N+79%C2%B057'55.5%22E/@7.0213983,79.9654133,19.86z/data=!4m4!3m3!8m2!3d7.0213983!4d79.9654133?hl=en&entry=ttu&g_ep=EgoyMDI2MDYwMS4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="location-card glass">
-            <div class="location-map-container" style="height: 250px;">
+          <a href="https://www.google.com/maps/place/7%C2%B001'17.0%22N+79%C2%B057'55.5%22E/@7.0213983,79.9654133,19.86z/data=!4m4!3m3!8m2!3d7.0213983!4d79.9654133" target="_blank" class="location-card glass" style="width: 100%;">
+            <div class="location-map-container" style="height: 240px;">
               <iframe src="https://maps.google.com/maps?q=7.0213983,79.9654133&t=&z=16&ie=UTF8&iwloc=&output=embed" loading="lazy" title="Store Location Map"></iframe>
               <div class="location-map-overlay">
-                <span class="location-map-btn"><i data-lucide="external-link" style="width: 14px; height: 14px; margin-right: 5px;"></i> Open Map</span>
+                <span class="location-map-btn"><i data-lucide="map-pin" style="width: 14px; margin-right: 5px;"></i> OPEN GOOGLE MAPS</span>
               </div>
             </div>
             <div class="location-info">
@@ -529,8 +867,8 @@
                 <i data-lucide="map-pin" style="width: 20px; height: 20px;"></i>
               </div>
               <div class="location-details">
-                <h4>Our Location</h4>
-                <p>7°01'17.0"N 79°57'55.5"E - Click for directions</p>
+                <h4 style="color: var(--text-pure);">Python Studio Headquarters</h4>
+                <p>7°01'17.0"N 79°57'55.5"E • Sri Lanka</p>
               </div>
             </div>
           </a>
@@ -539,50 +877,168 @@
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="footer-grid">
-      <div class="footer-col">
-        <h4 style="color: var(--primary-dark); font-weight: 800;">PYTHON</h4>
-        <p>Elevate your style with our premium, high-quality t-shirt collections. Designed for those who appreciate
-          excellence.</p>
-        <div class="social-links">
-          <a href="https://www.instagram.com/roohiracollectionby?igsh=MWNnazN2NHF5YXNiMA==" target="_blank"><i data-lucide="instagram"></i></a>
-          <a href="https://web.facebook.com/roohiraonline/" target="_blank"><i data-lucide="facebook"></i></a>
+
+  <!-- ================================================================
+       13. OVERSIZED FASHION FOOTER
+       ================================================================ -->
+  <footer class="footer-oversized">
+    <div class="footer-wordmark-huge">PYTHON</div>
+
+    <div class="footer-columns-row">
+      <div class="footer-col-brand">
+        <h3>PYTHON</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; max-width: 320px;">
+          Sri Lanka's pinnacle streetwear imprint. 220 GSM combed cotton garments tailored for attitude, comfort, and distinction.
+        </p>
+        <div style="display: flex; gap: 14px; margin-top: 20px;">
+          <a href="https://www.instagram.com/roohiracollectionby?igsh=MWNnazN2NHF5YXNiMA==" target="_blank" class="nav-icon-btn"><i data-lucide="instagram"></i></a>
+          <a href="https://web.facebook.com/roohiraonline/" target="_blank" class="nav-icon-btn"><i data-lucide="facebook"></i></a>
+          <a href="https://wa.me/94757218786" target="_blank" class="nav-icon-btn"><i data-lucide="message-circle"></i></a>
         </div>
       </div>
-      <div class="footer-col">
-        <h4>Quick Links</h4>
-        <a href="shop.html">Shop All</a>
-        <a href="customize.html">Custom Design</a>
-        <a href="offers.html">Special Offers</a>
-        <a href="profile.html">My Account</a>
+
+      <div class="footer-col-nav">
+        <h4>SHOP</h4>
+        <a href="shop.html">All T-Shirts</a>
+        <a href="shop.html?category=Regular+Tee+(Printed)">Regular Fit</a>
+        <a href="shop.html?category=Oversized+Tee+(Printed)">Oversized Tees</a>
+        <a href="shop.html">Waffle Knitwear</a>
+        <a href="#new-drop">New Season 2026</a>
       </div>
-      <div class="footer-col">
-        <h4>Contact Us</h4>
-        <p><i data-lucide="phone" style="width: 16px; margin-right: 10px;"></i> Call: 0757218786</p>
-        <p><i data-lucide="message-circle" style="width: 16px; margin-right: 10px;"></i> WhatsApp: 0757218786</p>
-        <p><i data-lucide="mail" style="width: 16px; margin-right: 10px;"></i> pythonstore2008@gmail.com</p>
+
+      <div class="footer-col-nav">
+        <h4>COLLECTIONS</h4>
+        <a href="shop.html">Signature Drops</a>
+        <a href="shop.html">Motorsport Editions</a>
+        <a href="shop.html">Graphic Art</a>
+        <a href="customize.html">Custom Design Studio</a>
+        <a href="offers.html">Special Offers</a>
+      </div>
+
+      <div class="footer-col-nav">
+        <h4>SUPPORT</h4>
+        <a href="javascript:void(0)" onclick="openSizeChart()">Size Guide</a>
+        <a href="order-history.html">Order History</a>
+        <a href="reviews.html">Customer Reviews</a>
+        <a href="#contact">Contact Support</a>
+        <a href="login.html">My Account</a>
+      </div>
+
+      <div class="footer-col-nav">
+        <h4>COMMUNITY</h4>
+        <a href="https://wa.me/94757218786" target="_blank">WhatsApp VIP</a>
+        <a href="https://www.instagram.com/roohiracollectionby?igsh=MWNnazN2NHF5YXNiMA==" target="_blank">Instagram</a>
+        <a href="https://web.facebook.com/roohiraonline/" target="_blank">Facebook</a>
+        <a href="terms.html" style="opacity: 0.6;">Terms & Conditions</a>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>&copy; 2026 Python T-Shirt Brand. All rights reserved.</p>
-      <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.6;">Powered by Roohira Collection</p>
+
+    <div class="footer-bottom-bar">
+      <div>© 2026 PYTHON STREETWEAR. ALL RIGHTS RESERVED.</div>
+      <div>POWERED BY ROOHIRA COLLECTION • SRI LANKA</div>
+      <div style="display: flex; gap: 16px;">
+        <span>CASH ON DELIVERY</span>
+        <span>•</span>
+        <span>7-DAY EXCHANGE</span>
+      </div>
     </div>
   </footer>
 
-  <!-- Size Chart Modal -->
-  <div id="sizeChartModal" class="modal-overlay" onclick="closeSizeChart()" style="display:none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); align-items: center; justify-content: center;">
-      <div class="glass" style="max-width: 90%; max-height: 90%; position: relative; padding: 10px; background: white; border-radius: 20px;" onclick="event.stopPropagation()">
-          <span onclick="closeSizeChart()" style="position: absolute; right: -15px; top: -15px; background: #DC143C; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; box-shadow: 0 5px 15px rgba(220, 20, 60, 0.3);">&times;</span>
-          <img src="https://i.ibb.co/pvGrdQMD/Size-Chart-01.jpg" alt="Size Chart" style="width: 100%; height: auto; max-height: 80vh; border-radius: 15px; display: block;">
+
+  <!-- ================================================================
+       14. PRODUCT QUICK VIEW SLIDE-OUT DRAWER / MODAL
+       ================================================================ -->
+  <div class="quickview-drawer-overlay" id="quickview-modal" onclick="closeProductQuickView()">
+    <div class="quickview-drawer-panel" onclick="event.stopPropagation()">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-subtle); padding-bottom: 16px;">
+        <span class="card-category-label" id="qv-category">REGULAR TEE</span>
+        <button onclick="closeProductQuickView()" style="background: #F3F4F6; border: 1px solid #E5E7EB; color: #111111; cursor: pointer; width: 36px; height: 36px; border-radius: 50%; display:flex; align-items:center; justify-content:center;" aria-label="Close">
+          <i data-lucide="x" style="width: 22px; height: 22px;"></i>
+        </button>
+      </div>
+
+      <div style="width: 100%; aspect-ratio: 1/1; background: #F3F4F6; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid #E5E7EB;">
+        <img src="" id="qv-image" alt="Quick View Product" style="width: 88%; height: 88%; object-fit: contain;">
+        <span id="qv-badge" class="discount-chip" style="position: absolute; top: 14px; left: 14px;"></span>
+      </div>
+
+      <div>
+        <h3 id="qv-title" style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 900; color: var(--text-pure); margin-bottom: 6px;">Product Name</h3>
+        <div style="display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px;">
+          <span id="qv-price" style="font-family: var(--font-heading); font-size: 1.5rem; font-weight: 900; color: var(--accent-red);">Rs. 1,650.00</span>
+          <span id="qv-old-price" style="text-decoration: line-through; color: var(--text-dim); font-size: 0.95rem;"></span>
+        </div>
+        <p id="qv-desc" style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px;">
+          Product description
+        </p>
+      </div>
+
+      <!-- Size Options -->
+      <div>
+        <div style="font-family: var(--font-heading); font-size: 0.78rem; font-weight: 800; color: var(--text-pure); text-transform: uppercase; margin-bottom: 10px;">Select Size:</div>
+        <div class="size-chips" id="qv-sizes-container">
+          <!-- Rendered in script -->
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div style="display: flex; gap: 12px; margin-top: 10px;">
+        <button id="qv-add-btn" class="btn-streetwear-primary" style="flex: 1; justify-content: center;">
+          <i data-lucide="shopping-bag" style="width: 16px;"></i> ADD TO CART
+        </button>
+        <button id="qv-buy-btn" class="btn-streetwear-primary" style="background: var(--text-pure); color: #0B0D12; border: none; flex: 1; justify-content: center;">
+          BUY NOW
+        </button>
+      </div>
+
+      <div style="border-top: 1px solid var(--border-subtle); padding-top: 16px; font-size: 0.78rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 8px;">
+        <div>🚚 <strong>Delivery:</strong> Islandwide delivery within 2-3 business days.</div>
+        <div>🔄 <strong>Exchange:</strong> Hassle-free 7-day size or design exchange.</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ================================================================
+       15. FULLSCREEN SEARCH OVERLAY
+       ================================================================ -->
+  <div class="search-overlay-fullscreen" id="search-modal">
+    <div style="position: absolute; top: 30px; right: 40px;">
+      <button onclick="closeSearchModal()" class="nav-icon-btn" style="width: 44px; height: 44px;" aria-label="Close Search">
+        <i data-lucide="x" style="width: 22px; height: 22px;"></i>
+      </button>
+    </div>
+
+    <div class="search-container-box">
+      <span class="section-tag-small">INSTANT SEARCH</span>
+      <input type="text" id="modal-search-input" class="search-input-huge" placeholder="Type design, fit, color, GSM..." oninput="handleInstantSearch(this.value)" autofocus>
+
+      <div class="search-chips-row">
+        <span style="font-size: 0.75rem; color: var(--text-dim); align-self: center; font-weight: 700;">POPULAR:</span>
+        <button class="search-chip-btn" onclick="applySearchTag('Tree Design')">Tree Design</button>
+        <button class="search-chip-btn" onclick="applySearchTag('BMW')">BMW Motorsport</button>
+        <button class="search-chip-btn" onclick="applySearchTag('Ferrari')">Ferrari</button>
+        <button class="search-chip-btn" onclick="applySearchTag('Oversized')">Oversized Fit</button>
+        <button class="search-chip-btn" onclick="applySearchTag('220 GSM')">220 GSM</button>
+      </div>
+
+      <div id="search-results-grid" style="margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px;">
+        <!-- Dynamic search results populated by script.js -->
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ================================================================
+       16. SIZE CHART MODAL
+       ================================================================ -->
+  <div id="sizeChartModal" class="modal-overlay" onclick="closeSizeChart()" style="display:none; position: fixed; z-index: 10020; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); align-items: center; justify-content: center;">
+      <div class="glass" style="max-width: 90%; max-height: 90%; position: relative; padding: 14px; background: #12151C; border-radius: 20px; border: 1px solid var(--border-color);" onclick="event.stopPropagation()">
+          <span onclick="closeSizeChart()" style="position: absolute; right: -12px; top: -12px; background: var(--accent-red); color: white; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; box-shadow: 0 5px 15px rgba(255, 26, 53, 0.4);">&times;</span>
+          <img src="https://i.ibb.co/rftkd3K0/Chat-GPT-Image-Aug-20-2026-10-17-15-PM.png" alt="Python 220 GSM Regular Fit Size Chart" style="width: 100%; height: auto; max-height: 80vh; border-radius: 12px; display: block;">
       </div>
   </div>
 
-  <style>
-      .product-card:hover .size-chart-card-btn { opacity: 1 !important; transform: translateY(0) !important; }
-      .size-chart-card-btn:hover { background: #000 !important; color: #fff !important; }
-      .modal-overlay.active { display: flex !important; }
-  </style>
 
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -590,572 +1046,380 @@
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
   <script src="firebase-config.js"></script>
   <script src="script.js"></script>
+
   <script>
-    lucide.createIcons();
-    
+    // Initialize Lucide Icons
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+
+    // Modal helpers for Size Chart
     function openSizeChart() {
-        document.getElementById('sizeChartModal').classList.add('active');
+      const modal = document.getElementById('sizeChartModal');
+      if (modal) {
+        modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
+      }
     }
 
     function closeSizeChart() {
-        document.getElementById('sizeChartModal').classList.remove('active');
+      const modal = document.getElementById('sizeChartModal');
+      if (modal) {
+        modal.style.display = 'none';
         document.body.style.overflow = 'auto';
+      }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        // Splitting hero text into words for premium drop animation
-        const heroTitle = document.querySelector('.hero-content h1');
-        const heroSubtitle = document.querySelector('.hero-content p');
-        const heroBtns = document.querySelector('.hero-content .hero-btns');
-        const heroStats = document.querySelector('.hero-content .hero-btns + div');
-
-        function wrapWords(element) {
-            if (!element) return;
-            const nodes = Array.from(element.childNodes);
-            nodes.forEach(node => {
-                if (node.nodeType === Node.TEXT_NODE) {
-                    const text = node.textContent;
-                    const words = text.split(/(\s+)/);
-                    const fragment = document.createDocumentFragment();
-                    
-                    words.forEach(word => {
-                        if (word.trim().length > 0) {
-                            const span = document.createElement('span');
-                            span.className = 'word-drop';
-                            span.textContent = word;
-                            fragment.appendChild(span);
-                        } else {
-                            fragment.appendChild(document.createTextNode(word));
-                        }
-                    });
-                    node.parentNode.replaceChild(fragment, node);
-                } else if (node.nodeType === Node.ELEMENT_NODE) {
-                    wrapWords(node);
-                }
-            });
+    // Search Fullscreen Modal Helpers
+    function openSearchModal() {
+      const modal = document.getElementById('search-modal');
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        const input = document.getElementById('modal-search-input');
+        if (input) {
+          input.value = '';
+          input.focus();
+          handleInstantSearch('');
         }
+      }
+    }
 
-        wrapWords(heroTitle);
-        wrapWords(heroSubtitle);
+    function closeSearchModal() {
+      const modal = document.getElementById('search-modal');
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      }
+    }
 
-        // Set sequential animation delays for all .word-drop spans
-        const titleWords = heroTitle ? heroTitle.querySelectorAll('.word-drop') : [];
-        const subtitleWords = heroSubtitle ? heroSubtitle.querySelectorAll('.word-drop') : [];
-        
-        let currentDelay = 0.1;
-        const delayStep = 0.08;
+    function applySearchTag(tag) {
+      const input = document.getElementById('modal-search-input');
+      if (input) {
+        input.value = tag;
+        handleInstantSearch(tag);
+      }
+    }
 
-        titleWords.forEach(word => {
-            word.style.animationDelay = `${currentDelay}s`;
-            currentDelay += delayStep;
-        });
+    function handleInstantSearch(query) {
+      const container = document.getElementById('search-results-grid');
+      if (!container || typeof products === 'undefined') return;
+      const cleanQ = query.trim().toLowerCase();
+      
+      const matches = cleanQ === '' 
+        ? products.slice(0, 4) 
+        : products.filter(p => 
+            p.name.toLowerCase().includes(cleanQ) || 
+            (p.desc && p.desc.toLowerCase().includes(cleanQ)) ||
+            (p.category && p.category.toLowerCase().includes(cleanQ))
+          );
 
-        currentDelay += 0.15; // smooth gap between title and subtitle starting
+      if (matches.length === 0) {
+        container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 30px;">No matching streetwear found for "${query}".</div>`;
+        return;
+      }
 
-        subtitleWords.forEach(word => {
-            word.style.animationDelay = `${currentDelay}s`;
-            currentDelay += delayStep * 0.7; // slightly faster delay for paragraph words
-        });
+      container.innerHTML = matches.map(p => {
+        const hasSizes = p.sizes && typeof p.sizes === 'object';
+        const displayPrice = hasSizes ? Object.values(p.sizes)[0].price : (p.price || 1650);
+        return `
+          <div class="editorial-card" onclick="closeSearchModal(); openProductQuickView('${p.id}')">
+            <div class="card-img-box" style="height: 140px;">
+              <img src="${p.images[0]}" alt="${p.name}">
+            </div>
+            <div class="card-info">
+              <span class="card-category-label">${p.category || 'Python'}</span>
+              <h4 class="card-product-name">${p.name}</h4>
+              <span class="card-current-price">Rs. ${displayPrice.toLocaleString()}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
 
-        // Delay the buttons and stats to fade up after text completes dropping
-        if (heroBtns) {
-            heroBtns.style.animation = `fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards`;
-            heroBtns.style.animationDelay = `${currentDelay + 0.15}s`;
-        }
-        if (heroStats) {
-            heroStats.style.animation = `fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards`;
-            heroStats.style.animationDelay = `${currentDelay + 0.3}s`;
-        }
+    // Quick View Drawer Helpers
+    let currentQVProduct = null;
+    let selectedQVSize = 'M';
 
-        if (typeof displayProducts !== 'undefined' && typeof products !== 'undefined') {
-            const featuredIds = ['26', '27', '30', '31'];
-            const featuredProducts = products.filter(p => featuredIds.includes(p.id));
-            displayProducts(featuredProducts); // Show featured 4 on home
-        }
+    function openProductQuickView(productId) {
+      if (typeof products === 'undefined') return;
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
+      currentQVProduct = product;
 
-        // Start Top Selling Carousel auto-scrolling
-        if (typeof startTopSellingAutoScroll === 'function') {
-            startTopSellingAutoScroll();
-        }
+      document.getElementById('qv-category').innerText = product.category || 'Python Heavyweight';
+      document.getElementById('qv-title').innerText = product.name;
+      document.getElementById('qv-image').src = product.images[0];
+      document.getElementById('qv-desc').innerText = product.desc || 'Premium 220 GSM cotton garment.';
 
-        // Bind scroll listener for manual swipe / drag dot updates
-        const container = document.getElementById('top-selling-carousel');
-        if (container) {
-            container.addEventListener('scroll', () => {
-                const cardWidth = container.getBoundingClientRect().width;
-                if (cardWidth > 0) {
-                    const scrollPosition = container.scrollLeft;
-                    const index = Math.round(scrollPosition / cardWidth);
-                    if (index !== currentTopSellingSlide) {
-                        currentTopSellingSlide = index;
-                        updateTopSellingDots(index);
-                    }
-                }
-            });
+      const hasSizes = product.sizes && typeof product.sizes === 'object';
+      const price = hasSizes ? Object.values(product.sizes)[0].price : (product.price || 1650);
+      const oldPrice = hasSizes ? Object.values(product.sizes)[0].oldPrice : product.oldPrice;
 
-            // Mouse drag-to-scroll implementation
-            let isDown = false;
-            let startX;
-            let scrollLeftVal;
-
-            container.addEventListener('mousedown', (e) => {
-                isDown = true;
-                container.style.scrollBehavior = 'auto'; // Disable smooth snap scroll temporarily during drag
-                startX = e.pageX - container.offsetLeft;
-                scrollLeftVal = container.scrollLeft;
-                if (topSellingSlideInterval) clearInterval(topSellingSlideInterval);
-            });
-
-            container.addEventListener('mouseleave', () => {
-                if (isDown) {
-                    isDown = false;
-                    container.style.scrollBehavior = 'smooth';
-                    startTopSellingAutoScroll();
-                }
-            });
-
-            container.addEventListener('mouseup', () => {
-                if (isDown) {
-                    isDown = false;
-                    container.style.scrollBehavior = 'smooth';
-                    const cardWidth = container.getBoundingClientRect().width;
-                    const index = Math.round(container.scrollLeft / cardWidth);
-                    showTopSellingSlide(index);
-                    startTopSellingAutoScroll();
-                }
-            });
-
-            container.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - container.offsetLeft;
-                const walk = (x - startX) * 1.5; // speed multiplier
-                container.scrollLeft = scrollLeftVal - walk;
-            });
-        }
-    });
-
-    window.addEventListener('scroll', () => {
-      const nav = document.getElementById('navbar');
-      if (window.scrollY > 50) {
-        nav.classList.add('scrolled');
+      document.getElementById('qv-price').innerText = `Rs. ${price.toLocaleString()}.00`;
+      const oldPriceEl = document.getElementById('qv-old-price');
+      if (oldPrice && oldPrice > price) {
+        oldPriceEl.innerText = `Rs. ${oldPrice.toLocaleString()}`;
+        oldPriceEl.style.display = 'inline';
+        document.getElementById('qv-badge').innerText = `${Math.round(((oldPrice-price)/oldPrice)*100)}% OFF`;
+        document.getElementById('qv-badge').style.display = 'block';
       } else {
-        nav.classList.remove('scrolled');
+        oldPriceEl.style.display = 'none';
+        document.getElementById('qv-badge').style.display = 'none';
       }
+
+      // Sizes
+      const sizeKeys = Array.isArray(product.sizes) ? product.sizes : (product.sizes && typeof product.sizes === 'object' ? Object.keys(product.sizes) : ['S', 'M', 'L', 'XL']);
+      selectedQVSize = sizeKeys[0] || 'M';
+      
+      const sizeContainer = document.getElementById('qv-sizes-container');
+      sizeContainer.innerHTML = sizeKeys.map(s => `
+        <button class="size-chip ${s === selectedQVSize ? 'active' : ''}" onclick="selectQVSize('${s}', this)">${s}</button>
+      `).join('');
+
+      // Bind button click handlers
+      document.getElementById('qv-add-btn').onclick = () => {
+        addToCart(product.name, price, product.images[0], selectedQVSize, product.colors ? product.colors[0] : '#ffffff');
+        closeProductQuickView();
+      };
+
+      document.getElementById('qv-buy-btn').onclick = () => {
+        addToCart(product.name, price, product.images[0], selectedQVSize, product.colors ? product.colors[0] : '#ffffff');
+        window.location.href = 'cart.html';
+      };
+
+      const drawer = document.getElementById('quickview-modal');
+      if (drawer) {
+        drawer.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function selectQVSize(size, btn) {
+      selectedQVSize = size;
+      document.querySelectorAll('#qv-sizes-container .size-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function closeProductQuickView() {
+      const drawer = document.getElementById('quickview-modal');
+      if (drawer) {
+        drawer.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    // Render New Drop horizontal showcase directly on DOM ready
+    document.addEventListener('DOMContentLoaded', () => {
+      renderNewDropShowcase();
+      initCountdownTimer();
     });
 
-    // Top Selling Section Logic
-    let currentTopSellingSlide = 0;
-    let topSellingSlideInterval = null;
+    function renderNewDropShowcase() {
+      const showcaseGrid = document.getElementById('new-drop-grid');
+      if (!showcaseGrid || typeof products === 'undefined') return;
 
-    function updateTopSellingDots(index) {
-        document.querySelectorAll('.top-selling-dot').forEach((dot, idx) => {
-            if (idx === index) {
-                dot.classList.add('active');
-                dot.style.width = '20px';
-                dot.style.borderRadius = '4px';
-                dot.style.background = 'var(--accent-gold)';
-            } else {
-                dot.classList.remove('active');
-                dot.style.width = '8px';
-                dot.style.borderRadius = '50%';
-                dot.style.background = 'var(--text-muted)';
-            }
-        });
+      // Specified IDs: 26, 27, 28, 31, 32, 23
+      const newDropIds = ['26', '27', '28', '31', '32', '23'];
+      const newDropItems = products.filter(p => newDropIds.includes(p.id));
+
+      showcaseGrid.innerHTML = newDropItems.map(p => {
+        const hasSizes = p.sizes && typeof p.sizes === 'object';
+        const displayPrice = hasSizes ? Object.values(p.sizes)[0].price : p.price;
+        const displayOldPrice = hasSizes ? Object.values(p.sizes)[0].oldPrice : p.oldPrice;
+        const discountBadge = (displayOldPrice && displayOldPrice > displayPrice)
+          ? `<span class="discount-chip">${Math.round(((displayOldPrice - displayPrice)/displayOldPrice)*100)}% OFF</span>`
+          : ``;
+        const wished = typeof isInWishlist === 'function' ? isInWishlist(p.id) : false;
+        const sizeKeys = Array.isArray(p.sizes) ? p.sizes : (p.sizes && typeof p.sizes === 'object' ? Object.keys(p.sizes) : ['S', 'M', 'L', 'XL']);
+
+        return `
+          <div class="editorial-card" onclick="openProductQuickView('${p.id}')">
+            <div class="card-img-box">
+              <div class="card-top-tags">
+                ${discountBadge}
+                <div class="card-wish-btn" onclick="event.stopPropagation(); handleCardWishlistToggle('${p.id}', this)">
+                  <i data-lucide="heart" style="width: 16px; height: 16px; ${wished ? 'color: #FF1A35;' : ''}" ${wished ? 'fill="#FF1A35"' : ''}></i>
+                </div>
+              </div>
+
+              <img src="${p.images[0]}" alt="${p.name}">
+
+              <div class="card-quick-overlay">
+                <button class="btn-card-quickview" onclick="event.stopPropagation(); openProductQuickView('${p.id}')">
+                  <i data-lucide="eye" style="width: 14px;"></i> QUICK VIEW
+                </button>
+                <button class="btn-card-addcart" onclick="event.stopPropagation(); addToCart('${p.name}', ${displayPrice}, '${p.images[0]}')">
+                  <i data-lucide="shopping-bag" style="width: 15px;"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="card-info">
+              <span class="card-category-label">${p.category || 'Regular Fit'}</span>
+              <h3 class="card-product-name">${p.name}</h3>
+
+              <div class="card-sizes-pills">
+                ${sizeKeys.map(s => `<span>${s}</span>`).join('')}
+              </div>
+
+              <div class="card-price-row">
+                <span class="card-current-price">Rs. ${displayPrice.toLocaleString()}.00</span>
+                ${displayOldPrice ? `<span class="card-old-price">Rs. ${displayOldPrice.toLocaleString()}</span>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
     }
 
-    function showTopSellingSlide(index) {
-        currentTopSellingSlide = index;
-        const container = document.getElementById('top-selling-carousel');
-        if (container) {
-            const cardWidth = container.clientWidth || container.getBoundingClientRect().width;
-            container.scrollTo({
-                left: index * cardWidth,
-                behavior: 'smooth'
-            });
+    // Configurable Offer Countdown Timer
+    function initCountdownTimer() {
+      // Set end date 3 days from now or standard promo date
+      const targetDate = new Date();
+      targetDate.setDate(targetDate.getDate() + 3);
+      targetDate.setHours(23, 59, 59, 0);
+
+      function updateClock() {
+        const now = new Date().getTime();
+        const distance = targetDate.getTime() - now;
+
+        if (distance < 0) {
+          const daysEl = document.getElementById('cd-days');
+          if (daysEl) daysEl.innerText = '00';
+          return;
         }
-        updateTopSellingDots(index);
-    }
 
-    function startTopSellingAutoScroll() {
-        if (topSellingSlideInterval) clearInterval(topSellingSlideInterval);
-        topSellingSlideInterval = setInterval(() => {
-            let nextSlide = (currentTopSellingSlide + 1) % 4;
-            showTopSellingSlide(nextSlide);
-        }, 3500);
-    }
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    function pauseTopSellingAutoScroll() {
-        if (topSellingSlideInterval) {
-            clearInterval(topSellingSlideInterval);
-            topSellingSlideInterval = null;
-        }
-    }
+        const dEl = document.getElementById('cd-days');
+        const hEl = document.getElementById('cd-hours');
+        const mEl = document.getElementById('cd-mins');
+        const sEl = document.getElementById('cd-secs');
 
-    // Product 0 (ID 32) Handlers - Tree Design (Most Popular)
-    let selectedTopSelling32Size = 'S';
-    let selectedTopSelling32Image = 'https://i.ibb.co/TBTBMfpL/python-tree-design.png';
-
-    function setTopSelling32Image(src, element) {
-        document.getElementById('top-selling-32-img').src = src;
-        selectedTopSelling32Image = src;
-        
-        element.parentNode.querySelectorAll('.top-selling-thumbnail').forEach(thumb => {
-            thumb.style.border = '2px solid transparent';
-        });
-        element.style.border = '2px solid var(--accent-gold)';
-    }
-
-    function selectTopSelling32Size(size) {
-        selectedTopSelling32Size = size;
-        
-        document.querySelectorAll('#top-selling-32-sizes .size-select-btn').forEach(btn => {
-            if (btn.innerText === size) {
-                btn.style.background = 'var(--accent-gold)';
-                btn.style.color = 'white';
-                btn.style.borderColor = 'var(--accent-gold)';
-            } else {
-                btn.style.background = 'var(--surface)';
-                btn.style.color = 'var(--text-main)';
-                btn.style.borderColor = 'var(--border-color)';
-            }
-        });
-    }
-
-    function addTopSelling32ToCart() {
-        addToCart("Tree Design", 2200, selectedTopSelling32Image, selectedTopSelling32Size, '#ffffff');
-    }
-
-    function buyTopSelling32Now() {
-        addTopSelling32ToCart();
-        window.location.href = 'cart.html';
-    }
-
-    // Product 1 (ID 28) Handlers
-    let selectedTopSelling28Size = 'S';
-    let selectedTopSelling28Image = 'https://i.ibb.co/TqgwRzLD/BMW-tee-white.png';
-
-    function setTopSelling28Image(src, element) {
-        document.getElementById('top-selling-28-img').src = src;
-        selectedTopSelling28Image = src;
-        
-        element.parentNode.querySelectorAll('.top-selling-thumbnail').forEach(thumb => {
-            thumb.style.border = '2px solid transparent';
-        });
-        element.style.border = '2px solid var(--accent-gold)';
-    }
-
-    function selectTopSelling28Size(size) {
-        selectedTopSelling28Size = size;
-        
-        document.querySelectorAll('#top-selling-28-sizes .size-select-btn').forEach(btn => {
-            if (btn.innerText === size) {
-                btn.style.background = 'var(--accent-gold)';
-                btn.style.color = 'white';
-                btn.style.borderColor = 'var(--accent-gold)';
-            } else {
-                btn.style.background = 'var(--surface)';
-                btn.style.color = 'var(--text-main)';
-                btn.style.borderColor = 'var(--border-color)';
-            }
-        });
-    }
-
-    function addTopSelling28ToCart() {
-        addToCart("BMW Car Design", 1650, selectedTopSelling28Image, selectedTopSelling28Size, '#ffffff');
-    }
-
-    function buyTopSelling28Now() {
-        addTopSelling28ToCart();
-        window.location.href = 'cart.html';
-    }
-
-    // Product 2 (ID 31) Handlers
-    let selectedTopSelling31Size = 'S';
-    let selectedTopSelling31Image = 'https://i.ibb.co/VYc93p4f/Ferari-tee.png';
-
-    function setTopSelling31Image(src, element) {
-        document.getElementById('top-selling-31-img').src = src;
-        selectedTopSelling31Image = src;
-        
-        element.parentNode.querySelectorAll('.top-selling-thumbnail').forEach(thumb => {
-            thumb.style.border = '2px solid transparent';
-        });
-        element.style.border = '2px solid var(--accent-gold)';
-    }
-
-    function selectTopSelling31Size(size) {
-        selectedTopSelling31Size = size;
-        
-        document.querySelectorAll('#top-selling-31-sizes .size-select-btn').forEach(btn => {
-            if (btn.innerText === size) {
-                btn.style.background = 'var(--accent-gold)';
-                btn.style.color = 'white';
-                btn.style.borderColor = 'var(--accent-gold)';
-            } else {
-                btn.style.background = 'var(--surface)';
-                btn.style.color = 'var(--text-main)';
-                btn.style.borderColor = 'var(--border-color)';
-            }
-        });
-    }
-
-    function addTopSelling31ToCart() {
-        addToCart("Ferrari Design", 1650, selectedTopSelling31Image, selectedTopSelling31Size, '#000000');
-    }
-
-    function buyTopSelling31Now() {
-        addTopSelling31ToCart();
-        window.location.href = 'cart.html';
-    }
-
-    // Product 3 (ID 20) Handlers
-    let selectedTopSelling20Size = 'S';
-    let selectedTopSelling20Image = 'https://i.ibb.co/67CjtFx0/Python-Infinity.png';
-
-    function setTopSelling20Image(src, element) {
-        document.getElementById('top-selling-20-img').src = src;
-        selectedTopSelling20Image = src;
-        
-        element.parentNode.querySelectorAll('.top-selling-thumbnail').forEach(thumb => {
-            thumb.style.border = '2px solid transparent';
-        });
-        element.style.border = '2px solid var(--accent-gold)';
-    }
-
-    function selectTopSelling20Size(size) {
-        selectedTopSelling20Size = size;
-        
-        document.querySelectorAll('#top-selling-20-sizes .size-select-btn').forEach(btn => {
-            if (btn.innerText === size) {
-                btn.style.background = 'var(--accent-gold)';
-                btn.style.color = 'white';
-                btn.style.borderColor = 'var(--accent-gold)';
-            } else {
-                btn.style.background = 'var(--surface)';
-                btn.style.color = 'var(--text-main)';
-                btn.style.borderColor = 'var(--border-color)';
-            }
-        });
-    }
-
-    function addTopSelling20ToCart() {
-        addToCart("Colour Elephant Design", 1790, selectedTopSelling20Image, selectedTopSelling20Size, '#ffffff');
-    }
-
-    function buyTopSelling20Now() {
-        addTopSelling20ToCart();
-        window.location.href = 'cart.html';
-    }
-  </script>
-
-  <script>
-    // ── Gmail Contact Option Helpers ───────────────────────────
-    function openGmailCompose(event) {
-      if (event) event.preventDefault();
-      const email = 'pythonstore2008@gmail.com';
-      const subject = encodeURIComponent('Inquiry to Python Store');
-      const body = encodeURIComponent('Hi Python Store,\n\n');
-      
-      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
-      const newWin = window.open(gmailUrl, '_blank');
-      
-      if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
-        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+        if (dEl) dEl.innerText = String(days).padStart(2, '0');
+        if (hEl) hEl.innerText = String(hours).padStart(2, '0');
+        if (mEl) mEl.innerText = String(minutes).padStart(2, '0');
+        if (sEl) sEl.innerText = String(seconds).padStart(2, '0');
       }
+
+      updateClock();
+      setInterval(updateClock, 1000);
     }
 
+    // Gmail compose helper
     function sendEmailViaGmail() {
       const subjectInput = document.getElementById('email-subject');
       const messageInput = document.getElementById('email-message');
-      
       const subjectVal = subjectInput ? subjectInput.value.trim() : '';
       const messageVal = messageInput ? messageInput.value.trim() : '';
-      
+
       if (!messageVal) {
-        alert('කරුණාකර පණිවිඩය ඇතුළත් කරන්න. (Please enter your message.)');
+        alert('Please enter your message.');
         return;
       }
-      
+
       const email = 'pythonstore2008@gmail.com';
-      const subject = encodeURIComponent(subjectVal || 'Customer Message');
+      const subject = encodeURIComponent(subjectVal || 'Customer Inquiry - Python Store');
       const body = encodeURIComponent(messageVal);
-      
       const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
-      const mailtoUrl = `mailto:${email}?subject=${subject}&body=${body}`;
-      
-      const isMobile = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
-      
-      if (isMobile) {
-        window.location.href = mailtoUrl;
-      } else {
-        const newWin = window.open(gmailUrl, '_blank');
-        if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
-          window.location.href = mailtoUrl;
-        }
-      }
-      
-      // Clear inputs
+      window.open(gmailUrl, '_blank');
+
       if (subjectInput) subjectInput.value = '';
       if (messageInput) messageInput.value = '';
     }
 
-    // ── Customer Reviews Logic for Homepage ────────────────────
+    // Customer reviews rating handlers
     let homeCurrentRatingVal = 0;
-    let homeLoggedInEmail = null;
-
-    document.addEventListener('DOMContentLoaded', () => {
-        // Check auth state for homepage reviews autofill
-        if (typeof auth !== 'undefined' && auth) {
-            auth.onAuthStateChanged((user) => {
-                if (user) {
-                    homeLoggedInEmail = user.email;
-                    db.collection('users').doc(user.uid).get().then((doc) => {
-                        const nameInput = document.getElementById('home-reviewer-name');
-                        if (nameInput) {
-                            if (doc.exists && doc.data().name) {
-                                nameInput.value = doc.data().name;
-                            } else {
-                                nameInput.value = user.email.split('@')[0];
-                            }
-                        }
-                    }).catch(() => {
-                        const nameInput = document.getElementById('home-reviewer-name');
-                        if (nameInput) nameInput.value = user.email.split('@')[0];
-                    });
-                }
-            });
-        } else {
-            try {
-                const localUser = JSON.parse(localStorage.getItem('python_user'));
-                if (localUser && localUser.name) {
-                    const nameInput = document.getElementById('home-reviewer-name');
-                    if (nameInput) nameInput.value = localUser.name;
-                }
-            } catch(e) {}
-        }
-    });
-
     function setHomeRating(rating) {
-        homeCurrentRatingVal = rating;
-        const selectedRatingInput = document.getElementById('home-selected-rating');
-        if (selectedRatingInput) selectedRatingInput.value = rating;
-        updateHomeStarClasses();
+      homeCurrentRatingVal = rating;
+      const selectedRatingInput = document.getElementById('home-selected-rating');
+      if (selectedRatingInput) selectedRatingInput.value = rating;
+      updateHomeStarClasses();
     }
 
     function hoverHomeRating(rating) {
-        const stars = document.querySelectorAll('#home-rating-selector .star-icon');
-        stars.forEach((star, index) => {
-            if (index < rating) {
-                star.classList.add('hovered');
-            } else {
-                star.classList.remove('hovered');
-            }
-        });
+      const stars = document.querySelectorAll('#home-rating-selector .star-icon');
+      stars.forEach((star, index) => {
+        if (index < rating) {
+          star.style.color = '#FFB800';
+          star.setAttribute('fill', '#FFB800');
+        } else {
+          star.style.color = '#5A6275';
+          star.removeAttribute('fill');
+        }
+      });
     }
 
     function clearHoverHomeRating() {
-        const stars = document.querySelectorAll('#home-rating-selector .star-icon');
-        stars.forEach((star) => {
-            star.classList.remove('hovered');
-        });
-        updateHomeStarClasses();
+      updateHomeStarClasses();
     }
 
     function updateHomeStarClasses() {
-        const stars = document.querySelectorAll('#home-rating-selector .star-icon');
-        stars.forEach((star, index) => {
-            if (index < homeCurrentRatingVal) {
-                star.classList.add('selected');
-                star.setAttribute('fill', 'currentColor');
-            } else {
-                star.classList.remove('selected');
-                star.removeAttribute('fill');
-            }
-        });
-    }
-
-    function getDeviceType() {
-        const width = window.innerWidth;
-        if (width < 768) {
-            return "Mobile Phone";
-        } else if (width < 1024) {
-            return "Tablet";
+      const stars = document.querySelectorAll('#home-rating-selector .star-icon');
+      stars.forEach((star, index) => {
+        if (index < homeCurrentRatingVal) {
+          star.style.color = '#FFB800';
+          star.setAttribute('fill', '#FFB800');
         } else {
-            return "Desktop / Laptop";
+          star.style.color = '#5A6275';
+          star.removeAttribute('fill');
         }
+      });
     }
 
     function submitHomeReview(e) {
-        e.preventDefault();
+      e.preventDefault();
+      const rating = parseInt(document.getElementById('home-selected-rating').value);
+      const name = document.getElementById('home-reviewer-name').value.trim();
+      const comment = document.getElementById('home-reviewer-comment').value.trim();
+      const btn = document.getElementById('home-submit-btn');
+      const msg = document.getElementById('home-success-msg');
 
-        const ratingInput = parseInt(document.getElementById('home-selected-rating').value);
-        const nameInput = document.getElementById('home-reviewer-name').value.trim();
-        const commentInput = document.getElementById('home-reviewer-comment').value.trim();
-        const submitBtn = document.getElementById('home-submit-btn');
-        const successMsg = document.getElementById('home-success-msg');
+      if (rating === 0) {
+        alert('Please select a star rating (1-5 stars)');
+        return;
+      }
 
-        if (ratingInput === 0) {
-            alert('Please select a star rating / කරුණාකර තරු ශ්‍රේණිගත කිරීමක් තෝරන්න.');
-            return;
-        }
+      btn.disabled = true;
+      btn.innerHTML = 'Submitting...';
 
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="spinner" style="display:inline-block; width:16px; height:16px; border:2px solid #fff; border-top-color:transparent; border-radius:50%; animation:spin 1s linear infinite;"></i> Submitting...';
+      const reviewData = {
+        name: name,
+        rating: rating,
+        comment: comment,
+        timestamp: (typeof firebase !== 'undefined' ? firebase.firestore.FieldValue.serverTimestamp() : new Date().toISOString()),
+        verified: true
+      };
 
-        const reviewData = {
-            name: nameInput,
-            rating: ratingInput,
-            comment: commentInput,
-            timestamp: (typeof firebase !== 'undefined' ? firebase.firestore.FieldValue.serverTimestamp() : new Date().toISOString()),
-            email: homeLoggedInEmail || '',
-            device: getDeviceType()
-        };
+      if (typeof db !== 'undefined' && db) {
+        db.collection('reviews').add(reviewData).then(() => {
+          onReviewDone();
+        }).catch(err => {
+          console.warn('Firestore fallback local:', err);
+          onReviewDone();
+        });
+      } else {
+        onReviewDone();
+      }
 
-        if (typeof db !== 'undefined' && db) {
-            db.collection('reviews').add(reviewData)
-                .then(() => {
-                    handleHomeSuccessfulSubmit();
-                })
-                .catch((err) => {
-                    console.error("Firebase Firestore Error: ", err);
-                    saveHomeReviewLocally(reviewData);
-                    handleHomeSuccessfulSubmit();
-                });
-        } else {
-            saveHomeReviewLocally(reviewData);
-            handleHomeSuccessfulSubmit();
-        }
-    }
-
-    function saveHomeReviewLocally(review) {
-        let localReviews = [];
-        try {
-            localReviews = JSON.parse(localStorage.getItem('local_customer_reviews')) || [];
-        } catch(e) {}
-        review.timestampLocal = new Date().toISOString();
-        localReviews.push(review);
-        localStorage.setItem('local_customer_reviews', JSON.stringify(localReviews));
-    }
-
-    function handleHomeSuccessfulSubmit() {
-        const submitBtn = document.getElementById('home-submit-btn');
-        const successMsg = document.getElementById('home-success-msg');
-
+      function onReviewDone() {
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="send" style="width: 16px;"></i> SUBMIT REVIEW';
         document.getElementById('home-reviewer-comment').value = '';
         setHomeRating(0);
-
-        successMsg.style.display = 'block';
-        setTimeout(() => {
-            successMsg.style.display = 'none';
-        }, 6000);
-
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i data-lucide="send" style="width:16px;"></i> Submit Review';
+        msg.style.display = 'block';
+        setTimeout(() => { msg.style.display = 'none'; }, 5000);
         if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
     }
   </script>
 </body>
-
 </html>

@@ -310,7 +310,7 @@ const products = [
         desc: 'Never Give Up Design Regular Tee (Printed) by Python. Featuring a motivational graphic, crafted from premium 220 GSM fabric for ultimate comfort and durability.'
     },
     {
-        id: '18', name: 'Waffle T-shirts', category: 'Oversized Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        id: '18', name: 'Waffle T-shirts', category: 'Waffle Tee', sections: ['Mens', 'Womens', 'Unisexs'],
         images: [
             'https://i.ibb.co/RTGD6DPx/12.png',
             'https://i.ibb.co/cKzdSStx/23.png'
@@ -333,7 +333,7 @@ const products = [
         desc: 'Waffle T-shirts by Python. Premium 240 GSM waffle-knit fabric for a unique texture and superior comfort. Available in Light Brown and Light Yellow. A must-have wardrobe essential.'
     },
     {
-        id: '19', name: 'Waffle Printed', category: 'Oversized Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        id: '19', name: 'Waffle Printed', category: 'Waffle Tee', sections: ['Mens', 'Womens', 'Unisexs'],
         images: [
             'https://i.ibb.co/7JPf15Fw/Chat-GPT-Image-Jun-5-2026-03-26-18-PM78.png',
             'https://i.ibb.co/j9XPBYs8/Chat-GPT-Image-Jun-5-2026-03-26-18-PM24.png',

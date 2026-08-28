@@ -223,7 +223,7 @@
     <div id="sizeChartModal" class="modal-overlay" onclick="closeSizeChart()" style="display:none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); align-items: center; justify-content: center;">
         <div class="glass" style="max-width: 90%; max-height: 90%; position: relative; padding: 10px; background: var(--surface); border-radius: 20px; animation: modalZoom 0.3s cubic-bezier(0.16, 1, 0.3, 1);" onclick="event.stopPropagation()">
             <span onclick="closeSizeChart()" style="position: absolute; right: -15px; top: -15px; background: #DC143C; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: bold; box-shadow: 0 5px 15px rgba(220, 20, 60, 0.3);">&times;</span>
-            <img src="https://i.ibb.co/pvGrdQMD/Size-Chart-01.jpg" alt="Size Chart" style="width: 100%; height: auto; max-height: 80vh; border-radius: 15px; display: block;">
+            <img src="https://i.ibb.co/rftkd3K0/Chat-GPT-Image-Aug-20-2026-10-17-15-PM.png" alt="Python 220 GSM Regular Fit Size Chart" style="width: 100%; height: auto; max-height: 80vh; border-radius: 15px; display: block;">
         </div>
     </div>
 
@@ -260,9 +260,25 @@
         let autoScrollInterval = null;
 
         if (product) {
-            if (product.category === 'Oversized Tee (Printed)' && !product.sizeChartImg) {
-                const scSection = document.getElementById('size-chart-link');
-                if (scSection) scSection.style.display = 'none';
+            // Show size chart for 220 GSM Regular Fit products OR products with a dedicated sizeChartImg (e.g. Waffle IDs 18, 19)
+            const is220GsmRegularFit = (product.category === 'Regular Tee (Printed)' || product.category === 'Regular Tee') && (product.gsm === '220 GSM' || !product.gsm);
+            const hasCustomSizeChart = !!product.sizeChartImg;
+            const scSection = document.getElementById('size-chart-link');
+            if (scSection) {
+                if (is220GsmRegularFit || hasCustomSizeChart) {
+                    scSection.style.display = 'flex';
+                    // If product has its own size chart image, swap it in the modal
+                    if (hasCustomSizeChart && !is220GsmRegularFit) {
+                        const scImg = document.querySelector('#sizeChartModal img');
+                        if (scImg) scImg.src = product.sizeChartImg;
+                    } else {
+                        // Reset to standard 220 GSM chart
+                        const scImg = document.querySelector('#sizeChartModal img');
+                        if (scImg) scImg.src = 'https://i.ibb.co/rftkd3K0/Chat-GPT-Image-Aug-20-2026-10-17-15-PM.png';
+                    }
+                } else {
+                    scSection.style.display = 'none';
+                }
             }
 
             document.getElementById('detail-name').innerText = product.name;
