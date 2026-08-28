@@ -74,22 +74,145 @@
     </div>
   </nav>
 
-  <!-- Mobile Fullscreen Drawer Menu -->
+  <!-- Mobile Luxury Drawer Menu -->
   <div class="menu-overlay" id="menu-overlay"></div>
   <div class="mobile-menu" id="mobile-menu">
-    <div class="close-menu" id="close-menu" aria-label="Close Menu">
-      <i data-lucide="x" style="width: 22px; height: 22px;"></i>
+    <!-- Drawer Header -->
+    <div class="drawer-header">
+      <div class="drawer-brand">
+        <img src="logo.png" alt="Python Logo" class="drawer-logo">
+        <div>
+          <span class="drawer-title">PYTHON</span>
+          <span class="drawer-subtitle">STREETWEAR 2026</span>
+        </div>
+      </div>
+      <button class="close-menu" id="close-menu" aria-label="Close Menu">
+        <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+      </button>
     </div>
-    <a href="index.html"><span><span class="menu-num">01</span> HOME</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
-    <a href="#new-drop"><span><span class="menu-num">02</span> NEW DROP</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
-    <a href="shop.html"><span><span class="menu-num">03</span> SHOP ALL</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
-    <a href="#collections"><span><span class="menu-num">04</span> COLLECTIONS</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
-    <a href="customize.html"><span><span class="menu-num">05</span> CUSTOMIZE</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
-    <a href="offers.html"><span><span class="menu-num">06</span> OFFERS</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
-    <a href="reviews.html"><span><span class="menu-num">07</span> REVIEWS</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
-    <a href="wishlist.html"><span><span class="menu-num">08</span> WISHLIST</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
-    <a href="profile.html"><span><span class="menu-num">09</span> MY ACCOUNT</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
-    <a href="cart.html"><span><span class="menu-num">10</span> CART</span> <i data-lucide="chevron-right" style="width: 18px;"></i></a>
+
+    <!-- Quick User Actions 4-Grid -->
+    <div class="drawer-quick-actions">
+      <button onclick="closeMobileDrawer(); openSearchModal();" class="drawer-action-btn">
+        <i data-lucide="search" style="width: 18px; height: 18px;"></i>
+        <span>Search</span>
+      </button>
+      <a href="wishlist.html" class="drawer-action-btn">
+        <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
+        <span>Wishlist</span>
+      </a>
+      <a href="cart.html" class="drawer-action-btn">
+        <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
+        <span>Cart</span>
+      </a>
+      <a href="profile.html" class="drawer-action-btn">
+        <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+        <span>Account</span>
+      </a>
+    </div>
+
+    <!-- Section: Main Store Navigation -->
+    <div class="drawer-section-label">MAIN STORE</div>
+    <div class="drawer-links-group">
+      <a href="index.html" class="drawer-link active">
+        <div class="drawer-link-left">
+          <span class="drawer-num">01</span>
+          <i data-lucide="home" style="width: 18px; height: 18px;"></i>
+          <span>HOME</span>
+        </div>
+        <i data-lucide="chevron-right" class="drawer-chevron"></i>
+      </a>
+
+      <a href="#new-drop" onclick="closeMobileDrawer()" class="drawer-link">
+        <div class="drawer-link-left">
+          <span class="drawer-num">02</span>
+          <i data-lucide="sparkles" style="width: 18px; height: 18px;"></i>
+          <span>THE NEW DROP</span>
+        </div>
+        <span class="drawer-badge-hot">HOT</span>
+      </a>
+
+      <a href="shop.html" class="drawer-link">
+        <div class="drawer-link-left">
+          <span class="drawer-num">03</span>
+          <i data-lucide="shirt" style="width: 18px; height: 18px;"></i>
+          <span>SHOP ALL</span>
+        </div>
+        <i data-lucide="chevron-right" class="drawer-chevron"></i>
+      </a>
+
+      <a href="#collections" onclick="closeMobileDrawer()" class="drawer-link">
+        <div class="drawer-link-left">
+          <span class="drawer-num">04</span>
+          <i data-lucide="grid" style="width: 18px; height: 18px;"></i>
+          <span>COLLECTIONS</span>
+        </div>
+        <i data-lucide="chevron-right" class="drawer-chevron"></i>
+      </a>
+
+      <a href="customize.html" class="drawer-link">
+        <div class="drawer-link-left">
+          <span class="drawer-num">05</span>
+          <i data-lucide="palette" style="width: 18px; height: 18px;"></i>
+          <span>CUSTOMIZE TEE</span>
+        </div>
+        <i data-lucide="chevron-right" class="drawer-chevron"></i>
+      </a>
+
+      <a href="offers.html" class="drawer-link">
+        <div class="drawer-link-left">
+          <span class="drawer-num">06</span>
+          <i data-lucide="tag" style="width: 18px; height: 18px;"></i>
+          <span>SPECIAL OFFERS</span>
+        </div>
+        <span class="drawer-badge-discount">20% OFF</span>
+      </a>
+    </div>
+
+    <!-- Section: Services & Support -->
+    <div class="drawer-section-label">SERVICES & SUPPORT</div>
+    <div class="drawer-links-group">
+      <a href="javascript:void(0)" onclick="closeMobileDrawer(); openSizeChart();" class="drawer-link">
+        <div class="drawer-link-left">
+          <span class="drawer-num">07</span>
+          <i data-lucide="ruler" style="width: 18px; height: 18px;"></i>
+          <span>SIZE GUIDE</span>
+        </div>
+        <i data-lucide="chevron-right" class="drawer-chevron"></i>
+      </a>
+
+      <a href="reviews.html" class="drawer-link">
+        <div class="drawer-link-left">
+          <span class="drawer-num">08</span>
+          <i data-lucide="star" style="width: 18px; height: 18px;"></i>
+          <span>CUSTOMER REVIEWS</span>
+        </div>
+        <i data-lucide="chevron-right" class="drawer-chevron"></i>
+      </a>
+
+      <a href="track-order.html" class="drawer-link">
+        <div class="drawer-link-left">
+          <span class="drawer-num">09</span>
+          <i data-lucide="package" style="width: 18px; height: 18px;"></i>
+          <span>TRACK ORDERS</span>
+        </div>
+        <i data-lucide="chevron-right" class="drawer-chevron"></i>
+      </a>
+    </div>
+
+    <!-- Drawer Footer -->
+    <div class="drawer-footer">
+      <a href="https://wa.me/94757218786" target="_blank" class="drawer-wa-btn">
+        <i data-lucide="message-circle" style="width: 18px; height: 18px;"></i>
+        <span>WHATSAPP VIP SUPPORT</span>
+      </a>
+
+      <div class="drawer-meta-info">
+        <span>220 GSM HEAVYWEIGHT COTTON</span>
+        <span>•</span>
+        <span>SRI LANKA</span>
+      </div>
+    </div>
   </div>
 
   <main>
@@ -918,6 +1041,7 @@
       <div class="footer-col-nav">
         <h4>SUPPORT</h4>
         <a href="javascript:void(0)" onclick="openSizeChart()">Size Guide</a>
+        <a href="track-order.html">Track Order</a>
         <a href="order-history.html">Order History</a>
         <a href="reviews.html">Customer Reviews</a>
         <a href="#contact">Contact Support</a>
@@ -1068,6 +1192,14 @@
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
       }
+    }
+
+    function closeMobileDrawer() {
+      const mobileMenu = document.getElementById('mobile-menu');
+      const overlay = document.getElementById('menu-overlay');
+      if (mobileMenu) mobileMenu.classList.remove('active');
+      if (overlay) overlay.classList.remove('active');
+      document.body.style.overflow = 'auto';
     }
 
     // Search Fullscreen Modal Helpers
