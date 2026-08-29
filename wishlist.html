@@ -37,16 +37,104 @@
         </div>
     </nav>
 
+    <!-- Mobile Luxury Drawer Menu -->
     <div class="menu-overlay" id="menu-overlay"></div>
     <div class="mobile-menu" id="mobile-menu">
-        <div class="close-menu" id="close-menu"><i data-lucide="x"></i></div>
-        <a href="index.html">Home</a>
-        <a href="shop.html">Shop</a>
-        <a href="customize.html">Customize</a>
-        <a href="offers.html">Offers</a>
-        <a href="wishlist.html">Wishlist</a>
-        <a href="profile.html">My Account</a>
-        <a href="cart.html">Cart</a>
+        <div class="drawer-header">
+            <div class="drawer-brand">
+                <img src="logo.png" alt="Python Logo" class="drawer-logo">
+                <div>
+                    <span class="drawer-title">PYTHON</span>
+                    <span class="drawer-subtitle">STREETWEAR 2026</span>
+                </div>
+            </div>
+            <button class="close-menu" id="close-menu" aria-label="Close Menu">
+                <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+            </button>
+        </div>
+
+        <div class="drawer-quick-actions">
+            <a href="shop.html" class="drawer-action-btn">
+                <i data-lucide="search" style="width: 18px; height: 18px;"></i>
+                <span>Search</span>
+            </a>
+            <a href="wishlist.html" class="drawer-action-btn active">
+                <i data-lucide="heart" style="width: 18px; height: 18px;"></i>
+                <span>Wishlist</span>
+            </a>
+            <a href="cart.html" class="drawer-action-btn">
+                <i data-lucide="shopping-bag" style="width: 18px; height: 18px;"></i>
+                <span>Cart</span>
+            </a>
+            <a href="profile.html" class="drawer-action-btn">
+                <i data-lucide="user" style="width: 18px; height: 18px;"></i>
+                <span>Account</span>
+            </a>
+        </div>
+
+        <div class="drawer-section-label">MAIN STORE</div>
+        <div class="drawer-links-group">
+            <a href="index.html" class="drawer-link">
+                <div class="drawer-link-left">
+                    <span class="drawer-num">01</span>
+                    <i data-lucide="home" style="width: 18px; height: 18px;"></i>
+                    <span>HOME</span>
+                </div>
+                <i data-lucide="chevron-right" class="drawer-chevron"></i>
+            </a>
+            <a href="shop.html" class="drawer-link">
+                <div class="drawer-link-left">
+                    <span class="drawer-num">02</span>
+                    <i data-lucide="shirt" style="width: 18px; height: 18px;"></i>
+                    <span>SHOP ALL</span>
+                </div>
+                <i data-lucide="chevron-right" class="drawer-chevron"></i>
+            </a>
+            <a href="customize.html" class="drawer-link">
+                <div class="drawer-link-left">
+                    <span class="drawer-num">03</span>
+                    <i data-lucide="palette" style="width: 18px; height: 18px;"></i>
+                    <span>CUSTOMIZE TEE</span>
+                </div>
+                <i data-lucide="chevron-right" class="drawer-chevron"></i>
+            </a>
+            <a href="offers.html" class="drawer-link">
+                <div class="drawer-link-left">
+                    <span class="drawer-num">04</span>
+                    <i data-lucide="tag" style="width: 18px; height: 18px;"></i>
+                    <span>SPECIAL OFFERS</span>
+                </div>
+                <span class="drawer-badge-discount">20% OFF</span>
+            </a>
+            <a href="track-order.html" class="drawer-link">
+                <div class="drawer-link-left">
+                    <span class="drawer-num">05</span>
+                    <i data-lucide="package" style="width: 18px; height: 18px;"></i>
+                    <span>TRACK ORDER</span>
+                </div>
+                <i data-lucide="chevron-right" class="drawer-chevron"></i>
+            </a>
+            <a href="reviews.html" class="drawer-link">
+                <div class="drawer-link-left">
+                    <span class="drawer-num">06</span>
+                    <i data-lucide="star" style="width: 18px; height: 18px;"></i>
+                    <span>REVIEWS</span>
+                </div>
+                <i data-lucide="chevron-right" class="drawer-chevron"></i>
+            </a>
+        </div>
+
+        <div class="drawer-footer">
+            <a href="https://wa.me/94757218786" target="_blank" class="drawer-wa-btn">
+                <i data-lucide="message-circle" style="width: 18px; height: 18px;"></i>
+                <span>WHATSAPP VIP SUPPORT</span>
+            </a>
+            <div class="drawer-meta-info">
+                <span>220 GSM HEAVYWEIGHT COTTON</span>
+                <span>•</span>
+                <span>SRI LANKA</span>
+            </div>
+        </div>
     </div>
 
     <main class="section" style="padding-top: 150px; min-height: 80vh;">
