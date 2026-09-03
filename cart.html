@@ -156,11 +156,23 @@
                     <span>Shipping</span>
                     <span>Free</span>
                 </div>
-                <a href="checkout.html" class="btn btn-primary" style="width: 100%; text-align: center;">Proceed to
-                    Checkout</a>
+                <button onclick="handleCheckoutNavigation()" class="btn btn-primary" style="width: 100%; text-align: center; border: none; cursor: pointer;">Proceed to Checkout</button>
             </div>
         </div>
     </main>
+
+    <script>
+    function handleCheckoutNavigation() {
+        if (typeof auth !== 'undefined' && auth && auth.currentUser) {
+            window.location.href = 'checkout.html';
+        } else if (localStorage.getItem('python_user')) {
+            window.location.href = 'checkout.html';
+        } else {
+            sessionStorage.setItem('redirect_after_login', 'checkout.html');
+            window.location.href = 'login.html?redirect=checkout';
+        }
+    }
+    </script>
 
     <footer class="footer">
         <div class="footer-grid">

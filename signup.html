@@ -52,6 +52,9 @@
 
     <main class="section" style="padding-top: 100px;">
         <div class="auth-form glass" style="max-width:500px;">
+            <div id="checkout-signup-notice" style="display:none; background: rgba(220, 20, 60, 0.08); border: 1.5px solid #DC143C; color: #DC143C; padding: 12px 16px; border-radius: 12px; font-size: 0.9rem; font-weight: 700; margin-bottom: 20px; text-align: center;">
+                🛒 Order එක Place කිරීමට ප්‍රථමයෙන් Account එකක් සාදා ගන්න (Create Account).
+            </div>
             <h2 style="text-align: center; margin-bottom: 30px;">Join <span style="color: #c8a96e;">Python</span></h2>
             <div class="form-group">
                 <label>Full Name</label>
@@ -80,13 +83,25 @@
                 </div>
             </div>
             <div id="signup-error" style="display:none; background:#fdf2f2; color:#9b1c1c; padding:10px 15px; border-radius:10px; font-size:0.88rem; margin-bottom:10px; border-left:4px solid #DC143C;"></div>
-            <button id="signup-btn" class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="doSignup()">Create Account</button>
-            <p style="text-align: center; margin-top: 20px; color: var(--text-muted);">
-                Already have an account? <a href="login.html" style="color: #c8a96e;">Sign in</a>
+            <button id="signup-btn" class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="doSignup()">
+                <i data-lucide="user-plus" style="width:18px;"></i> Create Account
+            </button>
+            <p style="text-align: center; margin-top: 20px; color: var(--text-muted); font-size: 0.9rem;">
+                Already have an account? <a id="login-link" href="login.html" style="color: #c8a96e; font-weight: 800; text-decoration: underline;">Sign In (ඇතුළු වන්න)</a>
             </p>
         </div>
     </main>
     <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('redirect') === 'checkout' || sessionStorage.getItem('redirect_after_login') === 'checkout.html') {
+            const notice = document.getElementById('checkout-signup-notice');
+            if (notice) notice.style.display = 'block';
+            const loginLink = document.getElementById('login-link');
+            if (loginLink) loginLink.href = 'login.html?redirect=checkout';
+        }
+    });
+
     function togglePass(inputId, btn) {
         const input = document.getElementById(inputId);
         const eyeOpen = btn.querySelector('.eye-open');

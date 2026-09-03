@@ -1384,19 +1384,25 @@ function login(email, password, onError) {
                         : { uid: user.uid, name: user.displayName || user.email.split('@')[0], email: user.email };
                     localStorage.setItem('python_user', JSON.stringify(userData));
                     currentUser = userData;
-                    window.location.href = 'profile.html';
+                    const redirectUrl = sessionStorage.getItem('redirect_after_login') || 'profile.html';
+                    sessionStorage.removeItem('redirect_after_login');
+                    window.location.href = redirectUrl;
                 }).catch(() => {
                     // Firestore unreachable — allow login anyway
                     const quickUser = { uid: user.uid, name: user.displayName || user.email.split('@')[0], email: user.email };
                     localStorage.setItem('python_user', JSON.stringify(quickUser));
                     currentUser = quickUser;
-                    window.location.href = 'profile.html';
+                    const redirectUrl = sessionStorage.getItem('redirect_after_login') || 'profile.html';
+                    sessionStorage.removeItem('redirect_after_login');
+                    window.location.href = redirectUrl;
                 });
             } else {
                 const quickUser = { uid: user.uid, name: user.displayName || user.email.split('@')[0], email: user.email };
                 localStorage.setItem('python_user', JSON.stringify(quickUser));
                 currentUser = quickUser;
-                window.location.href = 'profile.html';
+                const redirectUrl = sessionStorage.getItem('redirect_after_login') || 'profile.html';
+                sessionStorage.removeItem('redirect_after_login');
+                window.location.href = redirectUrl;
             }
         })
         .catch((error) => {
@@ -1422,7 +1428,9 @@ function signup(name, email, password, phone, address, onError) {
                     .then(() => {
                         localStorage.setItem('python_user', JSON.stringify(userData));
                         currentUser = userData;
-                        window.location.href = 'profile.html';
+                        const redirectUrl = sessionStorage.getItem('redirect_after_login') || 'profile.html';
+                        sessionStorage.removeItem('redirect_after_login');
+                        window.location.href = redirectUrl;
                     })
                     .catch(err => {
                         console.error('Firestore save error:', err);
@@ -1436,7 +1444,9 @@ function signup(name, email, password, phone, address, onError) {
             } else {
                 localStorage.setItem('python_user', JSON.stringify(userData));
                 currentUser = userData;
-                window.location.href = 'profile.html';
+                const redirectUrl = sessionStorage.getItem('redirect_after_login') || 'profile.html';
+                sessionStorage.removeItem('redirect_after_login');
+                window.location.href = redirectUrl;
             }
         })
         .catch((error) => {

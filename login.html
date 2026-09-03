@@ -52,6 +52,9 @@
 
     <main class="section" style="padding-top: 100px;">
         <div class="auth-form glass">
+            <div id="checkout-login-notice" style="display:none; background: rgba(220, 20, 60, 0.08); border: 1.5px solid #DC143C; color: #DC143C; padding: 12px 16px; border-radius: 12px; font-size: 0.9rem; font-weight: 700; margin-bottom: 20px; text-align: center;">
+                🛒 Order එක Place කිරීමට ප්‍රථමයෙන් Sign In වන්න (හෝ අලුතින් Account එකක් සාදන්න).
+            </div>
             <h2 style="text-align: center; margin-bottom: 30px;">Welcome <span style="color: #c8a96e;">Back</span></h2>
             <div class="form-group">
                 <label>Email Address</label>
@@ -71,13 +74,25 @@
                 </div>
             </div>
             <div id="login-error" style="display:none; background:#fdf2f2; color:#9b1c1c; padding:10px 15px; border-radius:10px; font-size:0.88rem; margin-bottom:10px; border-left:4px solid #DC143C;"></div>
-            <button id="login-btn" class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="doLogin()">Sign In</button>
-            <p style="text-align: center; margin-top: 20px; color: var(--text-muted);">
-                Don't have an account? <a href="signup.html" style="color: #ff0000;">Create one</a>
+            <button id="login-btn" class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="doLogin()">
+                <i data-lucide="log-in" style="width:18px;"></i> Sign In
+            </button>
+            <p style="text-align: center; margin-top: 20px; color: var(--text-muted); font-size: 0.9rem;">
+                Don't have an account? <a id="signup-link" href="signup.html" style="color: #DC143C; font-weight: 800; text-decoration: underline;">Create Account (ගිණුමක් සාදන්න)</a>
             </p>
         </div>
     </main>
     <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('redirect') === 'checkout' || sessionStorage.getItem('redirect_after_login') === 'checkout.html') {
+            const notice = document.getElementById('checkout-login-notice');
+            if (notice) notice.style.display = 'block';
+            const signupLink = document.getElementById('signup-link');
+            if (signupLink) signupLink.href = 'signup.html?redirect=checkout';
+        }
+    });
+
     // Toggle Password Visibility
     function togglePass(inputId, btn) {
         const input = document.getElementById(inputId);

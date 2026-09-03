@@ -630,7 +630,9 @@
                             renderPointsWidget();
                         });
                     } else {
-                        renderGuestPointsWidget();
+                        // User is not signed in - redirect to login page with return url
+                        sessionStorage.setItem('redirect_after_login', 'checkout.html');
+                        window.location.href = 'login.html?redirect=checkout';
                     }
                 });
             } else {
@@ -643,7 +645,8 @@
                     availablePoints = user.clubPoints || 0;
                     renderPointsWidget();
                 } else {
-                    renderGuestPointsWidget();
+                    sessionStorage.setItem('redirect_after_login', 'checkout.html');
+                    window.location.href = 'login.html?redirect=checkout';
                 }
             }
         }
