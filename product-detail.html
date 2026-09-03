@@ -116,6 +116,40 @@
                 </div>
             </div>
 
+            <!-- Print / Sticker Size Selector (For 220 GSM Regular Fit) -->
+            <div id="print-size-wrapper" style="display: none; background: var(--surface); border: 1px solid var(--border-color); padding: 16px 18px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+                <div class="option-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <span style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text-main); display: flex; align-items: center; gap: 6px;">
+                        <i data-lucide="sparkles" style="width: 16px; height: 16px; color: #DC143C;"></i> Sticker / Print Size
+                    </span>
+                    <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted);">Choose Print Scale</span>
+                </div>
+                <div class="print-size-options" id="detail-print-sizes" style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <!-- A3 Card Button -->
+                    <div class="print-size-card active" id="chip-a3" onclick="selectPrintSize('A3')" 
+                         style="position: relative; padding: 14px; border-radius: 16px; border: 2px solid #DC143C; background: rgba(220, 20, 60, 0.06); cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); text-align: left; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <span style="font-size: 0.95rem; font-weight: 900; color: var(--text-main); letter-spacing: 0.5px;">A3 Print</span>
+                            <span class="print-size-badge" style="font-size: 0.65rem; font-weight: 800; text-transform: uppercase; background: #DC143C; color: white; padding: 3px 8px; border-radius: 20px;">Standard</span>
+                        </div>
+                        <div style="font-size: 1.05rem; font-weight: 900; color: #DC143C;">
+                            Rs. 1,800 <span style="font-size: 0.75rem; text-decoration: line-through; color: var(--text-muted); font-weight: 600; margin-left: 4px;">1,850</span>
+                        </div>
+                    </div>
+                    <!-- A2 Card Button -->
+                    <div class="print-size-card" id="chip-a2" onclick="selectPrintSize('A2')" 
+                         style="position: relative; padding: 14px; border-radius: 16px; border: 2px solid var(--border-color); background: var(--primary-light); cursor: pointer; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); text-align: left; display: flex; flex-direction: column; justify-content: space-between;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <span style="font-size: 0.95rem; font-weight: 900; color: var(--text-main); letter-spacing: 0.5px;">A2 Print</span>
+                            <span class="print-size-badge" style="font-size: 0.65rem; font-weight: 800; text-transform: uppercase; background: var(--border-color); color: var(--text-muted); padding: 3px 8px; border-radius: 20px;">Jumbo</span>
+                        </div>
+                        <div style="font-size: 1.05rem; font-weight: 900; color: var(--text-main);">
+                            Rs. 2,100
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Color Selector -->
             <div>
                 <h4 style="font-size: 0.85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--text-main); margin-bottom: 10px;">Select Color</h4>
@@ -253,6 +287,7 @@
 
         let selectedSize = '';
         let selectedColor = '';
+        let selectedPrintSize = 'A3';
         let currentPrice = 0;
         let currentOldPrice = 0;
         let currentQty = 1;
@@ -281,6 +316,16 @@
                 }
             }
 
+            // Print / Sticker Size Selector visibility logic (For 220 GSM Regular Fit tees)
+            const printSizeWrapper = document.getElementById('print-size-wrapper');
+            if (printSizeWrapper) {
+                if (is220GsmRegularFit) {
+                    printSizeWrapper.style.display = 'block';
+                } else {
+                    printSizeWrapper.style.display = 'none';
+                }
+            }
+
             document.getElementById('detail-name').innerText = product.name;
             document.getElementById('detail-gsm').innerText = product.gsm || '180 GSM';
             document.getElementById('detail-brand').innerText = product.brand || 'Python';
@@ -292,7 +337,7 @@
             if (catLabel) {
                 catLabel.innerText = product.category || 'T-Shirt';
             }
-            
+
             // Image Slider & Thumbnails
             const slider = document.getElementById('image-slider');
             const dotsContainer = document.getElementById('slider-dots');
@@ -428,7 +473,70 @@
             }
         }
 
-        // --- Slideshow Auto-scroll ---
+        function selectPrintSize(printSize) {
+            selectedPrintSize = printSize;
+            const chipA3 = document.getElementById('chip-a3');
+            const chipA2 = document.getElementById('chip-a2');
+
+            if (chipA3 && chipA2) {
+                const badgeA3 = chipA3.querySelector('.print-size-badge');
+                const badgeA2 = chipA2.querySelector('.print-size-badge');
+                const priceA3 = chipA3.children[1];
+                const priceA2 = chipA2.children[1];
+
+                if (printSize === 'A3') {
+                    chipA3.style.borderColor = '#DC143C';
+                    chipA3.style.background = 'rgba(220, 20, 60, 0.06)';
+                    if (badgeA3) {
+                        badgeA3.style.background = '#DC143C';
+                        badgeA3.style.color = '#ffffff';
+                    }
+                    if (priceA3) priceA3.style.color = '#DC143C';
+
+                    chipA2.style.borderColor = 'var(--border-color)';
+                    chipA2.style.background = 'var(--primary-light)';
+                    if (badgeA2) {
+                        badgeA2.style.background = 'var(--border-color)';
+                        badgeA2.style.color = 'var(--text-muted)';
+                    }
+                    if (priceA2) priceA2.style.color = 'var(--text-main)';
+                } else {
+                    chipA2.style.borderColor = '#DC143C';
+                    chipA2.style.background = 'rgba(220, 20, 60, 0.06)';
+                    if (badgeA2) {
+                        badgeA2.style.background = '#DC143C';
+                        badgeA2.style.color = '#ffffff';
+                    }
+                    if (priceA2) priceA2.style.color = '#DC143C';
+
+                    chipA3.style.borderColor = 'var(--border-color)';
+                    chipA3.style.background = 'var(--primary-light)';
+                    if (badgeA3) {
+                        badgeA3.style.background = 'var(--border-color)';
+                        badgeA3.style.color = 'var(--text-muted)';
+                    }
+                    if (priceA3) priceA3.style.color = 'var(--text-main)';
+                }
+            }
+
+            // Recalculate price for 220 GSM Regular Fit products
+            const is220GsmRegularFit = (product.category === 'Regular Tee (Printed)' || product.category === 'Regular Tee') && (product.gsm === '220 GSM' || !product.gsm);
+            if (is220GsmRegularFit) {
+                if (printSize === 'A2') {
+                    currentPrice = 2100;
+                    currentOldPrice = null;
+                } else {
+                    currentPrice = 1800;
+                    currentOldPrice = 1850;
+                }
+                const printTechEl = document.getElementById('detail-print-tech');
+                if (printTechEl) printTechEl.innerText = `${printSize} DTF Print`;
+            }
+
+            updatePriceDisplay();
+        }
+
+        // Slideshow & helper functions below...
         function startAutoScroll() {
             const images = product.images || [product.img];
             if (images.length <= 1) return;
@@ -492,10 +600,25 @@
         function selectSize(size, btn) {
             selectedSize = size;
             const sizeData = product.sizes ? product.sizes[size] : { price: product.price, oldPrice: product.oldPrice };
-            currentPrice = typeof sizeData === 'object' ? sizeData.price : sizeData;
-            currentOldPrice = typeof sizeData === 'object' ? sizeData.oldPrice : product.oldPrice;
             
-            document.querySelectorAll('.size-chip').forEach(b => b.classList.remove('active'));
+            const is220GsmRegularFit = (product.category === 'Regular Tee (Printed)' || product.category === 'Regular Tee') && (product.gsm === '220 GSM' || !product.gsm);
+            if (is220GsmRegularFit) {
+                if (selectedPrintSize === 'A2') {
+                    currentPrice = 2100;
+                    currentOldPrice = null;
+                } else {
+                    currentPrice = 1800;
+                    currentOldPrice = 1850;
+                }
+            } else {
+                currentPrice = typeof sizeData === 'object' ? sizeData.price : sizeData;
+                currentOldPrice = typeof sizeData === 'object' ? sizeData.oldPrice : product.oldPrice;
+            }
+            
+            const detailSizes = document.getElementById('detail-sizes');
+            if (detailSizes) {
+                detailSizes.querySelectorAll('.size-chip').forEach(b => b.classList.remove('active'));
+            }
             btn.classList.add('active');
             updatePriceDisplay();
 
@@ -545,7 +668,9 @@
 
         function addCurrentToCart() {
             const images = product.images || [product.img];
-            addToCart(product.name, currentPrice, images[0], selectedSize, selectedColor, currentQty);
+            const is220GsmRegularFit = (product.category === 'Regular Tee (Printed)' || product.category === 'Regular Tee') && (product.gsm === '220 GSM' || !product.gsm);
+            const sizeLabel = is220GsmRegularFit ? `${selectedSize} (${selectedPrintSize} Print)` : selectedSize;
+            addToCart(product.name, currentPrice, images[0], sizeLabel, selectedColor, currentQty);
         }
 
         function openSizeChart() {
