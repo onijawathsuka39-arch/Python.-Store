@@ -319,7 +319,7 @@
             // Print / Sticker Size Selector visibility logic (For 220 GSM Regular Fit tees)
             const printSizeWrapper = document.getElementById('print-size-wrapper');
             if (printSizeWrapper) {
-                if (is220GsmRegularFit) {
+                if (is220GsmRegularFit && !product.noDtfSize && !product.hideDtfSize) {
                     printSizeWrapper.style.display = 'block';
                 } else {
                     printSizeWrapper.style.display = 'none';
@@ -520,7 +520,7 @@
             }
 
             // Recalculate price for 220 GSM Regular Fit products
-            const is220GsmRegularFit = (product.category === 'Regular Tee (Printed)' || product.category === 'Regular Tee') && (product.gsm === '220 GSM' || !product.gsm);
+            const is220GsmRegularFit = (product.category === 'Regular Tee (Printed)' || product.category === 'Regular Tee') && (product.gsm === '220 GSM' || !product.gsm) && !product.noDtfSize && !product.hideDtfSize;
             if (is220GsmRegularFit) {
                 if (printSize === 'A2') {
                     currentPrice = 2100;
@@ -601,7 +601,7 @@
             selectedSize = size;
             const sizeData = product.sizes ? product.sizes[size] : { price: product.price, oldPrice: product.oldPrice };
             
-            const is220GsmRegularFit = (product.category === 'Regular Tee (Printed)' || product.category === 'Regular Tee') && (product.gsm === '220 GSM' || !product.gsm);
+            const is220GsmRegularFit = (product.category === 'Regular Tee (Printed)' || product.category === 'Regular Tee') && (product.gsm === '220 GSM' || !product.gsm) && !product.noDtfSize && !product.hideDtfSize;
             if (is220GsmRegularFit) {
                 if (selectedPrintSize === 'A2') {
                     currentPrice = 2100;

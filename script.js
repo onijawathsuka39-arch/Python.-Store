@@ -564,22 +564,23 @@ const products = [
         desc: 'Ferrari Design Regular Tee (Printed) by Python. Featuring a premium quality A3 DTF print on 220 GSM fabric for ultimate style and comfort.'
     },
     {
-        id: '32', name: 'Tree Design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
+        id: '32', name: 'Wildland Tee', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
         images: [
-            'https://i.ibb.co/TBTBMfpL/python-tree-design.png',
-            'https://i.ibb.co/FbD0CR5s/Chat-GPT-Image-Aug-19-2026-12-58-27-AM.png'
+            'https://i.ibb.co/vCmK04CJ/Wildland-tee-post.png',
+            'https://i.ibb.co/qhHx1pS/Tree-Design.png',
+            'https://i.ibb.co/r2XXXxyn/Chat-GPT-Image-Sep-11-2026-01-12-10-AM.png'
         ],
         gsm: '220 GSM', brand: 'Python',
         sizes: {
-            'S': { price: 2100, oldPrice: null },
-            'M': { price: 2200, oldPrice: null },
-            'L': { price: 2500, oldPrice: null },
-            'XL': { price: 2500, oldPrice: null }
+            'M': { price: 2950, oldPrice: null },
+            'L': { price: 2950, oldPrice: null },
+            'XL': { price: 2950, oldPrice: null }
         },
-        colors: ['#000000'], stock: 10,
-        badge: 'Most Popular This Month',
-        printTech: 'A2 DTF Print',
-        desc: 'Tree Design Regular Tee (Printed) by Python. Featuring a premium A2 DTF print on 220 GSM fabric — bold, nature-inspired artwork that stands out.'
+        colors: ['#ffffff'], stock: 10,
+        badge: 'SPECIAL TEE',
+        noDtfSize: true,
+        printTech: 'High-Definition DTF Print',
+        desc: 'Wildland Tee Special Edition by Python. Crafted from premium 220 GSM heavyweight combed cotton fabric. Featuring an exclusive special edition graphic print for ultimate style and comfort.'
     },
     {
         id: '33', name: 'Japan Girl design', category: 'Regular Tee (Printed)', sections: ['Mens', 'Womens', 'Unisexs'],
@@ -2005,11 +2006,44 @@ function handleOfferNotification() {
 }
 
 // Centralized Light/Dark Theme System
-function initThemeToggle() {
-    const currentTheme = localStorage.getItem('theme') || 'light';
-    document.documentElement.setAttribute('data-theme', currentTheme);
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    applyTheme(newTheme);
+}
 
-    // 2. Mobile Drawer Toggle
+function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+
+    document.querySelectorAll('.theme-toggle-btn').forEach(btn => {
+        const sunIcon = btn.querySelector('.sun-icon');
+        const moonIcon = btn.querySelector('.moon-icon');
+        if (sunIcon && moonIcon) {
+            if (theme === 'light') {
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'inline-block';
+            } else {
+                sunIcon.style.display = 'inline-block';
+                moonIcon.style.display = 'none';
+            }
+        } else {
+            btn.innerHTML = `<i data-lucide="${theme === 'dark' ? 'sun' : 'moon'}"></i>`;
+        }
+    });
+
+    const mobileToggle = document.getElementById('mobile-theme-toggle');
+    if (mobileToggle) {
+        mobileToggle.innerHTML = `<i data-lucide="${theme === 'dark' ? 'sun' : 'moon'}"></i> Theme: ${theme === 'dark' ? 'Light' : 'Dark'}`;
+    }
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+function initThemeToggle() {
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    applyTheme(currentTheme);
+
+    // Mobile Drawer Toggle
     const mobileMenu = document.getElementById('mobile-menu');
     if (mobileMenu && !document.getElementById('mobile-theme-toggle')) {
         const mobileToggle = document.createElement('a');
@@ -2029,7 +2063,6 @@ function initThemeToggle() {
         mobileToggle.style.border = '1px solid var(--border-color)';
         mobileToggle.innerHTML = `<i data-lucide="${currentTheme === 'dark' ? 'sun' : 'moon'}"></i> Theme: ${currentTheme === 'dark' ? 'Light' : 'Dark'}`;
 
-        // Append to the list/menu block in mobile sidebar
         const listContainer = mobileMenu.querySelector('ul');
         if (listContainer) {
             const li = document.createElement('li');
@@ -2042,17 +2075,7 @@ function initThemeToggle() {
 
         mobileToggle.addEventListener('click', (e) => {
             e.preventDefault();
-            const activeTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = activeTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-
-            const mainToggle = document.getElementById('theme-toggle');
-            if (mainToggle) {
-                mainToggle.innerHTML = `<i data-lucide="${newTheme === 'dark' ? 'sun' : 'moon'}"></i>`;
-            }
-            mobileToggle.innerHTML = `<i data-lucide="${newTheme === 'dark' ? 'sun' : 'moon'}"></i> Theme: ${newTheme === 'dark' ? 'Light' : 'Dark'}`;
-            if (typeof lucide !== 'undefined') lucide.createIcons();
+            toggleTheme();
         });
     }
 }

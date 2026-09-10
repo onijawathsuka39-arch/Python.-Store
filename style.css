@@ -6255,4 +6255,77 @@ nav.scrolled {
     text-decoration: line-through;
 }
 
+/* ================================================================
+   LIGHT MODE OVERRIDES FOR CARDS & NEW DROP SHOWCASE
+   ================================================================ */
+[data-theme="light"] .hero-floating-spec {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .hero-spec-title {
+    color: #111827 !important;
+}
+
+[data-theme="light"] .editorial-card {
+    background: #FFFFFF;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .editorial-card:hover {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-color: rgba(220, 20, 60, 0.4);
+}
+
+[data-theme="light"] .card-info {
+    background: #FFFFFF;
+}
+
+[data-theme="light"] .card-product-name {
+    color: #111827 !important;
+}
+
+[data-theme="light"] .card-sizes-pills span {
+    color: #374151 !important;
+    background: #F3F4F6 !important;
+    border: 1px solid #E5E7EB !important;
+}
+
+[data-theme="light"] .trending-featured-card {
+    background: #FFFFFF;
+    border-color: rgba(0, 0, 0, 0.12);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .trending-rank-badge {
+    color: rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .trending-mini-card {
+    background: #FFFFFF;
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .btn-card-quickview {
+    background: #111827;
+    color: #FFFFFF;
+}
+
+[data-theme="light"] .btn-card-quickview:hover {
+    background: var(--accent-red);
+    color: #FFFFFF;
+}
+
+[data-theme="light"] .quickview-content,
+[data-theme="light"] .quickview-body {
+    background: #FFFFFF !important;
+    color: #111827 !important;
+}
+
+[data-theme="light"] .quickview-title {
+    color: #111827 !important;
+}
+
 
