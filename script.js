@@ -8,6 +8,7 @@
 const colorNames = {
     '#ffffff': 'White',
     '#000000': 'Black',
+    '#000080': 'Navy Blue',
     '#ff0000': 'Red',
     '#DC143C': 'Red',
     '#0000ff': 'Blue',
@@ -728,6 +729,23 @@ const products = [
         colors: ['#ffffff'], stock: 10,
         printTech: 'A3 DTF Print',
         desc: 'Kawasaki Design Regular Tee (Printed) by Python. White colour tee featuring premium quality A3 DTF print on 220 GSM fabric.'
+    },
+    {
+        id: '42', name: 'Plain Hoodie', category: 'Hoodie', sections: ['Mens', 'Womens', 'Unisexs', 'New Arrival'],
+        images: [
+            'https://i.ibb.co/sJCK30Rm/Chat-GPT-Image-Sep-23-2026-09-14-00-PM.png',
+            'https://i.ibb.co/bgjHn7m9/Chat-GPT-Image-Sep-23-2026-09-15-19-PM.png',
+            'https://i.ibb.co/nq6M9HTp/Chat-GPT-Image-Sep-23-2026-11-59-11-AM.png'
+        ],
+        gsm: '320 GSM', brand: 'Python',
+        sizes: {
+            'M': { price: 2550, oldPrice: 2750 },
+            'L': { price: 2550, oldPrice: 2750 },
+            'XL': { price: 2550, oldPrice: 2750 }
+        },
+        colors: ['#ffffff', '#000080', '#000000'], stock: 15,
+        printTech: 'Heavyweight Fleece',
+        desc: 'Plain Hoodie by Python. Premium 320 GSM heavyweight fleece hoodie in White, Navy Blue, and Black featuring a double-lined hood and cozy kangaroo pocket.'
     }
 ];
 

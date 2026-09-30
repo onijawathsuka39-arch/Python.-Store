@@ -627,6 +627,12 @@
       </div>
 
       <div class="fit-category-grid">
+        <a href="shop.html?category=Hoodie" class="fit-card-item">
+          <div class="fit-icon-circle"><i data-lucide="sparkles"></i></div>
+          <span class="fit-title">HOODIES</span>
+          <p style="font-size: 0.78rem; color: var(--text-muted);">320 GSM heavyweight fleece hoodies built for street style.</p>
+        </a>
+
         <a href="shop.html?category=Regular+Tee+(Printed)" class="fit-card-item">
           <div class="fit-icon-circle"><i data-lucide="shirt"></i></div>
           <span class="fit-title">REGULAR FIT</span>
@@ -1379,8 +1385,8 @@
       const showcaseGrid = document.getElementById('new-drop-grid');
       if (!showcaseGrid || typeof products === 'undefined') return;
 
-      // Specified IDs: 26, 27, 28, 31, 32, 23
-      const newDropIds = ['26', '27', '28', '31', '32', '23'];
+      // Specified IDs: 42, 26, 27, 28, 31, 32, 23
+      const newDropIds = ['42', '26', '27', '28', '31', '32', '23'];
       const newDropItems = products.filter(p => newDropIds.includes(p.id));
 
       showcaseGrid.innerHTML = newDropItems.map(p => {
